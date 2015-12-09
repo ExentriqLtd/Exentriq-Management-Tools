@@ -14,33 +14,22 @@ com.exentriq.controls.treeView = function(param){
 	var cutNode;
 	var dd;
 
-	var wrapper = $('<div class="tree-view-wrapper"/>');
+	var wrapper = $('<div class="tree-view-wrapper eq-ui-card eq-ui-card-with-list"/>');
 	var header = $(
-		'<div class="tree-view-header">'+
-			'<span class="glyphicon glyphicon-align-justify" aria-hidden="true"></span>' +
-			'<h4>Organization Manager</h4>' +
-			'<span class="glyphicon glyphicon-globe" aria-hidden="true"></span>' +
+		'<div class="tree-view-header eq-ui-card-title eq-ui-card-border">'+
+			'<h2 class="eq-ui-card-title-text">Organization Manager</h2>' +
+			/*'<span class="glyphicon glyphicon-align-justify" aria-hidden="true"></span>' +*/
+			/*'<span class="glyphicon glyphicon-globe" aria-hidden="true"></span>' +*/
 		'</div>'
 	)
 	.appendTo(wrapper);
+
 	header.find('.glyphicon-globe').click(function(){
 		onSwitchView();
 	});
 
 	var root = $('<ul class="tree-view"></ul>');
 	wrapper.append(root);
-
-	$('<button class="btn btn-primary">Add Node</button>')
-		.appendTo(wrapper)
-		.click(function(){
-
-			var n = createNode({
-				name: 'New node..'
-			});
-			n.appendTo(root);
-
-			onChange();
-		});
 
 	wrapper.droppable({
 		tolerance: 'pointer',

@@ -81,11 +81,14 @@ li.expanded>ul.node-childrens {
 	position: relative;
 }
 
-.circle-view-header {
-	padding: 5px 0;
-	background-color: #2F4357;
-	padding-left: 20px;
-	height: 54px;
+div.eq-ui-card-title.circle-view-header h2 {
+    color: #F0F0F0 !important;
+}
+
+div.eq-ui-card-title.circle-view-header .btn {
+	position: absolute;
+    right: 10px;
+    top: 32px;
 }
 
 .organization-manager .circle-view-header .glyphicon-home {
@@ -102,31 +105,9 @@ li.expanded>ul.node-childrens {
     display: block;
 }
 
-.circle-view-header h4 {
-	color: #F0F0F0;
-	font-size: 22px;
-	font-family: Segoe UI;
-}
 
 .tree-view-header {
 
-/* padding: 51px 0; */
-
-border-bottom: 1px solid #F0F0F0;
-
-margin-bottom: 10px;
-
-margin-bottom: 0px;
-
-position: absolute;
-
-width: 100%;
-
-height: 54px;
-
-/* line-height: 54px; */
-
-padding: 14px 0 0 4px;
 }
 
 .tree-view-header span {
@@ -134,15 +115,9 @@ padding: 14px 0 0 4px;
     margin-right: 10px;
     font-size: 22px;
     color: #999999;
-}	
+}
 
-.tree-view-header h4 {
-	margin: 0;
-    font-weight: 600;
-    color: #999999;
-    font-family: Segoe UI;
-    font-size: 22px;
-}	
+
 
 .tree-view-wrapper .btn-primary {
 	/* float: right; */
@@ -156,12 +131,9 @@ padding: 14px 0 0 4px;
 }
 
 .tree-view {
-	
-height: 100%;
-	
-padding: 60px 8px 44px 6px;
-	
-margin: 0;
+	height: 100%;
+    padding: 8px 8px 8px 8px;
+    margin: 0;
 }
 
 .tree-node.drag-over>.tree-node-parent {
@@ -271,12 +243,13 @@ ul.drop-down .drop-down-item:hover {
 }
 
 .circle-view {
-	/* width: 100%; */
 	height: 100%;
 	margin-left: 340px
+}
 
-
-
+.circle-view-header #dropdown-add-space {
+	top: 100px;
+	right: 10px;
 }
 
 .node {

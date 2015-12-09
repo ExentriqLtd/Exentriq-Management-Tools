@@ -8,10 +8,11 @@ if (window.com.exentriq.controls === undefined) window.com.exentriq.controls = {
 com.exentriq.controls.circleView = function(param){
 
 	var onSwitchView = $.noop;
-	var root1 = $('<div class="circle-view"></div>');
+	var root1 = $('<div class="circle-view eq-ui-card"></div>');
 	var header = $(
-		'<div class="circle-view-header">'+
-			'<h4>Holarchy</h4>' +
+		'<div class="circle-view-header eq-ui-card-title eq-deep-blue-500">'+
+			'<h2 class="eq-ui-card-title-text">Holarchy</h2>' +
+			'<a data-target="dropdown-add-space" data-hover="false" class="btn btn-primary eq-ui-btn-fab eq-ui-waves-light dropdown-trigger"><i class="mdi mdi-plus icon"></i></a>' +
 			'<span class="glyphicon glyphicon-home" aria-hidden="true"></span>' +
 		'</div>'
 	)
@@ -19,6 +20,13 @@ com.exentriq.controls.circleView = function(param){
 	header.find('.glyphicon-home').click(function(){
 		onSwitchView();
 	});
+
+	var menu = $(
+		'<ul id="dropdown-add-space" class="eq-ui-dropdown eq-ui-dropdown-right-top">'+ 
+		    '<li><a href="#!">User</a></li>' +
+		    '<li><a href="#!">Space</a></li>' +
+		'</ul>'
+	).appendTo(header);
 
 	function setModel(model){
 
