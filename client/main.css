@@ -277,3 +277,4 @@ ul.drop-down .drop-down-item:hover {
   pointer-events: none;
 }
 
+#eq-ui-modal-add-user .eq-ui-modal-footer .btn { width: 100%; }
