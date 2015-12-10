@@ -23,10 +23,15 @@ com.exentriq.controls.circleView = function(param){
 
 	var menu = $(
 		'<ul id="dropdown-add-space" class="eq-ui-dropdown eq-ui-dropdown-right-top">'+ 
-		    '<li><a href="#!">User</a></li>' +
-		    '<li><a href="#!">Space</a></li>' +
+		    '<li name="dropdown-user"><a href="#!">User</a></li>' +
+		    '<li name="dropdown-space"><a href="#!">Space</a></li>' +
 		'</ul>'
 	).appendTo(header);
+
+	menu.find('[name="dropdown-user"]').click(function(){
+		debugger;
+	});
+
 
 	function setModel(model){
 

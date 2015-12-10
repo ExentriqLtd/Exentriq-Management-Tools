@@ -247,7 +247,7 @@ ul.drop-down .drop-down-item:hover {
 	margin-left: 340px
 }
 
-.circle-view-header #dropdown-add-space {
+#dropdown-add-space {
 	top: 100px;
 	right: 10px;
 }
