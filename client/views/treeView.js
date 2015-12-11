@@ -4,69 +4,36 @@ Template.treeView.events({});
 Template.treeView.organizationManagerModel = {
 	"name": "root",
 	"children": [{
-		"name": "analytics",
+		"type": "space",
+		"name": "Admins users",
 		"children": [{
-			"name": "cluster",
+			"name": "Ivan"
+		}, {
+			"name": "Alex"
+		}, {
+			"name": "Lucy"
+		}, {
+			"name": "Stive"
+		}]
+	}, {
+		"type": "space",
+		"name": "Level#5",
+		"children": [{
+			"type": "space",
+			"name": "Room#501",
 			"children": [{
-				"name": "AgglomerativeCluster",
-				"size": 50
+				"name": "User#001"
 			}, {
-				"name": "CommunityStructure",
-				"size": 50
-			}, {
-				"name": "HierarchicalCluster",
-				"size": 50
-			}, {
-				"name": "MergeEdge",
-				"size": 50
+				"name": "User#002"
 			}]
 		}, {
-			"name": "graph",
+			"type": "space",
+			"name": "Room#502",
 			"children": [{
-				"name": "BetweennessCentrality",
-				"size": 50
+				"name": "User#001"
 			}, {
-				"name": "LinkDistance",
-				"size": 50
-			}, {
-				"name": "MaxFlowMinCut",
-				"size": 50
-			}, {
-				"name": "ShortestPaths",
-				"size": 50
-			}, {
-				"name": "SpanningTree",
-				"size": 50
+				"name": "User#002"
 			}]
-		}]
-	}, {
-		"name": "animate"
-	}, {
-		"name": "data",
-		"children": [{
-			"name": "DataUtil",
-			"size": 50
-		}]
-	}, {
-		"name": "display",
-		"children": [{
-			"name": "DirtySprite",
-			"size": 50
-		}, {
-			"name": "LineSprite",
-			"size": 50
-		}, {
-			"name": "RectSprite",
-			"size": 50
-		}, {
-			"name": "TextSprite",
-			"size": 50
-		}]
-	}, {
-		"name": "vis",
-		"children": [{
-			"name": "Visualization",
-			"size": 50
 		}]
 	}]
 };
@@ -98,15 +65,68 @@ Template.treeView.getChildModel = function(liNode) {
 			return Template.treeView.getChildModel($(i));
 		}).ToArray()
 	};
-}
+};
+
+Template.treeView.dropDown = function(param) {
+
+	var root = $('<ul class="eq-ui-dropdown"></ul>');
+	root.css({
+		width: '160px'
+	});
+
+	function setItems(items) {
+
+		$.Enumerable.From(items).ForEach(function(item) {
+
+			$('<li><a name="add-user" href="#eq-ui-modal-add-user" class="eq-ui-modal-trigger">' + item.name + '</a></li>')
+				.toggleClass('disabled', item.disabled === true)
+				.click(item.handler)
+				.appendTo(root);
+		});
+	}
+
+	function show(param) {
+
+		root.appendTo('body');
+		root.css({
+			top: param.top,
+			left: param.left
+		});
+		root.show();
+	}
+
+	return {
+		show: show,
+		setItems: setItems,
+		getControl: function() {
+			return root;
+		}
+	}
+};
+
+Template.treeView.getModel = function(param) {
+
+	var root = $('.tree-view');
+	var lis = root.children('li');
+	return {
+		name: 'root',
+		children: $.Enumerable.From(lis).Select(function(i) {
+			return Template.treeView.getChildModel($(i));
+		}).ToArray()
+	};
+};
 
 Template.treeView.rendered = function() {
+
+	var dd;
+	var memoryNode;
+	var cutNode;
 
 	var model = Template.treeView.organizationManagerModel;
 	var root = $('.tree-view');
 	var wrapper = $('.tree-view-wrapper');
 
-	wrapper.droppable({
+	/*wrapper.droppable({
 		tolerance: 'pointer',
 		over: function(e, ui) {},
 		out: function() {
@@ -118,9 +138,13 @@ Template.treeView.rendered = function() {
 			Template.treeView._onChange();
 			bindEvents();
 		}
-	});
+	});*/
 
 	setModel();
+
+	$(window).click(function() {
+		dd && dd.getControl().remove();
+	});
 
 	function cleanUp() {
 		root.find('.drag-over').removeClass('drag-over');
@@ -159,18 +183,25 @@ Template.treeView.rendered = function() {
 				.droppable({
 					tolerance: 'pointer',
 					over: function(e, ui) {
-						liNode.addClass('drag-over');
+
+						if (liNode.hasClass('space')) {
+							liNode.addClass('drag-over');
+						} else {
+
+						}
 					},
 					out: function() {
 						cleanUp();
 					},
 					drop: function(e, ui) {
 
-						liNode.addClass('expanded');
-						ui.draggable.appendTo(childUl);
-						cleanUp();
+						if (liNode.hasClass('space')) {
+							liNode.addClass('expanded');
+							ui.draggable.appendTo(childUl);
+							cleanUp();
 
-						Template.treeView._onChange
+							Template.treeView._onChange();
+						}
 					}
 				})
 				.on('click', function() {
@@ -191,13 +222,16 @@ Template.treeView.rendered = function() {
 
 	function createNode(node) {
 
+		var nodeIcon =
+			node.type == 'space' ?
+			'glyphicon glyphicon-th-large' :
+			'glyphicon glyphicon-user';
+
 		var liNode = $(
-			'<li class="tree-node">' +
+			'<li class="tree-node ' + node.type + '">' +
 			'<div class="tree-node-parent">' +
 			'<span class="move-icon">' +
-			'<span class="glyphicon glyphicon-option-vertical" aria-hidden="true"></span>' +
-			'<span class="glyphicon glyphicon-option-vertical" aria-hidden="true"></span>' +
-			'<span class="glyphicon glyphicon-option-vertical" aria-hidden="true"></span>' +
+			'<span class="glyphicon ' + nodeIcon + '" aria-hidden="true"></span>' +
 			'</span>' +
 			'<div class="node-title">' + node.name + '</div>' +
 			'<span class="node-action">' +
@@ -222,6 +256,54 @@ Template.treeView.rendered = function() {
 		}
 
 		return liNode;
+	}
+
+	function showMenuAtction(liNode) {
+
+		dd && dd.getControl().remove();
+		dd = Template.treeView.dropDown();
+		dd.setItems([{
+			name: 'Copy',
+			handler: function(node) {
+				memoryNode = liNode;
+				cutNode = null;
+			}
+		}, {
+			name: 'Cut',
+			handler: function(node) {
+				memoryNode = liNode;
+				cutNode = liNode;
+			}
+		}, {
+			disabled: !liNode.hasClass('space'),
+			name: 'Paste',
+			disabled: !memoryNode,
+			handler: function() {
+
+				if (cutNode) {
+					liNode.find('.node-childrens:first').append(memoryNode);
+				} else {
+					liNode.find('.node-childrens:first').append(memoryNode.clone());
+				}
+				cutNode = null;
+				memoryNode = null;
+
+				Template.treeView._onChange();
+				bindEvents();
+			}
+		}, {
+			name: 'Delete',
+			handler: function() {
+				liNode.remove();
+
+				Template.treeView._onChange();
+				bindEvents();
+			}
+		}]);
+		dd.show({
+			top: liNode.offset().top + 20,
+			left: liNode.offset().left + liNode.width() - 20
+		});
 	}
 
 	function getModel() {

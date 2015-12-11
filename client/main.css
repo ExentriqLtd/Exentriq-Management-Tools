@@ -166,16 +166,18 @@ div.eq-ui-card-title.circle-view-header .btn {
 }
 
 .tree-node .move-icon {
-	opacity: 0.5;
-	position: absolute;
-	cursor: move;
-	left: 4px;
-	top: 0px;
+    opacity: 0.6;
+    position: absolute;
+    cursor: move;
+    left: 6px;
+    top: 2px;
+}
+
+.tree-node .move-icon:hover {
+	opacity: 1;
 }
 
 .tree-node .move-icon .glyphicon {
-	width: 5px;
-	font-size: 12px;
 }
 
 .tree-node .node-title {
