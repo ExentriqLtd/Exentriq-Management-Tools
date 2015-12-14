@@ -3,39 +3,7 @@ Template.treeView.events({});
 
 Template.treeView.organizationManagerModel = {
 	"name": "root",
-	"children": [{
-		"type": "space",
-		"name": "Admins users",
-		"children": [{
-			"name": "Ivan"
-		}, {
-			"name": "Alex"
-		}, {
-			"name": "Lucy"
-		}, {
-			"name": "Stive"
-		}]
-	}, {
-		"type": "space",
-		"name": "Level#5",
-		"children": [{
-			"type": "space",
-			"name": "Room#501",
-			"children": [{
-				"name": "User#001"
-			}, {
-				"name": "User#002"
-			}]
-		}, {
-			"type": "space",
-			"name": "Room#502",
-			"children": [{
-				"name": "User#001"
-			}, {
-				"name": "User#002"
-			}]
-		}]
-	}]
+	"children": []
 };
 
 Template.treeView._onChange = $.noop;
@@ -116,6 +84,11 @@ Template.treeView.getModel = function(param) {
 	};
 };
 
+Template.treeView.setModel = function(model) {
+
+	
+};
+
 Template.treeView.rendered = function() {
 
 	var dd;
@@ -125,20 +98,6 @@ Template.treeView.rendered = function() {
 	var model = Template.treeView.organizationManagerModel;
 	var root = $('.tree-view');
 	var wrapper = $('.tree-view-wrapper');
-
-	/*wrapper.droppable({
-		tolerance: 'pointer',
-		over: function(e, ui) {},
-		out: function() {
-			cleanUp();
-		},
-		drop: function(e, ui) {
-			ui.draggable.appendTo(root);
-			cleanUp();
-			Template.treeView._onChange();
-			bindEvents();
-		}
-	});*/
 
 	setModel();
 

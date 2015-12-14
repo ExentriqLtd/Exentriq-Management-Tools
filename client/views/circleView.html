@@ -11,9 +11,21 @@
 		<li><a href="#eq-ui-modal-add-space" class="eq-ui-modal-trigger">Space</a></li>
 	</ul>
 
+	<ul class="tmp">
+      {{#each spaces}}
+        {{> task}}
+      {{/each}}
+    </ul>
+
 	{{> addUserDialog }}
 	{{> createUserDialog }}
+	{{> addSpaceDialog }}
+	{{> createSpaceDialog }}
 
+</template>
+
+<template name="task">
+  <li>{{name}}</li>
 </template>
 
 <template name="addUserDialog">
@@ -130,6 +142,64 @@
 		<div class="eq-ui-modal-footer"> 
 			<a id="create_user_submit" data-target="eq-ui-modal-user-permissions-off" class="btn btn-primary eq-ui-waves-light eq-ui-modal-trigger">Save user and set role
 			</a> 
+		</div> 
+	</div>
+</template>
+
+<template name="addSpaceDialog">
+	<div id="eq-ui-modal-add-space" class="eq-ui-modal eq-ui-modal-fixed eq-ui-modal-small eq-ui-modal-add-users">
+		<div class="eq-ui-modal-header"> 
+			<div class="header-title"> 
+				<span class="section-title truncate">Add space</span> 
+			</div> 
+			<ul class="right eq-ui-nav-menu"> 
+				<li class="eq-ui-nav-menu-item-icon"> 
+					<a class="btn btn-default eq-ui-btn-flat eq-ui-btn-fab eq-ui-btn-menu-fab eq-ui-waves eq-ui-modal-close"> 
+						<i class="mdi mdi-close eq-ui-icon"></i> 
+					</a> 
+				</li> 
+			</ul> 
+		</div> 
+		<div class="eq-ui-modal-content"> 
+			<div class="eq-ui-search"> 
+				<input class="eq-ui-search-user" type="text" placeholder="Search"> 
+				<i class="eq-ui-search-icon-left mdi mdi-magnify eq-ui-icon eq-ui-icon-left"></i> 
+				<i class="eq-ui-search-clear mdi mdi-close-circle eq-ui-icon eq-ui-icon-right eq-ui-icon-18"></i> 
+			</div>  
+		</div> 
+		<div class="eq-ui-modal-footer"> 
+			<a href="#eq-ui-modal-create-space" class="btn btn-primary eq-ui-modal-trigger eq-ui-waves-light eq-ui-modal-close">Create new space</a> 
+		</div> 
+	</div>
+</template>
+
+<template name="createSpaceDialog">
+	<div id="eq-ui-modal-create-space" class="eq-ui-modal eq-ui-modal-fixed eq-ui-modal-small eq-ui-modal-new-user"> 
+		<div class="eq-ui-modal-header"> 
+			<div class="header-title"> 
+				<span class="section-title truncate">New Space</span> 
+			</div> 
+			<ul class="right eq-ui-nav-menu"> 
+				<li class="eq-ui-nav-menu-item-icon"> 
+					<a class="btn btn-default eq-ui-btn-flat eq-ui-btn-fab eq-ui-btn-menu-fab eq-ui-waves eq-ui-modal-close"> 
+						<i class="mdi mdi-close eq-ui-icon"></i> 
+					</a> 
+				</li> 
+			</ul> 
+		</div> 
+		<div class="eq-ui-modal-content">  
+			<form id="eq-ui-modal-create-space-form"> 
+				<div class="row"> 
+					<div class="col-md-12"> 
+						<div class="eq-ui-form-group eq-ui-input-field"> 
+							<input id="create_space_name" type="text" data-parsley-minlength="3" class="eq-ui-input invalid" required="" data-parsley-id="2"> <label for="create_space_name" data-error="Min length 3" class="">Name</label> 
+						</div> 
+					</div> 
+				</div> 
+			</form> 
+		</div> 
+		<div class="eq-ui-modal-footer"> 
+			<a id="create_space_submit" data-target="eq-ui-modal-user-permissions-off" class="btn btn-primary eq-ui-waves-light eq-ui-modal-trigger">Save space</a> 
 		</div> 
 	</div>
 </template>

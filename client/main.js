@@ -1,5 +1,23 @@
+if (Meteor.isServer) {
+
+	Meteor.publish('spaces', function() {
+
+		observeSunbscription(this, 'spaces', function() {
+			return Spaces.find();
+		});
+	});
+}
+
 if (Meteor.isClient) {
-	
+
+	Meteor.subscribe('spaces');
+
+	Template.circleView.helpers({
+		spaces: function() {
+			return Spaces.find();
+		}
+	});
+
 	var _win = $(window);
 	var root = $('.organization-manager');
 
@@ -18,9 +36,5 @@ if (Meteor.isClient) {
 			model = Template.treeView.getModel();
 			Template.circleView.setModel(model);
 		}
-	});
-
-	$(_win).ready(function(){
-		//_win.trigger('resize');	
 	});
 }

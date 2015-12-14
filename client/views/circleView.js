@@ -19,10 +19,24 @@ Template.circleView.helpers({
 			'path': '#structure'
 		}];
 	}
+	
 });
 
 Template.circleView.events({
+	// Create new Space
+	'click #create_space_submit': function(){
 
+		var newSpaceForm = $('#eq-ui-modal-create-space-form');
+		var spaceName = newSpaceForm.find('#create_space_name').val();
+
+		Spaces.insert({name: spaceName});
+
+		Template.treeView.organizationManagerModel.children.push({
+			type: 'space',
+			name: spaceName,
+			children: []
+		});
+	}
 });
 
 Template.circleView.setModel = function(model) {
@@ -30,6 +44,10 @@ Template.circleView.setModel = function(model) {
 	var root1 = $('.circle-view');
 	var header = $('.circle-view-header');
 	root1.children('*').not('.circle-view-header').remove();
+
+	if (!model || !model.children || !model.children.length){
+		return;
+	}
 
 	var format = d3.format(",d");
 	var margin = 20,
@@ -139,6 +157,7 @@ Template.circleView.setModel = function(model) {
 };
 
 Template.circleView.rendered = function() {
+
 	// Modal configuration
 	$('.eq-ui-modal-trigger').leanModal({
 		dismissible: true, // Modal can be dismissed by clicking outside of the modal
