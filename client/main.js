@@ -17,14 +17,12 @@ if (Meteor.isClient) {
 
 	function getChildrensFor(parent) {
 
-		console.log(parent._id._str);
-		console.log(Spaces.find({ parent: parent._id._str }).fetch());
-
-		return Spaces.find({
-			parent: parent._id._str
-		}).fetch().map(function(i) {
+		return Spaces.find({ parent: parent._id })
+		.fetch()
+		.filter(function(i){ return i.parent !== null })
+		.map(function(i) {
 			return {
-				_id: i._id._str,
+				_id: i._id,
 				name: i.name,
 				type: 'space',
 				children: getChildrensFor(i)

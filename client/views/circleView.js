@@ -30,13 +30,15 @@ Template.circleView.events({
 		var newSpaceForm = $('#eq-ui-modal-create-space-form');
 		var spaceName = newSpaceForm.find('#create_space_name').val();
 
-		Spaces.insert({name: spaceName});
+		Spaces.insert({ name: spaceName, parent: null });
 
 		Template.treeView.organizationManagerModel.children.push({
 			type: 'space',
 			name: spaceName,
 			children: []
 		});
+
+		Template.circleView.setModel(Template.treeView.organizationManagerModel);
 	}
 });
 
@@ -60,6 +62,7 @@ Template.circleView.setModel = function(model) {
 
 	// set size
 	Template.circleView._setSize(model.children);
+	console.log(model.children);
 
 	var format = d3.format(",d");
 	var margin = 20,

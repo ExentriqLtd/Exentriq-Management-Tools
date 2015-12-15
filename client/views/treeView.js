@@ -237,40 +237,25 @@ Template.treeView.setModel = function(model) {
 
 				if (cutNode) {
 
+					//UI
 					liNode.find('.node-childrens:first').append(memoryNode);
-					
-					// remove cut node from DB
-					Spaces.remove({_id: cutNode.data('_id')});
-					// Update liNode
-					var childrens = Template.treeView.getChildModel(liNode).children;
-					childrens.push({
-						name: memoryNode.data('name')
-					})
-					Spaces.update(
-						{_id: liNode.data('_id')},
-						{
-							name: liNode.data('name'),
-							children: childrens
-						}
-					);
 
-					
+					//DB
+					Spaces.update({_id: cutNode.data('_id')}, {
+						name: cutNode.data('name'),
+						parent: liNode.data('_id')
+					});
 
 				} else {
 
-					var oldChildren = Template.treeView.getChildModel(liNode);
-					oldChildren.push({
-						name: memoryNode.data('name')
-					})
-					Spaces.update(
-						{_id: liNode.data('_id')},
-						{
-							name: liNode.data('name'),
-							children: oldChildren
-						}
-					);
-
+					//UI
 					liNode.find('.node-childrens:first').append(memoryNode.clone());
+
+					//DB
+					Spaces.insert({
+						name: memoryNode.data('name'),
+						parent: liNode.data('_id')
+					});					
 				}
 				cutNode = null;
 				memoryNode = null;
