@@ -13,16 +13,37 @@ if (Meteor.isClient) {
 
 	Meteor.subscribe('spaces');
 
-	Template.treeView.organizationManagerModel.children = [];
-	Spaces.find({}).fetch().forEach(function(space) {
-		Template.treeView.organizationManagerModel.children.push({
-			type: 'space',
-			name: space.name,
-			size: 50,
-			children: []
+	var allSpaces = Spaces.find({}).fetch();
+
+	function getChildrensFor(parent) {
+
+		console.log(parent._id._str);
+		console.log(Spaces.find({ parent: parent._id._str }).fetch());
+
+		return Spaces.find({
+			parent: parent._id._str
+		}).fetch().map(function(i) {
+			return {
+				_id: i._id._str,
+				name: i.name,
+				type: 'space',
+				children: getChildrensFor(i)
+			};
 		});
+	}
+
+	Template.treeView.organizationManagerModel.children = [];
+	allSpaces.forEach(function(space) {
+		if (space.parent === null) {
+			Template.treeView.organizationManagerModel.children.push({
+				_id: space._id,
+				name: space.name,
+				type: 'space',
+				children: getChildrensFor(space)
+			});
+		}
 	});
-	
+
 	Template.treeView.onChange(function() {
 
 		var m = Template.treeView.getModel();

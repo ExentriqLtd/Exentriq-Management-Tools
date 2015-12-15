@@ -28,7 +28,6 @@ Template.treeView.getChildModel = function(liNode) {
 
 	return {
 		name: liNode.find('.node-title:first').text(),
-		size: 50,
 		children: $.Enumerable.From(liNode.children('ul').children('li')).Select(function(i) {
 			return Template.treeView.getChildModel($(i));
 		}).ToArray()
@@ -195,9 +194,12 @@ Template.treeView.setModel = function(model) {
 			'</li>'
 		);
 
+		liNode.data('_id', node._id);
+		liNode.data('name', node.name);
+
 		function addChildrens(childs) {
 			childUl.empty();
-			$.Enumerable.From(childs).ForEach(function(child) {
+			childs.forEach(function(child) {
 				var child = createNode(child);
 				childUl.append(child);
 			});
@@ -234,8 +236,40 @@ Template.treeView.setModel = function(model) {
 			handler: function() {
 
 				if (cutNode) {
+
 					liNode.find('.node-childrens:first').append(memoryNode);
+					
+					// remove cut node from DB
+					Spaces.remove({_id: cutNode.data('_id')});
+					// Update liNode
+					var childrens = Template.treeView.getChildModel(liNode).children;
+					childrens.push({
+						name: memoryNode.data('name')
+					})
+					Spaces.update(
+						{_id: liNode.data('_id')},
+						{
+							name: liNode.data('name'),
+							children: childrens
+						}
+					);
+
+					
+
 				} else {
+
+					var oldChildren = Template.treeView.getChildModel(liNode);
+					oldChildren.push({
+						name: memoryNode.data('name')
+					})
+					Spaces.update(
+						{_id: liNode.data('_id')},
+						{
+							name: liNode.data('name'),
+							children: oldChildren
+						}
+					);
+
 					liNode.find('.node-childrens:first').append(memoryNode.clone());
 				}
 				cutNode = null;
@@ -247,8 +281,9 @@ Template.treeView.setModel = function(model) {
 		}, {
 			name: 'Delete',
 			handler: function() {
+				
+				Spaces.remove({_id: liNode.data('_id')});
 				liNode.remove();
-
 				Template.treeView._onChange();
 				bindEvents();
 			}

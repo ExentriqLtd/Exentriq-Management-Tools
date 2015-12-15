@@ -40,6 +40,14 @@ Template.circleView.events({
 	}
 });
 
+Template.circleView._setSize = function(childrens) {
+
+	childrens.forEach(function(i){
+		i.size = 50;
+		Template.circleView._setSize(i.children || []);
+	});
+};
+
 Template.circleView.setModel = function(model) {
 
 	var root1 = $('.circle-view');
@@ -49,6 +57,9 @@ Template.circleView.setModel = function(model) {
 	if (!model || !model.children || !model.children.length){
 		return;
 	}
+
+	// set size
+	Template.circleView._setSize(model.children);
 
 	var format = d3.format(",d");
 	var margin = 20,
