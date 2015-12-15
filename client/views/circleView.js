@@ -26,6 +26,7 @@ Template.circleView.events({
 	// Create new Space
 	'click #create_space_submit': function(){
 
+		$('#create-space').closeModal();
 		var newSpaceForm = $('#eq-ui-modal-create-space-form');
 		var spaceName = newSpaceForm.find('#create_space_name').val();
 
@@ -171,5 +172,6 @@ Template.circleView.rendered = function() {
 				console.log('Modal Close');
 			} // Callback for Modal close
 	});
-	Template.circleView.setModel(Template.treeView.getModel());
+
+	Template.circleView.setModel(Template.treeView.organizationManagerModel);
 };

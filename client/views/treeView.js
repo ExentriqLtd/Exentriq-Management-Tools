@@ -2,8 +2,8 @@ Template.treeView.helpers({});
 Template.treeView.events({});
 
 Template.treeView.organizationManagerModel = {
-	"name": "root",
-	"children": []
+	name: "root",
+	children: []
 };
 
 Template.treeView._onChange = $.noop;
@@ -86,24 +86,18 @@ Template.treeView.getModel = function(param) {
 
 Template.treeView.setModel = function(model) {
 
-	
-};
-
-Template.treeView.rendered = function() {
-
 	var dd;
 	var memoryNode;
 	var cutNode;
 
-	var model = Template.treeView.organizationManagerModel;
 	var root = $('.tree-view');
 	var wrapper = $('.tree-view-wrapper');
-
-	setModel();
 
 	$(window).click(function() {
 		dd && dd.getControl().remove();
 	});
+
+	setModel();
 
 	function cleanUp() {
 		root.find('.drag-over').removeClass('drag-over');
@@ -112,7 +106,7 @@ Template.treeView.rendered = function() {
 
 	function bindEvents() {
 
-		$.Enumerable.From(root.find('li')).ForEach(function(liNode) {
+		root.find('li').toArray().forEach(function(liNode) {
 			liNode = $(liNode);
 
 			var childUl = liNode.find('.node-childrens:first');
@@ -171,7 +165,7 @@ Template.treeView.rendered = function() {
 
 	function setModel() {
 
-		$.Enumerable.From(model.children).ForEach(function(node) {
+		model.children.forEach(function(node) {
 			var li = createNode(node);
 			li.appendTo(root);
 		});
@@ -275,4 +269,8 @@ Template.treeView.rendered = function() {
 			}).ToArray()
 		};
 	}
+};
+
+Template.treeView.rendered = function() {
+	Template.treeView.setModel(Template.treeView.organizationManagerModel);
 };

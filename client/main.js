@@ -1,26 +1,28 @@
 if (Meteor.isServer) {
 
 	Meteor.publish('spaces', function() {
-
-		observeSunbscription(this, 'spaces', function() {
-			return Spaces.find();
-		});
+		this.ready();
+		return Spaces.find();
 	});
 }
 
 if (Meteor.isClient) {
 
-	Meteor.subscribe('spaces');
-
-	Template.circleView.helpers({
-		spaces: function() {
-			return Spaces.find();
-		}
-	});
-
 	var _win = $(window);
 	var root = $('.organization-manager');
 
+	Meteor.subscribe('spaces');
+
+	Template.treeView.organizationManagerModel.children = [];
+	Spaces.find({}).fetch().forEach(function(space) {
+		Template.treeView.organizationManagerModel.children.push({
+			type: 'space',
+			name: space.name,
+			size: 50,
+			children: []
+		});
+	});
+	
 	Template.treeView.onChange(function() {
 
 		var m = Template.treeView.getModel();
