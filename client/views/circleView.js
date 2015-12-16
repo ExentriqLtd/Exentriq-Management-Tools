@@ -39,6 +39,7 @@ Template.circleView.events({
 		});
 
 		Template.circleView.setModel(Template.treeView.organizationManagerModel);
+		Template.treeView.setModel(Template.treeView.organizationManagerModel);
 	}
 });
 

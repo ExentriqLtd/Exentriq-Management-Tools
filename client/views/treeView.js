@@ -148,11 +148,19 @@ Template.treeView.setModel = function(model) {
 					drop: function(e, ui) {
 
 						if (liNode.hasClass('space')) {
+
+							//UI
 							liNode.addClass('expanded');
 							ui.draggable.appendTo(childUl);
 							cleanUp();
 
 							Template.treeView._onChange();
+
+							//DB
+							Spaces.update({_id: ui.helper.data('_id')}, {
+								name: ui.helper.data('name'),
+								parent: liNode.data('_id')
+							});
 						}
 					}
 				})
@@ -164,6 +172,7 @@ Template.treeView.setModel = function(model) {
 
 	function setModel() {
 
+		root.empty();
 		model.children.forEach(function(node) {
 			var li = createNode(node);
 			li.appendTo(root);
