@@ -58,7 +58,7 @@ if (Meteor.isClient) {
 				Template.treeView.renderDone && 
 				Template.circleView.renderDone &&
 				setModel();
-				
+
 			},10);
 		},
 		onError: function() {
@@ -74,8 +74,9 @@ if (Meteor.isClient) {
 	Template.treeView.organizationManagerModel.children = [];
 	Template.treeView.onChange(function() {
 
-		var m = Template.treeView.getModel();
-		Template.circleView.setModel(m);
+		Template.treeView.organizationManagerModel = Template.treeView.getModel();
+		Template.treeView.setModel(Template.treeView.organizationManagerModel);
+		Template.circleView.setModel(Template.treeView.organizationManagerModel);
 	});
 
 	_win.resize(function() {

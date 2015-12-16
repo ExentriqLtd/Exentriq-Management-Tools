@@ -27,6 +27,7 @@ Template.treeView.getModel = function() {
 Template.treeView.getChildModel = function(liNode) {
 
 	return {
+		type: liNode.hasClass('space') ? 'space' : 'user',
 		name: liNode.find('.node-title:first').text(),
 		children: $.Enumerable.From(liNode.children('ul').children('li')).Select(function(i) {
 			return Template.treeView.getChildModel($(i));
@@ -196,7 +197,7 @@ Template.treeView.setModel = function(model) {
 			'</span>' +
 			'<div class="node-title">' + node.name + '</div>' +
 			'<span class="node-action">' +
-			'<span class="glyphicon glyphicon-align-justify" aria-hidden="true"></span>' +
+			'<span class="glyphicon glyphicon-option-horizontal" aria-hidden="true"></span>' +
 			'</span>' +
 			'</div>' +
 			'<ul class="node-childrens"></ul>' +
