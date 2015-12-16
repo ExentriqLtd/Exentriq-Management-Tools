@@ -2,7 +2,7 @@ if (Meteor.isServer) {
 
 	Meteor.publish('spaces', function() {
 		this.ready();
-		return Spaces.find();
+		return Spaces.find({});
 	});
 }
 
@@ -11,26 +11,35 @@ if (Meteor.isClient) {
 	var _win = $(window);
 	var root = $('.organization-manager');
 
-	Meteor.subscribe('spaces');
+	Tracker.autorun(function() {
+		
+		Meteor.subscribe("spaces", {
+		  onReady: function () { console.log("onReady And the Itemns actually Arrive", arguments); },
+		  onError: function () { console.log("onError", arguments); }
+		});
 
-	var allSpaces = Spaces.find({}).fetch();
-
-	console.log('allSpaces');
-	console.log(allSpaces);
-
+		var allSpaces = Spaces.find({});
+		console.log('allSpaces');
+		console.log(allSpaces);
+	});
+	
 	function getChildrensFor(parent) {
 
-		return Spaces.find({ parent: parent._id })
-		.fetch()
-		.filter(function(i){ return i.parent !== null })
-		.map(function(i) {
-			return {
-				_id: i._id,
-				name: i.name,
-				type: 'space',
-				children: getChildrensFor(i)
-			};
-		});
+		return Spaces.find({
+				parent: parent._id
+			})
+			.fetch()
+			.filter(function(i) {
+				return i.parent !== null
+			})
+			.map(function(i) {
+				return {
+					_id: i._id,
+					name: i.name,
+					type: 'space',
+					children: getChildrensFor(i)
+				};
+			});
 	}
 
 	Template.treeView.organizationManagerModel.children = [];
