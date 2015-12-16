@@ -8,20 +8,19 @@ if (Meteor.isServer) {
 
 if (Meteor.isClient) {
 
+	Meteor.subscribe("spaces");
+
 	var _win = $(window);
 	var root = $('.organization-manager');
 
-	Tracker.autorun(function() {
+	Tracker.autorun(function() {	
 		
-		Meteor.subscribe("spaces", {
-		  onReady: function () { console.log("onReady And the Itemns actually Arrive", arguments); },
-		  onError: function () { console.log("onError", arguments); }
-		});
-
-		var allSpaces = Spaces.find({});
-		console.log('allSpaces');
-		console.log(allSpaces);
 	});
+
+
+	var allSpaces = Spaces.find({}).fetch();
+	console.log('allSpaces');
+	console.log(allSpaces);
 	
 	function getChildrensFor(parent) {
 
