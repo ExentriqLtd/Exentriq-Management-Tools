@@ -30,7 +30,7 @@ if (Meteor.isClient) {
 			});
 		},
 		onError: function() {
-			debugger;
+			// error spaces subscribe
 		}
 	});
 
