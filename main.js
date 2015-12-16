@@ -1,27 +1,42 @@
 if (Meteor.isServer) {
 
 	Meteor.publish('spaces', function() {
-		this.ready();
-		return Spaces.find({});
+		
+		var data = Spaces.find({});
+		if (data){
+			return data;
+		}
+		else return this.ready();
 	});
 }
 
 if (Meteor.isClient) {
 
-	Meteor.subscribe("spaces");
+	Meteor.subscribe("spaces", {
+		onReady: function() {
+
+			var allSpaces = Spaces.find({}).fetch();
+			console.log('allSpaces');
+			console.log(allSpaces);
+			allSpaces.forEach(function(space) {
+				if (space.parent === null) {
+					Template.treeView.organizationManagerModel.children.push({
+						_id: space._id,
+						name: space.name,
+						type: 'space',
+						children: getChildrensFor(space)
+					});
+				}
+			});
+		},
+		onError: function() {
+			debugger;
+		}
+	});
 
 	var _win = $(window);
 	var root = $('.organization-manager');
 
-	Tracker.autorun(function() {	
-		
-	});
-
-
-	var allSpaces = Spaces.find({}).fetch();
-	console.log('allSpaces');
-	console.log(allSpaces);
-	
 	function getChildrensFor(parent) {
 
 		return Spaces.find({
@@ -42,17 +57,6 @@ if (Meteor.isClient) {
 	}
 
 	Template.treeView.organizationManagerModel.children = [];
-	allSpaces.forEach(function(space) {
-		if (space.parent === null) {
-			Template.treeView.organizationManagerModel.children.push({
-				_id: space._id,
-				name: space.name,
-				type: 'space',
-				children: getChildrensFor(space)
-			});
-		}
-	});
-
 	Template.treeView.onChange(function() {
 
 		var m = Template.treeView.getModel();
