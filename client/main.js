@@ -15,6 +15,9 @@ if (Meteor.isClient) {
 
 	var allSpaces = Spaces.find({}).fetch();
 
+	console.log('allSpaces');
+	console.log(allSpaces);
+
 	function getChildrensFor(parent) {
 
 		return Spaces.find({ parent: parent._id })
