@@ -12,31 +12,6 @@ if (Meteor.isServer) {
 
 if (Meteor.isClient) {
 
-	Meteor.subscribe("spaces", {
-		onReady: function() {
-
-			var allSpaces = Spaces.find({}).fetch();
-			console.log('allSpaces');
-			console.log(allSpaces);
-			allSpaces.forEach(function(space) {
-				if (space.parent === null) {
-					Template.treeView.organizationManagerModel.children.push({
-						_id: space._id,
-						name: space.name,
-						type: 'space',
-						children: getChildrensFor(space)
-					});
-				}
-			});
-		},
-		onError: function() {
-			// error spaces subscribe
-		}
-	});
-
-	var _win = $(window);
-	var root = $('.organization-manager');
-
 	function getChildrensFor(parent) {
 
 		return Spaces.find({
@@ -55,6 +30,46 @@ if (Meteor.isClient) {
 				};
 			});
 	}
+
+	var _interval;
+	function setModel(){
+
+		clearInterval(_interval);
+		Template.treeView.setModel(Template.treeView.organizationManagerModel);
+		Template.circleView.setModel(Template.treeView.organizationManagerModel);	
+	}
+
+	Meteor.subscribe("spaces", {
+		onReady: function() {
+
+			var allSpaces = Spaces.find({}).fetch();
+			allSpaces.forEach(function(space) {
+				if (space.parent === null) {
+					Template.treeView.organizationManagerModel.children.push({
+						_id: space._id,
+						name: space.name,
+						type: 'space',
+						children: getChildrensFor(space)
+					});
+				}
+			});
+
+			_interval = setInterval(function(){
+				Template.treeView.renderDone && 
+				Template.circleView.renderDone &&
+				setModel();
+				
+			},10);
+		},
+		onError: function() {
+			// error spaces subscribe
+		}
+	});
+
+	var _win = $(window);
+	var root = $('.organization-manager');
+
+	
 
 	Template.treeView.organizationManagerModel.children = [];
 	Template.treeView.onChange(function() {

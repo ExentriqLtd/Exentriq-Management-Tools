@@ -300,6 +300,7 @@ Template.treeView.setModel = function(model) {
 	}
 };
 
+Template.treeView.renderDone = false;
 Template.treeView.rendered = function() {
-	Template.treeView.setModel(Template.treeView.organizationManagerModel);
+	Template.treeView.renderDone = true;
 };

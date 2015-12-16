@@ -172,6 +172,11 @@ Template.circleView.setModel = function(model) {
 	d3.select(self.frameElement).style("height", diameter + "px");
 };
 
+Template.circleView.setModelLazy = function(model){
+
+};
+
+Template.circleView.renderDone = false;
 Template.circleView.rendered = function() {
 
 	// Modal configuration
@@ -188,5 +193,5 @@ Template.circleView.rendered = function() {
 			} // Callback for Modal close
 	});
 
-	Template.circleView.setModel(Template.treeView.organizationManagerModel);
+	Template.circleView.renderDone = true;
 };
