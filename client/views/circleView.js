@@ -32,12 +32,13 @@ Template.circleView.events({
 		var newSpaceForm = $('#eq-ui-modal-create-space-form');
 		var spaceName = newSpaceForm.find('#create_space_name').val();
 
-		Spaces.insert({ name: spaceName, parent: null });
-
+		var _id = Spaces.insert({ name: spaceName, parent: null });
 		Template.treeView.organizationManagerModel.children.push({
+			_id: _id,
 			type: 'space',
 			name: spaceName,
-			children: []
+			children: [],
+			position: Template.treeView.organizationManagerModel.children.length
 		});
 
 		Template.circleView.setModel(Template.treeView.organizationManagerModel);

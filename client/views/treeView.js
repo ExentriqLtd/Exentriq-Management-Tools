@@ -50,6 +50,15 @@ Template.treeView.dropDown = function(param) {
 	}
 };
 
+Template.treeView.getOrdering = function(param){
+	return $('.tree-view').find('li').toArray().map(function(i){
+		return {
+			_id: $(i).data('_id'),
+			position: $(i).index()
+		}
+	});
+};
+
 Template.treeView.getModel = function(param) {
 
 	var root = $('.tree-view');
@@ -66,7 +75,8 @@ Template.treeView.getModel = function(param) {
 Template.treeView.getChildModel = function(liNode) {
 	return {
 		type: liNode.hasClass('space') ? 'space' : 'user',
-		name: liNode.find('.node-title:first').text(),
+		name: liNode.data('name'),
+		_id: liNode.data('_id'),
 		children: liNode.children('ol').children('li')
 			.toArray()
 			.map(function(i) { return Template.treeView.getChildModel($(i)); })
@@ -121,7 +131,7 @@ Template.treeView.setModel = function(model) {
 				e.stopPropagation();
 				showMenuAtction(liNode);
 			});
-			liNode.off().on('click', function() {
+			liNode.find('.node-title').off().on('click', function() {
 				liNode.toggleClass('expanded');
 			});
 		});
