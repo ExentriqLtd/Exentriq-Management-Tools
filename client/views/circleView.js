@@ -181,16 +181,12 @@ Template.circleView.rendered = function() {
 
 	// Modal configuration
 	$('.eq-ui-modal-trigger').leanModal({
-		dismissible: true, // Modal can be dismissed by clicking outside of the modal
-		opacity: .5, // Opacity of modal background
-		in_duration: 300, // Transition in duration
-		out_duration: 200, // Transition out duration
-		ready: function() {
-			console.log('Modal Open');
-		}, // Callback for Modal open
-		complete: function() {
-				console.log('Modal Close');
-			} // Callback for Modal close
+		dismissible: true,
+		opacity: .5,
+		in_duration: 300,
+		out_duration: 200,
+		ready: function() {},
+		complete: function() {}
 	});
 
 	Template.circleView.renderDone = true;

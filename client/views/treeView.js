@@ -1,3 +1,5 @@
+'use strict';
+
 Template.treeView.helpers({});
 Template.treeView.events({});
 
@@ -11,29 +13,6 @@ Template.treeView.onChange = function(fn) {
 	if ($.isFunction(fn)) Template.treeView._onChange = fn;
 };
 
-Template.treeView.getModel = function() {
-
-	var root = $('.tree-view');
-	var lis = root.children('li');
-	var model = {
-		name: 'root',
-		children: $.Enumerable.From(lis).Select(function(i) {
-			return Template.treeView.getChildModel($(i));
-		}).ToArray()
-	};
-	return model;
-};
-
-Template.treeView.getChildModel = function(liNode) {
-
-	return {
-		type: liNode.hasClass('space') ? 'space' : 'user',
-		name: liNode.find('.node-title:first').text(),
-		children: $.Enumerable.From(liNode.children('ul').children('li')).Select(function(i) {
-			return Template.treeView.getChildModel($(i));
-		}).ToArray()
-	};
-};
 
 Template.treeView.dropDown = function(param) {
 
@@ -44,8 +23,7 @@ Template.treeView.dropDown = function(param) {
 
 	function setItems(items) {
 
-		$.Enumerable.From(items).ForEach(function(item) {
-
+		items.forEach(function(item) {
 			$('<li><a name="add-user" href="#eq-ui-modal-add-user" class="eq-ui-modal-trigger">' + item.name + '</a></li>')
 				.toggleClass('disabled', item.disabled === true)
 				.click(item.handler)
@@ -75,12 +53,21 @@ Template.treeView.dropDown = function(param) {
 Template.treeView.getModel = function(param) {
 
 	var root = $('.tree-view');
-	var lis = root.children('li');
+	var lis = root.children('li').toArray();
+
 	return {
 		name: 'root',
-		children: $.Enumerable.From(lis).Select(function(i) {
+		children: lis.map(function(i) {
 			return Template.treeView.getChildModel($(i));
-		}).ToArray()
+		})
+	};
+};
+
+Template.treeView.getChildModel = function(liNode) {
+	return {
+		type: liNode.hasClass('space') ? 'space' : 'user',
+		name: liNode.find('.node-title:first').text(),
+		children: liNode.children('ul').children('li').toArray().map(function(i) { return Template.treeView.getChildModel($(i)); });
 	};
 };
 
@@ -106,6 +93,35 @@ Template.treeView.setModel = function(model) {
 
 	function bindEvents() {
 
+		// Sortable
+		root.nestedSortable({
+			handle: '.move-icon',
+			items: 'li',
+			toleranceElement: '> div',
+			relocate: function(e, data) {
+				//DB
+				Spaces.update({
+					_id: data.item.data('_id')
+				}, {
+					name: data.item.data('name'),
+					parent: data.item.parents('li:first').data('_id') || null
+				});
+			}
+		});
+
+		root.find('li').toArray().forEach(function(liNode) {
+
+			liNode = $(liNode);
+			liNode.find('.node-action:first').off().on('click', function(e) {
+				e.stopPropagation();
+				showMenuAtction(liNode);
+			});
+			liNode.on('click', function() {
+				liNode.toggleClass('expanded');
+			});
+		});
+
+		return;
 		root.find('li').toArray().forEach(function(liNode) {
 			liNode = $(liNode);
 
@@ -124,12 +140,9 @@ Template.treeView.setModel = function(model) {
 				stop: function() {
 
 				}
-			});
-
-			liNode.find('.node-action:first').off().on('click', function(e) {
-				e.stopPropagation();
-				showMenuAtction(liNode);
 			})
+
+
 
 			liNode.find('.tree-node-parent:first')
 				.off()
@@ -158,7 +171,9 @@ Template.treeView.setModel = function(model) {
 							Template.treeView._onChange();
 
 							//DB
-							Spaces.update({_id: ui.helper.data('_id')}, {
+							Spaces.update({
+								_id: ui.helper.data('_id')
+							}, {
 								name: ui.helper.data('name'),
 								parent: liNode.data('_id')
 							});
@@ -180,6 +195,7 @@ Template.treeView.setModel = function(model) {
 		});
 
 		bindEvents();
+		root.sortable();
 	}
 
 	function createNode(node) {
@@ -251,7 +267,9 @@ Template.treeView.setModel = function(model) {
 					liNode.find('.node-childrens:first').append(memoryNode);
 
 					//DB
-					Spaces.update({_id: cutNode.data('_id')}, {
+					Spaces.update({
+						_id: cutNode.data('_id')
+					}, {
 						name: cutNode.data('name'),
 						parent: liNode.data('_id')
 					});
@@ -265,7 +283,7 @@ Template.treeView.setModel = function(model) {
 					Spaces.insert({
 						name: memoryNode.data('name'),
 						parent: liNode.data('_id')
-					});					
+					});
 				}
 				cutNode = null;
 				memoryNode = null;
@@ -276,8 +294,10 @@ Template.treeView.setModel = function(model) {
 		}, {
 			name: 'Delete',
 			handler: function() {
-				
-				Spaces.remove({_id: liNode.data('_id')});
+
+				Spaces.remove({
+					_id: liNode.data('_id')
+				});
 				liNode.remove();
 				Template.treeView._onChange();
 				bindEvents();
@@ -294,9 +314,9 @@ Template.treeView.setModel = function(model) {
 		var lis = root.children('li');
 		return {
 			name: 'root',
-			children: $.Enumerable.From(lis).Select(function(i) {
+			children: lis.map(function(i) {
 				return Template.treeView.getChildModel($(i));
-			}).ToArray()
+			})
 		};
 	}
 };
