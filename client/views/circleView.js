@@ -1,3 +1,5 @@
+'use strict';
+
 Template.circleView.helpers({
 	'feature': function() {
 		return [{

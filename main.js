@@ -75,7 +75,7 @@ if (Meteor.isClient) {
 	Template.treeView.onChange(function() {
 
 		Template.treeView.organizationManagerModel = Template.treeView.getModel();
-		Template.treeView.setModel(Template.treeView.organizationManagerModel);
+		//Template.treeView.setModel(Template.treeView.organizationManagerModel);
 		Template.circleView.setModel(Template.treeView.organizationManagerModel);
 	});
 

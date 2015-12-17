@@ -9,25 +9,25 @@ body, html {
 	height: 100%;
 }
 
-ul, li {
+ol, li {
 	padding: 0;
 	margin: 0;
 	list-style: none;
 }
 
-ul li {
+ol li {
 	margin-bottom: 3px 0;
 }
 
-li>ul.node-childrens {
+li>ol.node-childrens {
 	display: none;
 }
 
-li>ul {
+li>ol {
 	margin-left: 30px;
 }
 
-li.expanded>ul.node-childrens {
+li.expanded>ol.node-childrens {
 	display: block;
 }
 

@@ -16,7 +16,7 @@ Template.treeView.onChange = function(fn) {
 
 Template.treeView.dropDown = function(param) {
 
-	var root = $('<ul class="eq-ui-dropdown"></ul>');
+	var root = $('<ol class="eq-ui-dropdown"></ol>');
 	root.css({
 		width: '160px'
 	});
@@ -67,7 +67,9 @@ Template.treeView.getChildModel = function(liNode) {
 	return {
 		type: liNode.hasClass('space') ? 'space' : 'user',
 		name: liNode.find('.node-title:first').text(),
-		children: liNode.children('ul').children('li').toArray().map(function(i) { return Template.treeView.getChildModel($(i)); });
+		children: liNode.children('ol').children('li')
+			.toArray()
+			.map(function(i) { return Template.treeView.getChildModel($(i)); })
 	};
 };
 
@@ -106,6 +108,9 @@ Template.treeView.setModel = function(model) {
 					name: data.item.data('name'),
 					parent: data.item.parents('li:first').data('_id') || null
 				});
+
+				Template.treeView._onChange();
+				bindEvents();
 			}
 		});
 
@@ -116,73 +121,9 @@ Template.treeView.setModel = function(model) {
 				e.stopPropagation();
 				showMenuAtction(liNode);
 			});
-			liNode.on('click', function() {
+			liNode.off().on('click', function() {
 				liNode.toggleClass('expanded');
 			});
-		});
-
-		return;
-		root.find('li').toArray().forEach(function(liNode) {
-			liNode = $(liNode);
-
-			var childUl = liNode.find('.node-childrens:first');
-			liNode.draggable({
-				containment: $('.organization-manager'),
-				//appendTo: 'body',
-				scroll: false,
-				handle: liNode.find('.move-icon'),
-				revert: true,
-				refreshPositions: true,
-				zIndex: 1,
-				cancel: null,
-				start: function() {},
-				drag: function(ui, position) {},
-				stop: function() {
-
-				}
-			})
-
-
-
-			liNode.find('.tree-node-parent:first')
-				.off()
-				.droppable({
-					tolerance: 'pointer',
-					over: function(e, ui) {
-
-						if (liNode.hasClass('space')) {
-							liNode.addClass('drag-over');
-						} else {
-
-						}
-					},
-					out: function() {
-						cleanUp();
-					},
-					drop: function(e, ui) {
-
-						if (liNode.hasClass('space')) {
-
-							//UI
-							liNode.addClass('expanded');
-							ui.draggable.appendTo(childUl);
-							cleanUp();
-
-							Template.treeView._onChange();
-
-							//DB
-							Spaces.update({
-								_id: ui.helper.data('_id')
-							}, {
-								name: ui.helper.data('name'),
-								parent: liNode.data('_id')
-							});
-						}
-					}
-				})
-				.on('click', function() {
-					liNode.toggleClass('expanded');
-				});
 		});
 	}
 
@@ -216,7 +157,7 @@ Template.treeView.setModel = function(model) {
 			'<span class="glyphicon glyphicon-option-horizontal" aria-hidden="true"></span>' +
 			'</span>' +
 			'</div>' +
-			'<ul class="node-childrens"></ul>' +
+			'<ol class="node-childrens"></ol>' +
 			'</li>'
 		);
 
