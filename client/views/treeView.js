@@ -124,16 +124,12 @@ Template.treeView.setModel = function(model) {
 			items: 'li',
 			forcePlaceholderSize: true,
 			helper: 'clone',
-			opacity: .6,
 			placeholder: 'placeholder',
-			revert: 250,
-			tabSize: 25,
 			tolerance: 'pointer',
 			toleranceElement: '> div',
-			maxLevels: 4,
 			isTree: true,
 			expandOnHover: 700,
-			startCollapsed: false,
+			//startCollapsed: false,
 			isAllowed: function(placeholder, placeholderParent, currentItem){
 
 				root.find('.allow').removeClass('allow');
@@ -182,6 +178,8 @@ Template.treeView.setModel = function(model) {
 				bindEvents();
 			}
 		});
+
+		root.disableSelection();
 
 		root.find('li').toArray().forEach(function(liNode) {
 
