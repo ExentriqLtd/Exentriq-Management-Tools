@@ -50,10 +50,10 @@ Template.treeView.dropDown = function(param) {
 	}
 };
 
-Template.treeView.getOrdering = function(param){
-	return $('.tree-view').find('li').toArray().map(function(i){
+Template.treeView.getOrdering = function(param) {
+	return $('.tree-view').find('li').toArray().map(function(i) {
 		return {
-			_id: $(i).data('_id'),
+			_id: $(i).data('item')._id,
 			position: $(i).index()
 		}
 	});
@@ -79,7 +79,9 @@ Template.treeView.getChildModel = function(liNode) {
 		_id: liNode.data('_id'),
 		children: liNode.children('ol').children('li')
 			.toArray()
-			.map(function(i) { return Template.treeView.getChildModel($(i)); })
+			.map(function(i) {
+				return Template.treeView.getChildModel($(i));
+			})
 	};
 };
 
@@ -109,14 +111,27 @@ Template.treeView.setModel = function(model) {
 		root.nestedSortable({
 			handle: '.move-icon',
 			items: 'li',
+			forcePlaceholderSize: true,
+			helper: 'clone',
+			opacity: .6,
+			placeholder: 'placeholder',
+			revert: 250,
+			tabSize: 25,
+			tolerance: 'pointer',
 			toleranceElement: '> div',
+			maxLevels: 4,
+			isTree: true,
+			expandOnHover: 700,
+			startCollapsed: false,
 			relocate: function(e, data) {
 				//DB
-				Spaces.update({
-					_id: data.item.data('_id')
-				}, {
-					name: data.item.data('name'),
-					parent: data.item.parents('li:first').data('_id') || null
+				var item = data.item.data('item');
+
+				var parent = data.item.parents('li:first').data('item');
+				Spaces.update({_id: item._id}, {
+					name: item.name,
+					parent: (parent && parent._id) || null,
+					type: item.type
 				});
 
 				Template.treeView._onChange();
@@ -158,21 +173,20 @@ Template.treeView.setModel = function(model) {
 
 		var liNode = $(
 			'<li class="tree-node ' + node.type + '">' +
-			'<div class="tree-node-parent">' +
-			'<span class="move-icon">' +
-			'<span class="glyphicon ' + nodeIcon + '" aria-hidden="true"></span>' +
-			'</span>' +
-			'<div class="node-title">' + node.name + '</div>' +
-			'<span class="node-action">' +
-			'<span class="glyphicon glyphicon-option-horizontal" aria-hidden="true"></span>' +
-			'</span>' +
-			'</div>' +
-			'<ol class="node-childrens"></ol>' +
+				'<div class="tree-node-parent">' +
+					'<span class="move-icon">' +
+						'<span class="glyphicon ' + nodeIcon + '" aria-hidden="true"></span>' +
+					'</span>' +
+					'<div class="node-title">' + node.name + '</div>' +
+					'<span class="node-action">' +
+						'<span class="glyphicon glyphicon-option-horizontal" aria-hidden="true"></span>' +
+					'</span>' +
+				'</div>' +
+				'<ol class="node-childrens"></ol>' +
 			'</li>'
 		);
 
-		liNode.data('_id', node._id);
-		liNode.data('name', node.name);
+		liNode.data('item', node);
 
 		function addChildrens(childs) {
 			childUl.empty();
@@ -218,23 +232,33 @@ Template.treeView.setModel = function(model) {
 					liNode.find('.node-childrens:first').append(memoryNode);
 
 					//DB
+					var cutItem = cutNode.data('item');
 					Spaces.update({
-						_id: cutNode.data('_id')
+						_id: cutItem._id
 					}, {
-						name: cutNode.data('name'),
-						parent: liNode.data('_id')
+						name: cutItem.name,
+						parent: liNode.data('item')._id,
+						type: cutItem.type
 					});
 
 				} else {
 
 					//UI
+					var clone = memoryNode.clone();
 					liNode.find('.node-childrens:first').append(memoryNode.clone());
 
 					//DB
-					Spaces.insert({
-						name: memoryNode.data('name'),
-						parent: liNode.data('_id')
+					var memoryItem = memoryNode.data('item');
+					var _id = Spaces.insert({
+						name: memoryItem.name,
+						type: memoryItem.type,
+						parent: liNode.data('item')._id
 					});
+
+					clone.data('item', $.extend(memoryItem, {
+						_id: _id,
+						parent: liNode.data('item')._id
+					}));
 				}
 				cutNode = null;
 				memoryNode = null;
@@ -247,7 +271,7 @@ Template.treeView.setModel = function(model) {
 			handler: function() {
 
 				Spaces.remove({
-					_id: liNode.data('_id')
+					_id: liNode.data('item')._id
 				});
 				liNode.remove();
 				Template.treeView._onChange();

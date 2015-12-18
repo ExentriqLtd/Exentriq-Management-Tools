@@ -1,5 +1,13 @@
 if (Meteor.isServer) {
 
+	Meteor.publish('users', function() {
+
+		var data = Users.find({});
+		if (data) {
+			return data;
+		} else return this.ready();
+	});
+
 	Meteor.publish('spaces', function() {
 
 		var data = Spaces.find({});
@@ -19,6 +27,9 @@ if (Meteor.isServer) {
 
 if (Meteor.isClient) {
 
+	var _interval;
+	var ordering;
+
 	function getChildrensFor(parent) {
 
 		return Spaces.find({
@@ -32,7 +43,7 @@ if (Meteor.isClient) {
 				return {
 					_id: i._id,
 					name: i.name,
-					type: 'space',
+					type: i.type,
 					position: getPoitionById(i._id),
 					children: getChildrensFor(i).sort(function(a, b) {
 						if (a.position > b.position) {
@@ -47,29 +58,51 @@ if (Meteor.isClient) {
 			});
 	}
 
-	function getPoitionById(_id){
+	function getPoitionById(_id) {
 
 		var p = 0;
-		if (ordering && ordering.ordering){
+		if (ordering && ordering.ordering) {
 
-			ordering.ordering.forEach(function(i){
+			ordering.ordering.forEach(function(i) {
 
-				if (i._id._str == _id._str){
+				if (i._id == _id) {
 					p = i.position;
 				}
 			});
 			return p;
-		}
-		else return 0;
+		} else return 0;
 	}
 
-	var _interval;
-	var ordering;
 	function setModel() {
 
 		clearInterval(_interval);
 		Template.treeView.setModel(Template.treeView.organizationManagerModel);
 		Template.circleView.setModel(Template.treeView.organizationManagerModel);
+	}
+
+	function convertNode(allSpaces) {
+
+		return allSpaces
+		.filter(function(space){ return !space.parent; })
+		.map(function(space) {
+			if (!space.parent) {
+				return {
+					_id: space._id,
+					name: space.name,
+					type: space.type,
+					children: getChildrensFor(space),
+					position: getPoitionById(space._id)
+				};
+			}
+		}).sort(function(a, b) {
+			if (a.position > b.position) {
+				return 1;
+			}
+			if (a.position < b.position) {
+				return -1;
+			}
+			return 0;
+		})
 	}
 
 	Meteor.subscribe("ordering", {
@@ -80,10 +113,12 @@ if (Meteor.isClient) {
 			Meteor.subscribe("spaces", {
 				onReady: function() {
 
-					var allSpaces = Spaces.find({}).fetch();
+					Template.treeView.organizationManagerModel.children = convertNode(Spaces.find({}).fetch());
 
+					console.log('Template.treeView.organizationManagerModel.children');
+					console.log(Template.treeView.organizationManagerModel.children)
 					// convert to UI items
-					allSpaces.forEach(function(space) {
+					/*allSpaces.forEach(function(space) {
 						if (!space.parent) {
 							Template.treeView.organizationManagerModel.children.push({
 								_id: space._id,
@@ -104,13 +139,12 @@ if (Meteor.isClient) {
 							return -1;
 						}
 						return 0;
-					})
+					})*/
 
 					_interval = setInterval(function() {
 						Template.treeView.renderDone &&
 							Template.circleView.renderDone &&
 							setModel();
-
 					}, 10);
 				},
 				onError: function() {
@@ -127,17 +161,29 @@ if (Meteor.isClient) {
 	Template.treeView.onChange(function() {
 
 		// get new model
-		Template.treeView.organizationManagerModel = Template.treeView.getModel();
+		//Template.treeView.organizationManagerModel = Template.treeView.getModel();
 
 		// save ordering
-		var ordering = Template.treeView.getOrdering();
-		if (!Ordering.find().fetch().length){
-			Ordering.insert({ordering: ordering});
-		}
-		else {
+		ordering = Template.treeView.getOrdering();
+		console.log('ordering');
+		console.log(ordering);
+		
+		if (!Ordering.find().fetch().length) {
+			Ordering.insert({
+				ordering: ordering
+			});
+		} else {
 			var firstId = Ordering.find().fetch()[0]._id;
-			Ordering.update({_id: firstId}, { ordering: ordering });
+			Ordering.update({
+				_id: firstId
+			}, {
+				ordering: ordering
+			});
 		}
+
+		Template.treeView.organizationManagerModel.children = convertNode(Spaces.find({}).fetch());
+		console.log('Template.treeView.organizationManagerModel.children');
+		console.log(Template.treeView.organizationManagerModel.children)
 
 		// set new model to templates
 		Template.treeView.setModel(Template.treeView.organizationManagerModel);
