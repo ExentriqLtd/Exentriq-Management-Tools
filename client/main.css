@@ -136,8 +136,8 @@ div.eq-ui-card-title.circle-view-header .btn {
     margin: 0;
 }
 
-.tree-node.drag-over>.tree-node-parent {
-	box-shadow: 0 0 10px rgba(0,0,0,0.5);
+.tree-node.allow>.tree-node-parent {
+	box-shadow: 0 0 10px #1bbc9b;
 }
 
 .tree-node .tree-node-parent:hover {

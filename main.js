@@ -152,9 +152,6 @@ if (Meteor.isClient) {
 		ordering = Ordering.find().fetch()[0];
 		Template.treeView.organizationManagerModel.children = convertNode(Spaces.find({}).fetch());
 
-		console.log(Template.treeView.organizationManagerModel.children[0].children[0].position);
-		console.log(Template.treeView.organizationManagerModel.children[0].children[1].position);
-
 		// set new model to templates
 		Template.treeView.setModel(Template.treeView.organizationManagerModel);
 		Template.circleView.setModel(Template.treeView.organizationManagerModel);

@@ -108,6 +108,17 @@ Template.treeView.setModel = function(model) {
 	function bindEvents() {
 
 		// Sortable
+		/*root.disableSelection().sortable({
+			handle: '.move-icon',
+			items: 'li',
+			forcePlaceholderSize: true,
+			//helper: 'clone',
+			opacity: .6,
+			placeholder: 'placeholder',
+			stop: function() {
+				console.log('@@@_' + new Date())
+			}
+		});*/
 		root.nestedSortable({
 			handle: '.move-icon',
 			items: 'li',
@@ -125,6 +136,9 @@ Template.treeView.setModel = function(model) {
 			startCollapsed: false,
 			isAllowed: function(placeholder, placeholderParent, currentItem){
 
+				root.find('.allow').removeClass('allow');
+				root.find('.deny').removeClass('deny');
+
 				if (!placeholderParent){
 					return true;
 				}
@@ -132,17 +146,28 @@ Template.treeView.setModel = function(model) {
 				var placeholderParentItem = placeholderParent.data('item');
 
 				if (placeholderParentItem && placeholderParentItem.type == 'space'){
+					placeholderParent.addClass('allow');
 				}
 				else if (placeholderParentItem) {
+					placeholderParent.addClass('deny');
 				}
 
-				return placeholderParent.data('item').type == 'space';
+				return !placeholderParent.data('item') || placeholderParent.data('item').type == 'space';
 
 			},
-			change: function(){
-				console.log(arguments);
+			sort: function(e, data){
+				root.find('.allow').removeClass('allow');
+				root.find('.deny').removeClass('deny');
+			},
+			change: function(e, data){
+				//root.find('.allow').removeClass('allow');
+				//root.find('.deny').removeClass('deny');
 			},
 			relocate: function(e, data) {
+
+				root.find('.allow').removeClass('allow');
+				root.find('.deny').removeClass('deny');
+
 				//DB
 				var item = data.item.data('item');
 
@@ -161,6 +186,21 @@ Template.treeView.setModel = function(model) {
 		root.find('li').toArray().forEach(function(liNode) {
 
 			liNode = $(liNode);
+
+			/*liNode.draggable({
+				connectToSortable: root,
+				handle: '.move-icon',
+				items: 'li',
+				forcePlaceholderSize: true,
+				//helper: 'clone',
+				opacity: .6,
+				placeholder: 'placeholder'
+			});
+
+			liNode.droppable({
+				
+			});			*/
+			
 			liNode.find('.node-action:first').off().on('click', function(e) {
 				e.stopPropagation();
 				showMenuAtction(liNode);
@@ -192,16 +232,16 @@ Template.treeView.setModel = function(model) {
 
 		var liNode = $(
 			'<li class="tree-node ' + node.type + '">' +
-				'<div class="tree-node-parent">' +
-					'<span class="move-icon">' +
-						'<span class="glyphicon ' + nodeIcon + '" aria-hidden="true"></span>' +
-					'</span>' +
-					'<div class="node-title">' + node.name + '</div>' +
-					'<span class="node-action">' +
-						'<span class="glyphicon glyphicon-option-horizontal" aria-hidden="true"></span>' +
-					'</span>' +
-				'</div>' +
-				'<ol class="node-childrens"></ol>' +
+			'<div class="tree-node-parent">' +
+			'<span class="move-icon">' +
+			'<span class="glyphicon ' + nodeIcon + '" aria-hidden="true"></span>' +
+			'</span>' +
+			'<div class="node-title">' + node.name + '</div>' +
+			'<span class="node-action">' +
+			'<span class="glyphicon glyphicon-option-horizontal" aria-hidden="true"></span>' +
+			'</span>' +
+			'</div>' +
+			'<ol class="node-childrens"></ol>' +
 			'</li>'
 		);
 
