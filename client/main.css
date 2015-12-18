@@ -19,7 +19,7 @@ ol li {
 	margin-bottom: 3px 0;
 }
 
-li>ol.node-childrens {
+li>ol {
 	display: none;
 }
 
@@ -27,7 +27,7 @@ li>ol {
 	margin-left: 30px;
 }
 
-li.expanded>ol.node-childrens {
+li.expanded>ol {
 	display: block;
 }
 

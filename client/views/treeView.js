@@ -123,6 +123,25 @@ Template.treeView.setModel = function(model) {
 			isTree: true,
 			expandOnHover: 700,
 			startCollapsed: false,
+			isAllowed: function(placeholder, placeholderParent, currentItem){
+
+				if (!placeholderParent){
+					return true;
+				}
+
+				var placeholderParentItem = placeholderParent.data('item');
+
+				if (placeholderParentItem && placeholderParentItem.type == 'space'){
+				}
+				else if (placeholderParentItem) {
+				}
+
+				return placeholderParent.data('item').type == 'space';
+
+			},
+			change: function(){
+				console.log(arguments);
+			},
 			relocate: function(e, data) {
 				//DB
 				var item = data.item.data('item');

@@ -114,33 +114,6 @@ if (Meteor.isClient) {
 				onReady: function() {
 
 					Template.treeView.organizationManagerModel.children = convertNode(Spaces.find({}).fetch());
-
-					console.log('Template.treeView.organizationManagerModel.children');
-					console.log(Template.treeView.organizationManagerModel.children)
-					// convert to UI items
-					/*allSpaces.forEach(function(space) {
-						if (!space.parent) {
-							Template.treeView.organizationManagerModel.children.push({
-								_id: space._id,
-								name: space.name,
-								type: 'space',
-								children: getChildrensFor(space),
-								position: getPoitionById(space._id)
-							});
-						}
-					});
-
-					// sort by position index
-					Template.treeView.organizationManagerModel.children.sort(function(a, b) {
-						if (a.position > b.position) {
-							return 1;
-						}
-						if (a.position < b.position) {
-							return -1;
-						}
-						return 0;
-					})*/
-
 					_interval = setInterval(function() {
 						Template.treeView.renderDone &&
 							Template.circleView.renderDone &&
@@ -182,8 +155,6 @@ if (Meteor.isClient) {
 		}
 
 		Template.treeView.organizationManagerModel.children = convertNode(Spaces.find({}).fetch());
-		console.log('Template.treeView.organizationManagerModel.children');
-		console.log(Template.treeView.organizationManagerModel.children)
 
 		// set new model to templates
 		Template.treeView.setModel(Template.treeView.organizationManagerModel);
