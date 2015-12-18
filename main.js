@@ -40,22 +40,25 @@ if (Meteor.isClient) {
 				return i.parent !== null
 			})
 			.map(function(i) {
+
 				return {
 					_id: i._id,
 					name: i.name,
 					type: i.type,
 					position: getPoitionById(i._id),
-					children: getChildrensFor(i).sort(function(a, b) {
-						if (a.position > b.position) {
-							return 1;
-						}
-						if (a.position < b.position) {
-							return -1;
-						}
-						return 0;
-					})
+					children: getChildrensFor(i).sort(sortByPosition)
 				};
-			});
+			}).sort(sortByPosition);
+	}
+
+	function sortByPosition(a, b) {
+		if (a.position > b.position) {
+			return 1;
+		}
+		if (a.position < b.position) {
+			return -1;
+		}
+		return 0;
 	}
 
 	function getPoitionById(_id) {
@@ -83,26 +86,20 @@ if (Meteor.isClient) {
 	function convertNode(allSpaces) {
 
 		return allSpaces
-		.filter(function(space){ return !space.parent; })
-		.map(function(space) {
-			if (!space.parent) {
-				return {
-					_id: space._id,
-					name: space.name,
-					type: space.type,
-					children: getChildrensFor(space),
-					position: getPoitionById(space._id)
-				};
-			}
-		}).sort(function(a, b) {
-			if (a.position > b.position) {
-				return 1;
-			}
-			if (a.position < b.position) {
-				return -1;
-			}
-			return 0;
-		})
+			.filter(function(space) {
+				return !space.parent;
+			})
+			.map(function(space) {
+				if (!space.parent) {
+					return {
+						_id: space._id,
+						name: space.name,
+						type: space.type,
+						children: getChildrensFor(space),
+						position: getPoitionById(space._id)
+					};
+				}
+			}).sort(sortByPosition)
 	}
 
 	Meteor.subscribe("ordering", {
@@ -138,9 +135,7 @@ if (Meteor.isClient) {
 
 		// save ordering
 		ordering = Template.treeView.getOrdering();
-		console.log('ordering');
-		console.log(ordering);
-		
+
 		if (!Ordering.find().fetch().length) {
 			Ordering.insert({
 				ordering: ordering
@@ -154,7 +149,11 @@ if (Meteor.isClient) {
 			});
 		}
 
+		ordering = Ordering.find().fetch()[0];
 		Template.treeView.organizationManagerModel.children = convertNode(Spaces.find({}).fetch());
+
+		console.log(Template.treeView.organizationManagerModel.children[0].children[0].position);
+		console.log(Template.treeView.organizationManagerModel.children[0].children[1].position);
 
 		// set new model to templates
 		Template.treeView.setModel(Template.treeView.organizationManagerModel);
