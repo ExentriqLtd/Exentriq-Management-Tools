@@ -235,14 +235,14 @@ Template.treeView.setModel = function(model) {
 
 		var nodeIcon =
 			node.type == 'space' ?
-			'glyphicon glyphicon-th-large' :
-			'glyphicon glyphicon-user';
+			'<i class="mdi mdi-google-circles-extended eq-ui-icon"></i>' :
+			'<i class="mdi mdi-account eq-ui-icon"></i>';
 
 		var liNode = $(
 			'<li class="tree-node ' + node.type + '">' +
 			'<div class="tree-node-parent">' +
 			'<span class="move-icon">' +
-			'<span class="glyphicon ' + nodeIcon + '" aria-hidden="true"></span>' +
+			nodeIcon +
 			'</span>' +
 			'<div class="node-title">' + node.name + '</div>' +
 			'<span class="node-action">' +
@@ -349,6 +349,10 @@ Template.treeView.setModel = function(model) {
 				var confirmDialog = $('#eq-ui-modal-confirm-delete');
 				confirmDialog.find('.item-name').text(item.name);
 				Template.treeView._menuActionLiNode = liNode;
+			}
+		},{
+			name: 'Locate',
+			handler: function() {
 			}
 		}]);
 		dd.show({

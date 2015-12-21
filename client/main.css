@@ -161,16 +161,16 @@ div.eq-ui-card-title.circle-view-header .btn {
 }
 .tree-node .tree-node-parent {
 	background-color: #F0F0F0;
-	/* padding: 6px 8px; */
-	/* margin: 3px 0; */
-	border-radius: 3px;
-	width: 100%;
-	/* vertical-align: middle; */
-	height: 32px;
-	line-height: 30px;
-	position: relative;
-	cursor: pointer;
-	margin-bottom: 4px;
+    /* padding: 6px 8px; */
+    /* margin: 3px 0; */
+    border-radius: 3px;
+    width: 100%;
+    /* vertical-align: middle; */
+    height: 32px;
+    line-height: 27px;
+    position: relative;
+    cursor: pointer;
+    margin-bottom: 4px;
 }
 
 .tree-node.tmp {
@@ -185,8 +185,8 @@ div.eq-ui-card-title.circle-view-header .btn {
     opacity: 0.6;
     position: absolute;
     cursor: move;
-    left: 6px;
-    top: 2px;
+    left: 4px;
+    top: 4px;
 }
 
 .tree-node .move-icon:hover {
@@ -199,16 +199,16 @@ div.eq-ui-card-title.circle-view-header .btn {
 .tree-node .node-title {
 
 	display: inline-block;
-	width: 100%;
-	padding: 0 30px;
-	text-overflow: ellipsis;
-	white-space: nowrap;
-	overflow: hidden;
-	border-collapse: collapse;
-	border: 1px solid #ddd;
-	border-radius: 3px;
-	color: #5E698A;
-	font-weight: 600;
+    width: 100%;
+    padding: 4px 30px 0 30px;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+    overflow: hidden;
+    border-collapse: collapse;
+    border: 1px solid #ddd;
+    border-radius: 3px;
+    color: #5E698A;
+    font-weight: 600;
 }
 
 .tree-node .node-action {
