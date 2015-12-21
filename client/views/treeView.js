@@ -13,6 +13,22 @@ Template.treeView.onChange = function(fn) {
 	if ($.isFunction(fn)) Template.treeView._onChange = fn;
 };
 
+Template.treeView.events({
+	// Delete item
+	'click [name="confirm"]': function(){
+
+		$('#modal-footer').closeModal();
+		var item = Template.treeView._menuActionLiNode.data('item');
+		Spaces.remove({
+			_id: item._id
+		});
+		Template.treeView._menuActionLiNode.remove();
+		Template.treeView._onChange();
+		//bindEvents();
+		Template.treeView._menuActionLiNode = null;
+	}
+});
+
 
 Template.treeView.dropDown = function(param) {
 
@@ -27,6 +43,10 @@ Template.treeView.dropDown = function(param) {
 			$('<li><a name="add-user" href="#eq-ui-modal-add-user" class="eq-ui-modal-trigger">' + item.name + '</a></li>')
 				.toggleClass('disabled', item.disabled === true)
 				.click(item.handler)
+				.find('a')
+				.attr('href', item.href || '#')
+				.addClass(item.css || '')
+				.end()
 				.appendTo(root);
 		});
 	}
@@ -73,7 +93,7 @@ Template.treeView.getModel = function(param) {
 };
 
 Template.treeView.getChildModel = function(liNode) {
-	var item = liNode.data('item'); 
+	var item = liNode.data('item');
 	return {
 		type: liNode.hasClass('space') ? 'space' : 'user',
 		name: item ? item.name : '',
@@ -144,10 +164,8 @@ Template.treeView.setModel = function(model) {
 				return !placeholderParent.data('item') || placeholderParent.data('item').type == 'space';
 
 			},
-			sort: function() {
-			},
-			change: function() {
-			},
+			sort: function() {},
+			change: function() {},
 			relocate: function(e, data) {
 
 				console.log('relocate');
@@ -158,7 +176,9 @@ Template.treeView.setModel = function(model) {
 				var item = data.item.data('item');
 
 				var parent = data.item.parents('li:first').data('item');
-				Spaces.update({_id: item._id}, {
+				Spaces.update({
+					_id: item._id
+				}, {
 					name: item.name,
 					parent: (parent && parent._id) || null,
 					type: item.type
@@ -169,13 +189,13 @@ Template.treeView.setModel = function(model) {
 
 				var opened = root.find('.mjs-nestedSortable-expanded');
 				opened.addClass('expanded');
-				setTimeout(function(){
+				setTimeout(function() {
 
 					root.find('.mjs-nestedSortable-expanded')
 						.toArray()
-						.forEach(function(i){
+						.forEach(function(i) {
 							i = $(i);
-							if (!i.hasClass('expanded')){
+							if (!i.hasClass('expanded')) {
 								i.removeClass('mjs-nestedSortable-expanded');
 							}
 							i.removeClass('expanded');
@@ -235,7 +255,7 @@ Template.treeView.setModel = function(model) {
 
 		liNode.data('item', node);
 
-		if (node.name == 'SP-008'){
+		if (node.name == 'SP-008') {
 			//root.append('<li class="placeholder" style="40px;"></li>');
 		}
 
@@ -256,6 +276,8 @@ Template.treeView.setModel = function(model) {
 	}
 
 	function showMenuAtction(liNode) {
+
+		Template.treeView._menuActionLiNode = null;
 
 		dd && dd.getControl().remove();
 		dd = Template.treeView.dropDown();
@@ -318,20 +340,30 @@ Template.treeView.setModel = function(model) {
 				bindEvents();
 			}
 		}, {
+			css: 'eq-ui-modal-trigger',
+			href: '#eq-ui-modal-confirm-delete',
 			name: 'Delete',
 			handler: function() {
 
-				Spaces.remove({
-					_id: liNode.data('item')._id
-				});
-				liNode.remove();
-				Template.treeView._onChange();
-				bindEvents();
+				var item = liNode.data('item');
+				var confirmDialog = $('#eq-ui-modal-confirm-delete');
+				confirmDialog.find('.item-name').text(item.name);
+				Template.treeView._menuActionLiNode = liNode;
 			}
 		}]);
 		dd.show({
 			top: liNode.offset().top + 20,
 			left: liNode.offset().left + liNode.width() - 20
+		});
+
+		// Modal configuration
+		$('.eq-ui-modal-trigger').leanModal({
+			dismissible: true,
+			opacity: .5,
+			in_duration: 300,
+			out_duration: 200,
+			ready: function() {},
+			complete: function() {}
 		});
 	}
 

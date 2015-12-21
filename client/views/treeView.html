@@ -5,6 +5,9 @@
 		</div>
 		<ol class="tree-view"></ol>
 	</div>
+
+	{{> confirmDelete }}
+
 </template>
 
 <template name="confirmDelete">
@@ -22,10 +25,11 @@
 			</ul> 
 		</div> 
 		<div class="eq-ui-modal-content"> 
-			Do you really want to delete item ? 
+			Do you really want to delete <b><span class="item-name"></span></b> ? 
 		</div> 
 		<div class="eq-ui-modal-footer"> 
-			<a href="#eq-ui-modal-create-user" class="btn btn-primary eq-ui-modal-trigger eq-ui-waves-light eq-ui-modal-close">Create new user</a> 
+			<a name="cancel" class="btn btn-default eq-ui-btn-flat eq-ui-waves eq-ui-secondary-color-text eq-ui-modal-close">Cancel</a> 
+			<a name="confirm" class="btn btn-default eq-ui-btn-flat eq-ui-waves eq-ui-secondary-color-text eq-ui-modal-close">Confirm</a> 
 		</div> 
 	</div>
 </template>
