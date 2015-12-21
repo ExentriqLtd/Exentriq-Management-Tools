@@ -6,3 +6,26 @@
 		<ol class="tree-view"></ol>
 	</div>
 </template>
+
+<template name="confirmDelete">
+	<div id="eq-ui-modal-confirm-delete" class="eq-ui-modal eq-ui-modal-fixed eq-ui-modal-small eq-ui-modal-confirm-delete">
+		<div class="eq-ui-modal-header"> 
+			<div class="header-title"> 
+				<span class="section-title truncate">Confirm Delete</span> 
+			</div> 
+			<ul class="right eq-ui-nav-menu"> 
+				<li class="eq-ui-nav-menu-item-icon"> 
+					<a class="btn btn-default eq-ui-btn-flat eq-ui-btn-fab eq-ui-btn-menu-fab eq-ui-waves eq-ui-modal-close"> 
+						<i class="mdi mdi-close eq-ui-icon"></i> 
+					</a> 
+				</li> 
+			</ul> 
+		</div> 
+		<div class="eq-ui-modal-content"> 
+			Do you really want to delete item ? 
+		</div> 
+		<div class="eq-ui-modal-footer"> 
+			<a href="#eq-ui-modal-create-user" class="btn btn-primary eq-ui-modal-trigger eq-ui-waves-light eq-ui-modal-close">Create new user</a> 
+		</div> 
+	</div>
+</template>

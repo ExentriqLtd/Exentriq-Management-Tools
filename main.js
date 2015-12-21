@@ -130,6 +130,7 @@ if (Meteor.isClient) {
 	Template.treeView.organizationManagerModel.children = [];
 	Template.treeView.onChange(function() {
 
+		console.log('change');
 		// get new model
 		//Template.treeView.organizationManagerModel = Template.treeView.getModel();
 
@@ -153,7 +154,7 @@ if (Meteor.isClient) {
 		Template.treeView.organizationManagerModel.children = convertNode(Spaces.find({}).fetch());
 
 		// set new model to templates
-		Template.treeView.setModel(Template.treeView.organizationManagerModel);
+		//Template.treeView.setModel(Template.treeView.organizationManagerModel);
 		Template.circleView.setModel(Template.treeView.organizationManagerModel);
 	});
 

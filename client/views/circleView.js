@@ -47,8 +47,8 @@ Template.circleView.events({
 		});
 
 		// Update UI for make save ordering
-		Template.circleView.setModel(Template.treeView.organizationManagerModel);
-		Template.treeView.setModel(Template.treeView.organizationManagerModel);
+		//Template.circleView.setModel(Template.treeView.organizationManagerModel);
+		//Template.treeView.setModel(Template.treeView.organizationManagerModel);
 
 		// Get new model from DB and redraw UI
 		Template.treeView._onChange();

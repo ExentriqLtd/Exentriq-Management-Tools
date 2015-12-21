@@ -31,6 +31,11 @@ li.expanded>ol {
 	display: block;
 }
 
+
+li.mjs-nestedSortable-expanded>ol {
+	display: block;
+}
+
 .organization-manager.small  {
 
 }
@@ -110,14 +115,17 @@ div.eq-ui-card-title.circle-view-header .btn {
 
 }
 
+.placeholder {
+	outline: 1px dashed #4183C4;
+	margin-bottom: 4px;
+}
+
 .tree-view-header span {
 	float: left;
     margin-right: 10px;
     font-size: 22px;
     color: #999999;
 }
-
-
 
 .tree-view-wrapper .btn-primary {
 	/* float: right; */
@@ -138,6 +146,15 @@ div.eq-ui-card-title.circle-view-header .btn {
 
 .tree-node.allow>.tree-node-parent {
 	box-shadow: 0 0 10px #1bbc9b;
+}
+
+.tree-node.deny>.tree-node-parent {
+	box-shadow: 0 0 10px #FA618F;
+}
+
+.tree-node.deny .placeholder {
+	border: none;
+	display: none;
 }
 
 .tree-node .tree-node-parent:hover {

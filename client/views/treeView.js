@@ -73,10 +73,11 @@ Template.treeView.getModel = function(param) {
 };
 
 Template.treeView.getChildModel = function(liNode) {
+	var item = liNode.data('item'); 
 	return {
 		type: liNode.hasClass('space') ? 'space' : 'user',
-		name: liNode.data('name'),
-		_id: liNode.data('_id'),
+		name: item ? item.name : '',
+		_id: item ? item._id : '',
 		children: liNode.children('ol').children('li')
 			.toArray()
 			.map(function(i) {
@@ -107,60 +108,49 @@ Template.treeView.setModel = function(model) {
 
 	function bindEvents() {
 
-		// Sortable
-		/*root.disableSelection().sortable({
-			handle: '.move-icon',
-			items: 'li',
+		root.nestedSortable({
 			forcePlaceholderSize: true,
-			//helper: 'clone',
+			handle: 'div',
+			helper: 'clone',
+			items: 'li',
 			opacity: .6,
 			placeholder: 'placeholder',
-			stop: function() {
-				console.log('@@@_' + new Date())
-			}
-		});*/
-		root.nestedSortable({
-			handle: '.move-icon',
-			items: 'li',
-			forcePlaceholderSize: true,
-			helper: 'clone',
-			placeholder: 'placeholder',
+			revert: 250,
+			tabSize: 25,
 			tolerance: 'pointer',
 			toleranceElement: '> div',
+			maxLevels: 10,
 			isTree: true,
-			expandOnHover: 700,
-			//startCollapsed: false,
-			isAllowed: function(placeholder, placeholderParent, currentItem){
+			expandOnHover: 500,
+			startCollapsed: false,
+			isAllowed: function(placeholder, placeholderParent, currentItem) {
 
 				root.find('.allow').removeClass('allow');
 				root.find('.deny').removeClass('deny');
 
-				if (!placeholderParent){
+				if (!placeholderParent) {
 					return true;
 				}
 
 				var placeholderParentItem = placeholderParent.data('item');
 
-				if (placeholderParentItem && placeholderParentItem.type == 'space'){
+				if (placeholderParentItem && placeholderParentItem.type == 'space') {
 					placeholderParent.addClass('allow');
-				}
-				else if (placeholderParentItem) {
+				} else if (placeholderParentItem) {
 					placeholderParent.addClass('deny');
 				}
 
+				console.log(!placeholderParent.data('item') || placeholderParent.data('item').type == 'space');
 				return !placeholderParent.data('item') || placeholderParent.data('item').type == 'space';
 
 			},
-			sort: function(e, data){
-				root.find('.allow').removeClass('allow');
-				root.find('.deny').removeClass('deny');
+			sort: function() {
 			},
-			change: function(e, data){
-				//root.find('.allow').removeClass('allow');
-				//root.find('.deny').removeClass('deny');
+			change: function() {
 			},
 			relocate: function(e, data) {
 
+				console.log('relocate');
 				root.find('.allow').removeClass('allow');
 				root.find('.deny').removeClass('deny');
 
@@ -178,33 +168,18 @@ Template.treeView.setModel = function(model) {
 				bindEvents();
 			}
 		});
-
 		root.disableSelection();
-
 		root.find('li').toArray().forEach(function(liNode) {
 
 			liNode = $(liNode);
 
-			/*liNode.draggable({
-				connectToSortable: root,
-				handle: '.move-icon',
-				items: 'li',
-				forcePlaceholderSize: true,
-				//helper: 'clone',
-				opacity: .6,
-				placeholder: 'placeholder'
-			});
-
-			liNode.droppable({
-				
-			});			*/
-			
 			liNode.find('.node-action:first').off().on('click', function(e) {
 				e.stopPropagation();
 				showMenuAtction(liNode);
 			});
 			liNode.find('.node-title').off().on('click', function() {
-				liNode.toggleClass('expanded');
+				liNode.toggleClass('mjs-nestedSortable-expanded');
+				//liNode.toggleClass('expanded');
 			});
 		});
 	}
@@ -244,6 +219,10 @@ Template.treeView.setModel = function(model) {
 		);
 
 		liNode.data('item', node);
+
+		if (node.name == 'SP-008'){
+			//root.append('<li class="placeholder" style="40px;"></li>');
+		}
 
 		function addChildrens(childs) {
 			childUl.empty();
