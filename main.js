@@ -1,7 +1,6 @@
 if (Meteor.isServer) {
 
-	Meteor.publish('spaces', function() {
-
+	var s = Meteor.publish('spaces', function() {
 		var data = Spaces.find({});
 		if (data) {
 			return data;
@@ -21,6 +20,18 @@ if (Meteor.isClient) {
 
 	var _interval;
 	var ordering;
+	var _win = $(window);
+	_win.resize(function() {
+
+		if (_win.width() < 600) {
+			root.addClass('small');
+		} else {
+			root.removeClass('small');
+			model = Template.treeView.getModel();
+			Template.circleView.setModel(model);
+		}
+	});
+	var root = $('.organization-manager');
 
 	function getChildrensFor(parent) {
 
@@ -100,10 +111,10 @@ if (Meteor.isClient) {
 			ordering = Ordering.find().fetch()[0] || null;
 
 			Meteor.subscribe("spaces", {
-				onAdded: function(){
+				onAdded: function() {
 					console.log(arguments);
 				},
-				onChanged: function(){
+				onChanged: function() {
 					console.log(arguments);
 				},
 				onReady: function() {
@@ -122,8 +133,33 @@ if (Meteor.isClient) {
 		}
 	});
 
-	var _win = $(window);
-	var root = $('.organization-manager');
+	var query = Spaces.find({});
+	var handle = query.observeChanges({
+		added: function(id, data){
+
+			Template.treeView.organizationManagerModel.children = convertNode(Spaces.find({}).fetch());
+			Template.treeView.renderDone &&
+			Template.circleView.renderDone &&
+			setModel();
+		},
+		removed: function(id, data){
+			Template.treeView.organizationManagerModel.children = convertNode(Spaces.find({}).fetch());
+			Template.treeView.renderDone &&
+			Template.circleView.renderDone &&
+			setModel();
+
+		}
+	});
+
+	Spaces.before.insert(function(userId, doc) {
+
+		Template.treeView.organizationManagerModel.children = convertNode(Spaces.find({}).fetch());
+		_interval = setInterval(function() {
+			Template.treeView.renderDone &&
+			Template.circleView.renderDone &&
+			setModel();
+		}, 10);
+	});
 
 	Template.treeView.organizationManagerModel.children = [];
 	Template.treeView.onChange(function() {
@@ -154,16 +190,5 @@ if (Meteor.isClient) {
 		// set new model to templates
 		//Template.treeView.setModel(Template.treeView.organizationManagerModel);
 		Template.circleView.setModel(Template.treeView.organizationManagerModel);
-	});
-
-	_win.resize(function() {
-
-		if (_win.width() < 600) {
-			root.addClass('small');
-		} else {
-			root.removeClass('small');
-			model = Template.treeView.getModel();
-			Template.circleView.setModel(model);
-		}
 	});
 }
