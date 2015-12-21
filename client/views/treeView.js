@@ -121,7 +121,7 @@ Template.treeView.setModel = function(model) {
 			toleranceElement: '> div',
 			maxLevels: 10,
 			isTree: true,
-			expandOnHover: 500,
+			expandOnHover: 1000,
 			startCollapsed: false,
 			isAllowed: function(placeholder, placeholderParent, currentItem) {
 
@@ -166,6 +166,21 @@ Template.treeView.setModel = function(model) {
 
 				Template.treeView._onChange();
 				bindEvents();
+
+				var opened = root.find('.mjs-nestedSortable-expanded');
+				opened.addClass('expanded');
+				setTimeout(function(){
+
+					root.find('.mjs-nestedSortable-expanded')
+						.toArray()
+						.forEach(function(i){
+							i = $(i);
+							if (!i.hasClass('expanded')){
+								i.removeClass('mjs-nestedSortable-expanded');
+							}
+							i.removeClass('expanded');
+						});
+				}, 1);
 			}
 		});
 		root.disableSelection();
