@@ -1,13 +1,5 @@
 if (Meteor.isServer) {
 
-	Meteor.publish('users', function() {
-
-		var data = Users.find({});
-		if (data) {
-			return data;
-		} else return this.ready();
-	});
-
 	Meteor.publish('spaces', function() {
 
 		var data = Spaces.find({});
@@ -108,6 +100,12 @@ if (Meteor.isClient) {
 			ordering = Ordering.find().fetch()[0] || null;
 
 			Meteor.subscribe("spaces", {
+				onAdded: function(){
+					console.log(arguments);
+				},
+				onChanged: function(){
+					console.log(arguments);
+				},
 				onReady: function() {
 
 					Template.treeView.organizationManagerModel.children = convertNode(Spaces.find({}).fetch());

@@ -15,7 +15,7 @@ Template.treeView.onChange = function(fn) {
 
 Template.treeView.events({
 	// Delete item
-	'click [name="confirm"]': function(){
+	'click [name="confirm"]': function() {
 
 		$('#modal-footer').closeModal();
 		var item = Template.treeView._menuActionLiNode.data('item');
@@ -40,14 +40,20 @@ Template.treeView.dropDown = function(param) {
 	function setItems(items) {
 
 		items.forEach(function(item) {
-			$('<li><a name="add-user" href="#eq-ui-modal-add-user" class="eq-ui-modal-trigger">' + item.name + '</a></li>')
-				.toggleClass('disabled', item.disabled === true)
-				.click(item.handler)
-				.find('a')
-				.attr('href', item.href || '#')
-				.addClass(item.css || '')
-				.end()
-				.appendTo(root);
+
+			if (item.type == 'divider') {
+				$('<li class="divider"></li>').appendTo(root);
+			} else {
+
+				$('<li><a name="add-user" href="#eq-ui-modal-add-user" class="eq-ui-modal-trigger">' + item.name + '</a></li>')
+					.toggleClass('disabled', item.disabled === true)
+					.click(item.handler)
+					.find('a')
+					.attr('href', item.href || '#')
+					.addClass(item.css || '')
+					.end()
+					.appendTo(root);
+			}
 		});
 	}
 
@@ -226,9 +232,7 @@ Template.treeView.setModel = function(model) {
 			var li = createNode(node);
 			li.appendTo(root);
 		});
-
 		bindEvents();
-		root.sortable();
 	}
 
 	function createNode(node) {
@@ -237,7 +241,14 @@ Template.treeView.setModel = function(model) {
 			node.type == 'space' ?
 			'<i class="mdi mdi-google-circles-extended eq-ui-icon"></i>' :
 			'<i class="mdi mdi-account eq-ui-icon"></i>';
-
+		//eq-ui-list-item
+		//<li><a href="#!"><i class="mdi mdi-home icon"></i> Some Action</a></li>
+		/*var liNode = $(
+			'<li class="tree-node eq-ui-list-item ' + node.type + '">' + 
+				'<a href="#!">' + nodeIcon + ' ' + node.name +'</a>' +
+				'<ol class="node-childrens eq-ui-list eq-ui-hoverable"></ol>' +	
+			'</li>'
+		);*/
 		var liNode = $(
 			'<li class="tree-node ' + node.type + '">' +
 			'<div class="tree-node-parent">' +
@@ -254,10 +265,6 @@ Template.treeView.setModel = function(model) {
 		);
 
 		liNode.data('item', node);
-
-		if (node.name == 'SP-008') {
-			//root.append('<li class="placeholder" style="40px;"></li>');
-		}
 
 		function addChildrens(childs) {
 			childUl.empty();
@@ -278,10 +285,12 @@ Template.treeView.setModel = function(model) {
 	function showMenuAtction(liNode) {
 
 		Template.treeView._menuActionLiNode = null;
+		var item = liNode.data('item');
 
 		dd && dd.getControl().remove();
 		dd = Template.treeView.dropDown();
-		dd.setItems([{
+
+		var items = [{
 			name: 'Copy',
 			handler: function(node) {
 				memoryNode = liNode;
@@ -350,11 +359,20 @@ Template.treeView.setModel = function(model) {
 				confirmDialog.find('.item-name').text(item.name);
 				Template.treeView._menuActionLiNode = liNode;
 			}
-		},{
-			name: 'Locate',
-			handler: function() {
-			}
-		}]);
+		}];
+
+		if (item.type == 'space') {
+
+			items.push({
+				type: 'divider'
+			});
+			items.push({
+				name: 'Locate',
+				handler: function() {}
+			})
+		}
+
+		dd.setItems(items);
 		dd.show({
 			top: liNode.offset().top + 20,
 			left: liNode.offset().left + liNode.width() - 20
