@@ -21,3 +21,4 @@ insecure                # Allow all DB writes from clients (for prototyping)
 d3js:d3
 mizzao:jquery-ui
 matb33:collection-hooks
+kadira:flow-router

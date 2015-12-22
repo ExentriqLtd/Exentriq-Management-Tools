@@ -18,7 +18,7 @@ if (Meteor.isServer) {
 
 if (Meteor.isClient) {
 
-	var _interval;
+	/*var _interval;
 	var ordering;
 	var _win = $(window);
 	_win.resize(function() {
@@ -107,16 +107,8 @@ if (Meteor.isClient) {
 
 	Meteor.subscribe("ordering", {
 		onReady: function() {
-
 			ordering = Ordering.find().fetch()[0] || null;
-
 			Meteor.subscribe("spaces", {
-				onAdded: function() {
-					console.log(arguments);
-				},
-				onChanged: function() {
-					console.log(arguments);
-				},
 				onReady: function() {
 
 					Template.treeView.organizationManagerModel.children = convertNode(Spaces.find({}).fetch());
@@ -151,22 +143,8 @@ if (Meteor.isClient) {
 		}
 	});
 
-	Spaces.before.insert(function(userId, doc) {
-
-		Template.treeView.organizationManagerModel.children = convertNode(Spaces.find({}).fetch());
-		_interval = setInterval(function() {
-			Template.treeView.renderDone &&
-			Template.circleView.renderDone &&
-			setModel();
-		}, 10);
-	});
-
 	Template.treeView.organizationManagerModel.children = [];
 	Template.treeView.onChange(function() {
-
-		console.log('change');
-		// get new model
-		//Template.treeView.organizationManagerModel = Template.treeView.getModel();
 
 		// save ordering
 		ordering = Template.treeView.getOrdering();
@@ -190,5 +168,5 @@ if (Meteor.isClient) {
 		// set new model to templates
 		//Template.treeView.setModel(Template.treeView.organizationManagerModel);
 		Template.circleView.setModel(Template.treeView.organizationManagerModel);
-	});
+	});*/
 }
