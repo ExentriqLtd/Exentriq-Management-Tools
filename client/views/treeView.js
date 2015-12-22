@@ -185,6 +185,7 @@ Template.treeView.setModel = function(model) {
 				Spaces.update({
 					_id: item._id
 				}, {
+					cmpId: item.cmpId,
 					name: item.name,
 					parent: (parent && parent._id) || null,
 					type: item.type
@@ -318,6 +319,7 @@ Template.treeView.setModel = function(model) {
 					Spaces.update({
 						_id: cutItem._id
 					}, {
+						cmpId: cutItem.cmpId,
 						name: cutItem.name,
 						parent: liNode.data('item')._id,
 						type: cutItem.type
@@ -332,6 +334,7 @@ Template.treeView.setModel = function(model) {
 					//DB
 					var memoryItem = memoryNode.data('item');
 					var _id = Spaces.insert({
+						cmpId: memoryItem.cmpId, 
 						name: memoryItem.name,
 						type: memoryItem.type,
 						parent: liNode.data('item')._id
