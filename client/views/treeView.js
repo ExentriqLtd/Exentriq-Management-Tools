@@ -45,7 +45,7 @@ Template.treeView.dropDown = function(param) {
 				$('<li class="divider"></li>').appendTo(root);
 			} else {
 
-				$('<li><a name="add-user" href="#eq-ui-modal-add-user" class="eq-ui-modal-trigger">' + item.name + '</a></li>')
+				$('<li><a href="#">' + item.name + '</a></li>')
 					.toggleClass('disabled', item.disabled === true)
 					.click(item.handler)
 					.find('a')
@@ -101,6 +101,7 @@ Template.treeView.getModel = function(param) {
 Template.treeView.getChildModel = function(liNode) {
 	var item = liNode.data('item');
 	return {
+		cmpId: item.cmpId,
 		type: liNode.hasClass('space') ? 'space' : 'user',
 		name: item ? item.name : '',
 		_id: item ? item._id : '',
@@ -166,7 +167,6 @@ Template.treeView.setModel = function(model) {
 					placeholderParent.addClass('deny');
 				}
 
-				console.log(!placeholderParent.data('item') || placeholderParent.data('item').type == 'space');
 				return !placeholderParent.data('item') || placeholderParent.data('item').type == 'space';
 
 			},
@@ -174,7 +174,6 @@ Template.treeView.setModel = function(model) {
 			change: function() {},
 			relocate: function(e, data) {
 
-				console.log('relocate');
 				root.find('.allow').removeClass('allow');
 				root.find('.deny').removeClass('deny');
 

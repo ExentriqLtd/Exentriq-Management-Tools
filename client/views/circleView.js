@@ -34,17 +34,19 @@ Template.circleView.events({
 		newSpaceForm.find('#create_space_name').val('')
 
 		var _id = Spaces.insert({ 
+			cmpId: Template.mainView._cmpId,
 			type: 'space', 
 			name: spaceName, 
 			parent: null 
 		});
-		Template.treeView.organizationManagerModel.children.push({
+
+		/*Template.treeView.organizationManagerModel.children.push({
 			_id: _id,
 			type: 'space',
 			name: spaceName,
 			children: [],
 			position: Template.treeView.organizationManagerModel.children.length
-		});
+		});*/
 
 		// Update UI for make save ordering
 		//Template.circleView.setModel(Template.treeView.organizationManagerModel);
@@ -60,6 +62,7 @@ Template.circleView.events({
 		var newUserForm = $('#eq-ui-modal-create-user-form');
 		
 		var newUser = {
+			cmpId: Template.mainView._cmpId,
 			type: 'user',
 			name: newUserForm.find('#create_user_username').val(),
 			email: newUserForm.find('#create_user_email').val(),
@@ -67,16 +70,16 @@ Template.circleView.events({
 		};
 
 		var _id = Spaces.insert(newUser);
-		Template.treeView.organizationManagerModel.children.push({
+		/*Template.treeView.organizationManagerModel.children.push({
 			_id: _id,
 			type: 'user',
 			name: newUser.name,
 			position: Template.treeView.organizationManagerModel.children.length
-		});
+		});*/
 
 		// Update UI for make save ordering
-		Template.circleView.setModel(Template.treeView.organizationManagerModel);
-		Template.treeView.setModel(Template.treeView.organizationManagerModel);
+		//Template.circleView.setModel(Template.treeView.organizationManagerModel);
+		//Template.treeView.setModel(Template.treeView.organizationManagerModel);
 
 		// Get new model from DB and redraw UI
 		Template.treeView._onChange();
@@ -103,7 +106,6 @@ Template.circleView.setModel = function(model) {
 
 	// set size
 	Template.circleView._setSize(model.children);
-	console.log(model.children);
 
 	var format = d3.format(",d");
 	var margin = 20,

@@ -1,8 +1,16 @@
-FlowRouter.route('/orgmanager/:companyId', {
+FlowRouter.route('/:companyId', {
 	action: function(params, queryParams) {   
-		console.log("Params for D3JS:", params.companyId);
 
-		var orgManager = Meteor.orgmanagerApp();
-		orgManager.run({cmpId: params.companyId});
+		console.log(params.companyId);
+		if (params.companyId){
+			Template.mainView.render({cmpId: params.companyId});	
+		}
 	}
 });
+
+FlowRouter.route('/', {
+	action: function(params, queryParams) {   
+		
+	}
+});
+
