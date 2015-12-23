@@ -207,8 +207,6 @@ Template.treeView.setModel = function(model) {
 							}
 							i.removeClass('expanded');
 						});
-
-					bindEvents();
 				}, 1);
 			}
 		});

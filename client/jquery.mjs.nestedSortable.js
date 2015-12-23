@@ -646,10 +646,10 @@
 			$.ui.sortable.prototype._clear.apply(this, arguments);
 
 			//relocate event
-			if (!(this._pid_current === this._uiHash().item.parent().parent().attr("id") &&
-				this._sort_current === this._uiHash().item.index())) {
+			//if (!(this._pid_current === this._uiHash().item.parent().parent().attr("id") &&
+				//this._sort_current === this._uiHash().item.index())) {
 				this._trigger("relocate", this._relocate_event, this._uiHash());
-			}
+			//}
 
 			// mjs - clean last empty ul/ol
 			for (i = this.items.length - 1; i >= 0; i--) {
