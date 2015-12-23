@@ -53,7 +53,7 @@ Template.circleView.events({
 		//Template.treeView.setModel(Template.treeView.organizationManagerModel);
 
 		// Get new model from DB and redraw UI
-		Template.treeView._onChange();
+		//Template.treeView._onChange();
 	},
 	// Create new User
 	'click #create_user_submit': function(){
@@ -82,7 +82,7 @@ Template.circleView.events({
 		//Template.treeView.setModel(Template.treeView.organizationManagerModel);
 
 		// Get new model from DB and redraw UI
-		Template.treeView._onChange();
+		//Template.treeView._onChange();
 	},
 });
 
@@ -109,9 +109,9 @@ Template.circleView.setModel = function(model) {
 
 	var format = d3.format(",d");
 	var margin = 20,
-		diameter = root1.height() > root1.width() ?
-		root1.width() - header.height() :
-		root1.height() - header.height();
+		diameter = root1.outerHeight(true) > root1.outerWidth(true) ?
+		root1.outerWidth(true) - header.outerHeight(true) :
+		root1.outerHeight(true) - header.outerHeight(true);
 
 	var color = d3.scale.linear()
 		.domain([-1, 5])
@@ -123,10 +123,10 @@ Template.circleView.setModel = function(model) {
 		.size([diameter - margin, diameter - margin])
 		.value(function(d) {
 			return d.size;
-		})
+		});
 
 	var svg = d3.select(".circle-view").append("svg")
-		.attr("width", diameter)
+		.attr("width", 2000)
 		.attr("height", diameter)
 		.append("g")
 		.attr("transform", "translate(" + diameter / 2 + "," + diameter / 2 + ")");

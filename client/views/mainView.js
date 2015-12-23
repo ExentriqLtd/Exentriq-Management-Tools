@@ -27,7 +27,7 @@ Template.mainView.render = function(_param) {
 	});
 	var root = $('.organization-manager');
 
-	function getChildrensFor(parent) {
+	function getChildrensFor(parent, _param) {
 
 		return Spaces.find({
 				parent: parent._id
@@ -40,6 +40,7 @@ Template.mainView.render = function(_param) {
 
 				return {
 					_id: i._id,
+					expanded: (_param && _param.expandedNodes.some(function(o){ return o == i._id; })) || false,
 					cmpId: i.cmpId,
 					name: i.name,
 					type: i.type,
@@ -81,7 +82,7 @@ Template.mainView.render = function(_param) {
 		Template.circleView.setModel(Template.treeView.organizationManagerModel);
 	}
 
-	function convertNode(allSpaces) {
+	function convertNode(allSpaces, _param) {
 
 		return allSpaces
 			.filter(function(space) {
@@ -91,10 +92,11 @@ Template.mainView.render = function(_param) {
 				if (!space.parent) {
 					return {
 						_id: space._id,
+						expanded: (_param && _param.expandedNodes.some(function(i){ return i == space._id; })) || false,
 						cmpId: space.cmpId,
 						name: space.name,
 						type: space.type,
-						children: getChildrensFor(space),
+						children: getChildrensFor(space, _param),
 						position: getPoitionById(space._id)
 					};
 				}
@@ -104,16 +106,19 @@ Template.mainView.render = function(_param) {
 	function bindObserveChanges(query) {
 
 		function ready() {
+
 			var orderingQuery = Ordering.find({
 				cmpId: cmpId
 			});
 			ordering = orderingQuery.fetch()[0];
-			Template.treeView.organizationManagerModel.children = convertNode(Spaces.find({
-				cmpId: cmpId
-			}).fetch());
+			Template.treeView.organizationManagerModel.children = convertNode(
+				Spaces.find({cmpId: cmpId}).fetch(), 
+				{expandedNodes: $('.mjs-nestedSortable-expanded').toArray().map(function(i){ return $(i).data('item')._id || ''; }) }
+			);
+
 			Template.treeView.renderDone &&
-				Template.circleView.renderDone &&
-				setModel();
+			Template.circleView.renderDone &&
+			setModel();
 		}
 
 		query.observeChanges({

@@ -22,8 +22,8 @@ Template.treeView.events({
 		Spaces.remove({
 			_id: item._id
 		});
-		Template.treeView._menuActionLiNode.remove();
-		Template.treeView._onChange();
+		//Template.treeView._menuActionLiNode.remove();
+		//Template.treeView._onChange();
 		//bindEvents();
 		Template.treeView._menuActionLiNode = null;
 	}
@@ -149,7 +149,7 @@ Template.treeView.setModel = function(model) {
 			maxLevels: 10,
 			isTree: true,
 			expandOnHover: 1000,
-			startCollapsed: false,
+			startCollapsed: true,
 			isAllowed: function(placeholder, placeholderParent, currentItem) {
 
 				root.find('.allow').removeClass('allow');
@@ -265,8 +265,7 @@ Template.treeView.setModel = function(model) {
 			'</li>'
 		);
 
-		console.log('liNode.data(item, node)');
-		console.log(node);
+		node.expanded === true && liNode.addClass('mjs-nestedSortable-expanded');
 		liNode.data('item', node);
 
 		function addChildrens(childs) {
@@ -349,9 +348,6 @@ Template.treeView.setModel = function(model) {
 				}
 				cutNode = null;
 				memoryNode = null;
-
-				Template.treeView._onChange();
-				bindEvents();
 			}
 		}, {
 			css: 'eq-ui-modal-trigger',
