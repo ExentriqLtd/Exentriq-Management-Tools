@@ -170,10 +170,11 @@ Template.treeView.setModel = function(model) {
 				return !placeholderParent.data('item') || placeholderParent.data('item').type == 'space';
 
 			},
-			sort: function() {},
-			change: function() {},
+			sort: function() {console.log('sort')},
+			change: function() {console.log('change')},
 			relocate: function(e, data) {
 
+				console.log('relocate')
 				root.find('.allow').removeClass('allow');
 				root.find('.deny').removeClass('deny');
 
@@ -206,6 +207,8 @@ Template.treeView.setModel = function(model) {
 							}
 							i.removeClass('expanded');
 						});
+
+					bindEvents();
 				}, 1);
 			}
 		});
@@ -264,6 +267,8 @@ Template.treeView.setModel = function(model) {
 			'</li>'
 		);
 
+		console.log('liNode.data(item, node)');
+		console.log(node);
 		liNode.data('item', node);
 
 		function addChildrens(childs) {
@@ -320,7 +325,7 @@ Template.treeView.setModel = function(model) {
 					}, {
 						cmpId: cutItem.cmpId,
 						name: cutItem.name,
-						parent: liNode.data('item')._id,
+						parent: item._id,
 						type: cutItem.type
 					});
 
@@ -336,12 +341,12 @@ Template.treeView.setModel = function(model) {
 						cmpId: memoryItem.cmpId, 
 						name: memoryItem.name,
 						type: memoryItem.type,
-						parent: liNode.data('item')._id
+						parent: item._id
 					});
 
 					clone.data('item', $.extend(memoryItem, {
 						_id: _id,
-						parent: liNode.data('item')._id
+						parent: item._id
 					}));
 				}
 				cutNode = null;

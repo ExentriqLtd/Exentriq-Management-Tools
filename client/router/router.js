@@ -1,4 +1,4 @@
-FlowRouter.route('/:companyId', {
+FlowRouter.route('/orgmanager/:companyId', {
 	action: function(params, queryParams) {   
 
 		console.log(params.companyId);

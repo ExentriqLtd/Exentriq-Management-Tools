@@ -100,6 +100,35 @@ Template.mainView.render = function(_param) {
 			}).sort(sortByPosition)
 	}
 
+	function bindObserveChanges(query) {
+
+		query.observeChanges({
+			changed: function(id, data) {
+				console.log('changed');
+				console.log(data);
+				Template.treeView.organizationManagerModel.children = convertNode(query.fetch());
+				Template.treeView.renderDone &&
+					Template.circleView.renderDone &&
+					setModel();
+			},
+			added: function(id, data) {
+				console.log('added');
+				console.log(data);
+				Template.treeView.organizationManagerModel.children = convertNode(query.fetch());
+				Template.treeView.renderDone &&
+					Template.circleView.renderDone &&
+					setModel();
+			},
+			removed: function(id, data) {
+				Template.treeView.organizationManagerModel.children = convertNode(query.fetch());
+				Template.treeView.renderDone &&
+					Template.circleView.renderDone &&
+					setModel();
+
+			}
+		});
+	}
+
 	Meteor.subscribe("ordering", {
 		onReady: function() {
 			ordering = Ordering.find({
@@ -108,37 +137,14 @@ Template.mainView.render = function(_param) {
 			Meteor.subscribe("spaces", {
 				onReady: function() {
 
-					Template.treeView.organizationManagerModel.children = convertNode(Spaces.find({
-						cmpId: cmpId
-					}).fetch());
+					var query = Spaces.find({ cmpId: cmpId });
+					Template.treeView.organizationManagerModel.children = convertNode(query.fetch());
 					_interval = setInterval(function() {
-						Template.treeView.renderDone &&
-							Template.circleView.renderDone &&
+						
+						if (Template.treeView.renderDone && Template.circleView.renderDone){
 							setModel();
-
-						var query = Spaces.find({
-							cmpId: cmpId
-						});
-						var handle = query.observeChanges({
-							added: function(id, data) {
-
-								Template.treeView.organizationManagerModel.children = convertNode(Spaces.find({
-									cmpId: cmpId
-								}).fetch());
-								Template.treeView.renderDone &&
-									Template.circleView.renderDone &&
-									setModel();
-							},
-							removed: function(id, data) {
-								Template.treeView.organizationManagerModel.children = convertNode(Spaces.find({
-									cmpId: cmpId
-								}).fetch());
-								Template.treeView.renderDone &&
-									Template.circleView.renderDone &&
-									setModel();
-
-							}
-						});
+							bindObserveChanges(query);
+						}
 					}, 10);
 				},
 				onError: function() {
@@ -176,10 +182,10 @@ Template.mainView.render = function(_param) {
 		ordering = Ordering.find({
 			cmpId: cmpId
 		}).fetch()[0];
-		Template.treeView.organizationManagerModel.children = convertNode(Spaces.find({
-			cmpId: cmpId
-		}).fetch());
 
+		var query = Spaces.find({ cmpId: cmpId });
+		Template.treeView.organizationManagerModel.children = convertNode(query.fetch());
+		bindObserveChanges(query);
 		// set new model to templates
 		//Template.treeView.setModel(Template.treeView.organizationManagerModel);
 		Template.circleView.setModel(Template.treeView.organizationManagerModel);
