@@ -25,6 +25,17 @@ Template.circleView.helpers({
 });
 
 Template.circleView.events({
+
+	// find a user
+	'keyup .eq-ui-search-user': function(e){
+
+		if (e.keyCode == '13'){
+			debugger;	
+			Meteor.call('getSpaces', function(data){
+				debugger;
+			});
+		}
+	},
 	// Create new Space
 	'click #create_space_submit': function(){
 
