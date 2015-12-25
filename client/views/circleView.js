@@ -39,21 +39,6 @@ Template.circleView.events({
 			name: spaceName, 
 			parent: null 
 		});
-
-		/*Template.treeView.organizationManagerModel.children.push({
-			_id: _id,
-			type: 'space',
-			name: spaceName,
-			children: [],
-			position: Template.treeView.organizationManagerModel.children.length
-		});*/
-
-		// Update UI for make save ordering
-		//Template.circleView.setModel(Template.treeView.organizationManagerModel);
-		//Template.treeView.setModel(Template.treeView.organizationManagerModel);
-
-		// Get new model from DB and redraw UI
-		//Template.treeView._onChange();
 	},
 	// Create new User
 	'click #create_user_submit': function(){
@@ -70,19 +55,6 @@ Template.circleView.events({
 		};
 
 		var _id = Spaces.insert(newUser);
-		/*Template.treeView.organizationManagerModel.children.push({
-			_id: _id,
-			type: 'user',
-			name: newUser.name,
-			position: Template.treeView.organizationManagerModel.children.length
-		});*/
-
-		// Update UI for make save ordering
-		//Template.circleView.setModel(Template.treeView.organizationManagerModel);
-		//Template.treeView.setModel(Template.treeView.organizationManagerModel);
-
-		// Get new model from DB and redraw UI
-		//Template.treeView._onChange();
 	},
 });
 
@@ -95,6 +67,8 @@ Template.circleView._setSize = function(childrens) {
 };
 
 Template.circleView.setModel = function(model) {
+
+	console.log(model.children.length);
 
 	var root1 = $('.circle-view');
 	var header = $('.circle-view-header');
@@ -109,9 +83,9 @@ Template.circleView.setModel = function(model) {
 
 	var format = d3.format(",d");
 	var margin = 20,
-		diameter = root1.outerHeight(true) > root1.outerWidth(true) ?
-		root1.outerWidth(true) - header.outerHeight(true) :
-		root1.outerHeight(true) - header.outerHeight(true);
+		diameter = root1.height() > root1.width() ?
+		root1.width() - header.height() :
+		root1.height() - header.height();
 
 	var color = d3.scale.linear()
 		.domain([-1, 5])
@@ -126,7 +100,7 @@ Template.circleView.setModel = function(model) {
 		});
 
 	var svg = d3.select(".circle-view").append("svg")
-		.attr("width", 2000)
+		.attr("width", diameter)
 		.attr("height", diameter)
 		.append("g")
 		.attr("transform", "translate(" + diameter / 2 + "," + diameter / 2 + ")");
@@ -175,7 +149,6 @@ Template.circleView.setModel = function(model) {
 	function zoom(d) {
 		var focus0 = focus;
 		focus = d;
-
 		var transition = d3.transition()
 			.duration(d3.event.altKey ? 7500 : 750)
 			.tween("zoom", function(d) {
@@ -198,6 +171,9 @@ Template.circleView.setModel = function(model) {
 			.each("end", function(d) {
 				if (d.parent !== focus) this.style.display = "none";
 			});
+
+		$('svg').css({width: 2000,height: 2000});
+		pack.size([2000, 2000]);
 	}
 
 	function zoomTo(v) {
