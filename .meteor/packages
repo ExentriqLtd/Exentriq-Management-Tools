@@ -22,3 +22,5 @@ d3js:d3
 mizzao:jquery-ui
 matb33:collection-hooks
 kadira:flow-router
+http
+kadira:blaze-layout
