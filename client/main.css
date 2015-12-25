@@ -9,6 +9,13 @@ body, html {
 	height: 100%;
 }
 
+#__blaze-root,
+#__blaze-root .row,
+#__blaze-root .row .col-md-4,
+#__blaze-root .row .col-md-8 {
+	height: 100%;
+}
+
 ol, li {
 	padding: 0;
 	margin: 0;
@@ -49,7 +56,6 @@ li.mjs-nestedSortable-expanded>ol {
 }
 
 .organization-manager.small .tree-view-wrapper {
-	width: 100%;
 }
 
 .organization-manager.small .glyphicon-globe {
@@ -76,13 +82,17 @@ li.mjs-nestedSortable-expanded>ol {
 }
 
 .tree-view-wrapper {
+	width: 100%;
 	height: 100%;
 	border-right: 1px solid #F0F0F0;
 	/* padding: 0 6px; */
-	width: 340px;
 	float: left;
 	overflow-y: auto;
 	position: relative;
+}
+
+div.eq-ui-card-title.circle-view-header {
+	
 }
 
 div.eq-ui-card-title.circle-view-header h2 {
@@ -262,7 +272,6 @@ ul.drop-down .drop-down-item:hover {
 
 .circle-view {
 	height: 100%;
-	margin-left: 340px
 }
 
 #dropdown-add-space {

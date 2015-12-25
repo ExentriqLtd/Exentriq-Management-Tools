@@ -68,8 +68,6 @@ Template.circleView._setSize = function(childrens) {
 
 Template.circleView.setModel = function(model) {
 
-	console.log(model.children.length);
-
 	var root1 = $('.circle-view');
 	var header = $('.circle-view-header');
 	root1.children('*').not('.circle-view-header').remove();
