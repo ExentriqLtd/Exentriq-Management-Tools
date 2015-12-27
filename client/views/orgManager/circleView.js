@@ -20,43 +20,53 @@ Template.circleView.helpers({
 			'icon': 'folder',
 			'path': '#structure'
 		}];
+	},
+	spaces: function() {
+		console.log('@@@:' + Session.get('spaces'));
+		return Session.get('spaces');
 	}
-	
+	//spaces: [],
+	//users: []
 });
 
 Template.circleView.events({
 
 	// find a user
-	'keyup .eq-ui-search-user': function(e){
+	'keyup .eq-ui-search-user': function(e) {
 
-		if (e.keyCode == '13'){
-			debugger;	
-			Meteor.call('getSpaces', function(data){
-				debugger;
+		if (e.keyCode == '13') {
+			Meteor.call('getSpaces', Template.mainView._cmpId, function(error, data) {
+
+				if (error){
+					Session.set('spaces', []);
+				}
+				else {
+					Session.set('spaces', data.list.list);
+				}
 			});
 		}
 	},
 	// Create new Space
-	'click #create_space_submit': function(){
+	'click #create_space_submit': function() {
 
 		$('#create-space').closeModal();
 		var newSpaceForm = $('#eq-ui-modal-create-space-form');
 		var spaceName = newSpaceForm.find('#create_space_name').val();
 		newSpaceForm.find('#create_space_name').val('')
 
-		var _id = Spaces.insert({ 
+		var _id = Spaces.insert({
 			cmpId: Template.mainView._cmpId,
-			type: 'space', 
-			name: spaceName, 
-			parent: null 
+			type: 'space',
+			name: spaceName,
+			parent: null
 		});
 	},
 	// Create new User
-	'click #create_user_submit': function(){
+	'click #create_user_submit': function() {
 
 		$('#create-user').closeModal();
 		var newUserForm = $('#eq-ui-modal-create-user-form');
-		
+
 		var newUser = {
 			cmpId: Template.mainView._cmpId,
 			type: 'user',
@@ -71,7 +81,7 @@ Template.circleView.events({
 
 Template.circleView._setSize = function(childrens) {
 
-	childrens.forEach(function(i){
+	childrens.forEach(function(i) {
 		i.size = 50;
 		Template.circleView._setSize(i.children || []);
 	});
@@ -83,7 +93,7 @@ Template.circleView.setModel = function(model) {
 	var header = $('.circle-view-header');
 	root1.children('*').not('.circle-view-header').remove();
 
-	if (!model || !model.children || !model.children.length){
+	if (!model || !model.children || !model.children.length) {
 		return;
 	}
 
@@ -181,7 +191,10 @@ Template.circleView.setModel = function(model) {
 				if (d.parent !== focus) this.style.display = "none";
 			});
 
-		$('svg').css({width: 2000,height: 2000});
+		$('svg').css({
+			width: 2000,
+			height: 2000
+		});
 		pack.size([2000, 2000]);
 	}
 
@@ -199,7 +212,7 @@ Template.circleView.setModel = function(model) {
 	d3.select(self.frameElement).style("height", diameter + "px");
 };
 
-Template.circleView.setModelLazy = function(model){
+Template.circleView.setModelLazy = function(model) {
 
 };
 

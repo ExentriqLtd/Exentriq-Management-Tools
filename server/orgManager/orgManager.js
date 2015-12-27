@@ -1,12 +1,12 @@
 Meteor.methods({
-	getSpaces: function(spaceId) {
+	getSpaces: function(spaceId, terms) {
 		check(spaceId, String);
 		// Try to retrieve user data from auth API
 		var result = HTTP.call('POST', 'http://stage.exentriq.com/JSON-RPC', {
 			data: {
 				id: '7',
 				method: 'spaceService.getSpacesInChannel',
-				params: ["", "", "ALL", 0, 30]
+				params: ["", "", terms, 0, 50]
 			}
 		});
 		var spaces = result.data.result;
