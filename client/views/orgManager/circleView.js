@@ -20,63 +20,12 @@ Template.circleView.helpers({
 			'icon': 'folder',
 			'path': '#structure'
 		}];
-	},
-	spaces: function() {
-		console.log('@@@:' + Session.get('spaces'));
-		return Session.get('spaces');
 	}
-	//spaces: [],
-	//users: []
 });
 
 Template.circleView.events({
 
-	// find a user
-	'keyup .eq-ui-search-user': function(e) {
-
-		if (e.keyCode == '13') {
-			Meteor.call('getSpaces', Template.mainView._cmpId, function(error, data) {
-
-				if (error){
-					Session.set('spaces', []);
-				}
-				else {
-					Session.set('spaces', data.list.list);
-				}
-			});
-		}
-	},
-	// Create new Space
-	'click #create_space_submit': function() {
-
-		$('#create-space').closeModal();
-		var newSpaceForm = $('#eq-ui-modal-create-space-form');
-		var spaceName = newSpaceForm.find('#create_space_name').val();
-		newSpaceForm.find('#create_space_name').val('')
-
-		var _id = Spaces.insert({
-			cmpId: Template.mainView._cmpId,
-			type: 'space',
-			name: spaceName,
-			parent: null
-		});
-	},
-	// Create new User
-	'click #create_user_submit': function() {
-
-		$('#create-user').closeModal();
-		var newUserForm = $('#eq-ui-modal-create-user-form');
-
-		var newUser = {
-			cmpId: Template.mainView._cmpId,
-			type: 'user',
-			name: newUserForm.find('#create_user_username').val(),
-			email: newUserForm.find('#create_user_email').val(),
-			password: newUserForm.find('#create_user_password').val(),
-		};
-
-		var _id = Spaces.insert(newUser);
-	},
+	
 });
 
 Template.circleView._setSize = function(childrens) {

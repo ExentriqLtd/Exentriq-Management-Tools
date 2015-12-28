@@ -1,0 +1,126 @@
+
+<template name="addUserDialog">
+	<div id="eq-ui-modal-add-user" class="eq-ui-modal eq-ui-modal-fixed eq-ui-modal-small eq-ui-modal-add-users">
+		<div class="eq-ui-modal-header"> 
+			<div class="header-title"> 
+				<span class="section-title truncate">Add user</span> 
+			</div> 
+			<ul class="right eq-ui-nav-menu"> 
+				<li class="eq-ui-nav-menu-item-icon"> 
+					<a class="btn btn-default eq-ui-btn-flat eq-ui-btn-fab eq-ui-btn-menu-fab eq-ui-waves eq-ui-modal-close"> 
+						<i class="mdi mdi-close eq-ui-icon"></i> 
+					</a> 
+				</li> 
+			</ul> 
+		</div> 
+		<div class="eq-ui-modal-content"> 
+			<div class="eq-ui-search"> 
+				<input class="eq-ui-user-search" type="text" placeholder="Search"> 
+				<i class="eq-ui-search-icon-left mdi mdi-magnify eq-ui-icon eq-ui-icon-left"></i> 
+				<i class="eq-ui-search-clear mdi mdi-close-circle eq-ui-icon eq-ui-icon-right eq-ui-icon-18"></i> 
+				
+			</div>  
+			<div class="eq-ui-list eq-ui-hoverable">
+				<div class="list-user-wrapper">
+					{{#each users}}
+				    	<a class="eq-ui-list-item user-item" href="#">{{name}}</a>
+				    {{/each}}
+				</div>
+			</div>
+		</div> 
+		<!--<div class="eq-ui-modal-footer"> 
+			<a href="#eq-ui-modal-create-user" class="btn btn-primary eq-ui-modal-trigger eq-ui-waves-light eq-ui-modal-close">Create new user</a> 
+		</div>-->
+	</div>
+</template>
+
+<template name="createUserDialog">
+	<div id="eq-ui-modal-create-user" class="eq-ui-modal eq-ui-modal-fixed eq-ui-modal-small eq-ui-modal-new-user"> 
+		<div class="eq-ui-modal-header"> 
+			<div class="header-title"> 
+				<span class="section-title truncate">New user</span> 
+			</div> 
+			<ul class="right eq-ui-nav-menu"> 
+				<li class="eq-ui-nav-menu-item-icon"> 
+					<a class="btn btn-default eq-ui-btn-flat eq-ui-btn-fab eq-ui-btn-menu-fab eq-ui-waves eq-ui-modal-close"> 
+						<i class="mdi mdi-close eq-ui-icon"></i> 
+					</a> 
+				</li> 
+			</ul> 
+		</div> 
+		<div class="eq-ui-modal-content">  
+			<ul class="eq-ui-list eq-ui-hoverable"> 
+				<li id="create_user_file_input_img_preview" class="eq-ui-list-item eq-ui-list-avatar eq-ui-list-truncate"> 
+					<img class="circle img-preview" src="img/avatar_0.jpg"> 
+					<h6 class="eq-ui-list-title img-preview-loading">UPLOAD AVATAR</h6> 
+				</li> 
+			</ul> 
+			<form id="eq-ui-modal-create-user-form"> 
+				<div class="eq-ui-form-group riot-eq-ui-input-file eq-ui-input-file eq-ui-input-file-fake"> 
+					<a class="btn btn-primary eq-ui-waves-light"> Fake <input id="create_user_file_input" type="file" data-img-preview="create_user_file_input_img_preview" data-img-preview-text-loading="Loading..."> </a> 
+					<div class="eq-ui-input-file-path"> 
+						<input type="text" class="eq-ui-input" readonly=""> 
+					</div> 
+				</div> 
+				<div class="row"> 
+					<div class="col-md-12"> 
+						<div class="eq-ui-form-group eq-ui-input-field"> 
+							<input id="create_user_username" type="text" data-parsley-minlength="3" class="eq-ui-input invalid" required="" data-parsley-id="2"> <label for="create_user_username" data-error="Min length 3" class="">User Name</label> 
+						</div> 
+					</div> 
+				</div> 
+				<div class="row"> 
+					<div class="col-md-12"> 
+						<div class="eq-ui-form-group eq-ui-input-field"> <input id="create_user_email" type="email" class="eq-ui-input invalid" required="" data-parsley-id="4"> 
+							<label for="create_user_email" data-error="Email not valid" class="">Email</label> 
+						</div> 
+					</div> 
+				</div> 
+				<div class="row"> 
+					<div class="col-md-12"> 
+						<div class="eq-ui-form-group eq-ui-input-field"> 
+							<input id="create_user_password" type="password" data-parsley-minlength="6" class="eq-ui-input invalid" required="" data-parsley-id="6"> 
+							<label for="create_user_password" data-error="Min length 6" class="">Password</label> 
+						</div> 
+					</div> 
+				</div> 
+				<div class="row"> 
+					<div class="col-md-12"> 
+						<div class="eq-ui-form-group eq-ui-input-field"> 
+							<input id="create_user_first_name" type="text" class="eq-ui-input" data-parsley-id="8"> 
+							<label for="create_user_first_name" class="">First Name</label> 
+						</div> 
+					</div> 
+				</div> 
+				<div class="row"> 
+					<div class="col-md-12"> 
+						<div class="eq-ui-form-group eq-ui-input-field"> 
+							<input id="create_user_last_name" type="text" class="eq-ui-input" data-parsley-id="10"> 
+							<label for="create_user_last_name" class="">Last Name</label> 
+						</div> 
+					</div> 
+				</div> 
+				<div class="row"> 
+					<div class="col-md-12"> 
+						<div class="eq-ui-form-group eq-ui-input-field"> 
+							<input id="create_user_phone" type="tel" class="eq-ui-input" data-parsley-id="12"> 
+							<label for="create_user_phone" class="">Phone Number</label> 
+						</div> 
+					</div> 
+				</div> 
+				<div class="row form-checkbox"> 
+					<div class="col-md-12"> 
+						<div class="eq-ui-form-group"> 
+							<input type="checkbox" id="create_user_save_in_contacts" class="eq-ui-input filled-in"> 
+							<label for="create_user_save_in_contacts">Save user in contacts</label> 
+						</div> 
+					</div> 
+				</div> 
+			</form> 
+		</div> 
+		<div class="eq-ui-modal-footer"> 
+			<a id="create_user_submit" data-target="eq-ui-modal-user-permissions-off" class="btn btn-primary eq-ui-waves-light eq-ui-modal-close">Save user and set role
+			</a> 
+		</div> 
+	</div>
+</template>

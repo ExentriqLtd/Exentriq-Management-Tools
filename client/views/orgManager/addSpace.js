@@ -7,8 +7,6 @@ Template.addSpaceDialog.helpers({
 });
 
 Template.addSpaceDialog.events({
-
-	// find a user
 	'keyup .eq-ui-space-search': function(e) {
 
 		if (e.keyCode == '13') {
@@ -36,9 +34,9 @@ Template.addSpaceDialog.events({
 			name: space.name,
 			parent: null
 		});
-	},
+	}
 	// Create new Space
-	'click #create_space_submit': function() {
+	/*'click #create_space_submit': function() {
 
 		$('#create-space').closeModal();
 		var newSpaceForm = $('#eq-ui-modal-create-space-form');
@@ -67,5 +65,5 @@ Template.addSpaceDialog.events({
 		};
 
 		var _id = Spaces.insert(newUser);
-	},
+	},*/
 });

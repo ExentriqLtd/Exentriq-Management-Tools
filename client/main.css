@@ -315,6 +315,7 @@ ul.drop-down .drop-down-item:hover {
 #eq-ui-modal-add-space .eq-ui-modal-footer .btn,
 #eq-ui-modal-add-user .eq-ui-modal-footer .btn { width: 100%; }
 
+#eq-ui-modal-add-user .eq-ui-list,
 #eq-ui-modal-add-space .eq-ui-list {
 	height: 460px;
     margin: 10px 0;
@@ -322,6 +323,7 @@ ul.drop-down .drop-down-item:hover {
     overflow-x: none;
 }
 
+#eq-ui-modal-add-user .eq-ui-list .list-user-wrapper,
 #eq-ui-modal-add-space .eq-ui-list .list-space-wrapper {
 	height: auto;
 }
