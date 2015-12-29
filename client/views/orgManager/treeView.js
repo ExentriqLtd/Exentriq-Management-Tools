@@ -198,11 +198,10 @@ Template.treeView.setModel = function(model) {
 			});
 			liNode.find('.node-title').off().on('click', function() {
 				liNode.toggleClass('mjs-nestedSortable-expanded');
-				
-				if (liNode.hasClass('space')){
+				/*if (liNode.hasClass('space')){
 					root.find('.selected').removeClass('selected');
 					liNode.addClass('selected');
-				}
+				}*/
 			});
 		});
 	}
@@ -266,7 +265,8 @@ Template.treeView.setModel = function(model) {
 		dd && dd.getControl().remove();
 		dd = Template.treeView.dropDown();
 
-		var items = [{
+		var items = [
+		/*{
 			name: 'Copy',
 			handler: function(node) {
 				memoryNode = liNode;
@@ -318,7 +318,7 @@ Template.treeView.setModel = function(model) {
 				cutNode = null;
 				memoryNode = null;
 			}
-		}, {
+		}, */{
 			css: 'eq-ui-modal-trigger',
 			href: '#eq-ui-modal-confirm-delete',
 			name: 'Delete',
@@ -331,7 +331,7 @@ Template.treeView.setModel = function(model) {
 			}
 		}];
 
-		if (item.type == 'space') {
+		/*if (item.type == 'space') {
 
 			items.push({
 				type: 'divider'
@@ -340,7 +340,7 @@ Template.treeView.setModel = function(model) {
 				name: 'Locate',
 				handler: function() {}
 			})
-		}
+		}*/
 
 		dd.setItems(items);
 		dd.show({
