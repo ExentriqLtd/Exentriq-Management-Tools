@@ -198,7 +198,11 @@ Template.treeView.setModel = function(model) {
 			});
 			liNode.find('.node-title').off().on('click', function() {
 				liNode.toggleClass('mjs-nestedSortable-expanded');
-				//liNode.toggleClass('expanded');
+				
+				if (liNode.hasClass('space')){
+					root.find('.selected').removeClass('selected');
+					liNode.addClass('selected');
+				}
 			});
 		});
 	}
@@ -219,7 +223,7 @@ Template.treeView.setModel = function(model) {
 			node.type == 'space' ?
 			'<i class="mdi mdi-google-circles-extended eq-ui-icon"></i>' :
 			'<i class="mdi mdi-account eq-ui-icon"></i>';
-			
+
 		var liNode = $(
 			'<li class="tree-node ' + node.type + '">' +
 			'<div class="tree-node-parent">' +
