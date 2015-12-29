@@ -1,13 +1,13 @@
 Meteor.methods({
 	getSpaces : function(space, terms) {
 		this.unblock();
-		var apiUrl = Meteor.settings.private.integrationBusPath + '/getSpaces?space='+encodeURIComponent(space)+'&query='+encodeURIComponent(terms);
+		var apiUrl = Meteor.settings.private.integrationBusPath + '/getSpaces?spaceid='+encodeURIComponent(space)+'&query='+encodeURIComponent(terms);
 		var response = Meteor.wrapAsync(apiCall)(apiUrl);
 		return response;
 	},
 	getUsers: function(space, terms){
 		this.unblock();
-		var apiUrl = Meteor.settings.private.integrationBusPath + '/getUsers?space='+encodeURIComponent(space)+'&query='+encodeURIComponent(terms);
+		var apiUrl = Meteor.settings.private.integrationBusPath + '/getUsers?spaceid='+encodeURIComponent(space)+'&query='+encodeURIComponent(terms);
 		var response = Meteor.wrapAsync(apiCall)(apiUrl);
 		return response;
 	}

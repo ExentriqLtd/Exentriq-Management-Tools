@@ -23,22 +23,22 @@ Template.addUserDialog.events({
 					else {
 
 						var existingSpaces = Spaces.find({cmpId: Template.mainView._cmpId}).fetch();
-						data.list.list.filter(function(i){
-							return !existingSpaces.some(function(o){ return o.spaceId == i.spaceId; });
+						var s = data.filter(function(i){
+							return !existingSpaces.some(function(o){  return o.id == i.id; });
 						});
-						Session.set('users', data.list.list);
+						Session.set('users', s);
 					}
 			});
 		}
 	},
 	// click on user
 	'click .user-item': function(){
-		var space = this;
-		var _id = Spaces.insert({
+		var user = this;
+		$("[itemId="+ user.id +"]").remove();
+		Template.mainView.insertSpace($.extend(user, {
+			parent: null,
 			cmpId: Template.mainView._cmpId,
-			type: 'user',
-			name: space.name,
-			parent: null
-		});
+			type: 'user'
+		}));
 	}
 });

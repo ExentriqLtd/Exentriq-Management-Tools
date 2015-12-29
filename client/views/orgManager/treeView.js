@@ -168,17 +168,13 @@ Template.treeView.setModel = function(model) {
 
 			},
 			sort: function() {
-				console.log('sort')
 			},
 			change: function() {
-				console.log('change')
 			},
 			relocate: function(e, data) {
 
 				root.find('.allow').removeClass('allow');
 				root.find('.deny').removeClass('deny');
-				//var opened = root.find('.mjs-nestedSortable-expanded');
-				//opened.addClass('expanded');
 
 				Template.mainView._block = true;
 				Template.treeView._onChange();
@@ -189,18 +185,6 @@ Template.treeView.setModel = function(model) {
 				Template.mainView.updateSpace($.extend(item, {
 					parent: (parent && parent._id) || null
 				}));
-				
-				/*setTimeout(function() { 
-					root.find('.mjs-nestedSortable-expanded')
-						.toArray()
-						.forEach(function(i) {
-							i = $(i);
-							if (!i.hasClass('expanded')) {
-								i.removeClass('mjs-nestedSortable-expanded');
-							}
-							i.removeClass('expanded');
-						});
-				}, 1000);*/
 			}
 		});
 		root.disableSelection();
@@ -235,14 +219,7 @@ Template.treeView.setModel = function(model) {
 			node.type == 'space' ?
 			'<i class="mdi mdi-google-circles-extended eq-ui-icon"></i>' :
 			'<i class="mdi mdi-account eq-ui-icon"></i>';
-		//eq-ui-list-item
-		//<li><a href="#!"><i class="mdi mdi-home icon"></i> Some Action</a></li>
-		/*var liNode = $(
-			'<li class="tree-node eq-ui-list-item ' + node.type + '">' + 
-				'<a href="#!">' + nodeIcon + ' ' + node.name +'</a>' +
-				'<ol class="node-childrens eq-ui-list eq-ui-hoverable"></ol>' +	
-			'</li>'
-		);*/
+			
 		var liNode = $(
 			'<li class="tree-node ' + node.type + '">' +
 			'<div class="tree-node-parent">' +
