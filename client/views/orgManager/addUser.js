@@ -11,13 +11,23 @@ Template.addUserDialog.events({
 	'keyup .eq-ui-user-search': function(e) {
 
 		if (e.keyCode == '13') {
-			Meteor.call('getUsers', Template.mainView._cmpId, function(error, data) {
+			Meteor.call(
+				'getUsers', // methode
+				Template.mainView._cmpId, // company name
+				$('input.eq-ui-user-search').val() || '', // search terms
+					function(error, data) { // callback
 
-				if (error) {
-					Session.set('users', []);
-				} else {
-					Session.set('users', data.list.list);
-				}
+					if (error){
+						Session.set('users', []);
+					}
+					else {
+
+						var existingSpaces = Spaces.find({cmpId: Template.mainView._cmpId}).fetch();
+						data.list.list.filter(function(i){
+							return !existingSpaces.some(function(o){ return o.spaceId == i.spaceId; });
+						});
+						Session.set('users', data.list.list);
+					}
 			});
 		}
 	},

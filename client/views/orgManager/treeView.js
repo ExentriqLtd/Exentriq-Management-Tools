@@ -99,18 +99,15 @@ Template.treeView.getModel = function(param) {
 };
 
 Template.treeView.getChildModel = function(liNode) {
+
 	var item = liNode.data('item');
-	return {
-		cmpId: item.cmpId,
-		type: liNode.hasClass('space') ? 'space' : 'user',
-		name: item ? item.name : '',
-		_id: item ? item._id : '',
+	return $.extend(item, {
 		children: liNode.children('ol').children('li')
 			.toArray()
 			.map(function(i) {
 				return Template.treeView.getChildModel($(i));
 			})
-	};
+		});
 };
 
 Template.treeView.setModel = function(model) {
@@ -170,34 +167,30 @@ Template.treeView.setModel = function(model) {
 				return !placeholderParent.data('item') || placeholderParent.data('item').type == 'space';
 
 			},
-			sort: function() {console.log('sort')},
-			change: function() {console.log('change')},
+			sort: function() {
+				console.log('sort')
+			},
+			change: function() {
+				console.log('change')
+			},
 			relocate: function(e, data) {
 
-				console.log('relocate')
 				root.find('.allow').removeClass('allow');
 				root.find('.deny').removeClass('deny');
+				//var opened = root.find('.mjs-nestedSortable-expanded');
+				//opened.addClass('expanded');
 
+				Template.mainView._block = true;
+				Template.treeView._onChange();
+				Template.mainView._block = false;
 				//DB
 				var item = data.item.data('item');
-
 				var parent = data.item.parents('li:first').data('item');
-				Spaces.update({
-					_id: item._id
-				}, {
-					cmpId: item.cmpId,
-					name: item.name,
-					parent: (parent && parent._id) || null,
-					type: item.type
-				});
-
-				Template.treeView._onChange();
-				bindEvents();
-
-				var opened = root.find('.mjs-nestedSortable-expanded');
-				opened.addClass('expanded');
-				setTimeout(function() {
-
+				Template.mainView.updateSpace($.extend(item, {
+					parent: (parent && parent._id) || null
+				}));
+				
+				/*setTimeout(function() { 
 					root.find('.mjs-nestedSortable-expanded')
 						.toArray()
 						.forEach(function(i) {
@@ -207,7 +200,7 @@ Template.treeView.setModel = function(model) {
 							}
 							i.removeClass('expanded');
 						});
-				}, 1);
+				}, 1000);*/
 			}
 		});
 		root.disableSelection();
@@ -317,14 +310,9 @@ Template.treeView.setModel = function(model) {
 
 					//DB
 					var cutItem = cutNode.data('item');
-					Spaces.update({
-						_id: cutItem._id
-					}, {
-						cmpId: cutItem.cmpId,
-						name: cutItem.name,
-						parent: item._id,
-						type: cutItem.type
-					});
+					Template.mainView.updateSpace($.extend(cutItem, {
+						parent: item._id
+					}));
 
 				} else {
 
@@ -335,7 +323,7 @@ Template.treeView.setModel = function(model) {
 					//DB
 					var memoryItem = memoryNode.data('item');
 					var _id = Spaces.insert({
-						cmpId: memoryItem.cmpId, 
+						cmpId: memoryItem.cmpId,
 						name: memoryItem.name,
 						type: memoryItem.type,
 						parent: item._id

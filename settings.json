@@ -1,0 +1,8 @@
+{
+  "public": {
+    
+  },
+  "private": {
+    "integrationBusPath": "http://bus.stage.exentriq.com:1880"
+  }
+}

@@ -37,16 +37,13 @@ Template.mainView.render = function(_param) {
 				return i.parent !== null
 			})
 			.map(function(i) {
-
-				return {
-					_id: i._id,
-					expanded: (_param && _param.expandedNodes.some(function(o){ return o == i._id; })) || false,
-					cmpId: i.cmpId,
-					name: i.name,
-					type: i.type,
+				return $.extend(i, {
+					expanded: (_param && _param.expandedNodes.some(function(o) {
+						return o == i._id;
+					})) || false,
 					position: getPoitionById(i._id),
 					children: getChildrensFor(i).sort(sortByPosition)
-				};
+				});
 			}).sort(sortByPosition);
 	}
 
@@ -92,7 +89,9 @@ Template.mainView.render = function(_param) {
 				if (!space.parent) {
 					return {
 						_id: space._id,
-						expanded: (_param && _param.expandedNodes.some(function(i){ return i == space._id; })) || false,
+						expanded: (_param && _param.expandedNodes.some(function(i) {
+							return i == space._id;
+						})) || false,
 						cmpId: space.cmpId,
 						name: space.name,
 						type: space.type,
@@ -107,18 +106,25 @@ Template.mainView.render = function(_param) {
 
 		function ready() {
 
-			var orderingQuery = Ordering.find({
-				cmpId: cmpId
-			});
-			ordering = orderingQuery.fetch()[0];
-			Template.treeView.organizationManagerModel.children = convertNode(
-				Spaces.find({cmpId: cmpId}).fetch(), 
-				{expandedNodes: $('.mjs-nestedSortable-expanded').toArray().map(function(i){ return $(i).data('item')._id || ''; }) }
-			);
+			if (!Template.mainView._block) {
+				var orderingQuery = Ordering.find({
+					cmpId: cmpId
+				});
+				ordering = orderingQuery.fetch()[0];
+				Template.treeView.organizationManagerModel.children = convertNode(
+					Spaces.find({
+						cmpId: cmpId
+					}).fetch(), {
+						expandedNodes: $('.mjs-nestedSortable-expanded').toArray().map(function(i) {
+							return $(i).data('item')._id || '';
+						})
+					}
+				);
 
-			Template.treeView.renderDone &&
-			Template.circleView.renderDone &&
-			setModel();
+				Template.treeView.renderDone &&
+					Template.circleView.renderDone &&
+					setModel();
+			}
 		}
 
 		query.observeChanges({
@@ -201,6 +207,34 @@ Template.mainView.render = function(_param) {
 		//Template.treeView.setModel(Template.treeView.organizationManagerModel);
 		Template.circleView.setModel(Template.treeView.organizationManagerModel);
 	});
+};
+
+Template.mainView.updateSpace = function(item) {
+
+	var obj = {
+		cmpId: item.cmpId,
+		name: item.name,
+		parent: item.parent,
+		type: item.type,
+		id: item.id
+	};
+
+	Spaces.update({
+		_id: item._id
+	}, obj);
+};
+
+Template.mainView.insertSpace = function(item) {
+
+	var obj = {
+		cmpId: item.cmpId,
+		name: item.name,
+		parent: item.parent,
+		type: item.type,
+		id: item.id
+	};
+
+	Spaces.insert(obj);
 };
 
 Template.mainView.rendered = function() {

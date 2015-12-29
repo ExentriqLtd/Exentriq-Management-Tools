@@ -321,6 +321,7 @@ ul.drop-down .drop-down-item:hover {
     margin: 10px 0;
     overflow-y: auto;
     overflow-x: none;
+    background-color: #ffffff;
 }
 
 #eq-ui-modal-add-user .eq-ui-list .list-user-wrapper,

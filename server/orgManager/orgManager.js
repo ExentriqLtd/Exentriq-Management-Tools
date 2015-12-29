@@ -1,21 +1,37 @@
 Meteor.methods({
-	getSpaces: function(spaceId, terms) {
-		check(spaceId, String);
-		// Try to retrieve user data from auth API
-		var result = HTTP.call('POST', 'http://stage.exentriq.com/JSON-RPC', {
-			data: {
-				id: '7',
-				method: 'spaceService.getSpacesInChannel',
-				params: ["", "", terms, 0, 50]
-			}
-		});
-		var spaces = result.data.result;
-		if (spaces != null) {
-			// In any case, as long as we got a response from the auth API, just return this user data
-			return spaces;
-		}
-		// No user was retrieved from the auth API
-		return null;
+	getSpaces : function(space, terms) {
+		this.unblock();
+		var apiUrl = Meteor.settings.private.integrationBusPath + '/getSpaces?space='+encodeURIComponent(space)+'&query='+encodeURIComponent(terms);
+		var response = Meteor.wrapAsync(apiCall)(apiUrl);
+		return response;
 	},
-
+	getUsers: function(space, terms){
+		this.unblock();
+		var apiUrl = Meteor.settings.private.integrationBusPath + '/getUsers?space='+encodeURIComponent(space)+'&query='+encodeURIComponent(terms);
+		var response = Meteor.wrapAsync(apiCall)(apiUrl);
+		return response;
+	}
 });
+
+var apiCall = function (apiUrl, callback) {
+  // try…catch allows you to handle errors 
+  try {
+    var response = HTTP.get(apiUrl).data;
+    // A successful API call returns no error 
+    // but the contents from the JSON responseif 
+    callback(null, response);
+  } catch (error) {
+    // If the API responded with an error message and a payload 
+    if (error.response) {
+      var errorCode = error.response.data.code;
+      var errorMessage = error.response.data.message;
+    // Otherwise use a generic error message
+    } else {
+      var errorCode = 500;
+      var errorMessage = 'Cannot access the API';
+    }
+    // Create an Error object and return it via callback
+    var myError = new Meteor.Error(errorCode, errorMessage);
+    callback(myError, null);
+  }
+}

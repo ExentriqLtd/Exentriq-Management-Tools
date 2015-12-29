@@ -12,28 +12,34 @@ Template.addSpaceDialog.events({
 		if (e.keyCode == '13') {
 			Meteor.call(
 				'getSpaces', // methode
-				$('input.eq-ui-space-search').val() || 'ALL', // search terms
 				Template.mainView._cmpId, // company name
+				$('input.eq-ui-space-search').val() || '', // search terms
 					function(error, data) { // callback
 
 					if (error){
 						Session.set('spaces', []);
 					}
 					else {
-						Session.set('spaces', data.list.list);
+
+						var existingSpaces = Spaces.find({cmpId: Template.mainView._cmpId}).fetch();
+						var s = data.filter(function(i){
+							return !existingSpaces.some(function(o){  return o.id == i.id; });
+						});
+						Session.set('spaces', s);
 					}
 			});
 		}
 	},
 	// click on space
 	'click .space-item': function(){
+		
 		var space = this;
-		var _id = Spaces.insert({
+		$("[itemId="+ space.id +"]").remove();
+		Template.mainView.insertSpace($.extend(space, {
+			parent: null,
 			cmpId: Template.mainView._cmpId,
-			type: 'space',
-			name: space.name,
-			parent: null
-		});
+			type: 'space'
+		}));
 	}
 	// Create new Space
 	/*'click #create_space_submit': function() {
