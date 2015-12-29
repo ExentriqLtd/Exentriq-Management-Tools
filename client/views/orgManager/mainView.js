@@ -93,6 +93,7 @@ Template.mainView.render = function(_param) {
 							return i == space._id;
 						})) || false,
 						cmpId: space.cmpId,
+						id: space.id,
 						name: space.name,
 						type: space.type,
 						children: getChildrensFor(space, _param),
