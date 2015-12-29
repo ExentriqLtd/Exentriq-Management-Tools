@@ -1,8 +1,56 @@
+Tasks = new Mongo.Collection("tasks");
+
+Meteor.publish("tasks", function (space) {
+   return Tasks.find({space:space});
+});
+
+Meteor.startup(function () {
+    // Global configuration
+    Api = new Restivus({
+      version: 'v1',
+      useDefaultAuth: true,
+      prettyJson: true,
+      apiPath: 'sprintplanner/api/'
+    });
+ 
+    // Generates: GET/POST on /api/v1/users, and GET/PUT/DELETE on /api/v1/users/:id 
+    // for Meteor.users collection (works on any Mongo collection)
+    Api.addCollection(Tasks);
+    // That's it! Many more options are available if needed...
+ 
+    // Maps to: POST /api/v1/articles/:id
+    Api.addRoute('addEml', {authRequired: false}, {
+      post: {
+        roleRequired: [],
+        action: function () {
+          var space = this.bodyParams.space;
+          var statementEml = this.bodyParams.message;
+          var username = this.bodyParams.author;
+          var statementId = Random.id();
+          var eml = stringToEml(statementEml, statementId, username , space);
+          console.log(eml);
+          return "OK";
+//          if (article) {
+//            return {status: "success", data: article};
+//          }
+//          return {
+//            statusCode: 400,
+//            body: {status: "fail", message: "Unable to add article"}
+//          };
+        }
+      }
+    });
+  });
 
 Meteor.methods({
 	
+	'addEmlStatement' : function(statementEml, username, space) {
+		var statementId = Random.id();
+		var eml = stringToEml(statementEml, statementId, username , space);
+		Tasks.insert(eml);
+	},
+	
 	'getTasks' : function(username, space, team) {
-		console.log(team);
 		// avoid blocking other method calls from the same client
 		this.unblock();
 		var apiUrl = 'http://bus.stage.exentriq.com:1880/getEmlTasks?space='+encodeURIComponent(space)+'&team='+encodeURIComponent(team);
@@ -10,9 +58,15 @@ Meteor.methods({
 		var response = Meteor.wrapAsync(apiCall)(apiUrl);
 		return response;
 	},
-	'addEmlStatement' : function(username, space, team, statementId, statementEml){
+	'addEmlStatementOld' : function(username, space, team, statementId, statementEml){
 		this.unblock();
 		var apiUrl = 'http://bus.stage.exentriq.com:1880/addEmlStatement';
+		var response = Meteor.wrapAsync(apiCallPost)(apiUrl, username, space, team, statementId, statementEml);
+		return response;
+	},
+	'deleteEmlTask' : function(username, space, team, statementId, statementEml){
+		this.unblock();
+		var apiUrl = 'http://bus.stage.exentriq.com:1880/deleteEmlTask';
 		var response = Meteor.wrapAsync(apiCallPost)(apiUrl, username, space, team, statementId, statementEml);
 		return response;
 	},
@@ -79,3 +133,67 @@ var apiCallPost = function (apiUrl, username, space, team, statementId, statemen
 	    callback(myError, null);
 	  }
 	}
+
+var stringToEml = function(statement, id, author, space){
+	try{
+	    
+	    var result ={};
+	    var regexpUser = /@([^\s]*)/g;
+	    var regexpBoard = /#([^\s]*)/g;
+	    var regexpMilestone = /\s!([^\s]*)/g;
+	    var regexpEta = /ETA([^\s]*)/g;
+	    var regexpEffort = /~([^\s]*)/g;
+	    var regexpProgress = /%([^\s]*)/g;
+	    var regexpPriority = /\[(.*)\]/g;
+	    var regexpBudget = /\$([^\s]*)/g;
+	    var regexpCard = /&([^\s]*)/g;
+	    
+	    var regexpUserResults; 
+	    result.users = [];
+	    while ((regexpUserResults = regexpUser.exec(statement)) !== null) {
+	        result.users.push(regexpUserResults[1]);
+	    }
+	    var regexpBoardResult = regexpBoard.exec(statement);
+	    if(regexpBoardResult!==null){
+	        result.board=regexpBoardResult[1];
+	    }
+	    var regexpMilestoneResult = regexpMilestone.exec(statement);
+	    if(regexpMilestoneResult!==null){
+	        result.milestone=regexpMilestoneResult[1];
+	    }
+	    var regexpEtaResult = regexpEta.exec(statement);
+	    if(regexpEtaResult!==null){
+	        result.eta=regexpEtaResult[1];
+	    }
+	    var regexpEffortResult = regexpEffort.exec(statement);
+	    if(regexpEffortResult!==null){
+	        result.effort=regexpEffortResult[1];
+	    }
+	    var regexpProgressResult = regexpProgress.exec(statement);
+	    if(regexpProgressResult!==null){
+	        result.progress=regexpProgressResult[1];
+	    }
+	    var regexpPriorityResult = regexpPriority.exec(statement);
+	    if(regexpPriorityResult!==null){
+	        result.points=regexpPriorityResult[1];
+	    }
+	    var regexpBudgetResult = regexpBudget.exec(statement);
+	    if(regexpBudgetResult!==null){
+	        result.budget=regexpBudgetResult[1];
+	    }
+	    var regexpCardResult = regexpCard.exec(statement);
+	    if(regexpCardResult!==null){
+	        result.card=regexpCardResult[1];
+	    }
+	    result.author=author;
+	    result.eml_id=id;
+	    result.space=space;
+	    result.what_and_why=statement;
+	    return result;
+	}
+	catch(err){
+		console.log(err);
+	    return null;
+	}
+	return msg;
+}

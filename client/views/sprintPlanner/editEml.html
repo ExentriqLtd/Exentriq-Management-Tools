@@ -1,0 +1,73 @@
+<template name="editEml">
+	<div id="eq-ui-modal-edit" class="eq-ui-modal">
+
+        <!-- Content -->
+        <div class="eq-ui-modal-content">
+	        <form id="query">
+			    <div class="row">
+			    	<div class="col-md-12">
+	                    <div class="eq-ui-form-group eq-ui-input-field">
+	                        <input id="edit-statement-users" type="text" class="eq-ui-input" value="{{selectedTask.users}}"/>
+	                        <label for="edit-statement-users" class="active">@Assigned To</label>
+	                    </div>
+	                </div>
+			    	<div class="col-md-12">
+	                    <div class="eq-ui-form-group eq-ui-input-field">
+	                        <input id="edit-statement-points" type="text" class="eq-ui-input" value="{{selectedTask.points}}"/>
+	                        <label for="edit-statement-points" class="active">[]Points</label>
+	                    </div>
+	                </div>
+	                <div class="col-md-12">
+	                    <div class="eq-ui-form-group eq-ui-input-field">
+	                        <input id="edit-statement-milestone" type="text" class="eq-ui-input" value="{{selectedTask.milestone}}"/>
+	                        <label for="edit-statement-milestone" class="active">!Milestone</label>
+	                    </div>
+	                </div>
+	                <div class="col-md-12">
+	                    <div class="eq-ui-form-group eq-ui-input-field">
+	                        <input id="edit-statement-card" type="text" class="eq-ui-input" value="{{selectedTask.card}}"/>
+	                        <label for="edit-statement-card" class="active">&Card</label>
+	                    </div>
+	                </div>
+	                <div class="col-md-12">
+	                    <div class="eq-ui-form-group eq-ui-input-field">
+	                        <input id="edit-statement-board" type="text" class="eq-ui-input" value="{{selectedTask.board}}"/>
+	                        <label for="edit-statement-board" class="active">#Board</label>
+	                    </div>
+	                </div>
+	                <div class="col-md-12">
+	                    <div class="eq-ui-form-group eq-ui-input-field">
+	                        <input id="edit-statement-progress" type="text" class="eq-ui-input" value="{{selectedTask.progress}}"/>
+	                        <label for="edit-statement-progress" class="active">% Progress</label>
+	                    </div>
+	                </div>
+	                <div class="col-md-12">
+	                    <div class="eq-ui-form-group eq-ui-input-field">
+	                        <input id="edit-statement-effort" type="text" class="eq-ui-input" value="{{selectedTask.effort}}"/>
+	                        <label for="edit-statement-effort" class="active">~ Effort</label>
+	                    </div>
+	                </div>
+	                <div class="col-md-12">
+	                    <div class="eq-ui-form-group eq-ui-input-field">
+	                        <input id="edit-statement-eta" type="text" class="eq-ui-input" value="{{selectedTask.eta}}"/>
+	                        <label for="edit-statement-eta" class="active">ETA</label>
+	                    </div>
+	                </div>
+	                <div class="col-md-12">
+	                    <div class="eq-ui-form-group eq-ui-input-field">
+	                        <input id="edit-statement-closedOn" type="text" class="eq-ui-input" value="{{selectedTask.closed_on}}"/>
+	                        <label for="edit-statement-closedOn" class="active">Closed On</label>
+	                    </div>
+	                </div>
+			    </div>
+		    </form>
+        </div>
+
+        <!-- Footer -->
+        <div class="eq-ui-modal-footer">
+            <a id="statement-modify" href="#" class="btn btn-default eq-ui-btn-flat eq-ui-waves eq-ui-secondary-color-text eq-ui-modal-close">Save</a>
+            <a href="#" class="btn btn-default eq-ui-btn-flat eq-ui-waves eq-ui-secondary-color-text eq-ui-modal-close">Cancel</a>
+        </div>
+
+    </div>
+</template>

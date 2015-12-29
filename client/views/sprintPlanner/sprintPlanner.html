@@ -1,7 +1,7 @@
 <template name="sprintPlanner">
 	<div class="sprintPlanner">
 		<div class="row">
-			<div class="col-md-2">
+			<div class="col-md-1">
 				<div class="eq-ui-list eq-ui-hoverable">
 					<a href="#" class="eq-ui-list-item team-item">All</a>
 				    {{#each teams}}
@@ -9,41 +9,21 @@
 			    	{{/each}}
 				</div>
 			</div>
-			<div class="col-md-10">
-				<form id="query">
-				    <div class="row">
-				    	<div class="col-md-12">
-				            <div class="row">
-				            	<div class="col-md-2">
-						            <div class="row">
-						                <div class="col-md-12">
-						                    <div class="eq-ui-form-group eq-ui-input-field">
-						                        <input id="statement-id" type="text" class="eq-ui-input" value="{{statementId}}" placeholder="id"/>
-						                        <label for="statement-id" class="active">Statement ID</label>
-						                    </div>
-						                </div>
-						            </div>
-						        </div>
-				                <div class="col-md-9">
-				                    <div class="eq-ui-form-group eq-ui-input-field">
-				                        <input id="statement-eml" type="text" class="eq-ui-input" value="{{description}}" placeholder="assign @user to some task inside a #board"/>
-				                        <label for="statement-eml" class="active">Exentrinq Markup Language statement</label>
-				                    </div>
-				                </div>
-				                <div class="col-md-1">
-				                    <div class="eq-ui-form-group eq-ui-input-field">
-				                        <button id="statement-add" class="btn btn-primary eq-ui-btn-fab eq-ui-waves-light"><i class="mdi mdi-plus icon"></i></button>
-				                    </div>
-				                </div>
-				            </div>
-				        </div>
-				    </div>
-			    </form>
-				
+			<div class="col-md-11">
+				<header class="eq-ui-layout-header" style="padding-left:0px">
+					<div id="main-eq-ui-app-bar" class="eq-ui-app-bar">
+					<div class="header-title" style="margin-left: 10px">
+						Sprint Planner
+					</div>
+					</div>
+				</header>
+				<div style="top: 20px; right: 5px; height:50px" class="eq-ui-btn-fab-floating doc-show-in-layout-struture-1 ">
+			        <a data-target="eq-ui-modal-add" class="btn btn-primary eq-ui-btn-fab eq-ui-waves-light eq-ui-modal-trigger"><i class="mdi mdi-plus icon"></i></a>
+			    </div>
+			    
 				<table id="sprint-planner-table" class="table eq-ui-data-table z-depth-1 eq-ui-hoverable" >
 			        <thead>
 			            <tr>
-			                <th class="eq-ui-data-table-cell-non-numeric">#</th>
 			                <th>@By</th>
 			                <th style="width: 50%">Description</th>
 			                <th>[]Points</th>
@@ -55,24 +35,29 @@
 			                <th>~ Effort</th>
 			                <th>ETA</th>
 			                <th>Closed On</th>
+			                <th></th>
 			            </tr>
 			        </thead>
 			        <tbody>
 			        	{{#each tasks}}
-				    		{{> sp_task}}
+				    		{{> spTask}}
 				    	{{/each}}
 			    	</tbody>
 			    </table>
+			    
+			    {{> addEml}}
+				{{> editEml}}
+				{{> deleteEml}}
 			</div>
 		</div>
 		
 		
 	</div>
+	
 </template>
 
-<template name="sp_task">
+<template name="sp_task_old">
 <tr>
-    <td title="{{index}}" class="eq-ui-data-table-cell-non-numeric eq-ui-data-table-cell-truncate">{{index}}</td>
     <td title="{{assigned_by}}" class="eq-ui-data-table-cell-non-numeric eq-ui-data-table-cell-truncate">{{assigned_by}}</td>
     <td title="{{what_and_why}}" class="eq-ui-data-table-cell-non-numeric eq-ui-data-table-cell-truncate">{{what_and_why}}</td>
     <td title="{{points}}" class="eq-ui-data-table-cell-non-numeric eq-ui-data-table-cell-truncate">{{points}}</td>
@@ -84,8 +69,41 @@
     <td title="{{effort}}" class="eq-ui-data-table-cell-non-numeric eq-ui-data-table-cell-truncate">{{effort}}</td>
     <td title="{{eta}}" class="eq-ui-data-table-cell-non-numeric eq-ui-data-table-cell-truncate">{{eta}}</td>
     <td title="{{closed_on}}" class="eq-ui-data-table-cell-non-numeric eq-ui-data-table-cell-truncate">{{closed_on}}</td>
+    <td>
+	    <a data-target="doc-dropdown-app-bar-{{index}}" data-hover="false" class="btn btn-default eq-ui-btn-flat eq-ui-btn-fab eq-ui-btn-menu-fab eq-ui-waves dropdown-trigger waves-effect waves-effect">
+	        <i class="mdi mdi-dots-vertical icon"></i>
+	    </a>
+	    <ul id="doc-dropdown-app-bar-{{index}}" class="eq-ui-dropdown">
+            <li><a href="#eq-ui-modal-edit" class="eml-edit eq-ui-modal-trigger">Edit</a></li>
+            <li><a href="#!" class="eml-delete">Delete</a></li>
+        </ul>
+    </td>
+</tr>	
+</template>
+<template name="spTask">
+<tr style="{{#if isClosed closed_on}}text-decoration: line-through;{{/if}}">
+    <td title="{{author}}" class="eq-ui-data-table-cell-non-numeric eq-ui-data-table-cell-truncate">{{author}}</td>
+    <td title="{{what_and_why}}" class="eq-ui-data-table-cell-non-numeric eq-ui-data-table-cell-truncate">{{what_and_why}}</td>
+    <td title="{{points}}" class="eq-ui-data-table-cell-non-numeric eq-ui-data-table-cell-truncate">{{points}}</td>
+    <td title="{{users}}" class="eq-ui-data-table-cell-non-numeric eq-ui-data-table-cell-truncate">{{users}}</td>
+    <td title="{{milestone}}" class="eq-ui-data-table-cell-non-numeric eq-ui-data-table-cell-truncate">{{milestone}}</td>
+    <td title="{{card}}" class="eq-ui-data-table-cell-non-numeric eq-ui-data-table-cell-truncate">{{card}}</td>
+    <td title="{{board}}" class="eq-ui-data-table-cell-non-numeric eq-ui-data-table-cell-truncate">{{board}}</td>
+    <td title="{{progress}}" class="eq-ui-data-table-cell-non-numeric eq-ui-data-table-cell-truncate">{{progress}}</td>
+    <td title="{{effort}}" class="eq-ui-data-table-cell-non-numeric eq-ui-data-table-cell-truncate">{{effort}}</td>
+    <td title="{{eta}}" class="eq-ui-data-table-cell-non-numeric eq-ui-data-table-cell-truncate">{{eta}}</td>
+    <td title="{{closed_on}}" class="eq-ui-data-table-cell-non-numeric eq-ui-data-table-cell-truncate">{{closed_on}}</td>
+    <td>
+	    <a data-target="doc-dropdown-app-bar-{{eml_id}}" data-hover="false" class="btn btn-default eq-ui-btn-flat eq-ui-btn-fab eq-ui-btn-menu-fab eq-ui-waves dropdown-trigger waves-effect waves-effect">
+	        <i class="mdi mdi-dots-vertical icon"></i>
+	    </a>
+	    <ul id="doc-dropdown-app-bar-{{eml_id}}" class="eq-ui-dropdown">
+            <li><a data-target="eq-ui-modal-edit" class="eml-edit eq-ui-modal-trigger">Edit</a></li>
+            <li><a data-target="eq-ui-modal-delete" class="eml-delete eq-ui-modal-trigger">Delete</a></li>
+        </ul>
+    </td>
 </tr>	
 </template>
 <template name="sp_team">
-	<a href="#" id="team_item_{{this}}" class="eq-ui-list-item team-item">{{this}}</a>
+	<a href="#" id="team_item_{{this}}" class="eq-ui-list-item team-item">{{this.name}}</a>
 </template>
