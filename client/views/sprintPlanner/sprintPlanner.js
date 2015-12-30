@@ -1,5 +1,6 @@
 Tasks = new Mongo.Collection("tasks");
 
+
 // sprintPlanner template
 Template.sprintPlanner.render = function(_param) {
 	var param = $.extend({
@@ -13,7 +14,191 @@ Template.sprintPlanner.render = function(_param) {
 Template.sprintPlanner.onCreated(function () {
 	var username = 'calogero.crapanzano';
 	var space = Template.sprintPlanner._cmpId;
+		
+	//BEGIN: ORGANIZATION MANAGER TREE VIEW
+	var cmpId = space;
+	Meteor.subscribe("ordering", {
+		onReady: function() {
+			ordering = Ordering.find({
+				cmpId: cmpId
+			}).fetch()[0] || null;
+			Meteor.subscribe("spaces", {
+				onReady: function() {
+
+					var query = Spaces.find({
+						cmpId: cmpId
+					});
+					Template.treeView.organizationManagerModel.children = convertNode(query.fetch());
+					_interval = setInterval(function() {
+
+						if (Template.treeView.renderDone) {
+							setModel();
+							bindObserveChanges(query);
+
+							var orderingQuery = Ordering.find({
+								cmpId: cmpId
+							});
+							ordering = orderingQuery.fetch()[0];
+							bindObserveChanges(orderingQuery);
+						}
+					}, 10);
+				},
+				onError: function() {
+					// error spaces subscribe
+				}
+			});
+		}
+	});
+
+	function setModel() {
+
+		clearInterval(_interval);
+		Template.treeView.setModel(Template.treeView.organizationManagerModel);
+		Template.circleView.setModel(Template.treeView.organizationManagerModel);
+	}
+	function convertNode(allSpaces, _param) {
+
+		return allSpaces
+			.filter(function(space) {
+				return !space.parent;
+			})
+			.map(function(space) {
+				if (!space.parent) {
+					return {
+						_id: space._id,
+						expanded: (_param && _param.expandedNodes.some(function(i) {
+							return i == space._id;
+						})) || false,
+						cmpId: space.cmpId,
+						id: space.id,
+						name: space.name,
+						type: space.type,
+						children: getChildrensFor(space, _param),
+						position: getPoitionById(space._id)
+					};
+				}
+			}).sort(sortByPosition)
+	}
+
+	function getChildrensFor(parent, _param) {
+
+		return Spaces.find({
+				parent: parent._id
+			})
+			.fetch()
+			.filter(function(i) {
+				return i.parent !== null
+			})
+			.map(function(i) {
+				return $.extend(i, {
+					expanded: (_param && _param.expandedNodes.some(function(o) {
+						return o == i._id;
+					})) || false,
+					position: getPoitionById(i._id),
+					children: getChildrensFor(i).sort(sortByPosition)
+				});
+			}).sort(sortByPosition);
+	}
+
+	function sortByPosition(a, b) {
+		if (a.position > b.position) {
+			return 1;
+		}
+		if (a.position < b.position) {
+			return -1;
+		}
+		return 0;
+	}
+
+	function getPoitionById(_id) {
+
+		var p = 0;
+		if (ordering && ordering.ordering) {
+
+			ordering.ordering.forEach(function(i) {
+
+				if (i._id == _id) {
+					p = i.position;
+				}
+			});
+			return p;
+		} else return 0;
+	}
+
+	function bindObserveChanges(query) {
+
+		function ready() {
+
+			if (!Template.mainView._block) {
+				var orderingQuery = Ordering.find({
+					cmpId: cmpId
+				});
+				ordering = orderingQuery.fetch()[0];
+				Template.treeView.organizationManagerModel.children = convertNode(
+					Spaces.find({
+						cmpId: cmpId
+					}).fetch(), {
+						expandedNodes: $('.mjs-nestedSortable-expanded').toArray().map(function(i) {
+							return $(i).data('item')._id || '';
+						})
+					}
+				);
+
+				Template.treeView.renderDone &&
+					Template.circleView.renderDone &&
+					setModel();
+			}
+		}
+
+		query.observeChanges({
+			changed: ready,
+			added: ready,
+			removed: ready
+		});
+	}
 	
+	function getAllMembers(space){
+		var members = [];
+		var spaces = Spaces.find({ parent: space._id });
+		spaces.forEach(function(space) {
+		    if(space.type==='space'){
+		    	subSpaceMembers = getAllMembers(space);
+		    	members = members.concat(subSpaceMembers);
+		    }
+		    else if(space.type==='user'){
+		    	members.push(space);
+		    }
+		});
+		return members;
+	}
+	
+	Template.treeView.events({
+		'click .user': function(event) {
+			var target = $(event.target);
+			var li = target.parents("li");
+			var user = li.data('item');
+			console.log(user);
+			var team = {"name":"OrgManagerTeam", members:[user.name]};
+			Session.set('selectedTeam', team);
+		},
+		'click .space': function(event) {
+			var target = $(event.target);
+			var li = target.parents("li");
+			var space = li.data('item');
+			console.log(space._id);
+			if(space.type==='space'){
+				var members = getAllMembers(space);
+				console.log(members);
+				var team = {"name":"OrgManagerTeam", members:[]};
+				members.forEach(function(member) {
+					team.members.push(member.name);
+				});
+				Session.set('selectedTeam', team);
+			}
+		}
+	});
+	//END: ORGANIZATION MANAGER TREE VIEW
+
 	Meteor.subscribe("tasks", space);
 
 	Session.set('username', username);
@@ -107,7 +292,6 @@ Template.sprintPlanner.events({
 	});
 
 Template.sprintPlanner.rendered = function() {
-	console.log('rendered');
 	// Modal configuration
 	$('.eq-ui-modal-trigger').leanModal({
 		dismissible: true,
@@ -210,7 +394,6 @@ Template.deleteEml.events({
 //spTask template
 
 Template.spTask.onRendered(function () {
-  console.log('spTask.onRendered');
   $('.dropdown-trigger').dropdown({
       inDuration: 300,
       outDuration: 225,
@@ -243,3 +426,9 @@ var handleTasks = function(err, res) {
 		return res;
 	}
 }
+
+//PROVA ORG MANAGER
+function getUsers(space){
+	
+}
+
