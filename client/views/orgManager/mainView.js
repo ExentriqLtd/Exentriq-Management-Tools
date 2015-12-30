@@ -197,13 +197,13 @@ Template.mainView.render = function(_param) {
 			cmpId: cmpId
 		});
 		ordering = orderingQuery.fetch()[0];
-		bindObserveChanges(orderingQuery);
+		//bindObserveChanges(orderingQuery);
 
 		var query = Spaces.find({
 			cmpId: cmpId
 		});
 		Template.treeView.organizationManagerModel.children = convertNode(query.fetch());
-		bindObserveChanges(query);
+		//bindObserveChanges(query);
 		// set new model to templates
 		//Template.treeView.setModel(Template.treeView.organizationManagerModel);
 		Template.circleView.setModel(Template.treeView.organizationManagerModel);
