@@ -329,7 +329,7 @@ Template.treeView.setModel = function(model) {
 			}, */
 			{
 				css: 'eq-ui-modal-trigger',
-				href: '#eq-ui-modal-confirm-delete',
+				//href: '#eq-ui-modal-confirm-delete',
 				name: 'Delete',
 				handler: function() {
 					var item = liNode.data('item');
