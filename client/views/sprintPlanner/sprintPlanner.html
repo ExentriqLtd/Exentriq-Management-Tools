@@ -1,15 +1,16 @@
 <template name="sprintPlanner">
 	<div class="sprintPlanner">
 		<div class="row">
-			<div class="col-md-1">
+			<!-- <div class="col-md-1">
 				<div class="eq-ui-list eq-ui-hoverable">
 					<a href="#" class="eq-ui-list-item team-item">All</a>
 				    {{#each teams}}
 			    		{{> sp_team}}
 			    	{{/each}}
 				</div>
-			</div>
-			<div class="col-md-11">
+			</div> -->
+			{{> treeView}}
+			<div class="col-md-8">
 				<header class="eq-ui-layout-header" style="padding-left:0px">
 					<div id="main-eq-ui-app-bar" class="eq-ui-app-bar">
 					<div class="header-title" style="margin-left: 10px">
@@ -17,15 +18,15 @@
 					</div>
 					</div>
 				</header>
-				<div style="top: 20px; right: 5px; height:50px" class="eq-ui-btn-fab-floating doc-show-in-layout-struture-1 ">
+				<div style="top: 35px; right: 25px; height:50px" class="eq-ui-btn-fab-floating doc-show-in-layout-struture-1 ">
 			        <a data-target="eq-ui-modal-add" class="btn btn-primary eq-ui-btn-fab eq-ui-waves-light eq-ui-modal-trigger"><i class="mdi mdi-plus icon"></i></a>
 			    </div>
-			    
-				<table id="sprint-planner-table" class="table eq-ui-data-table z-depth-1 eq-ui-hoverable" >
+			    <div class="table-responsive">
+				<table id="sprint-planner-table" class="table eq-ui-data-table z-depth-1 eq-ui-hoverable" style="margin-top:20px">
 			        <thead>
 			            <tr>
 			                <th>@By</th>
-			                <th style="width: 50%">Description</th>
+			                <th>Description</th>
 			                <th>[]Points</th>
 			                <th>@Assigned To</th>
 			                <th>!Milestone</th>
@@ -44,7 +45,7 @@
 				    	{{/each}}
 			    	</tbody>
 			    </table>
-			    
+			    </div>
 			    {{> addEml}}
 				{{> editEml}}
 				{{> deleteEml}}

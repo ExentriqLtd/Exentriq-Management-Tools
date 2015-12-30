@@ -13,12 +13,10 @@ Meteor.startup(function () {
       apiPath: 'sprintplanner/api/'
     });
  
-    // Generates: GET/POST on /api/v1/users, and GET/PUT/DELETE on /api/v1/users/:id 
-    // for Meteor.users collection (works on any Mongo collection)
+    // Generates: GET/POST on sprintplanner/api/v1/tasks, and GET/PUT/DELETE on sprintplanner/api/v1/tasks/:id 
+    // for Mongo.Collection("tasks") collection
     Api.addCollection(Tasks);
-    // That's it! Many more options are available if needed...
- 
-    // Maps to: POST /api/v1/articles/:id
+
     Api.addRoute('addEml', {authRequired: false}, {
       post: {
         roleRequired: [],
