@@ -339,3 +339,7 @@ ul.drop-down .drop-down-item:hover {
 #eq-ui-modal-add-space .eq-ui-list .list-space-wrapper {
 	height: auto;
 }
+
+.space-selected{
+	text-decoration: underline;
+}
