@@ -28,10 +28,10 @@ Template.sprintPlanner.onCreated(function () {
 					var query = Spaces.find({
 						cmpId: cmpId
 					});
-					Template.treeView.organizationManagerModel.children = convertNode(query.fetch());
+					Template.sideMenu.organizationManagerModel.children = convertNode(query.fetch());
 					_interval = setInterval(function() {
 
-						if (Template.treeView.renderDone) {
+						if (Template.sideMenu.renderDone) {
 							setModel();
 							bindObserveChanges(query);
 
@@ -53,12 +53,16 @@ Template.sprintPlanner.onCreated(function () {
 	function setModel() {
 
 		clearInterval(_interval);
-		Template.treeView.setModel(Template.treeView.organizationManagerModel);
-		Template.circleView.setModel(Template.treeView.organizationManagerModel);
+		Template.sideMenu.setModel(Template.sideMenu.organizationManagerModel);
 	}
 	function convertNode(allSpaces, _param) {
 
-		return allSpaces
+		var spaces = [
+		              {cmpId: null,
+			id: null,
+			name: "All Teams",
+			type: "space"}];
+		var allSpacesExt =  allSpaces
 			.filter(function(space) {
 				return !space.parent;
 			})
@@ -78,6 +82,7 @@ Template.sprintPlanner.onCreated(function () {
 					};
 				}
 			}).sort(sortByPosition)
+			return spaces.concat(allSpacesExt);
 	}
 
 	function getChildrensFor(parent, _param) {
@@ -129,26 +134,23 @@ Template.sprintPlanner.onCreated(function () {
 
 		function ready() {
 
-			if (!Template.mainView._block) {
-				var orderingQuery = Ordering.find({
+			var orderingQuery = Ordering.find({
+				cmpId: cmpId
+			});
+			ordering = orderingQuery.fetch()[0];
+			Template.sideMenu.organizationManagerModel.children = convertNode(
+				Spaces.find({
 					cmpId: cmpId
-				});
-				ordering = orderingQuery.fetch()[0];
-				Template.treeView.organizationManagerModel.children = convertNode(
-					Spaces.find({
-						cmpId: cmpId
-					}).fetch(), {
-						expandedNodes: $('.mjs-nestedSortable-expanded').toArray().map(function(i) {
-							return $(i).data('item')._id || '';
-						})
-					}
-				);
+				}).fetch(), {
+					expandedNodes: $('.mjs-nestedSortable-expanded').toArray().map(function(i) {
+						return $(i).data('item')._id || '';
+					})
+				}
+			);
 
-				Template.treeView.renderDone &&
-					Template.circleView.renderDone &&
-					setModel();
-			}
+			Template.sideMenu.renderDone && setModel();
 		}
+		
 
 		query.observeChanges({
 			changed: ready,
@@ -172,28 +174,36 @@ Template.sprintPlanner.onCreated(function () {
 		return members;
 	}
 	
-	Template.treeView.events({
+	Template.sideMenu.events({
 		'click .user': function(event) {
 			var target = $(event.target);
+			markSelected(target);
 			var li = target.parents("li");
 			var user = li.data('item');
 			console.log(user);
-			var team = {"name":"OrgManagerTeam", members:[user.name]};
+			var team = {"name":user.name + " (user)", members:[user.name]};
 			Session.set('selectedTeam', team);
 		},
 		'click .space': function(event) {
 			var target = $(event.target);
+			markSelected(target);
 			var li = target.parents("li");
 			var space = li.data('item');
 			console.log(space._id);
 			if(space.type==='space'){
-				var members = getAllMembers(space);
-				console.log(members);
-				var team = {"name":"OrgManagerTeam", members:[]};
-				members.forEach(function(member) {
-					team.members.push(member.name);
-				});
-				Session.set('selectedTeam', team);
+				if(typeof space._id === "undefined"){
+					Session.set('selectedTeam', null);
+				}
+				else{
+					var members = getAllMembers(space);
+					console.log(members);
+					var team = {"name":space.name + " (team)", members:[]};
+					members.forEach(function(member) {
+						team.members.push(member.name);
+					});
+					Session.set('selectedTeam', team);
+				}
+				
 			}
 		}
 	});
@@ -249,6 +259,16 @@ Template.sprintPlanner.helpers({
   },
   selectedTeam: function () {
     return Session.get('selectedTeam');
+  },
+  teamName: function () {
+    var team = Session.get('selectedTeam');
+    if(team===null){
+    	return "All Teams"
+    }
+    else{
+    	return team.name;
+    }
+    return team.name;
   }
 });
 
@@ -392,7 +412,6 @@ Template.deleteEml.events({
 });
 
 //spTask template
-
 Template.spTask.onRendered(function () {
   $('.dropdown-trigger').dropdown({
       inDuration: 300,
@@ -427,8 +446,10 @@ var handleTasks = function(err, res) {
 	}
 }
 
-//PROVA ORG MANAGER
-function getUsers(space){
-	
+var markSelected = function(target){
+	$( ".space-selected" ).each(function() {
+		console.log(this);
+	  $( this ).removeClass( "space-selected" );
+	});
+	target.addClass("space-selected");
 }
-
