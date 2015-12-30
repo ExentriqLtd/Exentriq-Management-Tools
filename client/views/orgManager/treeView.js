@@ -13,18 +13,28 @@ Template.treeView.onChange = function(fn) {
 	if ($.isFunction(fn)) Template.treeView._onChange = fn;
 };
 
+Template.treeView.removeChildren = function(items) {
+	items.forEach(function(i) {
+		Spaces.remove({
+			_id: i._id
+		});
+		Template.treeView.removeChildren(i.children || []);
+	});
+};
+
 Template.treeView.events({
 	// Delete item
 	'click [name="confirm"]': function() {
 
-		$('#modal-footer').closeModal();
-		var item = Template.treeView._menuActionLiNode.data('item');
+		Template.mainView._block = true;
+		var item = Template.treeView._menuActionLiNode;
+		Template.treeView.removeChildren(item.children || []);
+		Template.mainView._block = false;
+
 		Spaces.remove({
 			_id: item._id
 		});
-		//Template.treeView._menuActionLiNode.remove();
-		//Template.treeView._onChange();
-		//bindEvents();
+
 		Template.treeView._menuActionLiNode = null;
 	}
 });
@@ -107,7 +117,7 @@ Template.treeView.getChildModel = function(liNode) {
 			.map(function(i) {
 				return Template.treeView.getChildModel($(i));
 			})
-		});
+	});
 };
 
 Template.treeView.setModel = function(model) {
@@ -167,10 +177,8 @@ Template.treeView.setModel = function(model) {
 				return !placeholderParent.data('item') || placeholderParent.data('item').type == 'space';
 
 			},
-			sort: function() {
-			},
-			change: function() {
-			},
+			sort: function() {},
+			change: function() {},
 			relocate: function(e, data) {
 
 				root.find('.allow').removeClass('allow');
@@ -266,70 +274,73 @@ Template.treeView.setModel = function(model) {
 		dd = Template.treeView.dropDown();
 
 		var items = [
-		/*{
-			name: 'Copy',
-			handler: function(node) {
-				memoryNode = liNode;
-				cutNode = null;
-			}
-		}, {
-			name: 'Cut',
-			handler: function(node) {
-				memoryNode = liNode;
-				cutNode = liNode;
-			}
-		}, {
-			disabled: !liNode.hasClass('space'),
-			name: 'Paste',
-			disabled: !memoryNode,
-			handler: function() {
-
-				if (cutNode) {
-
-					//UI
-					liNode.find('.node-childrens:first').append(memoryNode);
-
-					//DB
-					var cutItem = cutNode.data('item');
-					Template.mainView.updateSpace($.extend(cutItem, {
-						parent: item._id
-					}));
-
-				} else {
-
-					//UI
-					var clone = memoryNode.clone();
-					liNode.find('.node-childrens:first').append(memoryNode.clone());
-
-					//DB
-					var memoryItem = memoryNode.data('item');
-					var _id = Spaces.insert({
-						cmpId: memoryItem.cmpId,
-						name: memoryItem.name,
-						type: memoryItem.type,
-						parent: item._id
-					});
-
-					clone.data('item', $.extend(memoryItem, {
-						_id: _id,
-						parent: item._id
-					}));
+			/*{
+				name: 'Copy',
+				handler: function(node) {
+					memoryNode = liNode;
+					cutNode = null;
 				}
-				cutNode = null;
-				memoryNode = null;
-			}
-		}, */{
-			css: 'eq-ui-modal-trigger',
-			href: '#eq-ui-modal-confirm-delete',
-			name: 'Delete',
-			handler: function() {
+			}, {
+				name: 'Cut',
+				handler: function(node) {
+					memoryNode = liNode;
+					cutNode = liNode;
+				}
+			}, {
+				disabled: !liNode.hasClass('space'),
+				name: 'Paste',
+				disabled: !memoryNode,
+				handler: function() {
 
-				var item = liNode.data('item');
-				var confirmDialog = $('#eq-ui-modal-confirm-delete');
-				confirmDialog.find('.item-name').text(item.name);
-				Template.treeView._menuActionLiNode = liNode;
+					if (cutNode) {
+
+						//UI
+						liNode.find('.node-childrens:first').append(memoryNode);
+
+						//DB
+						var cutItem = cutNode.data('item');
+						Template.mainView.updateSpace($.extend(cutItem, {
+							parent: item._id
+						}));
+
+					} else {
+
+						//UI
+						var clone = memoryNode.clone();
+						liNode.find('.node-childrens:first').append(memoryNode.clone());
+
+						//DB
+						var memoryItem = memoryNode.data('item');
+						var _id = Spaces.insert({
+							cmpId: memoryItem.cmpId,
+							name: memoryItem.name,
+							type: memoryItem.type,
+							parent: item._id
+						});
+
+						clone.data('item', $.extend(memoryItem, {
+							_id: _id,
+							parent: item._id
+						}));
+					}
+					cutNode = null;
+					memoryNode = null;
+				}
+			}, */
+			{
+				css: 'eq-ui-modal-trigger',
+				href: '#eq-ui-modal-confirm-delete',
+				name: 'Delete',
+				handler: function() {
+					var item = liNode.data('item');
+					var confirmDialog = $('#eq-ui-modal-confirm-delete');
+					confirmDialog.find('.item-name').text(item.name);
+					Template.treeView._menuActionLiNode = item;
+
+					$('#eq-ui-modal-confirm-delete').openModal();
+				}
 			}
-		}];
+		];
 
 		/*if (item.type == 'space') {
 
@@ -349,14 +360,15 @@ Template.treeView.setModel = function(model) {
 		});
 
 		// Modal configuration
-		$('.eq-ui-modal-trigger').leanModal({
+		//$('#eq-ui-modal-confirm-delete').openModal();
+		/*$('.eq-ui-modal-trigger').leanModal({
 			dismissible: true,
 			opacity: .5,
 			in_duration: 300,
 			out_duration: 200,
 			ready: function() {},
 			complete: function() {}
-		});
+		});*/
 	}
 
 	function getModel() {

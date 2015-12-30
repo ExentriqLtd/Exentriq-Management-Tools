@@ -9,6 +9,10 @@ Template.addUserDialog.helpers({
 Template.addUserDialog._timeOut = null;
 
 Template.addUserDialog.events({
+	'click .eq-ui-modal-close': function() {
+		Session.set('users', []);
+		$('input.eq-ui-user-search').val('');
+	},
 	'click .eq-ui-modal-add-spaces': function(){
 		//$('.eq-ui-modal-overlay').remove();
 	},
@@ -19,7 +23,7 @@ Template.addUserDialog.events({
 		if (e.keyCode == '13') {
 			runSearch();
 		}
-		Template.addSpaceDialog._timeOut = setTimeout(runSearch, 250);
+		Template.addUserDialog._timeOut = setTimeout(runSearch, 250);
 
 		function runSearch() {
 			Meteor.call(
@@ -33,6 +37,7 @@ Template.addUserDialog.events({
 					} else {
 
 						var existingSpaces = Spaces.find({
+							type: 'user',
 							cmpId: Template.mainView._cmpId
 						}).fetch();
 						var s = data.filter(function(i) {
@@ -40,7 +45,7 @@ Template.addUserDialog.events({
 								return o.id == i.id;
 							});
 						});
-						Session.set('users', s);
+						Session.set('users', Template.addUserDialog.filter(data));
 					}
 				});
 		}
@@ -48,14 +53,25 @@ Template.addUserDialog.events({
 	// click on user
 	'click .user-item': function() {
 		var user = this;
-		$("[itemId=" + user.id + "]").remove();
 		Template.mainView.insertSpace($.extend(user, {
 			parent: null,
 			cmpId: Template.mainView._cmpId,
 			type: 'user'
 		}));
+		Session.set('users', Template.addUserDialog.filter(Session.get('users')));
 	}
 });
+
+Template.addUserDialog.filter = function(items) {
+
+	var existingSpaces = Spaces.find({ type: 'user', cmpId: Template.mainView._cmpId }).fetch();
+	var data = items.filter(function(i) {
+		return !existingSpaces.some(function(o) {
+			return o.id == i.id;
+		});
+	});
+	return data;
+};
 
 Template.addUserDialog.rendered = function() {
 	Session.set('users', []);

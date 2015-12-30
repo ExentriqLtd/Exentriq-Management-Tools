@@ -141,10 +141,10 @@ Template.circleView.setModel = function(model) {
 			});
 
 		$('svg').css({
-			width: 2000,
+			width: $('.circle-view').width(),
 			height: 2000
 		});
-		pack.size([2000, 2000]);
+		pack.size([$('.circle-view').width(), 2000]);
 	}
 
 	function zoomTo(v) {

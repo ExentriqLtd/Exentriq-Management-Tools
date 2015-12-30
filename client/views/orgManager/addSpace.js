@@ -9,8 +9,9 @@ Template.addSpaceDialog.helpers({
 Template.addSpaceDialog._timeOut = null;
 
 Template.addSpaceDialog.events({
-	'click .eq-ui-modal-add-spaces': function(){
-		//$('.eq-ui-modal-overlay').remove();
+	'click .eq-ui-modal-close': function() {
+		Session.set('spaces', []);
+		$('input.eq-ui-space-search').val('');
 	},
 	'keyup .eq-ui-space-search': function(e) {
 
@@ -30,31 +31,33 @@ Template.addSpaceDialog.events({
 					if (error) {
 						Session.set('spaces', []);
 					} else {
-
-						var existingSpaces = Spaces.find({
-							cmpId: Template.mainView._cmpId
-						}).fetch();
-						var s = data.filter(function(i) {
-							return !existingSpaces.some(function(o) {
-								return o.id == i.id;
-							});
-						});
-						Session.set('spaces', s);
+						Session.set('spaces', Template.addSpaceDialog.filter(data));
 					}
 				});
 		}
 	},
 	// click on space
-	'click .space-item': function() {
+	'click .space-item': function(e) {
 		var space = this;
-		$("[itemId=" + space.id + "]").remove();
 		Template.mainView.insertSpace($.extend(space, {
 			parent: null,
 			cmpId: Template.mainView._cmpId,
 			type: 'space'
 		}));
+		Session.set('spaces', Template.addSpaceDialog.filter(Session.get('spaces')));
 	}
 });
+
+Template.addSpaceDialog.filter = function(items) {
+
+	var existingSpaces = Spaces.find({ type: 'space', cmpId: Template.mainView._cmpId }).fetch();
+	var data = items.filter(function(i) {
+		return !existingSpaces.some(function(o) {
+			return o.id == i.id;
+		});
+	});
+	return data;
+};
 
 Template.addSpaceDialog.rendered = function() {
 	Session.set('spaces', []);
