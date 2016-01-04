@@ -7,7 +7,7 @@ Template.createSpaceDialog.events({
 			name: $('#create_space_name').val(),
 			parent: Template.treeView.selectedNode ? Template.treeView.selectedNode._id : null ,
 			cmpId: Template.mainView._cmpId,
-			type: 'user'
+			type: 'space'
 		});
 	}
 });

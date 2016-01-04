@@ -22,7 +22,8 @@ Template.addSpaceDialog.events({
 		Template.addSpaceDialog._timeOut = setTimeout(runSearch, 250);
 
 		function runSearch() {
-			Meteor.call(
+
+			/*Meteor.call(
 				'getSpaces', // methode
 				Template.mainView._cmpId, // company name
 				$('input.eq-ui-space-search').val() || '', // search terms
@@ -33,7 +34,7 @@ Template.addSpaceDialog.events({
 					} else {
 						Session.set('spaces', Template.addSpaceDialog.filter(data));
 					}
-				});
+				});*/
 		}
 	},
 	// click on space

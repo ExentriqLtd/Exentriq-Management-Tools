@@ -45,7 +45,7 @@ Template.mainView.render = function(_param) {
 						return o == i._id;
 					})) || false,
 					position: getPoitionById(i._id),
-					children: getChildrensFor(i).sort(sortByPosition)
+					children: getChildrensFor(i, _param).sort(sortByPosition)
 				});
 			}).sort(sortByPosition);
 	}

@@ -26,7 +26,8 @@ Template.addUserDialog.events({
 		Template.addUserDialog._timeOut = setTimeout(runSearch, 250);
 
 		function runSearch() {
-			Meteor.call(
+			
+			/*Meteor.call(
 				'getUsers', // methode
 				Template.mainView._cmpId, // company name
 				$('input.eq-ui-user-search').val() || '', // search terms
@@ -47,7 +48,7 @@ Template.addUserDialog.events({
 						});
 						Session.set('users', Template.addUserDialog.filter(data));
 					}
-				});
+				});*/
 		}
 	},
 	// click on user
