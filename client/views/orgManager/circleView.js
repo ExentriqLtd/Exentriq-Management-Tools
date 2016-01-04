@@ -159,7 +159,7 @@ Template.circleView.setModel = function(model) {
 
 	Template.circleView.zoomToItem = zoom;
 
-	d3.select(self.frameElement).style("height", diameter + "px");
+	//d3.select(self.frameElement).style("height", diameter + "px");
 };
 
 Template.circleView.renderDone = false;
