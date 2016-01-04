@@ -40,7 +40,7 @@ Template.addSpaceDialog.events({
 	'click .space-item': function(e) {
 		var space = this;
 		Template.mainView.insertSpace($.extend(space, {
-			parent: null,
+			parent: Template.treeView.selectedNode ? Template.treeView.selectedNode._id : null ,
 			cmpId: Template.mainView._cmpId,
 			type: 'space'
 		}));

@@ -38,6 +38,9 @@ Template.mainView.render = function(_param) {
 			})
 			.map(function(i) {
 				return $.extend(i, {
+					selected: (_param && _param.selectedNodes.some(function(o) {
+						return o == i._id;
+					})) || false,
 					expanded: (_param && _param.expandedNodes.some(function(o) {
 						return o == i._id;
 					})) || false,
@@ -89,6 +92,9 @@ Template.mainView.render = function(_param) {
 				if (!space.parent) {
 					return {
 						_id: space._id,
+						selected: (_param && _param.selectedNodes.some(function(i) {
+							return i == space._id;
+						})) || false,
 						expanded: (_param && _param.expandedNodes.some(function(i) {
 							return i == space._id;
 						})) || false,
@@ -116,6 +122,9 @@ Template.mainView.render = function(_param) {
 					Spaces.find({
 						cmpId: cmpId
 					}).fetch(), {
+						selectedNodes: $('.selected').toArray().map(function(i) {
+							return $(i).data('item')._id || '';
+						}),
 						expandedNodes: $('.mjs-nestedSortable-expanded').toArray().map(function(i) {
 							return $(i).data('item')._id || '';
 						})

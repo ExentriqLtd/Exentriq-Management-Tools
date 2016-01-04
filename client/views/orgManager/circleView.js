@@ -118,7 +118,7 @@ Template.circleView.setModel = function(model) {
 		var focus0 = focus;
 		focus = d;
 		var transition = d3.transition()
-			.duration(d3.event.altKey ? 7500 : 750)
+			.duration((d3.event && d3.event.altKey) ? 7500 : 750)
 			.tween("zoom", function(d) {
 				var i = d3.interpolateZoom(view, [focus.x, focus.y, focus.r * 2 + margin]);
 				return function(t) {
@@ -158,11 +158,9 @@ Template.circleView.setModel = function(model) {
 		});
 	}
 
+	Template.circleView.zoomToItem = zoom;
+
 	d3.select(self.frameElement).style("height", diameter + "px");
-};
-
-Template.circleView.setModelLazy = function(model) {
-
 };
 
 Template.circleView.renderDone = false;

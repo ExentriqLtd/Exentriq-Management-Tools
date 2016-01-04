@@ -205,11 +205,17 @@ Template.treeView.setModel = function(model) {
 				showMenuAtction(liNode);
 			});
 			liNode.find('.node-title').off().on('click', function() {
+
 				liNode.toggleClass('mjs-nestedSortable-expanded');
-				/*if (liNode.hasClass('space')){
+				if (liNode.hasClass('space')){
 					root.find('.selected').removeClass('selected');
 					liNode.addClass('selected');
-				}*/
+					Template.treeView.selectedNode = liNode.data('item');
+				}
+				else {
+					root.find('.selected').removeClass('selected');
+					Template.treeView.selectedNode = null;
+				}
 			});
 		});
 	}
@@ -247,6 +253,8 @@ Template.treeView.setModel = function(model) {
 		);
 
 		node.expanded === true && liNode.addClass('mjs-nestedSortable-expanded');
+		node.selected === true && liNode.addClass('selected');
+
 		liNode.data('item', node);
 
 		function addChildrens(childs) {
@@ -342,16 +350,18 @@ Template.treeView.setModel = function(model) {
 			}
 		];
 
-		/*if (item.type == 'space') {
+		if (item.type == 'space') {
 
 			items.push({
 				type: 'divider'
 			});
 			items.push({
 				name: 'Locate',
-				handler: function() {}
+				handler: function() {
+					Template.circleView.zoomToItem(item);
+				}
 			})
-		}*/
+		}
 
 		dd.setItems(items);
 		dd.show({

@@ -54,7 +54,7 @@ Template.addUserDialog.events({
 	'click .user-item': function() {
 		var user = this;
 		Template.mainView.insertSpace($.extend(user, {
-			parent: null,
+			parent: Template.treeView.selectedNode ? Template.treeView.selectedNode._id : null ,
 			cmpId: Template.mainView._cmpId,
 			type: 'user'
 		}));
