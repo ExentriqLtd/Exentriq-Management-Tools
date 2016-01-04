@@ -9,5 +9,7 @@ Template.createSpaceDialog.events({
 			cmpId: Template.mainView._cmpId,
 			type: 'space'
 		});
+
+		$('#create_space_name').val('');
 	}
 });

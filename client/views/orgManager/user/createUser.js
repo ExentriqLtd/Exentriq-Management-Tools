@@ -9,5 +9,7 @@ Template.createUserDialog.events({
 			cmpId: Template.mainView._cmpId,
 			type: 'user'
 		});
+
+		$('#create_user_username').val('')
 	}
 });
