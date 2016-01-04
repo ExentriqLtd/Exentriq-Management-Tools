@@ -9,13 +9,13 @@ Template.addUserDialog.helpers({
 Template.addUserDialog._timeOut = null;
 
 Template.addUserDialog.events({
-	'click .eq-ui-modal-close': function() {
+	/*'click .eq-ui-modal-close': function() {
 		Session.set('users', []);
 		$('input.eq-ui-user-search').val('');
 	},
 	'click .eq-ui-modal-add-spaces': function(){
 		//$('.eq-ui-modal-overlay').remove();
-	},
+	},*/
 	// find a user
 	'keyup .eq-ui-user-search': function(e) {
 

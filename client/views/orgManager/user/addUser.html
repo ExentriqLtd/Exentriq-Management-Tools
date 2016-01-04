@@ -1,0 +1,36 @@
+
+<template name="addUserDialog">
+	<div id="eq-ui-modal-add-user" class="eq-ui-modal eq-ui-modal-fixed eq-ui-modal-small eq-ui-modal-add-users">
+		<div class="eq-ui-modal-header"> 
+			<div class="header-title"> 
+				<span class="section-title truncate">Add user</span> 
+			</div> 
+			<ul class="right eq-ui-nav-menu"> 
+				<li class="eq-ui-nav-menu-item-icon"> 
+					<a class="btn btn-default eq-ui-btn-flat eq-ui-btn-fab eq-ui-btn-menu-fab eq-ui-waves eq-ui-modal-close"> 
+						<i class="mdi mdi-close eq-ui-icon"></i> 
+					</a> 
+				</li> 
+			</ul> 
+		</div> 
+		<div class="eq-ui-modal-content"> 
+			<div class="eq-ui-search"> 
+				<input class="eq-ui-user-search" type="text" placeholder="Search"> 
+				<i class="eq-ui-search-icon-left mdi mdi-magnify eq-ui-icon eq-ui-icon-left"></i> 
+				<i class="eq-ui-search-clear mdi mdi-close-circle eq-ui-icon eq-ui-icon-right eq-ui-icon-18"></i> 
+				
+			</div> 
+			<div class="eq-ui-list eq-ui-hoverable {{#if users.length}} show-list {{/if}}">
+				<div class="list-user-wrapper">
+					{{#each users}}
+				    	<a itemid="{{id}}" class="eq-ui-list-item user-item" href="#">{{name}}</a>
+				    {{/each}}
+				</div>
+			</div>
+		</div> 
+		<div class="eq-ui-modal-footer"> 
+			<a href="#eq-ui-modal-create-user" class="btn btn-primary eq-ui-modal-trigger eq-ui-waves-light eq-ui-modal-close">Create new user</a> 
+		</div>
+	</div>
+</template>
+

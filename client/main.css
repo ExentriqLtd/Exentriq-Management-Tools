@@ -15,6 +15,7 @@ body, html {
 #__blaze-root .row .col-md-4,
 #__blaze-root .row .col-md-8 {
 	height: 100%;
+	padding: 0;
 }
 
 #__blaze-root .row {
@@ -96,50 +97,16 @@ li.mjs-nestedSortable-expanded>ol {
     position: relative;
 }
 
-div.eq-ui-card-title.circle-view-header {
-    height: 56px;
-    z-index: 1000;
-}
-
-div.eq-ui-card-title.circle-view-header h2 {
-    color: #F0F0F0 !important;
-}
-
-div.eq-ui-card-title.circle-view-header .btn {
+.btn.dropdown-trigger {
 	position: absolute;
     right: 10px;
-    top: 32px;
-}
-
-.organization-manager .circle-view-header .glyphicon-home {
-	display: none;
-}
-
-.organization-manager.small .circle-view-header .glyphicon-home {
-	position: absolute;
-    right: 22px;
-    top: 22px;
-    font-size: 22px;
-    color: #F0F0F0;
-    cursor: pointer;
-    display: block;
-}
-
-
-.tree-view-header {
-
+    top: 10px;
+    z-index: 1001;
 }
 
 .placeholder {
 	outline: 1px dashed #4183C4;
 	margin-bottom: 4px;
-}
-
-.tree-view-header span {
-	float: left;
-    margin-right: 10px;
-    font-size: 22px;
-    color: #999999;
 }
 
 .tree-view-wrapper .btn-primary {

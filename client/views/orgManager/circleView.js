@@ -39,8 +39,7 @@ Template.circleView._setSize = function(childrens) {
 Template.circleView.setModel = function(model) {
 
 	var root1 = $('.circle-view');
-	var header = $('.circle-view-header');
-	root1.children('*').not('.circle-view-header').remove();
+	root1.children('*').not('.dropdown-trigger').remove();
 
 	if (!model || !model.children || !model.children.length) {
 		return;
@@ -52,8 +51,8 @@ Template.circleView.setModel = function(model) {
 	var format = d3.format(",d");
 	var margin = 20,
 		diameter = root1.height() > root1.width() ?
-		root1.width() - header.height() :
-		root1.height() - header.height();
+		root1.width() :
+		root1.height();
 
 	var color = d3.scale.linear()
 		.domain([-1, 5])
