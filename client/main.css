@@ -310,3 +310,13 @@ ul.drop-down .drop-down-item:hover {
 .space-selected{
 	text-decoration: underline;
 }
+
+.sprintPlanner .eq-ui-layout-header {
+	box-shadow: none !important;
+}
+.sprintPlanner .eq-ui-app-bar {
+	background-color: #FFFFFF;
+    color: #999999;
+    box-shadow: none;
+    border-left: 1px solid #f0f0f0;
+}
