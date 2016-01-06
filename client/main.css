@@ -16,6 +16,7 @@ body, html {
 #__blaze-root .row .col-md-8 {
 	height: 100%;
 	padding: 0;
+	position: relative;
 }
 
 #__blaze-root .row {
@@ -50,30 +51,6 @@ li.mjs-nestedSortable-expanded>ol {
 	display: block;
 }
 
-.organization-manager.small  {
-
-}
-
-.organization-manager.small.circle .tree-view-wrapper {
-	display: none;
-}
-
-.organization-manager.small.circle .circle-view {
-	display: block;
-	margin-left: 0;
-}
-
-.organization-manager.small .tree-view-wrapper {
-}
-
-.organization-manager.small .glyphicon-globe {
-	display: block;
-}
-
-.organization-manager.small .circle-view {
-	display: none;
-}
-
 .organization-manager {
 	width: 100%;
 	padding: 4px;
@@ -91,7 +68,7 @@ li.mjs-nestedSortable-expanded>ol {
 
 .tree-view-wrapper {
 	width: 100%;
-    height: calc(100% - 70px);
+    height: 100%;
     float: left;
     overflow-y: auto;
     position: relative;
@@ -123,8 +100,30 @@ li.mjs-nestedSortable-expanded>ol {
 .tree-view {
 	height: 100%;
     padding: 8px 8px 8px 8px;
-    margin: 0;
 }
+
+
+.organization-manager a.to-circle-view, 
+.organization-manager a.to-tree-view { display: none; }
+.organization-manager.small .tree-view { margin: 0 80px 0 0; }
+.organization-manager.small .to-circle-view {
+    top: 10px;
+    right: 25px;
+    position: absolute;
+    display: block;
+}
+
+.organization-manager.small .to-tree-view {
+	top: 10px;
+    left: 10px;
+    position: absolute;
+    display: block;
+}
+
+.organization-manager.small.show-tree .col-md-8 { display: none; }
+.organization-manager.small.show-tree .col-md-4 { display: block; }
+.organization-manager.small.show-circle .col-md-8 { display: block; }
+.organization-manager.small.show-circle .col-md-4 { display: none; }
 
 .tree-node.allow>.tree-node-parent {
 	box-shadow: 0 0 10px #1bbc9b;

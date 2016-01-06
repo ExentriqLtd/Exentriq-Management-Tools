@@ -24,8 +24,10 @@ Template.circleView.helpers({
 });
 
 Template.circleView.events({
-
-	
+	'click .to-tree-view': function(){
+		$('.organization-manager').addClass('show-tree');
+		$('.organization-manager').removeClass('show-circle');
+	}
 });
 
 Template.circleView._setSize = function(childrens) {
@@ -41,7 +43,7 @@ Template.circleView.setModel = function(model) {
 	var root1 = $('.circle-view');
 	root1.children('*').not('.dropdown-trigger').remove();
 
-	if (!model || !model.children || !model.children.length) {
+	if (!root1.is(':visible') || !model || !model.children || !model.children.length) {
 		return;
 	}
 

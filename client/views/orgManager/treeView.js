@@ -36,6 +36,12 @@ Template.treeView.events({
 		});
 
 		Template.treeView._menuActionLiNode = null;
+	},
+	'click .to-circle-view': function(){
+		$('.organization-manager').addClass('show-circle');
+		$('.organization-manager').removeClass('show-tree');
+		Template.treeView.setModel(Template.treeView.organizationManagerModel);
+		Template.circleView.setModel(Template.treeView.organizationManagerModel);
 	}
 });
 

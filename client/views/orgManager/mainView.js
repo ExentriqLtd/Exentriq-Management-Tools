@@ -15,17 +15,19 @@ Template.mainView.render = function(_param) {
 
 	var _interval;
 	var ordering;
+	
 	var _win = $(window);
 	_win.resize(function() {
 
-		if (_win.width() < 600) {
-			root.addClass('small');
+		var root = $('.organization-manager');
+		var treeViewBlock = $('.row>.col-md-4');
+		if (_win.width() < 992) {
+			root.addClass('small show-tree');
 		} else {
-			root.removeClass('small');
+			root.removeClass('small show-tree show-circle');
 			Template.circleView.setModel(Template.treeView.getModel());
 		}
 	});
-	var root = $('.organization-manager');
 
 	function getChildrensFor(parent, _param) {
 
@@ -80,6 +82,7 @@ Template.mainView.render = function(_param) {
 		clearInterval(_interval);
 		Template.treeView.setModel(Template.treeView.organizationManagerModel);
 		Template.circleView.setModel(Template.treeView.organizationManagerModel);
+		_win.trigger('resize');
 	}
 
 	function convertNode(allSpaces, _param) {
