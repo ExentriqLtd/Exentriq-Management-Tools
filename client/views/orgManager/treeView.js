@@ -37,7 +37,7 @@ Template.treeView.events({
 
 		Template.treeView._menuActionLiNode = null;
 	},
-	'click .to-circle-view': function(){
+	'click .to-circle-view': function() {
 		$('.organization-manager').addClass('show-circle');
 		$('.organization-manager').removeClass('show-tree');
 		Template.treeView.setModel(Template.treeView.organizationManagerModel);
@@ -126,11 +126,16 @@ Template.treeView.getChildModel = function(liNode) {
 	});
 };
 
-Template.treeView.setModel = function(model) {
+Template.treeView.setModel = function(model, _p) {
 
 	var dd;
 	var memoryNode;
 	var cutNode;
+
+	var _param = $.extend({
+		allowSorting: false,
+		allowMenu: false
+	}, _p);
 
 	var root = $('.tree-view');
 	var wrapper = $('.tree-view-wrapper');
@@ -148,60 +153,63 @@ Template.treeView.setModel = function(model) {
 
 	function bindEvents() {
 
-		root.nestedSortable({
-			forcePlaceholderSize: true,
-			handle: 'div',
-			helper: 'clone',
-			items: 'li',
-			opacity: .6,
-			placeholder: 'placeholder',
-			revert: 250,
-			tabSize: 25,
-			tolerance: 'pointer',
-			toleranceElement: '> div',
-			maxLevels: 10,
-			isTree: true,
-			expandOnHover: 1000,
-			startCollapsed: true,
-			isAllowed: function(placeholder, placeholderParent, currentItem) {
+		if (_param.allowSorting){
+			root.nestedSortable({
+				forcePlaceholderSize: true,
+				handle: 'div',
+				helper: 'clone',
+				items: 'li',
+				opacity: .6,
+				placeholder: 'placeholder',
+				revert: 250,
+				tabSize: 25,
+				tolerance: 'pointer',
+				toleranceElement: '> div',
+				maxLevels: 10,
+				isTree: true,
+				expandOnHover: 1000,
+				startCollapsed: true,
+				isAllowed: function(placeholder, placeholderParent, currentItem) {
 
-				root.find('.allow').removeClass('allow');
-				root.find('.deny').removeClass('deny');
+					root.find('.allow').removeClass('allow');
+					root.find('.deny').removeClass('deny');
 
-				if (!placeholderParent) {
-					return true;
+					if (!placeholderParent) {
+						return true;
+					}
+
+					var placeholderParentItem = placeholderParent.data('item');
+
+					if (placeholderParentItem && placeholderParentItem.type == 'space') {
+						placeholderParent.addClass('allow');
+					} else if (placeholderParentItem) {
+						placeholderParent.addClass('deny');
+					}
+
+					return !placeholderParent.data('item') || placeholderParent.data('item').type == 'space';
+
+				},
+				sort: function() {},
+				change: function() {},
+				relocate: function(e, data) {
+
+					root.find('.allow').removeClass('allow');
+					root.find('.deny').removeClass('deny');
+
+					Template.orgManager._block = true;
+					Template.treeView._onChange();
+					Template.orgManager._block = false;
+					//DB
+					var item = data.item.data('item');
+					var parent = data.item.parents('li:first').data('item');
+					Template.orgManager.updateSpace($.extend(item, {
+						parent: (parent && parent._id) || null
+					}));
 				}
+			});
+			root.disableSelection();
+		}
 
-				var placeholderParentItem = placeholderParent.data('item');
-
-				if (placeholderParentItem && placeholderParentItem.type == 'space') {
-					placeholderParent.addClass('allow');
-				} else if (placeholderParentItem) {
-					placeholderParent.addClass('deny');
-				}
-
-				return !placeholderParent.data('item') || placeholderParent.data('item').type == 'space';
-
-			},
-			sort: function() {},
-			change: function() {},
-			relocate: function(e, data) {
-
-				root.find('.allow').removeClass('allow');
-				root.find('.deny').removeClass('deny');
-
-				Template.orgManager._block = true;
-				Template.treeView._onChange();
-				Template.orgManager._block = false;
-				//DB
-				var item = data.item.data('item');
-				var parent = data.item.parents('li:first').data('item');
-				Template.orgManager.updateSpace($.extend(item, {
-					parent: (parent && parent._id) || null
-				}));
-			}
-		});
-		root.disableSelection();
 		root.find('li').toArray().forEach(function(liNode) {
 
 			liNode = $(liNode);
@@ -213,12 +221,11 @@ Template.treeView.setModel = function(model) {
 			liNode.find('.node-title').off().on('click', function() {
 
 				liNode.toggleClass('mjs-nestedSortable-expanded');
-				if (liNode.hasClass('space')){
+				if (liNode.hasClass('space')) {
 					root.find('.selected').removeClass('selected');
 					liNode.addClass('selected');
 					Template.treeView.selectedNode = liNode.data('item');
-				}
-				else {
+				} else {
 					root.find('.selected').removeClass('selected');
 					Template.treeView.selectedNode = null;
 				}
@@ -243,6 +250,12 @@ Template.treeView.setModel = function(model) {
 			'<i class="mdi mdi-google-circles-extended eq-ui-icon"></i>' :
 			'<i class="mdi mdi-account eq-ui-icon"></i>';
 
+		var menu = _param.allowMenu ?
+			'<span class="node-action">' +
+			'<span class="glyphicon glyphicon-option-horizontal" aria-hidden="true"></span>' +
+			'</span>' :
+			'';
+
 		var liNode = $(
 			'<li class="tree-node ' + node.type + '">' +
 			'<div class="tree-node-parent">' +
@@ -250,9 +263,7 @@ Template.treeView.setModel = function(model) {
 			nodeIcon +
 			'</span>' +
 			'<div class="node-title">' + node.name + '</div>' +
-			'<span class="node-action">' +
-			'<span class="glyphicon glyphicon-option-horizontal" aria-hidden="true"></span>' +
-			'</span>' +
+			menu + 
 			'</div>' +
 			'<ol class="node-childrens"></ol>' +
 			'</li>'

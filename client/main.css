@@ -10,7 +10,6 @@ body, html {
 }
 
 #__blaze-root,
-#__blaze-root .sprint-planner,
 #__blaze-root .eq-ui-card,
 #__blaze-root .row,
 #__blaze-root .row .col-md-4,
@@ -53,6 +52,7 @@ li.mjs-nestedSortable-expanded>ol {
 	display: block;
 }
 
+.sprint-planner,
 .organization-manager {
 	width: 100%;
 	padding: 4px;
@@ -100,12 +100,13 @@ li.mjs-nestedSortable-expanded>ol {
 }
 
 .tree-view {
-	height: 100%;
     padding: 8px 8px 8px 8px;
 }
 
+.sprint-planner a.to-circle-view, 
 .organization-manager a.to-circle-view, 
 .organization-manager a.to-tree-view { display: none; }
+
 .organization-manager.small .tree-view { margin: 0 80px 0 0; }
 .organization-manager.small .to-circle-view {
     top: 10px;

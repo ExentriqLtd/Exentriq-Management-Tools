@@ -156,7 +156,10 @@ Template.orgManager.getPoitionById = function(_id) {
 Template.orgManager.setModel = function(_interval) {
 
 	_interval && clearInterval(_interval);
-	Template.treeView.setModel(Template.treeView.organizationManagerModel);
+	Template.treeView.setModel(Template.treeView.organizationManagerModel, {
+		allowSorting: true,
+		allowMenu: true
+	});
 	Template.circleView.setModel(Template.treeView.organizationManagerModel);
 	$(window).trigger('resize');
 };
