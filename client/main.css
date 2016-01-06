@@ -153,8 +153,11 @@ li.mjs-nestedSortable-expanded>ol {
     margin-bottom: 4px;
 }
 
-.tree-node.selected > .node-title {
-	/*box-shadow: 0 0 10px #1bbc9b;*/
+.tree-node.selected > .tree-node-parent {
+	box-shadow: 0 0 10px #1bbc9b;
+}
+
+.tree-node.selected > .tree-node-parent .node-title {
 	text-decoration: underline;
 }
 

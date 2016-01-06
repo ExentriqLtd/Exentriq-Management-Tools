@@ -68,7 +68,6 @@ Template.sprintPlanner.onCreated(function() {
 	Template.sideMenu.events({
 		'click .user': function(event) {
 			var target = $(event.target);
-			markSelected(target);
 			var li = target.parents("li");
 			var user = li.data('item');
 			console.log(user);
@@ -80,7 +79,6 @@ Template.sprintPlanner.onCreated(function() {
 		},
 		'click .space': function(event) {
 			var target = $(event.target);
-			markSelected(target);
 			var li = target.parents("li");
 			var space = li.data('item');
 			console.log(space._id);
@@ -347,12 +345,4 @@ var handleTasks = function(err, res) {
 		Session.set('tasks', res);
 		return res;
 	}
-}
-
-var markSelected = function(target) {
-	$(".space-selected").each(function() {
-		console.log(this);
-		$(this).removeClass("space-selected");
-	});
-	target.addClass("space-selected");
 }
