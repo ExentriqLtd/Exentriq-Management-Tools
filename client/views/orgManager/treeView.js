@@ -26,10 +26,10 @@ Template.treeView.events({
 	// Delete item
 	'click [name="confirm"]': function() {
 
-		Template.mainView._block = true;
+		Template.orgManager._block = true;
 		var item = Template.treeView._menuActionLiNode;
 		Template.treeView.removeChildren(item.children || []);
-		Template.mainView._block = false;
+		Template.orgManager._block = false;
 
 		Spaces.remove({
 			_id: item._id
@@ -190,13 +190,13 @@ Template.treeView.setModel = function(model) {
 				root.find('.allow').removeClass('allow');
 				root.find('.deny').removeClass('deny');
 
-				Template.mainView._block = true;
+				Template.orgManager._block = true;
 				Template.treeView._onChange();
-				Template.mainView._block = false;
+				Template.orgManager._block = false;
 				//DB
 				var item = data.item.data('item');
 				var parent = data.item.parents('li:first').data('item');
-				Template.mainView.updateSpace($.extend(item, {
+				Template.orgManager.updateSpace($.extend(item, {
 					parent: (parent && parent._id) || null
 				}));
 			}
@@ -313,7 +313,7 @@ Template.treeView.setModel = function(model) {
 
 						//DB
 						var cutItem = cutNode.data('item');
-						Template.mainView.updateSpace($.extend(cutItem, {
+						Template.orgManager.updateSpace($.extend(cutItem, {
 							parent: item._id
 						}));
 

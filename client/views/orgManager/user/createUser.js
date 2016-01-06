@@ -3,10 +3,10 @@
 Template.createUserDialog.events({
 	'click #create_user_submit': function(){
 
-		Template.mainView.insertSpace({
+		Template.orgManager.insertSpace({
 			name: $('#create_user_username').val(),
 			parent: Template.treeView.selectedNode ? Template.treeView.selectedNode._id : null ,
-			cmpId: Template.mainView._cmpId,
+			cmpId: Template.orgManager._cmpId,
 			type: 'user'
 		});
 

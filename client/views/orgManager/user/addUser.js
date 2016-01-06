@@ -29,7 +29,7 @@ Template.addUserDialog.events({
 			
 			/*Meteor.call(
 				'getUsers', // methode
-				Template.mainView._cmpId, // company name
+				Template.orgManager._cmpId, // company name
 				$('input.eq-ui-user-search').val() || '', // search terms
 				function(error, data) { // callback
 
@@ -39,7 +39,7 @@ Template.addUserDialog.events({
 
 						var existingSpaces = Spaces.find({
 							type: 'user',
-							cmpId: Template.mainView._cmpId
+							cmpId: Template.orgManager._cmpId
 						}).fetch();
 						var s = data.filter(function(i) {
 							return !existingSpaces.some(function(o) {
@@ -54,9 +54,9 @@ Template.addUserDialog.events({
 	// click on user
 	'click .user-item': function() {
 		var user = this;
-		Template.mainView.insertSpace($.extend(user, {
+		Template.orgManager.insertSpace($.extend(user, {
 			parent: Template.treeView.selectedNode ? Template.treeView.selectedNode._id : null ,
-			cmpId: Template.mainView._cmpId,
+			cmpId: Template.orgManager._cmpId,
 			type: 'user'
 		}));
 		Session.set('users', Template.addUserDialog.filter(Session.get('users')));
@@ -65,7 +65,7 @@ Template.addUserDialog.events({
 
 Template.addUserDialog.filter = function(items) {
 
-	var existingSpaces = Spaces.find({ type: 'user', cmpId: Template.mainView._cmpId }).fetch();
+	var existingSpaces = Spaces.find({ type: 'user', cmpId: Template.orgManager._cmpId }).fetch();
 	var data = items.filter(function(i) {
 		return !existingSpaces.some(function(o) {
 			return o.id == i.id;

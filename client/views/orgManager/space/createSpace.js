@@ -3,10 +3,10 @@
 Template.createSpaceDialog.events({
 	'click #create_space_submit': function(){
 
-		Template.mainView.insertSpace({
+		Template.orgManager.insertSpace({
 			name: $('#create_space_name').val(),
 			parent: Template.treeView.selectedNode ? Template.treeView.selectedNode._id : null ,
-			cmpId: Template.mainView._cmpId,
+			cmpId: Template.orgManager._cmpId,
 			type: 'space'
 		});
 

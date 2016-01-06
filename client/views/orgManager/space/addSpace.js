@@ -25,7 +25,7 @@ Template.addSpaceDialog.events({
 
 			/*Meteor.call(
 				'getSpaces', // methode
-				Template.mainView._cmpId, // company name
+				Template.orgManager._cmpId, // company name
 				$('input.eq-ui-space-search').val() || '', // search terms
 				function(error, data) { // callback
 
@@ -40,9 +40,9 @@ Template.addSpaceDialog.events({
 	// click on space
 	'click .space-item': function(e) {
 		var space = this;
-		Template.mainView.insertSpace($.extend(space, {
+		Template.orgManager.insertSpace($.extend(space, {
 			parent: Template.treeView.selectedNode ? Template.treeView.selectedNode._id : null ,
-			cmpId: Template.mainView._cmpId,
+			cmpId: Template.orgManager._cmpId,
 			type: 'space'
 		}));
 		Session.set('spaces', Template.addSpaceDialog.filter(Session.get('spaces')));
@@ -51,7 +51,7 @@ Template.addSpaceDialog.events({
 
 Template.addSpaceDialog.filter = function(items) {
 
-	var existingSpaces = Spaces.find({ type: 'space', cmpId: Template.mainView._cmpId }).fetch();
+	var existingSpaces = Spaces.find({ type: 'space', cmpId: Template.orgManager._cmpId }).fetch();
 	var data = items.filter(function(i) {
 		return !existingSpaces.some(function(o) {
 			return o.id == i.id;

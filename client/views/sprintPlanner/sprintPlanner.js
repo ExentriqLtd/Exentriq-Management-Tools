@@ -28,6 +28,22 @@ Template.sprintPlanner.onCreated(function () {
 					var query = Spaces.find({
 						cmpId: cmpId
 					});
+
+					Template.treeView.organizationManagerModel.children = convertNode(query.fetch());
+					_interval = setInterval(function() {
+
+						if (Template.treeView.renderDone) {
+							setModel();
+							bindObserveChanges(query);
+
+							var orderingQuery = Ordering.find({
+								cmpId: cmpId
+							});
+							ordering = orderingQuery.fetch()[0];
+							bindObserveChanges(orderingQuery);
+						}
+					}, 10);
+
 					Template.sideMenu.organizationManagerModel.children = convertNode(query.fetch());
 					_interval = setInterval(function() {
 
@@ -53,7 +69,7 @@ Template.sprintPlanner.onCreated(function () {
 	function setModel() {
 
 		clearInterval(_interval);
-		Template.sideMenu.setModel(Template.sideMenu.organizationManagerModel);
+		Template.treeView.setModel(Template.sideMenu.organizationManagerModel);
 	}
 	function convertNode(allSpaces, _param) {
 
