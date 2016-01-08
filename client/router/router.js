@@ -18,6 +18,17 @@ FlowRouter.route('/sprintplanner/:companyId', {
 	}
 });
 
+FlowRouter.route('/activitytracker/:companyId', {
+	action: function(params, queryParams) {   
+
+		console.log(params.companyId);
+		if (params.companyId){
+			Template.activityTracker.render({cmpId: params.companyId});
+			BlazeLayout.render('appView', { center: "activityTracker" });
+		}
+	}
+});
+
 FlowRouter.route('/', {
 	action: function(params, queryParams) {   
 		

@@ -26,3 +26,4 @@ kadira:flow-router
 http
 kadira:blaze-layout
 nimble:restivus
+momentjs:moment
