@@ -40,7 +40,10 @@ Template.treeView.events({
 	'click .to-circle-view': function() {
 		$('.organization-manager').addClass('show-circle');
 		$('.organization-manager').removeClass('show-tree');
-		Template.treeView.setModel(Template.treeView.organizationManagerModel);
+		Template.treeView.setModel(Template.treeView.organizationManagerModel, {
+			allowSorting: true,
+			allowMenu: true
+		});
 		Template.circleView.setModel(Template.treeView.organizationManagerModel);
 	}
 });
@@ -153,7 +156,7 @@ Template.treeView.setModel = function(model, _p) {
 
 	function bindEvents() {
 
-		if (_param.allowSorting){
+		if (_param.allowSorting) {
 			root.nestedSortable({
 				forcePlaceholderSize: true,
 				handle: 'div',
@@ -263,7 +266,7 @@ Template.treeView.setModel = function(model, _p) {
 			nodeIcon +
 			'</span>' +
 			'<div class="node-title">' + node.name + '</div>' +
-			menu + 
+			menu +
 			'</div>' +
 			'<ol class="node-childrens"></ol>' +
 			'</li>'
@@ -375,7 +378,15 @@ Template.treeView.setModel = function(model, _p) {
 			items.push({
 				name: 'Locate',
 				handler: function() {
-					Template.circleView.zoomToItem(item);
+
+					$('.organization-manager').addClass('show-circle');
+					$('.organization-manager').removeClass('show-tree');
+
+					// set circle model first time
+					//if (!Template.circleView.zoomToItem){
+					Template.circleView.setModel(Template.treeView.organizationManagerModel);
+					//}
+					Template.circleView.zoomToItem(item);	
 				}
 			})
 		}
