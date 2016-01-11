@@ -59,21 +59,25 @@ var addActivity = function(activity) {
 		time: new Date()
 	}
 
-	var regexpBoard = /#([^\s]*)/g;
+	var regexpBoard = /(#)([^\s]*)/g;
 	var regexDays = /\b([0-9]*)(d|D|day|days|DAY|DAYS|Day|Days)\b/g;
 	var regexHours = /\b([0-9]*)(h|H|hour|hours|HOUR|HOURS|Hour|Hours)\b/g;
 	var regexMinutes = /\b([0-9]*)(m|M|minute|minutes|MINUTE|MINUTES|Minute|Minutes)\b/g;
+	
+	var description = activity.statement;
 
 	// set project
 	var regexpBoardResult = regexpBoard.exec(activity.statement);
 	if (regexpBoardResult !== null) {
-		obj.project = regexpBoardResult[1];
+		obj.project = regexpBoardResult[2];
+		description = description.replace(regexpBoardResult[1]+regexpBoardResult[2], "");
 	}
 
 	// set days
 	var regexDaysResult = regexDays.exec(activity.statement);
 	if (regexDaysResult !== null) {
 		obj.days = Number(regexDaysResult[1]);
+		description = description.replace(regexDaysResult[1]+regexDaysResult[2], "");
 	} else {
 		obj.days = 0;
 	}
@@ -82,6 +86,7 @@ var addActivity = function(activity) {
 	var regexHoursResult = regexHours.exec(activity.statement);
 	if (regexHoursResult !== null) {
 		obj.hours = Number(regexHoursResult[1]);
+		description = description.replace(regexHoursResult[1]+regexHoursResult[2], "");
 	} else {
 		obj.hours = 0;
 	}
@@ -90,10 +95,13 @@ var addActivity = function(activity) {
 	var regexMinutesResult = regexMinutes.exec(activity.statement);
 	if (regexMinutesResult !== null) {
 		obj.minutes = Number(regexMinutesResult[1]);
+		description = description.replace(regexMinutesResult[1]+regexMinutesResult[2], "");
 	} else {
 		obj.minutes = 0;
 	}
 
+	obj.description=description;
+	
 	Activities.insert(obj);
 }
 
