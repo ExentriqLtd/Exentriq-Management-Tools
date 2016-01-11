@@ -1,29 +1,45 @@
-
 // sprintPlanner template
 Template.activityTracker.render = function(_param) {
 	Meteor.subscribe("activities")
 }
 
 Template.activityTracker.onCreated(function() {
-	
+
 });
 
 Template.activityTracker.helpers({
 	activities: function() {
-		var activities = Activities.find();
+
+		var request = {
+			cmpId: Session.get('cmp').cmpId,
+		}
+
+		if (Session.get('project')) {
+			request.project = Session.get('project');
+		}
+
+		var activities = Activities.find(request);
 		return activities;
 	}
 });
 
 Template.activityTracker.events({
 	'click #statement-add': function(evt, tpl) {
-		evt.preventDefault();
-	
-		var username = Session.get('username');
-		var space = Session.get('space');
-		var statementEml = tpl.find('#statement-eml').value;
 
-		Meteor.call('addActivityEml', statementEml, username, space);
+		var statement = tpl.find('#statement-eml').value;
+		evt.preventDefault();
+		if (tpl.find('#statement-eml').value) {
+
+			var regexpBoard = /#([^\s]*)/g;
+			var regexpBoardResult = regexpBoard.exec(tpl.find('#statement-eml').value);
+			if (regexpBoardResult !== null) {
+				Meteor.call('addActivityEml', {
+					statement: tpl.find('#statement-eml').value,
+					cmpId: Session.get('cmp').cmpId,
+					userId: Session.get('user').userId,
+				});
+			}
+		}
 	}
 });
 

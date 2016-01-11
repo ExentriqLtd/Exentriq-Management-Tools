@@ -31,22 +31,33 @@ FlowRouter.route('/activitytracker/:companyId', {
 	}
 });
 
-/*FlowRouter.route('/activitytracker/:companyId/project/:projectId', {
+FlowRouter.route('/activitytracker/:companyId/project/:project', {
 	action: function(params, queryParams) {   
 
-		console.log(params.companyId);
-		if (params.companyId){
+		if (params.companyId && params.project){
 
-			Session.set('projectId', params.projectId);
-			Session.set('cmpId', params.projectId);
+			// set session cmp
+			Session.set('cmp', {
+				cmpId: params.companyId,
+				cmpName: params.companyId
+			});
 
-			Template.activityTracker.render({cmpId: params.companyId});
+			// set session user
+			Session.set('user', {
+				userName: 'kirill dubinin',
+				userId: 'kirill dubinin'
+			});
+
+			Session.set('project', params.project);
+
+			// render tpl
+			Template.activityTracker.render();
 			BlazeLayout.render('appView', { center: "activityTracker" });
 		}
 	}
 });
 
-FlowRouter.route('/activitytracker/:companyId/project/:userId', {
+/*FlowRouter.route('/activitytracker/:companyId/project/:userId', {
 	action: function(params, queryParams) {   
 
 		console.log(params.companyId);
