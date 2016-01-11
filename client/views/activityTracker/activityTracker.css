@@ -1,0 +1,12 @@
+.activity-tracker {
+	padding: 10px;
+}
+
+.activities-table {
+	margin-top: 20px;
+}
+
+.activities-add-panel .eq-ui-form-group {
+	margin-bottom: 0;
+	margin-top: 0;
+}

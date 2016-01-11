@@ -1,9 +1,5 @@
 'use strict';
 
-Template.orgManager.helpers({});
-Template.orgManager.events({});
-Template.orgManager.events({});
-
 Template.orgManager.render = function(_param) {
 
 	var param = $.extend({

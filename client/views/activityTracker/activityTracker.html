@@ -3,57 +3,92 @@
 		<div class="row">
 
 			<div class="col-md-12">
-				<header class="eq-ui-layout-header" style="padding-left:0px">
-					<div id="main-eq-ui-app-bar" class="eq-ui-app-bar">
-					<div class="header-title" style="margin-left: 10px">
-						Activity Tracker
-					</div>
-					</div>
-				</header>
-				<div style="top: 35px; right: 25px; height:50px" class="eq-ui-btn-fab-floating doc-show-in-layout-struture-1 ">
-			        <a data-target="eq-ui-modal-add" class="btn btn-primary eq-ui-btn-fab eq-ui-waves-light eq-ui-modal-trigger"><i class="mdi mdi-plus icon"></i></a>
-			    </div>
-			    <div class="">
-				<table id="activity-tracker-table" class="table eq-ui-data-table z-depth-1 eq-ui-hoverable" style="margin-top: 30px">
-			        <thead>
-			            <tr>
-			                <th class="eq-ui-data-table-cell-non-numeric eq-ui-data-table-cell-truncate">Board</th>
-			                <th class="eq-ui-data-table-cell-non-numeric eq-ui-data-table-cell-truncate">Activity</th>
-			                <th>Time</th>
-			                <th>Date</th>
-			                <th></th>
-			            </tr>
-			        </thead>
-			        <tbody>
-			        	{{#each activities}}
-				    		{{> atActivity}}
-				    	{{/each}}
-			    	</tbody>
-			    </table>
-			    </div>
+				<div class="eq-ui-card activities-add-panel">
+					<form>
+			            <div class="row valign-wrapper">
+			                <div class="col-md-10">
+			                    <div class="eq-ui-form-group eq-ui-input-field">
+			                        <input placeholder="1d 4h 10m on a #board for an activity" id="statement-eml" type="text" class="eq-ui-input">
+			                    </div>
+			                </div>
+			                <div class="col-md-2">
+			                    <div class="eq-ui-form-group eq-ui-input-field">
+			                        <a id="statement-add" class="btn btn-primary eq-ui-waves-light">ADD</a>
+			                    </div>
+			                </div>
+			            </div>
+					</form>
+				</div>
 
-			</div>
+				<div class="eq-ui-card eq-ui-card-with-table activities-table">
+				    <table id="activity-tracker-table" class="table eq-ui-data-table eq-ui-with-checkbox z-depth-1">
+				        <thead>
+				        	<tr>
+					        	<th>
+						            <input type="checkbox" class="eq-ui-input filled-in" id="checkbox-all" />
+						            <label for="checkbox-all"></label>
+						        </th>
+				                <th class="eq-ui-data-table-cell-non-numeric">Project</th>
+				                <th class="eq-ui-data-table-cell-non-numeric">Description</th>
+				                <th class="eq-ui-data-table-cell-non-numeric">Space</th>
+				                <th class="eq-ui-data-table-cell-non-numeric">User</th>
+				                <th class="eq-ui-data-table-cell-non-numeric">Time</th>
+				                <th class="eq-ui-data-table-cell-non-numeric">Logged</th>
+			            	</tr>
+		            	</thead>
+		            	<tbody>
+				        	{{#each activities}}
+					    		{{> atActivity}}
+					    	{{/each}}
+				    	</tbody>
+			    	</table>
+		    	</div>
+		    </div>
 		</div>
-		{{> addActivityEml}}
-		{{> deleteActivityEml}}
 	</div>
-	
+
+	{{> deleteActivityEml}}
 </template>
 
 <template name="atActivity">
-<tr>
-    <td title="{{board}}" class="eq-ui-data-table-cell-non-numeric">{{board}}</td>
-    <td title="{{activity}}" class="eq-ui-data-table-cell-non-numeric">{{activity}}</td>
-    <td title="{{seconds}}">{{formatSeconds seconds}}</td>
-    <td title="{{time}}">{{formatDate time}}</td>
-    <td>
-	    <a data-target="doc-dropdown-app-bar-{{eml_id}}" data-hover="false" class="btn btn-default eq-ui-btn-flat eq-ui-btn-fab eq-ui-btn-menu-fab eq-ui-waves dropdown-trigger waves-effect waves-effect">
-	        <i class="mdi mdi-dots-vertical icon"></i>
-	    </a>
-	    <ul id="doc-dropdown-app-bar-{{eml_id}}" class="eq-ui-dropdown">
-            <li><a data-target="eq-ui-modal-edit" class="eml-edit eq-ui-modal-trigger">Edit</a></li>
-            <li><a data-target="eq-ui-modal-delete" class="eml-delete eq-ui-modal-trigger">Delete</a></li>
-        </ul>
-    </td>
-</tr>	
+	<tr>
+		<td>
+            <input type="checkbox" class="eq-ui-input filled-in" id="checkbox-{{_id}}" />
+            <label for="checkbox-{{_id}}"></label>
+		</td>
+	    <td title="{{project}}" class="eq-ui-data-table-cell-non-numeric">{{project}}</td>
+	    <td title="{{description}}" class="eq-ui-data-table-cell-non-numeric">{{description}}</td>
+	    <td title="{{space}}" class="eq-ui-data-table-cell-non-numeric">{{cmpId}}</td>
+	    <td title="{{user}}" class="eq-ui-data-table-cell-non-numeric" >{{userId}}</td>
+	    <td title="{{time}}" class="eq-ui-data-table-cell-non-numeric">{{formatDate time}}</td>
+	    <td title="{{logged}}" class="eq-ui-data-table-cell-non-numeric">{{formatLoggedTime this}}</td>
+	    <td>
+		    <a data-target="doc-dropdown-app-bar-{{_id}}" data-hover="false" class="btn btn-default eq-ui-btn-flat eq-ui-btn-fab eq-ui-btn-menu-fab eq-ui-waves dropdown-trigger waves-effect waves-effect">
+		        <i class="mdi mdi-dots-vertical icon"></i>
+		    </a>
+		    <ul id="doc-dropdown-app-bar-{{_id}}" class="eq-ui-dropdown eq-ui-dropdown-right-top">
+	            <li><a data-target="eq-ui-modal-edit" class="eml-edit eq-ui-modal-trigger">Edit</a></li>
+	            <li><a data-target="eq-ui-modal-delete" class="eml-delete eq-ui-modal-trigger">Delete</a></li>
+	        </ul>
+	    </td>
+	</tr>	
 </template>
+
+<template name="deleteActivityEml">
+	<div id="eq-ui-modal-delete" class="eq-ui-modal">
+
+        <!-- Content -->
+        <div class="eq-ui-modal-content">
+            <h5>Delete activity confirmation</h5>
+            <p>Are you sure you want to delete this activity?</p>
+        </div>
+
+        <!-- Footer -->
+        <div class="eq-ui-modal-footer">
+            <a id="statement-delete" href="#" class="btn btn-default eq-ui-btn-flat eq-ui-waves eq-ui-secondary-color-text eq-ui-modal-close waves-effect waves-effect">Confirm</a>
+            <a href="#" class="btn btn-default eq-ui-btn-flat eq-ui-waves eq-ui-secondary-color-text eq-ui-modal-close waves-effect waves-effect">Abort</a>
+        </div>
+
+    </div>
+</template>
+
