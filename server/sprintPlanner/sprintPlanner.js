@@ -1,7 +1,15 @@
 Tasks = new Mongo.Collection("tasks");
+UsersTest = new Mongo.Collection("users_test");
+BoardsTest = new Mongo.Collection("boards_test");
 
 Meteor.publish("tasks", function (space) {
    return Tasks.find({space:space});
+});
+Meteor.publish("users_test", function (space) {
+   return UsersTest.find({});
+});
+Meteor.publish("boards_test", function (space) {
+   return BoardsTest.find({});
 });
 
 Meteor.startup(function () {

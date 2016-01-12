@@ -15,6 +15,7 @@ check@1.1.0
 coffeescript@1.0.11
 cosmos:browserify@0.9.3
 d3js:d3@3.5.8
+dandv:caret-position@2.1.1
 ddp@1.2.2
 ddp-client@1.2.1
 ddp-common@1.2.2
@@ -48,6 +49,7 @@ meteor-base@1.0.1
 meteor-platform@1.2.3
 minifiers@1.1.7
 minimongo@1.0.10
+mizzao:autocomplete@0.5.1
 mizzao:build-fetcher@0.2.0
 mizzao:jquery-ui@1.11.4
 mobile-experience@1.0.1

@@ -1,12 +1,13 @@
 Tasks = new Mongo.Collection("tasks");
-
+UsersTest = new Mongo.Collection("users_test");
+BoardsTest = new Mongo.Collection("boards_test");
 
 // sprintPlanner template
 Template.sprintPlanner.render = function(_param) {
 	var param = $.extend({
 		cmpId: ''
 	}, _param);
-
+	
 	var cmpId = param.cmpId;
 	Template.sprintPlanner._cmpId = cmpId;
 }
@@ -104,6 +105,8 @@ Template.sprintPlanner.onCreated(function() {
 	//END: ORGANIZATION MANAGER TREE VIEW
 
 	Meteor.subscribe("tasks", space);
+	Meteor.subscribe("users_test");
+	Meteor.subscribe("boards_test");
 
 	Session.set('username', username);
 	Session.set('space', space);
@@ -291,7 +294,27 @@ Template.addEml.helpers({
 	},
 	description: function() {
 		return Session.get('description');
-	}
+	},
+	autocompleteSettings: function() {
+	    return {
+	      position: "bottom",
+	      limit: 20,
+	      rules: [
+	        {
+	          token: '@',
+	          collection: UsersTest,
+	          field: "username",
+	          template: Template.userPill
+	        },
+	        {
+	          token: '#',
+	          collection: BoardsTest,
+	          field: "name",
+	          template: Template.boardPill
+	        }
+	      ]
+	    };
+	  }
 });
 
 //deleteEml template
