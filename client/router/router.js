@@ -7,6 +7,15 @@ FlowRouter.route('/orgmanager/:companyId', {
 	}
 });
 
+FlowRouter.route('/sprintplanner/:companyId', {
+	action: function(params, queryParams) {   
+		if (params.companyId){
+			Template.sprintPlanner.render({cmpId: params.companyId});
+			BlazeLayout.render('appView', { center: "sprintPlanner" });
+		}
+	}
+});
+
 FlowRouter.route('/activitytracker/:companyId', {
 	action: function(params, queryParams) {   
 

@@ -1,15 +1,15 @@
 if (Meteor.isServer) {
 
-	Meteor.publish('spaces', function(request) {
-		var data = Spaces.find(request);
+	Meteor.publish('spaces', function() {
+		var data = Spaces.find();
 		if (data) {
 			return data;
 		} else return this.ready();
 	});
 
-	Meteor.publish('ordering', function(request) {
+	Meteor.publish('ordering', function() {
 
-		var data = Ordering.find(request);
+		var data = Ordering.find();
 		if (data) {
 			return data;
 		} else return this.ready();
