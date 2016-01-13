@@ -35,6 +35,33 @@ Meteor.startup(function() {
 			}
 		}
 	});
+	
+	Api.addRoute('spaces/:space/activities', {
+		authRequired: false
+	}, {
+		get: {
+			roleRequired: [],
+			action: function() {
+				try {
+					var space = this.urlParams.space;
+					var day = this.queryParams.day;
+					var query = {"cmpId":space};
+					if(day!=null){
+						var start = moment(day).startOf('day').toDate();
+						var end = moment(day).endOf('day').toDate();
+						query.time={$gte: start, $lt: end};
+					}
+					var activities = Activities.find(query).fetch();
+					return { status: "success", "activities": activities };
+				} catch (e) {
+					console.log(e);
+					return {
+						status: "error"
+					};
+				}
+			}
+		}
+	});
 
 });
 
