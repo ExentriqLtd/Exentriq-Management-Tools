@@ -23,25 +23,39 @@ Template.activityTracker.helpers({
 	}
 });
 
+
+
 Template.activityTracker.events({
-	'click #statement-add': function(evt, tpl) {
-
-		var statement = tpl.find('#statement-eml').value;
+	'keyup #statement-eml': function(evt, tpl) {
 		evt.preventDefault();
-		if (tpl.find('#statement-eml').value) {
-
-			var regexpBoard = /#([^\s]*)/g;
-			var regexpBoardResult = regexpBoard.exec(tpl.find('#statement-eml').value);
-			if (regexpBoardResult !== null) {
-				Meteor.call('addActivityEml', {
-					statement: tpl.find('#statement-eml').value,
-					cmpId: Session.get('cmp').cmpId,
-					userId: Session.get('user').userId,
-				});
-			}
+		evt.stopPropagation();
+		if (evt.keyCode == '13'){
+			Template.activityTracker.addActivity(tpl);	
 		}
+	},
+	'click #statement-add': function(evt, tpl) {
+		evt.preventDefault();
+		Template.activityTracker.addActivity(tpl);
 	}
 });
+
+Template.activityTracker.addActivity = function(tpl) {
+	var statement = tpl.find('#statement-eml').value;
+	if (statement) {
+		var regexpBoard = /#([^\s]*)/g;
+		var regexpBoardResult = regexpBoard.exec(statement);
+		if (regexpBoardResult !== null) {
+			Meteor.call('addActivityEml', {
+				statement: statement,
+				cmpId: Session.get('cmp').cmpId,
+				cmpName: Session.get('cmp').cmpName,
+				userId: Session.get('user').userId,
+			});
+
+			$('#statement-eml').val('');
+		}
+	}
+};
 
 Template.activityTracker.rendered = function() {
 	// Modal configuration

@@ -1,17 +1,25 @@
 FlowRouter.route('/orgmanager/:companyId', {
 	action: function(params, queryParams) {   
-		if (params.companyId){
-			Template.orgManager.render({cmpId: params.companyId});
-			BlazeLayout.render('appView', { center: "orgManager" });
+		if (params.companyId) {
+			Template.orgManager.render({
+				cmpId: params.companyId
+			});
+			BlazeLayout.render('appView', {
+				center: "orgManager"
+			});
 		}
 	}
 });
 
 FlowRouter.route('/sprintplanner/:companyId', {
 	action: function(params, queryParams) {   
-		if (params.companyId){
-			Template.sprintPlanner.render({cmpId: params.companyId});
-			BlazeLayout.render('appView', { center: "sprintPlanner" });
+		if (params.companyId) {
+			Template.sprintPlanner.render({
+				cmpId: params.companyId
+			});
+			BlazeLayout.render('appView', {
+				center: "sprintPlanner"
+			});
 		}
 	}
 });
@@ -19,23 +27,28 @@ FlowRouter.route('/sprintplanner/:companyId', {
 FlowRouter.route('/activitytracker/:companyId', {
 	action: function(params, queryParams) {   
 
-		if (params.companyId){
+		if (params.companyId) {
+			Meteor.call('getSpaceInfo', params.companyId, function(error, data) {
+				if (!error) {
+					// set session cmp
+					Session.set('cmp', {
+						cmpId: params.companyId,
+						cmpName: data.title
+					});
 
-			// set session cmp
-			Session.set('cmp', {
-				cmpId: params.companyId,
-				cmpName: params.companyId
+					// set session user
+					Session.set('user', {
+						userName: 'kirill dubinin',
+						userId: 'kirill dubinin'
+					});
+
+					// render tpl
+					Template.activityTracker.render();
+					BlazeLayout.render('appView', {
+						center: "activityTracker"
+					});
+				}
 			});
-
-			// set session user
-			Session.set('user', {
-				userName: 'kirill dubinin',
-				userId: 'kirill dubinin'
-			});
-
-			// render tpl
-			Template.activityTracker.render();
-			BlazeLayout.render('appView', { center: "activityTracker" });
 		}
 	}
 });
@@ -43,25 +56,29 @@ FlowRouter.route('/activitytracker/:companyId', {
 FlowRouter.route('/activitytracker/:companyId/project/:project', {
 	action: function(params, queryParams) {   
 
-		if (params.companyId && params.project){
+		if (params.companyId && params.project) {
 
-			// set session cmp
-			Session.set('cmp', {
-				cmpId: params.companyId,
-				cmpName: params.companyId
+			Meteor.call('getSpaceInfo', params.companyId, function(error, data) {
+				if (!error) {
+					// set session cmp
+					Session.set('cmp', {
+						cmpId: params.companyId,
+						cmpName: data.title
+					});
+
+					// set session user
+					Session.set('user', {
+						userName: 'kirill dubinin',
+						userId: 'kirill dubinin'
+					});
+
+					// render tpl
+					Template.activityTracker.render();
+					BlazeLayout.render('appView', {
+						center: "activityTracker"
+					});
+				}
 			});
-
-			// set session user
-			Session.set('user', {
-				userName: 'kirill dubinin',
-				userId: 'kirill dubinin'
-			});
-
-			Session.set('project', params.project);
-
-			// render tpl
-			Template.activityTracker.render();
-			BlazeLayout.render('appView', { center: "activityTracker" });
 		}
 	}
 });
@@ -84,7 +101,6 @@ FlowRouter.route('/activitytracker/:companyId/project/:project', {
 
 FlowRouter.route('/', {
 	action: function(params, queryParams) {   
-		
+
 	}
 });
-
