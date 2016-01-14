@@ -113,6 +113,7 @@ var addActivity = function(activity) {
 		cmpId: activity.cmpId,
 		cmpName: activity.cmpName,
 		userId: activity.userId,
+		userName: activity.userName,
 		time: new Date()
 	}
 

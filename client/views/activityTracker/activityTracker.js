@@ -49,7 +49,8 @@ Template.activityTracker.addActivity = function(tpl) {
 				statement: statement,
 				cmpId: Session.get('cmp').cmpId,
 				cmpName: Session.get('cmp').cmpName,
-				userId: Session.get('user').userId,
+				userId: Meteor.userId(),
+				userName: Meteor.user().username,
 			});
 
 			$('#statement-eml').val('');
