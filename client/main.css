@@ -16,8 +16,10 @@ body, html {
 #__blaze-root,
 #__blaze-root .eq-ui-card,
 #__blaze-root .row,
+#__blaze-root .row .col-md-3,
 #__blaze-root .row .col-md-4,
 #__blaze-root .row .col-md-8,
+#__blaze-root .row .col-md-9,
 #__blaze-root .row .col-md-12 {
 	height: 100%;
 	padding: 0;

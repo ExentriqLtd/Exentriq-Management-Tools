@@ -13,7 +13,7 @@ Template.sprintPlanner.render = function(_param) {
 }
 
 Template.sprintPlanner.onCreated(function() {
-	var username = 'calogero.crapanzano';
+	var username = Meteor.user().username;
 	var space = Template.sprintPlanner._cmpId;
 
 	//BEGIN: ORGANIZATION MANAGER TREE VIEW

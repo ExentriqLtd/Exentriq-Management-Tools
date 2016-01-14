@@ -40,9 +40,24 @@ Template.activityTracker.events({
 Template.activityTracker.addActivity = function(tpl) {
 	var statement = tpl.find('#statement-eml').value;
 	if (statement) {
+
+		// validate proj
 		var regexpBoard = /#([^\s]*)/g;
 		var regexpBoardResult = regexpBoard.exec(statement);
-		if (regexpBoardResult !== null) {
+
+		// validate days
+		var regexDays = /\b([0-9]*)(d|D|day|days|DAY|DAYS|Day|Days)\b/g;
+		var regexpDaysResult = regexDays.exec(statement);
+
+		// validate hours
+		var regexHours = /\b([0-9]*)(h|H|hour|hours|HOUR|HOURS|Hour|Hours)\b/g;
+		var regexpHoursResult = regexDays.exec(statement);
+
+		// validate minutes
+		var regexMinutes = /\b([0-9]*)(m|M|minute|minutes|MINUTE|MINUTES|Minute|Minutes)\b/g;
+		var regexpMinutesResult = regexDays.exec(statement);
+
+		if (regexpBoardResult !== null && (regexpDaysResult || regexpHoursResult || regexpMinutesResult)) {
 			Meteor.call('addActivityEml', {
 				statement: statement,
 				cmpId: Session.get('cmp').cmpId,

@@ -9,8 +9,10 @@
 			    	{{/each}}
 				</div>
 			</div> -->
-			{{> sideMenu}}
-			<div class="col-md-8 eq-ui-card">
+			<div class="col-md-3" style="padding: 0;">
+				{{> sideMenu}}
+			</div>
+			<div class="col-md-9 eq-ui-card">
 				<header class="eq-ui-layout-header" style="padding-left:0px">
 					<div id="main-eq-ui-app-bar" class="eq-ui-app-bar">
 					<div class="header-title" style="margin-left: 10px">
@@ -25,7 +27,6 @@
 				<table id="sprint-planner-table" class="table eq-ui-data-table z-depth-1 eq-ui-hoverable">
 			        <thead>
 			            <tr>
-			                <th>@By</th>
 			                <th>Description</th>
 			                <th>[]Points</th>
 			                <th>@Assigned To</th>
@@ -59,7 +60,6 @@
 
 <template name="sp_task_old">
 <tr>
-    <td title="{{assigned_by}}" class="eq-ui-data-table-cell-non-numeric eq-ui-data-table-cell-truncate">{{assigned_by}}</td>
     <td title="{{what_and_why}}" class="eq-ui-data-table-cell-non-numeric eq-ui-data-table-cell-truncate">{{what_and_why}}</td>
     <td title="{{points}}" class="eq-ui-data-table-cell-non-numeric eq-ui-data-table-cell-truncate">{{points}}</td>
     <td title="{{assigned_to}}" class="eq-ui-data-table-cell-non-numeric eq-ui-data-table-cell-truncate">{{assigned_to}}</td>
