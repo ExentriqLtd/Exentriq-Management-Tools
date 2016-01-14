@@ -300,18 +300,18 @@ Template.addEml.helpers({
 	      position: "bottom",
 	      limit: 20,
 	      rules: [
-	        {
-	          token: '@',
-	          collection: UsersTest,
-	          field: "username",
-	          template: Template.userPill
-	        },
-	        {
-	          token: '#',
-	          collection: BoardsTest,
-	          field: "name",
-	          template: Template.boardPill
-	        }
+//	        {
+//	          token: '@',
+//	          collection: UsersTest,
+//	          field: "username",
+//	          template: Template.userPill
+//	        },
+//	        {
+//	          token: '#',
+//	          collection: BoardsTest,
+//	          field: "name",
+//	          template: Template.boardPill
+//	        }
 	      ]
 	    };
 	  }
