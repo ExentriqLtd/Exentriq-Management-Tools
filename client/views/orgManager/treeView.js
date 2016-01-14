@@ -2,7 +2,6 @@
 
 Template.treeView.helpers({});
 Template.treeView.events({});
-
 Template.treeView.organizationManagerModel = {
 	name: "root",
 	children: []
@@ -355,7 +354,7 @@ Template.treeView.setModel = function(model, _p) {
 					memoryNode = null;
 				}
 			}, */
-			{
+			, {
 				css: 'eq-ui-modal-trigger',
 				//href: '#eq-ui-modal-confirm-delete',
 				name: 'Delete',
@@ -370,26 +369,41 @@ Template.treeView.setModel = function(model, _p) {
 			}
 		];
 
-		if (item.type == 'space') {
+		items.push({
+			css: 'eq-ui-modal-trigger',
+			name: 'Edit',
+			handler: function() {
 
-			items.push({
-				type: 'divider'
-			});
-			items.push({
-				name: 'Locate',
-				handler: function() {
+				if (item.type == 'user') {
+					Session.set('contextMenuUser', {name: item.name});
+					$('#eq-ui-modal-edit-user').openModal();
+					EqUI.forms.validate_form($('#eq-ui-modal-edit-user'));
+				} else {
 
-					$('.organization-manager').addClass('show-circle');
-					$('.organization-manager').removeClass('show-tree');
-
-					// set circle model first time
-					//if (!Template.circleView.zoomToItem){
-					Template.circleView.setModel(Template.treeView.organizationManagerModel);
-					//}
-					Template.circleView.zoomToItem(item);	
+					Session.set('contextMenuSpace', {name: item.name});
+					$('#eq-ui-modal-edit-space').openModal();
+					EqUI.forms.validate_form($('#eq-ui-modal-edit-space'));
 				}
-			})
-		}
+			}
+		});
+
+		items.push({
+			type: 'divider'
+		});
+		items.push({
+			name: 'Locate',
+			handler: function() {
+
+				$('.organization-manager').addClass('show-circle');
+				$('.organization-manager').removeClass('show-tree');
+
+				// set circle model first time
+				//if (!Template.circleView.zoomToItem){
+				Template.circleView.setModel(Template.treeView.organizationManagerModel);
+				//}
+				Template.circleView.zoomToItem(item);
+			}
+		})
 
 		dd.setItems(items);
 		dd.show({
@@ -425,3 +439,15 @@ Template.treeView.renderDone = false;
 Template.treeView.rendered = function() {
 	Template.treeView.renderDone = true;
 };
+
+Template.editSpaceDialog.helpers({
+	contextMenuSpace: function(){
+		return Session.get('contextMenuSpace') || {}
+	}
+});
+
+Template.editUserDialog.helpers({
+	contextMenuUser: function(){
+		return Session.get('contextMenuUser') || {}
+	}
+});

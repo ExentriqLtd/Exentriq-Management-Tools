@@ -293,10 +293,7 @@ ul.drop-down .drop-down-item:hover {
 .eq-ui-modal-add-users .eq-ui-list.show-list { display: block; }
 
 
-#eq-ui-modal-create-user .eq-ui-modal-footer .btn,
-#eq-ui-modal-create-space .eq-ui-modal-footer .btn,
-#eq-ui-modal-add-space .eq-ui-modal-footer .btn,
-#eq-ui-modal-add-user .eq-ui-modal-footer .btn { width: 100%; }
+.eq-ui-modal-footer .btn { width: 100%; }
 
 #eq-ui-modal-add-user .eq-ui-list,
 #eq-ui-modal-add-space .eq-ui-list {
