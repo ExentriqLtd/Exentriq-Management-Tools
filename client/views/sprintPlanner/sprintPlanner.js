@@ -1,7 +1,6 @@
 Tasks = new Mongo.Collection("tasks");
 UsersTest = new Mongo.Collection("users_test");
 BoardsTest = new Mongo.Collection("boards_test");
-
 // sprintPlanner template
 Template.sprintPlanner.render = function(_param) {
 	var param = $.extend({
@@ -13,7 +12,6 @@ Template.sprintPlanner.render = function(_param) {
 }
 
 Template.sprintPlanner.onCreated(function() {
-	var username = Meteor.user().username;
 	var space = Template.sprintPlanner._cmpId;
 
 	//BEGIN: ORGANIZATION MANAGER TREE VIEW
@@ -108,7 +106,6 @@ Template.sprintPlanner.onCreated(function() {
 	Meteor.subscribe("users_test");
 	Meteor.subscribe("boards_test");
 
-	Session.set('username', username);
 	Session.set('space', space);
 
 	Session.set('selectedTeam', null);
@@ -176,7 +173,7 @@ Template.sprintPlanner.helpers({
 Template.sprintPlanner.events({
 	'click #statement-add': function(evt, tpl) {
 		evt.preventDefault();
-		var username = Session.get('username');
+		var username = Meteor.user().username;
 		var space = Session.get('space');
 		var statementEml = tpl.find('#statement-eml').value;
 		var selectedTeam = Session.get('selectedTeam');
