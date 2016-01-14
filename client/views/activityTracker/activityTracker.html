@@ -74,9 +74,49 @@
 	</tr>	
 </template>
 
+<template name="editActivity">
+    <div class="row">
+        <div class="col-md-12">
+	        <div class="eq-ui-form-group eq-ui-input-field">
+	            <input id="project" type="text" class="eq-ui-input">
+	            <label for="project">Project</label>
+	        </div>
+	    </div>
+	    <div class="col-md-12">
+	        <div class="eq-ui-form-group eq-ui-input-field">
+	            <input id="description" type="text" class="eq-ui-input">
+	            <label for="description">Description</label>
+	        </div>
+	    </div>
+	    <div class="col-md-12">
+	        <div class="eq-ui-form-group eq-ui-input-field">
+	            <input id="space" type="text" class="eq-ui-input">
+	            <label for="space">Space</label>
+	        </div>
+	    </div>
+	    <div class="col-md-12">
+	        <div class="eq-ui-form-group eq-ui-input-field">
+	            <input id="user" type="text" class="eq-ui-input">
+	            <label for="user">User</label>
+	        </div>
+	    </div>
+	    <div class="col-md-12">
+	        <div class="eq-ui-form-group eq-ui-input-field">
+	            <input id="time" type="text" class="eq-ui-input">
+	            <label for="time">Time</label>
+	        </div>
+	    </div>
+	    <div class="col-md-12">
+	        <div class="eq-ui-form-group eq-ui-input-field">
+	            <input id="logged" type="text" class="eq-ui-input">
+	            <label for="logged">Logged</label>
+	        </div>
+	    </div>
+    </div>
+</template>
+
 <template name="deleteActivityEml">
 	<div id="eq-ui-modal-delete" class="eq-ui-modal">
-
         <!-- Content -->
         <div class="eq-ui-modal-content">
             <h5>Delete activity confirmation</h5>
@@ -88,7 +128,6 @@
             <a id="statement-delete" href="#" class="btn btn-default eq-ui-btn-flat eq-ui-waves eq-ui-secondary-color-text eq-ui-modal-close waves-effect waves-effect">Confirm</a>
             <a href="#" class="btn btn-default eq-ui-btn-flat eq-ui-waves eq-ui-secondary-color-text eq-ui-modal-close waves-effect waves-effect">Abort</a>
         </div>
-
     </div>
 </template>
 
