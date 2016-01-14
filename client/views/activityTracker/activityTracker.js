@@ -106,3 +106,10 @@ Template.deleteActivityEml.events({
 		Activities.remove(selectedActivity._id);
 	}
 });
+
+//editActivity
+Template.editActivity.helpers({
+	contextMenuActivity: function(){
+		return Session.get('contextMenuActivity');
+	}
+});
