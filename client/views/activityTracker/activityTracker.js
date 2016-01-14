@@ -23,8 +23,6 @@ Template.activityTracker.helpers({
 	}
 });
 
-
-
 Template.activityTracker.events({
 	'keyup #statement-eml': function(evt, tpl) {
 		evt.preventDefault();
