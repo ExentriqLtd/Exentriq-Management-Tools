@@ -378,11 +378,16 @@ Template.treeView.setModel = function(model, _p) {
 					Session.set('contextMenuUser', {name: item.name});
 					$('#eq-ui-modal-edit-user').openModal();
 					EqUI.forms.validate_form($('#eq-ui-modal-edit-user'));
+					setTimeout(function(){
+						$('#edit_user_name').focus();
+					}, 100);
 				} else {
-
 					Session.set('contextMenuSpace', {name: item.name});
 					$('#eq-ui-modal-edit-space').openModal();
 					EqUI.forms.validate_form($('#eq-ui-modal-edit-space'));
+					setTimeout(function(){
+						$('#edit_space_name').focus();
+					}, 100);
 				}
 			}
 		});
