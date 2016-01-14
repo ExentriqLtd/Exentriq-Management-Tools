@@ -376,6 +376,7 @@ Template.treeView.setModel = function(model, _p) {
 
 				if (item.type == 'user') {
 					Session.set('contextMenuUser', {name: item.name});
+					Template.editUserDialog._contextMenuUser = item;
 					$('#eq-ui-modal-edit-user').openModal();
 					EqUI.forms.validate_form($('#eq-ui-modal-edit-user'));
 					setTimeout(function(){
@@ -383,6 +384,7 @@ Template.treeView.setModel = function(model, _p) {
 					}, 100);
 				} else {
 					Session.set('contextMenuSpace', {name: item.name});
+					Template.editSpaceDialog._contextMenuSpace = item;
 					$('#eq-ui-modal-edit-space').openModal();
 					EqUI.forms.validate_form($('#eq-ui-modal-edit-space'));
 					setTimeout(function(){
@@ -451,8 +453,26 @@ Template.editSpaceDialog.helpers({
 	}
 });
 
+Template.editSpaceDialog.events({
+	'click #edit_space_submit': function(evt, tpl){
+		if (tpl.find('#edit_space_name').value){
+			var currentSpace = Template.editSpaceDialog._contextMenuSpace;
+			Template.orgManager.updateSpace($.extend(currentSpace, { name: tpl.find('#edit_space_name').value }));
+		}
+	}
+});
+
 Template.editUserDialog.helpers({
 	contextMenuUser: function(){
 		return Session.get('contextMenuUser') || {}
+	}
+});
+
+Template.editUserDialog.events({
+	'click #edit_user_submit': function(evt, tpl){
+		if (tpl.find('#edit_user_name').value){
+			var currentUser = Template.editUserDialog._contextMenuUser;
+			Template.orgManager.updateSpace($.extend(currentUser, { name: tpl.find('#edit_user_name').value }));
+		}
 	}
 });

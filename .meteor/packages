@@ -30,3 +30,4 @@ momentjs:moment
 mizzao:autocomplete
 accounts-base
 accounts-password
+cfs:ejson-file

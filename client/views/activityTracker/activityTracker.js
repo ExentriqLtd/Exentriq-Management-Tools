@@ -51,11 +51,11 @@ Template.activityTracker.addActivity = function(tpl) {
 
 		// validate hours
 		var regexHours = /\b([0-9]*)(h|H|hour|hours|HOUR|HOURS|Hour|Hours)\b/g;
-		var regexpHoursResult = regexDays.exec(statement);
+		var regexpHoursResult = regexHours.exec(statement);
 
 		// validate minutes
 		var regexMinutes = /\b([0-9]*)(m|M|minute|minutes|MINUTE|MINUTES|Minute|Minutes)\b/g;
-		var regexpMinutesResult = regexDays.exec(statement);
+		var regexpMinutesResult = regexMinutes.exec(statement);
 
 		if (regexpBoardResult !== null && (regexpDaysResult || regexpHoursResult || regexpMinutesResult)) {
 			Meteor.call('addActivityEml', {
@@ -65,7 +65,6 @@ Template.activityTracker.addActivity = function(tpl) {
 				userId: Meteor.userId(),
 				userName: Meteor.user().username,
 			});
-
 			$('#statement-eml').val('');
 		}
 	}
@@ -106,15 +105,21 @@ Template.atActivity.events({
 
 	'click .eml-delete': function(evt, tpl) {
 		Session.set('selectedActivity', this);
-		$('#eq-ui-modal-delete').openModal();
-	}
+	},
 
+	'click .eml-edit': function(evt, tpl) {
+		Session.set('selectedActivity', this);
+		setTimeout(function(){
+			$('#eq-ui-modal-edit').find('input').each(function(i){
+				$(i).click().focus().blur();
+			})
+		});
+	}
 });
 
 //deleteActivityEml template
 Template.deleteActivityEml.events({
 	'click #statement-delete': function(evt, tpl) {
-
 		var selectedActivity = Session.get('selectedActivity');
 		Activities.remove(selectedActivity._id);
 	}
@@ -122,7 +127,7 @@ Template.deleteActivityEml.events({
 
 //editActivity
 Template.editActivity.helpers({
-	contextMenuActivity: function(){
-		return Session.get('contextMenuActivity');
+	selectedActivity: function(){
+		return Session.get('selectedActivity');
 	}
 });

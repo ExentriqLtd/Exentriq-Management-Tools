@@ -13,7 +13,30 @@ body, html {
 	z-index: 10001;
 }
 
-#__blaze-root,
+#__blaze-root {
+	height: 100%;
+	padding: 0;
+	position: relative;
+	background-color: #FFFFFF;
+}
+
+.organization-manager .row {
+	width: 100%;
+	padding: 0;
+	margin: 0;
+}
+
+.organization-manager .row,
+.organization-manager .eq-ui-card,
+.organization-manager .row .col-md-4,
+.organization-manager .row .col-md-8 {
+	height: 100%;
+	padding: 0;
+	position: relative;
+	background-color: #FFFFFF;
+}
+
+/*#__blaze-root,
 #__blaze-root .eq-ui-card,
 #__blaze-root .row,
 #__blaze-root .row .col-md-3,
@@ -31,7 +54,7 @@ body, html {
 	width: 100%;
 	padding: 0;
 	margin: 0;
-}
+}*/
 
 ol, li {
 	padding: 0;

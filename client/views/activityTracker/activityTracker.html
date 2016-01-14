@@ -48,6 +48,7 @@
 	</div>
 
 	{{> deleteActivityEml}}
+	{{> editActivity}}
 </template>
 
 <template name="atActivity">
@@ -75,43 +76,69 @@
 </template>
 
 <template name="editActivity">
-    <div class="row">
-        <div class="col-md-12">
-	        <div class="eq-ui-form-group eq-ui-input-field">
-	            <input id="project" type="text" class="eq-ui-input">
-	            <label for="project">Project</label>
-	        </div>
-	    </div>
-	    <div class="col-md-12">
-	        <div class="eq-ui-form-group eq-ui-input-field">
-	            <input id="description" type="text" class="eq-ui-input">
-	            <label for="description">Description</label>
-	        </div>
-	    </div>
-	    <div class="col-md-12">
-	        <div class="eq-ui-form-group eq-ui-input-field">
-	            <input id="space" type="text" class="eq-ui-input">
-	            <label for="space">Space</label>
-	        </div>
-	    </div>
-	    <div class="col-md-12">
-	        <div class="eq-ui-form-group eq-ui-input-field">
-	            <input id="user" type="text" class="eq-ui-input">
-	            <label for="user">User</label>
-	        </div>
-	    </div>
-	    <div class="col-md-12">
-	        <div class="eq-ui-form-group eq-ui-input-field">
-	            <input id="time" type="text" class="eq-ui-input">
-	            <label for="time">Time</label>
-	        </div>
-	    </div>
-	    <div class="col-md-12">
-	        <div class="eq-ui-form-group eq-ui-input-field">
-	            <input id="logged" type="text" class="eq-ui-input">
-	            <label for="logged">Logged</label>
-	        </div>
-	    </div>
+    <div id="eq-ui-modal-edit" class="eq-ui-modal eq-ui-modal-fixed eq-ui-modal-small">
+
+    	<div class="eq-ui-modal-header"> 
+			<div class="header-title"> 
+				<span class="section-title truncate">Edit Activity</span> 
+			</div> 
+			<ul class="right eq-ui-nav-menu"> 
+				<li class="eq-ui-nav-menu-item-icon"> 
+					<a class="btn btn-default eq-ui-btn-flat eq-ui-btn-fab eq-ui-btn-menu-fab eq-ui-waves eq-ui-modal-close"> 
+						<i class="mdi mdi-close eq-ui-icon"></i> 
+					</a> 
+				</li> 
+			</ul> 
+		</div> 
+
+		<div class="eq-ui-modal-content">  
+			<form> 
+				<div class="row"> 
+					<div class="col-md-12">
+				        <div class="eq-ui-form-group eq-ui-input-field">
+				            <input id="project" value="{{selectedActivity.project}}" type="text" class="eq-ui-input">
+				            <label for="project">Project</label>
+				        </div>
+				    </div>
+				    <div class="col-md-12">
+				        <div class="eq-ui-form-group eq-ui-input-field">
+				            <input id="description" value="{{selectedActivity.description}}" type="text" class="eq-ui-input">
+				            <label for="description">Description</label>
+				        </div>
+				    </div>
+				    <div class="col-md-12">
+				        <div class="eq-ui-form-group eq-ui-input-field">
+				            <input id="space" value="{{selectedActivity.cmpName}}" type="text" class="eq-ui-input" disabled>
+				            <label for="space">Space</label>
+				        </div>
+				    </div>
+				    <div class="col-md-12">
+				        <div class="eq-ui-form-group eq-ui-input-field">
+				            <input id="user" value="{{selectedActivity.userName}}" type="text" class="eq-ui-input" disabled>
+				            <label for="user">User</label>
+				        </div>
+				    </div>
+				    <div class="col-md-12">
+				        <div class="eq-ui-form-group eq-ui-input-field">
+				            <input id="time" value="{{ formatDate time }}" type="text" class="eq-ui-input" disabled>
+				            <label for="time">Time</label>
+				        </div>
+				    </div>
+				    <div class="col-md-12">
+				        <div class="eq-ui-form-group eq-ui-input-field">
+				            <input id="logged" value="{{formatLoggedTime this}}" type="text" class="eq-ui-input">
+				            <label for="logged">Logged</label>
+				        </div>
+				    </div>
+				</div> 
+			</form> 
+		</div> 
+
+		<div class="eq-ui-modal-footer">
+            <a id="statement-delete" class="btn btn-default eq-ui-btn-flat eq-ui-waves eq-ui-secondary-color-text eq-ui-modal-close waves-effect waves-effect">Save</a>
+            <a class="btn btn-default eq-ui-btn-flat eq-ui-waves eq-ui-secondary-color-text eq-ui-modal-close waves-effect waves-effect">Cancel</a>
+        </div>
+        
     </div>
 </template>
 
@@ -125,8 +152,8 @@
 
         <!-- Footer -->
         <div class="eq-ui-modal-footer">
-            <a id="statement-delete" href="#" class="btn btn-default eq-ui-btn-flat eq-ui-waves eq-ui-secondary-color-text eq-ui-modal-close waves-effect waves-effect">Confirm</a>
-            <a href="#" class="btn btn-default eq-ui-btn-flat eq-ui-waves eq-ui-secondary-color-text eq-ui-modal-close waves-effect waves-effect">Abort</a>
+            <a id="statement-delete" class="btn btn-default eq-ui-btn-flat eq-ui-waves eq-ui-secondary-color-text eq-ui-modal-close waves-effect waves-effect">Confirm</a>
+            <a class="btn btn-default eq-ui-btn-flat eq-ui-waves eq-ui-secondary-color-text eq-ui-modal-close waves-effect waves-effect">Abort</a>
         </div>
     </div>
 </template>
