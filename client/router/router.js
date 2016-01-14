@@ -1,3 +1,52 @@
+localStorage.setItem("MeteorLoginStatus", "halted")
+
+function ensureLoggedIn(sessionToken) {
+    localStorage.setItem("MeteorLoginStatus", "in-progress");
+    return Meteor.call('verifyToken', sessionToken, function(error, result) {
+        var userData;
+        if (error) {
+            return;
+        }
+        userData = result;
+        if (userData !== null) {
+            Meteor.loginWithPassword(userData.username, 'exentriq', function(error) {
+            });
+        } else {
+            console.log('Invalid token, please contact administrator');
+        }
+        return localStorage.setItem("MeteorLoginStatus", "halted");
+    });
+}
+
+function handleLogin(context) {
+    var sessionToken;
+    sessionToken = context.queryParams.sessionToken;
+    if (localStorage.getItem("MeteorLoginStatus") === "halted") {
+        if (sessionToken) {
+            if (Meteor.userId()) {
+                if (sessionToken !== localStorage.getItem('MeteorLastSessionToken')) {
+                    Session.set('sessionToken', sessionToken);
+                    localStorage.setItem('MeteorLastSessionToken', sessionToken);
+                    ensureLoggedIn(sessionToken);
+                }
+                else {
+                    return
+                }
+            } else {
+                Session.set('sessionToken', sessionToken);
+                localStorage.setItem('MeteorLastSessionToken', sessionToken);
+                ensureLoggedIn(sessionToken);
+            }
+        }
+    }
+    if (!Meteor.user() && !(localStorage.getItem("MeteorLoginStatus") === "in-progress")) {
+        window.location.href = Meteor.settings.public.loginFormPath;
+    }
+}
+
+
+FlowRouter.triggers.enter([handleLogin]);
+
 FlowRouter.route('/orgmanager/:companyId', {
 	action: function(params, queryParams) {   
 		if (params.companyId) {
