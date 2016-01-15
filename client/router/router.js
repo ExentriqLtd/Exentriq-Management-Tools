@@ -126,7 +126,6 @@ FlowRouter.route('/activitytracker/:companyId/project/:project', {
 	action: function(params, queryParams) {   
 
 		if (params.companyId && params.project) {
-
 			Meteor.call('getSpaceInfo', params.companyId, function(error, data) {
 				if (!error) {
 					// set session cmp
@@ -136,10 +135,7 @@ FlowRouter.route('/activitytracker/:companyId/project/:project', {
 					});
 
 					// set session user
-					Session.set('user', {
-						userName: 'kirill dubinin',
-						userId: 'kirill dubinin'
-					});
+					Session.set('project', params.project);
 
 					// render tpl
 					Template.activityTracker.render();
