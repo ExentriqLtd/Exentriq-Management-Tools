@@ -372,3 +372,9 @@ ul.drop-down .drop-down-item:hover {
     border-left: 1px solid #f0f0f0;
 }
 
+.-autocomplete-container{
+	z-index: 10000;
+	position: fixed;
+	
+}
+

@@ -1,10 +1,13 @@
 // sprintPlanner template
 Template.activityTracker.render = function(_param) {
-	Meteor.subscribe("activities")
+	var username = Meteor.user().username;
+	Meteor.subscribe("activities");
+	Meteor.subscribe("boards", username);
 }
 
 Template.activityTracker.onCreated(function() {
-
+	var username = Meteor.user().username;
+	Meteor.call('refreshUserProjects', username);
 });
 
 Template.activityTracker.helpers({
@@ -23,10 +26,23 @@ Template.activityTracker.helpers({
 		if (Session.get('user')){
 			request.userId = Session.get('user').userId;
 		}
-
 		var activities = Activities.find(request);
 		return activities;
-	}
+	},
+	autocompleteSettings: function() {
+	    return {
+	      position: "bottom",
+	      limit: 20,
+	      rules: [
+	        {
+	          token: '#',
+	          collection: Boards,
+	          field: "autocomplete",
+	          template: Template.activityBoardPill
+	        }
+	      ]
+	    };
+	  }
 });
 
 Template.activityTracker.events({

@@ -8,7 +8,7 @@
 			            <div class="row valign-wrapper">
 			                <div class="col-md-10">
 			                    <div class="eq-ui-form-group eq-ui-input-field">
-			                        <input placeholder="1d 4h 10m on a #board for an activity" id="statement-eml" type="text" class="eq-ui-input">
+			                        {{> inputAutocomplete settings=autocompleteSettings id="statement-eml" class="eq-ui-input" placeholder="1d 4h 10m on a #board for an activity"}}
 			                    </div>
 			                </div>
 			                <div class="col-md-2">
@@ -155,3 +155,6 @@
     </div>
 </template>
 
+<template name="activityBoardPill">
+    <span>{{title}}</span>
+</template>

@@ -1,3 +1,7 @@
+Meteor.publish("boards", function (username) {
+   return Boards.find({"username":username});
+});
+
 Meteor.startup(function() {
 
 	// Global configuration
@@ -22,7 +26,8 @@ Meteor.startup(function() {
 					var space = this.bodyParams.space;
 					var statementEml = this.bodyParams.message;
 					var username = this.bodyParams.username;
-					addActivity(statementEml, username, space);
+					//addActivity(statementEml, username, space);
+					var obj = parseActivity(activity);
 					return {
 						status: "success"
 					};
@@ -79,10 +84,32 @@ Meteor.methods({
 	},
 	'updateActivity': function(_id, activity){
 		var obj = parseActivity(activity);
-		Activities.update(_id, obj);
+		if(obj!=null){
+			Activities.update(_id, obj);
+		}
 	},
 	'refreshUserProjects' : function(username){
+		this.unblock();
 		var apiUrl = Meteor.settings.private.integrationBusPath + '/getUserProjects?username='+encodeURIComponent(username);
+		var response = Meteor.wrapAsync(apiCall)(apiUrl);
+		if(response!=null){
+			response.forEach(function(project){
+				project.username = username;
+				project.autocomplete = "\""+project.title+"\"";
+				console.log("refresh project");
+				console.log(project);
+				var boardSpace = BoardSpaces.findOne({"id":project.space});
+				if(boardSpace==null){
+					console.log("not found");
+					var spacesUrl = Meteor.settings.private.integrationBusPath + '/getSpaceInfo?spaceid='+encodeURIComponent(project.space);
+					var bSpace = Meteor.wrapAsync(apiCall)(spacesUrl);
+					console.log(bSpace);
+					//BoardSpaces.insert(bSpace);
+					BoardSpaces.update({id:bSpace.id},bSpace, { upsert: true } )
+				}
+				Boards.update({id:project.id, username: project.username},project, { upsert: true } )
+			});
+		}
 	}
 });
 
@@ -129,6 +156,7 @@ var parseActivity = function(activity) {
 		obj._id = activity._id;
 	}
 
+	var regexpBoardDoubleQuote = /(#)\"(.*)\"/g;
 	var regexpBoard = /(#)([^\s]*)/g;
 	var regexDays = /\b([0-9]*)(d|D|day|days|DAY|DAYS|Day|Days)\b/g;
 	var regexHours = /\b([0-9]*)(h|H|hour|hours|HOUR|HOURS|Hour|Hours)\b/g;
@@ -137,153 +165,56 @@ var parseActivity = function(activity) {
 	var description = activity.statement;
 
 	// set project
-	var regexpBoardResult = regexpBoard.exec(activity.statement);
-	if (regexpBoardResult !== null) {
-		obj.project = regexpBoardResult[2];
-		description = description.replace(regexpBoardResult[1]+regexpBoardResult[2], "");
+	var regexpBoardDoubleQuoteResult = regexpBoardDoubleQuote.exec(activity.statement);
+	if (regexpBoardDoubleQuoteResult !== null) {
+		obj.project = regexpBoardDoubleQuoteResult[2];
+		description = description.replace(regexpBoardDoubleQuoteResult[1]+"\""+regexpBoardDoubleQuoteResult[2]+"\"", "");
 	}
-
-	// set days
-	var regexDaysResult = regexDays.exec(activity.statement);
-	if (regexDaysResult !== null) {
-		obj.days = Number(regexDaysResult[1]);
-		description = description.replace(regexDaysResult[1]+regexDaysResult[2], "");
-	} else {
-		obj.days = 0;
-	}
-
-	// set hours
-	var regexHoursResult = regexHours.exec(activity.statement);
-	if (regexHoursResult !== null) {
-		obj.hours = Number(regexHoursResult[1]);
-		description = description.replace(regexHoursResult[1]+regexHoursResult[2], "");
-	} else {
-		obj.hours = 0;
-	}
-
-	// set minutes
-	var regexMinutesResult = regexMinutes.exec(activity.statement);
-	if (regexMinutesResult !== null) {
-		obj.minutes = Number(regexMinutesResult[1]);
-		description = description.replace(regexMinutesResult[1]+regexMinutesResult[2], "");
-	} else {
-		obj.minutes = 0;
-	}
-
-	obj.description=description;
-	
-	return obj;
-}
-
-var addActivity = function(activity) {
-
-	var obj = {
-		days: '',
-		hours: '',
-		minutes: '',
-		project: '',
-
-		description: '',
-		cmpId: activity.cmpId,
-		cmpName: activity.cmpName,
-		userId: activity.userId,
-		userName: activity.userName,
-		time: new Date()
-	}
-
-	var regexpBoard = /(#)([^\s]*)/g;
-	var regexDays = /\b([0-9]*)(d|D|day|days|DAY|DAYS|Day|Days)\b/g;
-	var regexHours = /\b([0-9]*)(h|H|hour|hours|HOUR|HOURS|Hour|Hours)\b/g;
-	var regexMinutes = /\b([0-9]*)(m|M|minute|minutes|MINUTE|MINUTES|Minute|Minutes)\b/g;
-	
-	var description = activity.statement;
-
-	// set project
-	var regexpBoardResult = regexpBoard.exec(activity.statement);
-	if (regexpBoardResult !== null) {
-		obj.project = regexpBoardResult[2];
-		description = description.replace(regexpBoardResult[1]+regexpBoardResult[2], "");
-	}
-
-	// set days
-	var regexDaysResult = regexDays.exec(activity.statement);
-	if (regexDaysResult !== null) {
-		obj.days = Number(regexDaysResult[1]);
-		description = description.replace(regexDaysResult[1]+regexDaysResult[2], "");
-	} else {
-		obj.days = 0;
-	}
-
-	// set hours
-	var regexHoursResult = regexHours.exec(activity.statement);
-	if (regexHoursResult !== null) {
-		obj.hours = Number(regexHoursResult[1]);
-		description = description.replace(regexHoursResult[1]+regexHoursResult[2], "");
-	} else {
-		obj.hours = 0;
-	}
-
-	// set minutes
-	var regexMinutesResult = regexMinutes.exec(activity.statement);
-	if (regexMinutesResult !== null) {
-		obj.minutes = Number(regexMinutesResult[1]);
-		description = description.replace(regexMinutesResult[1]+regexMinutesResult[2], "");
-	} else {
-		obj.minutes = 0;
-	}
-
-	obj.description=description;
-	
-	Activities.insert(obj);
-}
-
-var stringToEml = function(activity) {
-	try {
-
-		var statement = activity.statement;
-		var id = activity.id;
-		var user = activity.user;
-		var cmpId = activity.cmpId;
-
-		var result = {};
-		var regexpBoard = /#([^\s]*)/g;
-		var regexDays = /\b([0-9]*)(d|D|day|days|DAY|DAYS|Day|Days)\b/g;
-		var regexHours = /\b([0-9]*)(h|H|hour|hours|HOUR|HOURS|Hour|Hours)\b/g;
-		var regexMinutes = /\b([0-9]*)(m|M|minute|minutes|MINUTE|MINUTES|Minute|Minutes)\b/g;
-
-		var regexpBoardResult = regexpBoard.exec(statement);
+	else{
+		var regexpBoardResult = regexpBoard.exec(activity.statement);
 		if (regexpBoardResult !== null) {
-			result.board = regexpBoardResult[1];
+			obj.project = regexpBoardResult[2];
+			description = description.replace(regexpBoardResult[1]+regexpBoardResult[2], "");
 		}
-		var regexDaysResult = regexDays.exec(statement);
-		if (regexDaysResult !== null) {
-			result.days = Number(regexDaysResult[1]);
-		} else {
-			result.days = 0;
-		}
-		var regexHoursResult = regexHours.exec(statement);
-		if (regexHoursResult !== null) {
-			result.hours = Number(regexHoursResult[1]);
-		} else {
-			result.hours = 0;
-		}
-		var regexMinutesResult = regexMinutes.exec(statement);
-		if (regexMinutesResult !== null) {
-			result.minutes = Number(regexMinutesResult[1]);
-		} else {
-			result.minutes = 0;
-		}
-		result.seconds = result.days * 28800 + result.hours * 3600 + result.minutes * 60;
-
-		result.user = user;
-		result.eml_id = id;
-		result.project = project;
-		result.activity = statement;
-		result.time = new Date();
-		return result;
-	} catch (err) {
-		console.log(err);
-		return null;
 	}
-	return msg;
+
+	// set days
+	var regexDaysResult = regexDays.exec(activity.statement);
+	if (regexDaysResult !== null) {
+		obj.days = Number(regexDaysResult[1]);
+		description = description.replace(regexDaysResult[1]+regexDaysResult[2], "");
+	} else {
+		obj.days = 0;
+	}
+
+	// set hours
+	var regexHoursResult = regexHours.exec(activity.statement);
+	if (regexHoursResult !== null) {
+		obj.hours = Number(regexHoursResult[1]);
+		description = description.replace(regexHoursResult[1]+regexHoursResult[2], "");
+	} else {
+		obj.hours = 0;
+	}
+
+	// set minutes
+	var regexMinutesResult = regexMinutes.exec(activity.statement);
+	if (regexMinutesResult !== null) {
+		obj.minutes = Number(regexMinutesResult[1]);
+		description = description.replace(regexMinutesResult[1]+regexMinutesResult[2], "");
+	} else {
+		obj.minutes = 0;
+	}
+
+	obj.description=description.trim();
+	
+	var prj = Boards.findOne({title:obj.project});
+	if(prj!=null){
+		obj.cmpId=prj.space;
+		var boardSpace = BoardSpaces.findOne({"id":Number(prj.space)});
+		obj.cmpName=boardSpace.title;
+		return obj;
+	}
+	else{
+		return null;
+	}	
 }
