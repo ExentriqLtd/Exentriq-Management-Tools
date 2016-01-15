@@ -10,12 +10,18 @@ Template.activityTracker.onCreated(function() {
 Template.activityTracker.helpers({
 	activities: function() {
 
-		var request = {
-			cmpId: Session.get('cmp').cmpId,
+		var request = {};
+
+		if (Session.get('cmp')) {
+			request.cmpId = Session.get('cmp').cmpId;
 		}
 
 		if (Session.get('project')) {
 			request.project = Session.get('project');
+		}
+
+		if (Session.get('user')){
+			request.userId = Session.get('user').userId;
 		}
 
 		var activities = Activities.find(request);
@@ -33,12 +39,11 @@ Template.activityTracker.events({
 	},
 	'click #statement-add': function(evt, tpl) {
 		evt.preventDefault();
-		Template.activityTracker.addActivity(tpl);
+		Template.activityTracker.addActivity(tpl.find('#statement-eml').value);
 	}
 });
 
-Template.activityTracker.addActivity = function(tpl) {
-	var statement = tpl.find('#statement-eml').value;
+Template.activityTracker.addActivity = function(statement) {
 	if (statement) {
 
 		// validate proj
@@ -129,5 +134,12 @@ Template.deleteActivityEml.events({
 Template.editActivity.helpers({
 	selectedActivity: function(){
 		return Session.get('selectedActivity');
+	}
+});
+
+Template.editActivity.events({
+	'click #activity_save_submit': function(evt, tpl){
+		var statement = tpl.find('#logged').value + ' #' + tpl.find('#project').value;
+		Template.activityTracker.updateActivity(statement);
 	}
 });

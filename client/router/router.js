@@ -102,6 +102,26 @@ FlowRouter.route('/activitytracker/:companyId', {
 	}
 });
 
+FlowRouter.route('/activitytracker/user/:userId', {
+	action: function(params, queryParams) {   
+
+		if (params.userId) {
+
+			// set session user
+			Session.set('user', {
+				userName: params.userId == 'me' ? Meteor.user().username : null,
+				userId: params.userId == 'me' ? Meteor.userId() : params.userId,
+			});
+
+			// render tpl
+			Template.activityTracker.render();
+			BlazeLayout.render('appView', {
+				center: "activityTracker"
+			});
+		}
+	}
+});
+
 FlowRouter.route('/activitytracker/:companyId/project/:project', {
 	action: function(params, queryParams) {   
 

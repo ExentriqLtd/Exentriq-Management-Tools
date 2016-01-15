@@ -6,8 +6,11 @@ Template.registerHelper('formatDate', function(date) {
 Template.registerHelper('formatLoggedTime', function(logged) {
 
   var result = '';
-  result += logged.days ? (logged.days + 'd') : '';
-  result += logged.hours ? (' ' + logged.hours + 'h') : '';
-  result += logged.minutes ? (' ' + logged.minutes + 'm') : '';
-  return result;
+
+  if (logged){
+  	result += logged.days ? (logged.days + 'd') : '';
+	  result += logged.hours ? (' ' + logged.hours + 'h') : '';
+	  result += logged.minutes ? (' ' + logged.minutes + 'm') : '';
+  }
+  return result;	
 });

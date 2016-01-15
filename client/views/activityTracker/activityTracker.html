@@ -77,7 +77,6 @@
 
 <template name="editActivity">
     <div id="eq-ui-modal-edit" class="eq-ui-modal eq-ui-modal-fixed eq-ui-modal-small">
-
     	<div class="eq-ui-modal-header"> 
 			<div class="header-title"> 
 				<span class="section-title truncate">Edit Activity</span> 
@@ -90,55 +89,53 @@
 				</li> 
 			</ul> 
 		</div> 
-
 		<div class="eq-ui-modal-content">  
 			<form> 
 				<div class="row"> 
 					<div class="col-md-12">
 				        <div class="eq-ui-form-group eq-ui-input-field">
 				            <input id="project" value="{{selectedActivity.project}}" type="text" class="eq-ui-input">
-				            <label for="project">Project</label>
+				            <label class="active" for="project">Project</label>
 				        </div>
 				    </div>
 				    <div class="col-md-12">
 				        <div class="eq-ui-form-group eq-ui-input-field">
 				            <input id="description" value="{{selectedActivity.description}}" type="text" class="eq-ui-input">
-				            <label for="description">Description</label>
+				            <label class="active" for="description">Description</label>
 				        </div>
 				    </div>
 				    <div class="col-md-12">
 				        <div class="eq-ui-form-group eq-ui-input-field">
 				            <input id="space" value="{{selectedActivity.cmpName}}" type="text" class="eq-ui-input" disabled>
-				            <label for="space">Space</label>
+				            <label class="active" for="space">Space</label>
 				        </div>
 				    </div>
 				    <div class="col-md-12">
 				        <div class="eq-ui-form-group eq-ui-input-field">
 				            <input id="user" value="{{selectedActivity.userName}}" type="text" class="eq-ui-input" disabled>
-				            <label for="user">User</label>
+				            <label class="active" for="user">User</label>
 				        </div>
 				    </div>
 				    <div class="col-md-12">
 				        <div class="eq-ui-form-group eq-ui-input-field">
-				            <input id="time" value="{{ formatDate time }}" type="text" class="eq-ui-input" disabled>
-				            <label for="time">Time</label>
+				            <input id="time" value="{{ formatDate selectedActivity.time }}" type="text" class="eq-ui-input" disabled>
+				            <label class="active" for="time">Time</label>
 				        </div>
 				    </div>
 				    <div class="col-md-12">
 				        <div class="eq-ui-form-group eq-ui-input-field">
-				            <input id="logged" value="{{formatLoggedTime this}}" type="text" class="eq-ui-input">
-				            <label for="logged">Logged</label>
+
+				            <input id="logged" value="{{ formatLoggedTime selectedActivity }}" type="text" class="eq-ui-input">
+				            <label class="active" for="logged">Logged</label>
 				        </div>
 				    </div>
 				</div> 
 			</form> 
-		</div> 
-
+		</div>
 		<div class="eq-ui-modal-footer">
-            <a id="statement-delete" class="btn btn-default eq-ui-btn-flat eq-ui-waves eq-ui-secondary-color-text eq-ui-modal-close waves-effect waves-effect">Save</a>
+            <a id="activity_save_submit" class="btn btn-default eq-ui-btn-flat eq-ui-waves eq-ui-secondary-color-text eq-ui-modal-close waves-effect waves-effect">Save</a>
             <a class="btn btn-default eq-ui-btn-flat eq-ui-waves eq-ui-secondary-color-text eq-ui-modal-close waves-effect waves-effect">Cancel</a>
         </div>
-        
     </div>
 </template>
 
