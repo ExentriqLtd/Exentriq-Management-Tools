@@ -1,13 +1,18 @@
+Tracker.autorun(function(){
+  if(Meteor.user()){
+    var username = Meteor.user().username;
+    console.log("username: " + username);
+    Meteor.subscribe("activities");
+	Meteor.subscribe("boards", username);
+	Meteor.call('refreshUserProjects', username);
+  }
+});
+
 // sprintPlanner template
 Template.activityTracker.render = function(_param) {
-	var username = Meteor.user().username;
-	Meteor.subscribe("activities");
-	Meteor.subscribe("boards", username);
 }
 
 Template.activityTracker.onCreated(function() {
-	var username = Meteor.user().username;
-	Meteor.call('refreshUserProjects', username);
 });
 
 Template.activityTracker.helpers({
