@@ -40,6 +40,8 @@ Template.orgManager.render = function(_param) {
 					_interval = setInterval(function() {
 
 						if (Template.treeView.renderDone && Template.circleView.renderDone) {
+
+							_interval && clearInterval(_interval);
 							Template.orgManager.setModel(_interval);
 							Template.orgManager.bindObserveChanges(query);
 

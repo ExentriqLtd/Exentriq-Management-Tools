@@ -38,15 +38,16 @@ Template.circleView._setSize = function(childrens) {
 	});
 };
 
-Template.circleView.setModel = function(model) {
+Template.circleView.setModel = function(_model) {
 
 	var root1 = $('.circle-view');
 	root1.children('*').not('.dropdown-trigger').remove();
 
-	if (!root1.is(':visible') || !model || !model.children || !model.children.length) {
+	if (!root1.is(':visible') || !_model || !_model.children || !_model.children.length) {
 		return;
 	}
 
+	var model = jQuery.extend(true, {}, _model)
 	// set size
 	Template.circleView._setSize(model.children);
 
