@@ -10,6 +10,7 @@ function ensureLoggedIn(sessionToken) {
         userData = result;
         if (userData !== null) {
             Meteor.loginWithPassword(userData.username, 'exentriq', function(error) {
+            	console.log(error);
             });
         } else {
             console.log('Invalid token, please contact administrator');

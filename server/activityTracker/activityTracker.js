@@ -80,7 +80,9 @@ Meteor.methods({
 	},
 	'addActivityEml': function(activity) {
 		var obj = parseActivity(activity);
-		Activities.insert(obj);
+		if(obj!=null){
+			Activities.insert(obj);
+		}
 	},
 	'updateActivity': function(_id, activity){
 		var obj = parseActivity(activity);
@@ -145,8 +147,8 @@ var parseActivity = function(activity) {
 		project: '',
 
 		description: '',
-		cmpId: activity.cmpId,
-		cmpName: activity.cmpName,
+		cmpId: null,
+		cmpName: null,
 		userId: activity.userId,
 		userName: activity.userName,
 		time: new Date()
@@ -210,11 +212,17 @@ var parseActivity = function(activity) {
 	var prj = Boards.findOne({title:obj.project});
 	if(prj!=null){
 		obj.cmpId=prj.space;
+		console.log("searching space info: " + prj.space);
 		var boardSpace = BoardSpaces.findOne({"id":Number(prj.space)});
-		obj.cmpName=boardSpace.title;
+		console.log(boardSpace);
+		if(boardSpace!=null){
+			obj.cmpName=boardSpace.title;
+			
+		}
+		else{
+			obj.cmpName="SPACE NOT FOUND!";
+		}
 		return obj;
 	}
-	else{
-		return null;
-	}	
+	return null;
 }
