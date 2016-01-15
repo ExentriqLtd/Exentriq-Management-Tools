@@ -34,16 +34,16 @@ Template.activityTracker.events({
 		evt.preventDefault();
 		evt.stopPropagation();
 		if (evt.keyCode == '13'){
-			Template.activityTracker.addActivity(tpl);	
+			Template.activityTracker.updateActivity(null, tpl.find('#statement-eml').value);	
 		}
 	},
 	'click #statement-add': function(evt, tpl) {
 		evt.preventDefault();
-		Template.activityTracker.addActivity(tpl.find('#statement-eml').value);
+		Template.activityTracker.updateActivity(null, tpl.find('#statement-eml').value);
 	}
 });
 
-Template.activityTracker.addActivity = function(statement) {
+Template.activityTracker.updateActivity = function(_id, statement) {
 	if (statement) {
 
 		// validate proj
@@ -63,14 +63,26 @@ Template.activityTracker.addActivity = function(statement) {
 		var regexpMinutesResult = regexMinutes.exec(statement);
 
 		if (regexpBoardResult !== null && (regexpDaysResult || regexpHoursResult || regexpMinutesResult)) {
-			Meteor.call('addActivityEml', {
-				statement: statement,
-				cmpId: Session.get('cmp').cmpId,
-				cmpName: Session.get('cmp').cmpName,
-				userId: Meteor.userId(),
-				userName: Meteor.user().username,
-			});
-			$('#statement-eml').val('');
+			
+			if (_id){
+				Meteor.call('updateActivity', _id, {
+					statement: statement,
+					cmpId: Session.get('cmp').cmpId,
+					cmpName: Session.get('cmp').cmpName,
+					userId: Meteor.userId(),
+					userName: Meteor.user().username,
+				});
+			}
+			else {
+				Meteor.call('addActivityEml', {
+					statement: statement,
+					cmpId: Session.get('cmp').cmpId,
+					cmpName: Session.get('cmp').cmpName,
+					userId: Meteor.userId(),
+					userName: Meteor.user().username,
+				});
+				$('#statement-eml').val('');
+			}
 		}
 	}
 };
@@ -140,6 +152,6 @@ Template.editActivity.helpers({
 Template.editActivity.events({
 	'click #activity_save_submit': function(evt, tpl){
 		var statement = tpl.find('#logged').value + ' #' + tpl.find('#project').value;
-		Template.activityTracker.updateActivity(statement);
+		Template.activityTracker.updateActivity(Session.get('selectedActivity')._id, statement);
 	}
 });

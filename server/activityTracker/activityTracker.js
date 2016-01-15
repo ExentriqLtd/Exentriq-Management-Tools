@@ -74,10 +74,12 @@ Meteor.methods({
 		return response;
 	},
 	'addActivityEml': function(activity) {
-		addActivity(activity);
+		var obj = parseActivity(activity);
+		Activities.insert(obj);
 	},
-	'updateActivity': function(activity){
-		Activities.update(activity._id, activity);
+	'updateActivity': function(_id, activity){
+		var obj = parseActivity(activity);
+		Activities.update(_id, obj);
 	},
 	'refreshUserProjects' : function(username){
 		var apiUrl = Meteor.settings.private.integrationBusPath + '/getUserProjects?username='+encodeURIComponent(username);
@@ -105,6 +107,72 @@ var apiCall = function (apiUrl, callback) {
     var myError = new Meteor.Error(errorCode, errorMessage);
     callback(myError, null);
   }
+}
+
+var parseActivity = function(activity) {
+
+	var obj = {
+		days: '',
+		hours: '',
+		minutes: '',
+		project: '',
+
+		description: '',
+		cmpId: activity.cmpId,
+		cmpName: activity.cmpName,
+		userId: activity.userId,
+		userName: activity.userName,
+		time: new Date()
+	}
+
+	if (activity._id) {
+		obj._id = activity._id;
+	}
+
+	var regexpBoard = /(#)([^\s]*)/g;
+	var regexDays = /\b([0-9]*)(d|D|day|days|DAY|DAYS|Day|Days)\b/g;
+	var regexHours = /\b([0-9]*)(h|H|hour|hours|HOUR|HOURS|Hour|Hours)\b/g;
+	var regexMinutes = /\b([0-9]*)(m|M|minute|minutes|MINUTE|MINUTES|Minute|Minutes)\b/g;
+	
+	var description = activity.statement;
+
+	// set project
+	var regexpBoardResult = regexpBoard.exec(activity.statement);
+	if (regexpBoardResult !== null) {
+		obj.project = regexpBoardResult[2];
+		description = description.replace(regexpBoardResult[1]+regexpBoardResult[2], "");
+	}
+
+	// set days
+	var regexDaysResult = regexDays.exec(activity.statement);
+	if (regexDaysResult !== null) {
+		obj.days = Number(regexDaysResult[1]);
+		description = description.replace(regexDaysResult[1]+regexDaysResult[2], "");
+	} else {
+		obj.days = 0;
+	}
+
+	// set hours
+	var regexHoursResult = regexHours.exec(activity.statement);
+	if (regexHoursResult !== null) {
+		obj.hours = Number(regexHoursResult[1]);
+		description = description.replace(regexHoursResult[1]+regexHoursResult[2], "");
+	} else {
+		obj.hours = 0;
+	}
+
+	// set minutes
+	var regexMinutesResult = regexMinutes.exec(activity.statement);
+	if (regexMinutesResult !== null) {
+		obj.minutes = Number(regexMinutesResult[1]);
+		description = description.replace(regexMinutesResult[1]+regexMinutesResult[2], "");
+	} else {
+		obj.minutes = 0;
+	}
+
+	obj.description=description;
+	
+	return obj;
 }
 
 var addActivity = function(activity) {

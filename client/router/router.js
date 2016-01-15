@@ -85,12 +85,6 @@ FlowRouter.route('/activitytracker/:companyId', {
 						cmpName: data.title
 					});
 
-					// set session user
-					Session.set('user', {
-						userName: 'kirill dubinin',
-						userId: 'kirill dubinin'
-					});
-
 					// render tpl
 					Template.activityTracker.render();
 					BlazeLayout.render('appView', {
