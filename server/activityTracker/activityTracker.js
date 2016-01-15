@@ -75,6 +75,12 @@ Meteor.methods({
 	},
 	'addActivityEml': function(activity) {
 		addActivity(activity);
+	},
+	'updateActivity': function(activity){
+		Activities.update(activity._id, activity);
+	},
+	'refreshUserProjects' : function(username){
+		var apiUrl = Meteor.settings.private.integrationBusPath + '/getUserProjects?username='+encodeURIComponent(username);
 	}
 });
 
