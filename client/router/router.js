@@ -61,10 +61,10 @@ function isLoggedCallback(ready){
 		var _interval = setInterval(function(){
 			if (!Meteor.loggingIn() && Meteor.userId()){
 				ready && ready();	
-				clearInterval(_interval);
+				_interval && clearInterval(_interval);
 			}
 			if (i > 20) {
-				clearInterval(_interval);
+				_interval && clearInterval(_interval);
 			}
 		}, 100);
 	}
