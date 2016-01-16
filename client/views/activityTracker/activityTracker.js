@@ -37,12 +37,13 @@ Template.activityTracker.helpers({
 	autocompleteSettings: function() {
 	    return {
 	      position: "bottom",
-	      limit: 20,
+	      limit: 10,
 	      rules: [
 	        {
 	          token: '#',
 	          collection: Boards,
-	          field: "autocomplete",
+	          field: "title",
+	          sort: "title",
 	          template: Template.activityBoardPill
 	        }
 	      ]
@@ -61,7 +62,12 @@ Template.activityTracker.events({
 	'click #statement-add': function(evt, tpl) {
 		evt.preventDefault();
 		Template.activityTracker.updateActivity(null, tpl.find('#statement-eml').value);
-	}
+	},
+	"autocompleteselect input": function(event, template, doc) {
+		var statementDom = template.find('#statement-eml');
+	    var statement = statementDom.value.replace('#'+doc.title, "#\""+doc.title+"\"");
+	    $(statementDom).val(statement);
+	  }
 });
 
 Template.activityTracker.updateActivity = function(_id, statement) {

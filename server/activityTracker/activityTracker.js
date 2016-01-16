@@ -1,5 +1,5 @@
 Meteor.publish("boards", function (username) {
-   return Boards.find({"username":username});
+   return Boards.find({"username":username}, {sort: {title: +1}});
 });
 
 Meteor.startup(function() {
