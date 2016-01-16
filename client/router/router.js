@@ -12,7 +12,7 @@ function ensureLoggedIn(sessionToken) {
             Meteor.loginWithPassword(userData.username, 'exentriq', function(error) {
 
             	if (!error){
-            		FlowRouter.go(FlowRouter.current());
+            		//FlowRouter.go(FlowRouter.current());
             	}
             	else {
             		console.log(error);
@@ -51,6 +51,24 @@ function handleLogin(context) {
     }
 }
 
+function isLoggedCallback(ready){
+
+	if (!Meteor.loggingIn() && Meteor.userId()){
+		ready && ready();	
+	}
+	else {
+		var i = 0;
+		var _interval = setInterval(function(){
+			if (!Meteor.loggingIn() && Meteor.userId()){
+				ready && ready();	
+				clearInterval(_interval);
+			}
+			if (i > 20) {
+				clearInterval(_interval);
+			}
+		}, 100);
+	}
+}
 
 FlowRouter.triggers.enter([handleLogin]);
 
@@ -91,27 +109,25 @@ FlowRouter.route('/sprintplanner/:companyId', {
 FlowRouter.route('/activitytracker/:companyId', {
 	action: function(params, queryParams) {   
 
-		if (Meteor.loggingIn()){
-			return;
-		}
+		isLoggedCallback(function(){
+			if (params.companyId) {
+				Meteor.call('getSpaceInfo', params.companyId, function(error, data) {
+					if (!error) {
+						// set session cmp
+						Session.set('cmp', {
+							cmpId: params.companyId,
+							cmpName: data.title
+						});
 
-		if (params.companyId) {
-			Meteor.call('getSpaceInfo', params.companyId, function(error, data) {
-				if (!error) {
-					// set session cmp
-					Session.set('cmp', {
-						cmpId: params.companyId,
-						cmpName: data.title
-					});
-
-					// render tpl
-					Template.activityTracker.render();
-					BlazeLayout.render('appView', {
-						center: "activityTracker"
-					});
-				}
-			});
-		}
+						// render tpl
+						Template.activityTracker.render();
+						BlazeLayout.render('appView', {
+							center: "activityTracker"
+						});
+					}
+				});
+			}
+		});
 	}
 });
 
