@@ -97,16 +97,12 @@ Meteor.methods({
 		if(response!=null){
 			response.forEach(function(project){
 				project.username = username;
-				project.autocomplete = "\""+project.title+"\"";
-				console.log("refresh project");
-				console.log(project);
 				var boardSpace = BoardSpaces.findOne({"id":project.space});
 				if(boardSpace==null){
 					console.log("not found");
 					var spacesUrl = Meteor.settings.private.integrationBusPath + '/getSpaceInfo?spaceid='+encodeURIComponent(project.space);
 					var bSpace = Meteor.wrapAsync(apiCall)(spacesUrl);
 					console.log(bSpace);
-					//BoardSpaces.insert(bSpace);
 					BoardSpaces.update({id:bSpace.id},bSpace, { upsert: true } )
 				}
 				Boards.update({id:project.id, username: project.username},project, { upsert: true } )

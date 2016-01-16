@@ -43,7 +43,6 @@ Template.activityTracker.helpers({
 	          token: '#',
 	          collection: Boards,
 	          field: "title",
-	          sort: "title",
 	          template: Template.activityBoardPill
 	        }
 	      ]
