@@ -10,6 +10,13 @@ function ensureLoggedIn(sessionToken) {
         userData = result;
         if (userData !== null) {
             Meteor.loginWithPassword(userData.username, 'exentriq', function(error) {
+
+            	if (!error){
+            		FlowRouter.go(FlowRouter.current());
+            	}
+            	else {
+            		console.log(error);
+            	}
             });
         } else {
             console.log('Invalid token, please contact administrator');
@@ -49,6 +56,10 @@ FlowRouter.triggers.enter([handleLogin]);
 
 FlowRouter.route('/orgmanager/:companyId', {
 	action: function(params, queryParams) {   
+		
+		if (Meteor.loggingIn()){
+			return;
+		}
 		if (params.companyId) {
 			Template.orgManager.render({
 				cmpId: params.companyId
@@ -62,6 +73,10 @@ FlowRouter.route('/orgmanager/:companyId', {
 
 FlowRouter.route('/sprintplanner/:companyId', {
 	action: function(params, queryParams) {   
+		
+		if (Meteor.loggingIn()){
+			return;
+		}
 		if (params.companyId) {
 			Template.sprintPlanner.render({
 				cmpId: params.companyId
@@ -75,6 +90,10 @@ FlowRouter.route('/sprintplanner/:companyId', {
 
 FlowRouter.route('/activitytracker/:companyId', {
 	action: function(params, queryParams) {   
+
+		if (Meteor.loggingIn()){
+			return;
+		}
 
 		if (params.companyId) {
 			Meteor.call('getSpaceInfo', params.companyId, function(error, data) {
@@ -99,8 +118,11 @@ FlowRouter.route('/activitytracker/:companyId', {
 FlowRouter.route('/activitytracker/user/:userId', {
 	action: function(params, queryParams) {   
 
-		if (params.userId) {
+		if (Meteor.loggingIn()){
+			return;
+		}
 
+		if (params.userId) {
 			// set session user
 			Session.set('user', {
 				userName: params.userId == 'me' ? Meteor.user().username : null,
@@ -118,6 +140,10 @@ FlowRouter.route('/activitytracker/user/:userId', {
 
 FlowRouter.route('/activitytracker/:companyId/project/:project', {
 	action: function(params, queryParams) {   
+
+		if (Meteor.loggingIn()){
+			return;
+		}
 
 		if (params.companyId && params.project) {
 			Meteor.call('getSpaceInfo', params.companyId, function(error, data) {
