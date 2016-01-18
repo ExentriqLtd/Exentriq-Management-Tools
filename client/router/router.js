@@ -12,7 +12,7 @@ function ensureLoggedIn(sessionToken) {
             Meteor.loginWithPassword(userData.username, 'exentriq', function(error) {
 
             	if (!error){
-            		//FlowRouter.go(FlowRouter.current());
+            		//FlowRouter.go(FlowRouter.current().path);
             	}
             	else {
             		console.log(error);
@@ -37,6 +37,7 @@ function handleLogin(context) {
                     ensureLoggedIn(sessionToken);
                 }
                 else {
+					//FlowRouter.go(FlowRouter.current().path);
                     return
                 }
             } else {
@@ -59,6 +60,7 @@ function isLoggedCallback(ready){
 	else {
 		var i = 0;
 		var _interval = setInterval(function(){
+			console.log("Check " + Meteor.loggingIn() + " " + Meteor.userId());
 			if (!Meteor.loggingIn() && Meteor.userId()){
 				ready && ready();	
 				_interval && clearInterval(_interval);
@@ -73,11 +75,7 @@ function isLoggedCallback(ready){
 FlowRouter.triggers.enter([handleLogin]);
 
 FlowRouter.route('/orgmanager/:companyId', {
-	action: function(params, queryParams) {   
-		
-		if (Meteor.loggingIn()){
-			return;
-		}
+	action: function(params, queryParams) {
 		if (params.companyId) {
 			Template.orgManager.render({
 				cmpId: params.companyId
@@ -90,19 +88,17 @@ FlowRouter.route('/orgmanager/:companyId', {
 });
 
 FlowRouter.route('/sprintplanner/:companyId', {
-	action: function(params, queryParams) {   
-		
-		if (Meteor.loggingIn()){
-			return;
-		}
-		if (params.companyId) {
-			Template.sprintPlanner.render({
-				cmpId: params.companyId
-			});
-			BlazeLayout.render('appView', {
-				center: "sprintPlanner"
-			});
-		}
+	action: function(params, queryParams) {
+		isLoggedCallback(function(){
+			if (params.companyId) {
+				Template.sprintPlanner.render({
+					cmpId: params.companyId
+				});
+				BlazeLayout.render('appView', {
+					center: "sprintPlanner"
+				});
+			}
+		});
 	}
 });
 
@@ -110,6 +106,7 @@ FlowRouter.route('/activitytracker/:companyId', {
 	action: function(params, queryParams) {   
 
 		isLoggedCallback(function(){
+			console.log("Run Action " + FlowRouter.current().path);
 			if (params.companyId) {
 				Meteor.call('getSpaceInfo', params.companyId, function(error, data) {
 					if (!error) {
@@ -132,55 +129,51 @@ FlowRouter.route('/activitytracker/:companyId', {
 });
 
 FlowRouter.route('/activitytracker/user/:userId', {
-	action: function(params, queryParams) {   
+	action: function(params, queryParams) {
 
-		if (Meteor.loggingIn()){
-			return;
-		}
+		isLoggedCallback(function() {
+			if (params.userId) {
+				// set session user
+				Session.set('user', {
+					userName: params.userId == 'me' ? Meteor.user().username : null,
+					userId: params.userId == 'me' ? Meteor.userId() : params.userId,
+				});
 
-		if (params.userId) {
-			// set session user
-			Session.set('user', {
-				userName: params.userId == 'me' ? Meteor.user().username : null,
-				userId: params.userId == 'me' ? Meteor.userId() : params.userId,
-			});
-
-			// render tpl
-			Template.activityTracker.render();
-			BlazeLayout.render('appView', {
-				center: "activityTracker"
-			});
-		}
+				// render tpl
+				Template.activityTracker.render();
+				BlazeLayout.render('appView', {
+					center: "activityTracker"
+				});
+			}
+		});
 	}
 });
 
 FlowRouter.route('/activitytracker/:companyId/project/:project', {
-	action: function(params, queryParams) {   
+	action: function(params, queryParams) {
 
-		if (Meteor.loggingIn()){
-			return;
-		}
+		isLoggedCallback(function() {
+			if (params.companyId && params.project) {
+				Meteor.call('getSpaceInfo', params.companyId, function (error, data) {
+					if (!error) {
+						// set session cmp
+						Session.set('cmp', {
+							cmpId: params.companyId,
+							cmpName: data.title
+						});
 
-		if (params.companyId && params.project) {
-			Meteor.call('getSpaceInfo', params.companyId, function(error, data) {
-				if (!error) {
-					// set session cmp
-					Session.set('cmp', {
-						cmpId: params.companyId,
-						cmpName: data.title
-					});
+						// set session user
+						Session.set('project', params.project);
 
-					// set session user
-					Session.set('project', params.project);
-
-					// render tpl
-					Template.activityTracker.render();
-					BlazeLayout.render('appView', {
-						center: "activityTracker"
-					});
-				}
-			});
-		}
+						// render tpl
+						Template.activityTracker.render();
+						BlazeLayout.render('appView', {
+							center: "activityTracker"
+						});
+					}
+				});
+			}
+		});
 	}
 });
 
