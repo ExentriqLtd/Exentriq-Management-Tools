@@ -73,21 +73,21 @@ Template.activityTracker.updateActivity = function(_id, statement) {
 	if (statement) {
 
 		// validate proj
-		var regexpBoardDoubleQuote = /(#)\"(.*)\"/g;
-		var regexpBoard = /(#)([^\s]*)/g;
+		var regexpBoardDoubleQuote = /(#)\"([^\"]+)\"/g;
+		var regexpBoard = /(#)([^"^\s]+)/g;
 		var regexpBoardDoubleQuoteResult = regexpBoardDoubleQuote.exec(statement);
 		var regexpBoardResult = regexpBoard.exec(statement);
 
 		// validate days
-		var regexDays = /\b([0-9]*)(d|D|day|days|DAY|DAYS|Day|Days)\b/g;
+		var regexDays = /\b([0-9]+)(d|D|day|days|DAY|DAYS|Day|Days)\b/g;
 		var regexpDaysResult = regexDays.exec(statement);
 
 		// validate hours
-		var regexHours = /\b([0-9]*)(h|H|hour|hours|HOUR|HOURS|Hour|Hours)\b/g;
+		var regexHours = /\b([0-9]+)(h|H|hour|hours|HOUR|HOURS|Hour|Hours)\b/g;
 		var regexpHoursResult = regexHours.exec(statement);
 
 		// validate minutes
-		var regexMinutes = /\b([0-9]*)(m|M|minute|minutes|MINUTE|MINUTES|Minute|Minutes)\b/g;
+		var regexMinutes = /\b([0-9]+)(m|M|minute|minutes|MINUTE|MINUTES|Minute|Minutes)\b/g;
 		var regexpMinutesResult = regexMinutes.exec(statement);
 
 		if ((regexpBoardResult !== null || regexpBoardDoubleQuoteResult !== null) && (regexpDaysResult || regexpHoursResult || regexpMinutesResult)) {

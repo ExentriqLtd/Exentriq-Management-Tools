@@ -1,6 +1,9 @@
-Tasks = new Mongo.Collection("tasks");
-UsersTest = new Mongo.Collection("users_test");
-BoardsTest = new Mongo.Collection("boards_test");
+Tracker.autorun(function(){
+  if(Meteor.user()){
+	  console.log('refreshAppUsers');
+	  Meteor.call('refreshAppUsers');
+  }
+});
 // sprintPlanner template
 Template.sprintPlanner.render = function(_param) {
 	var param = $.extend({
@@ -103,37 +106,15 @@ Template.sprintPlanner.onCreated(function() {
 	//END: ORGANIZATION MANAGER TREE VIEW
 
 	Meteor.subscribe("tasks", space);
-	Meteor.subscribe("users_test");
-	Meteor.subscribe("boards_test");
-
+	Meteor.subscribe("appUsers", space);
+	
 	Session.set('space', space);
-
 	Session.set('selectedTeam', null);
 
-	//	Meteor.call('getTasks', username, space, '', handleTasks);
-	Meteor.call('getTeams', space, function(err, res) {
-		if (err) {
-			Session.set('teams', {
-				error: err
-			});
-		} else {
-			Session.set('teams', res);
-			return res;
-		}
-	});
 });
 
 Template.sprintPlanner.helpers({
 	tasks: function() {
-		//	  var space = Session.get('space', space);
-		//	  var tasks = Session.get('tasks');
-		//	  if(typeof tasks !== "undefined")
-		//	  for (i = 0; i < tasks.length; ++i) {
-		//		  tasks[i].index = i+1;
-		//		  console.log(tasks[i].space);
-		//	  }
-		//	  return tasks;
-
 		var team = Session.get('selectedTeam');
 		var tasks;
 		if (team !== null) {
@@ -179,7 +160,6 @@ Template.sprintPlanner.events({
 		var selectedTeam = Session.get('selectedTeam');
 
 		Meteor.call('addEmlStatement', statementEml, username, space);
-		//var resp = Meteor.call('addEmlStatementOld', username, space, selectedTeam, statementId, statementEml,handleTasks);
 	},
 
 	'click .team-item': function(evt, tpl) {
@@ -193,9 +173,6 @@ Template.sprintPlanner.events({
 
 		var selectedTeam = Session.get('selectedTeam');
 
-		//			var username = Session.get('username');
-		//			var space = Session.get('space');
-		//			Meteor.call('getTasks', username, space, selectedTeam, handleTasks);
 	},
 	'click .eml-edit': function(evt, tpl) {
 		console.log('cliccato edit');
@@ -205,7 +182,22 @@ Template.sprintPlanner.events({
 		Session.set('description', description);
 		Session.set('selectedTask', this);
 		$('#eq-ui-modal-edit').openModal();
-	}
+	},
+	"autocompleteselect input": function(event, template, doc) {
+		var replaceFrom;
+		var replaceTo;
+		if(doc.hasOwnProperty('title')){
+			replaceFrom = '#'+doc.title;
+			replaceTo = "#\""+doc.title+"\""
+		}
+		else{
+			replaceFrom = '@'+doc.username;
+			replaceTo = "@\""+doc.username+"\""
+		}
+		var statementDom = template.find('#statement-eml');
+	    var statement = statementDom.value.replace(replaceFrom, replaceTo);
+	    $(statementDom).val(statement);
+	  }
 });
 
 Template.sprintPlanner.rendered = function() {
@@ -275,11 +267,6 @@ Template.editEml.events({
 		console.log(task);
 		Tasks.update(task._id, eml);
 
-		//		var username = Session.get('username');
-		//		var space = Session.get('space');
-		//		var selectedTeam = Session.get('selectedTeam');
-		//		Tasks.update(statementId, { $set: { what_and_why: eml.what_and_why} });
-		//		var resp = Meteor.call('addEmlStatement', username, space, selectedTeam, statementId, statementEml,handleTasks);
 	}
 
 });
@@ -297,18 +284,18 @@ Template.addEml.helpers({
 	      position: "bottom",
 	      limit: 20,
 	      rules: [
-//	        {
-//	          token: '@',
-//	          collection: UsersTest,
-//	          field: "username",
-//	          template: Template.userPill
-//	        },
-//	        {
-//	          token: '#',
-//	          collection: BoardsTest,
-//	          field: "name",
-//	          template: Template.boardPill
-//	        }
+	        {
+	          token: '@',
+	          collection: AppUsers,
+	          field: "username",
+	          template: Template.userPill
+	        },
+	        {
+	          token: '#',
+	          collection: Boards,
+	          field: "title",
+	          template: Template.boardPill
+	        }
 	      ]
 	    };
 	  }
@@ -321,12 +308,6 @@ Template.deleteEml.events({
 		var selectedTask = Session.get('selectedTask');
 		Tasks.remove(selectedTask._id);
 
-		//		var username = Session.get('username');
-		//		var space = Session.get('space');
-		//		var statementId = this.eml_id;
-		//		var statementEml = this.what_and_why;
-		//		var selectedTeam = Session.get('selectedTeam');
-		//var resp = Meteor.call('deleteEmlTask', username, space, null, statementId, statementEml,handleTasks);
 	}
 });
 

@@ -1,15 +1,8 @@
-Tasks = new Mongo.Collection("tasks");
-UsersTest = new Mongo.Collection("users_test");
-BoardsTest = new Mongo.Collection("boards_test");
-
 Meteor.publish("tasks", function (space) {
    return Tasks.find({space:space});
 });
-Meteor.publish("users_test", function (space) {
-   return UsersTest.find({});
-});
-Meteor.publish("boards_test", function (space) {
-   return BoardsTest.find({});
+Meteor.publish("appUsers", function (space) {
+   return AppUsers.find({});
 });
 
 Meteor.startup(function () {
@@ -55,34 +48,15 @@ Meteor.methods({
 		var eml = stringToEml(statementEml, statementId, username , space);
 		Tasks.insert(eml);
 	},
-	
-	'getTasks' : function(username, space, team) {
-		// avoid blocking other method calls from the same client
+	'refreshAppUsers' : function(){
 		this.unblock();
-		var apiUrl = 'http://bus.stage.exentriq.com:1880/getEmlTasks?space='+encodeURIComponent(space)+'&team='+encodeURIComponent(team);
-		// asynchronous call to the dedicated API calling function
+		var apiUrl = Meteor.settings.private.integrationBusPath + '/getAllUsers';
 		var response = Meteor.wrapAsync(apiCall)(apiUrl);
-		return response;
-	},
-	'addEmlStatementOld' : function(username, space, team, statementId, statementEml){
-		this.unblock();
-		var apiUrl = 'http://bus.stage.exentriq.com:1880/addEmlStatement';
-		var response = Meteor.wrapAsync(apiCallPost)(apiUrl, username, space, team, statementId, statementEml);
-		return response;
-	},
-	'deleteEmlTask' : function(username, space, team, statementId, statementEml){
-		this.unblock();
-		var apiUrl = 'http://bus.stage.exentriq.com:1880/deleteEmlTask';
-		var response = Meteor.wrapAsync(apiCallPost)(apiUrl, username, space, team, statementId, statementEml);
-		return response;
-	},
-	'getTeams' : function(space){
-		// avoid blocking other method calls from the same client
-		this.unblock();
-		var apiUrl = 'http://bus.stage.exentriq.com:1880/getTeams?space='+space;
-		// asynchronous call to the dedicated API calling function
-		var response = Meteor.wrapAsync(apiCall)(apiUrl);
-		return response;
+		if(response!=null){
+			response.forEach(function(user){
+				AppUsers.update({username:user.username},user, { upsert: true } );
+			});
+		}
 	}
 });
 
@@ -144,25 +118,40 @@ var stringToEml = function(statement, id, author, space){
 	try{
 	    
 	    var result ={};
-	    var regexpUser = /@([^\s]*)/g;
-	    var regexpBoard = /#([^\s]*)/g;
-	    var regexpMilestone = /\s!([^\s]*)/g;
-	    var regexpEta = /ETA([^\s]*)/g;
-	    var regexpEffort = /~([^\s]*)/g;
-	    var regexpProgress = /%([^\s]*)/g;
-	    var regexpPriority = /\[(.*)\]/g;
-	    var regexpBudget = /\$([^\s]*)/g;
-	    var regexpCard = /&([^\s]*)/g;
+	    var regexpUser = /@([^"^\s]+)/g;
+	    var regexpUserDoubleQuote = /@\"([^\"]+)\"/g;
+	    var regexpBoardDoubleQuote = /(#)\"(.+)\"/g;
+	    var regexpBoard = /#([^\s]+)/g;
+	    var regexpMilestone = /\s!([^\s]+)/g;
+	    var regexpEta = /ETA([^\s]+)/g;
+	    var regexpEffort = /~([^\s]+)/g;
+	    var regexpProgress = /%([^\s]+)/g;
+	    var regexpPriority = /\[(.+)\]/g;
+	    var regexpBudget = /\$([^\s]+)/g;
+	    var regexpCard = /&([^\s]+)/g;
 	    
 	    var regexpUserResults; 
+	    var regexpUserDoubleQuoteResults; 
 	    result.users = [];
 	    while ((regexpUserResults = regexpUser.exec(statement)) !== null) {
+	    	console.log("1: " + regexpUserResults[1]);
 	        result.users.push(regexpUserResults[1]);
 	    }
-	    var regexpBoardResult = regexpBoard.exec(statement);
-	    if(regexpBoardResult!==null){
-	        result.board=regexpBoardResult[1];
+	    while ((regexpUserDoubleQuoteResults = regexpUserDoubleQuote.exec(statement)) !== null) {
+	    	console.log("2: " + regexpUserDoubleQuoteResults[1]);
+	        result.users.push(regexpUserDoubleQuoteResults[1]);
 	    }
+	    
+	    var regexpBoardDoubleQuoteResult = regexpBoardDoubleQuote.exec(statement);
+		if (regexpBoardDoubleQuoteResult !== null) {
+			result.board = regexpBoardDoubleQuoteResult[2];
+		}
+		else{
+			var regexpBoardResult = regexpBoard.exec(statement);
+			if (regexpBoardResult !== null) {
+				result.board = regexpBoardResult[2];
+			}
+		}
 	    var regexpMilestoneResult = regexpMilestone.exec(statement);
 	    if(regexpMilestoneResult!==null){
 	        result.milestone=regexpMilestoneResult[1];

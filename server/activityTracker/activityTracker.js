@@ -154,11 +154,11 @@ var parseActivity = function(activity) {
 		obj._id = activity._id;
 	}
 
-	var regexpBoardDoubleQuote = /(#)\"(.*)\"/g;
-	var regexpBoard = /(#)([^\s]*)/g;
-	var regexDays = /\b([0-9]*)(d|D|day|days|DAY|DAYS|Day|Days)\b/g;
-	var regexHours = /\b([0-9]*)(h|H|hour|hours|HOUR|HOURS|Hour|Hours)\b/g;
-	var regexMinutes = /\b([0-9]*)(m|M|minute|minutes|MINUTE|MINUTES|Minute|Minutes)\b/g;
+	var regexpBoardDoubleQuote = /(#)\"([^\"]+)\"/g;
+	var regexpBoard = /(#)([^"^\s]+)/g;
+	var regexDays = /\b([0-9]+)(d|D|day|days|DAY|DAYS|Day|Days)\b/g;
+	var regexHours = /\b([0-9]+)(h|H|hour|hours|HOUR|HOURS|Hour|Hours)\b/g;
+	var regexMinutes = /\b([0-9]+)(m|M|minute|minutes|MINUTE|MINUTES|Minute|Minutes)\b/g;
 	
 	var description = activity.statement;
 
