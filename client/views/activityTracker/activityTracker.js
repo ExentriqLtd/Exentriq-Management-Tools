@@ -93,7 +93,15 @@ Template.activityTracker.updateActivity = function(_id, statement) {
 		if ((regexpBoardResult !== null || regexpBoardDoubleQuoteResult !== null) && (regexpDaysResult || regexpHoursResult || regexpMinutesResult)) {
 			
 			// check proj
-			var projName = regexpBoardDoubleQuoteResult[2] || regexpBoardResult[2];
+			var projName = '';
+
+			if (regexpBoardDoubleQuoteResult){
+				projName = regexpBoardDoubleQuoteResult[2];
+			}
+			else if (regexpBoardResult){
+				projName = regexpBoardResult[2];
+			}
+
 			var proj = Boards.find({title: projName}).fetch();
 			
 			if (proj.length){
@@ -159,15 +167,17 @@ Template.atActivity.events({
 
 	'click .eml-delete': function(evt, tpl) {
 		Session.set('selectedActivity', this);
+		$('#eq-ui-modal-delete').openModal();
 	},
-
 	'click .eml-edit': function(evt, tpl) {
 		Session.set('selectedActivity', this);
-		setTimeout(function(){
+		$('#eq-ui-modal-edit').openModal();
+		
+		/*setTimeout(function(){
 			$('#eq-ui-modal-edit').find('input').each(function(i){
 				$(i).click().focus().blur();
 			})
-		});
+		});*/
 	}
 });
 
@@ -188,7 +198,7 @@ Template.editActivity.helpers({
 
 Template.editActivity.events({
 	'click #activity_save_submit': function(evt, tpl){
-		var statement = tpl.find('#logged').value + ' #' + tpl.find('#project').value;
+		var statement = tpl.find('#logged').value + ' #' + tpl.find('#project').value + ' ' +  tpl.find('#description').value;
 		Template.activityTracker.updateActivity(Session.get('selectedActivity')._id, statement);
 	}
 });
