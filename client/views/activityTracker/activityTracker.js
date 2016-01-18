@@ -73,7 +73,9 @@ Template.activityTracker.updateActivity = function(_id, statement) {
 	if (statement) {
 
 		// validate proj
-		var regexpBoard = /#([^\s]*)/g;
+		var regexpBoardDoubleQuote = /(#)\"(.*)\"/g;
+		var regexpBoard = /(#)([^\s]*)/g;
+		var regexpBoardDoubleQuoteResult = regexpBoardDoubleQuote.exec(statement);
 		var regexpBoardResult = regexpBoard.exec(statement);
 
 		// validate days
@@ -88,26 +90,35 @@ Template.activityTracker.updateActivity = function(_id, statement) {
 		var regexMinutes = /\b([0-9]*)(m|M|minute|minutes|MINUTE|MINUTES|Minute|Minutes)\b/g;
 		var regexpMinutesResult = regexMinutes.exec(statement);
 
-		if (regexpBoardResult !== null && (regexpDaysResult || regexpHoursResult || regexpMinutesResult)) {
+		if ((regexpBoardResult !== null || regexpBoardDoubleQuoteResult !== null) && (regexpDaysResult || regexpHoursResult || regexpMinutesResult)) {
 			
-			if (_id){
-				Meteor.call('updateActivity', _id, {
-					statement: statement,
-					cmpId: Session.get('cmp').cmpId,
-					cmpName: Session.get('cmp').cmpName,
-					userId: Meteor.userId(),
-					userName: Meteor.user().username,
-				});
+			// check proj
+			var projName = regexpBoardDoubleQuoteResult[2] || regexpBoardResult[2];
+			var proj = Boards.find({title: projName}).fetch();
+			
+			if (proj.length){
+				if (_id){
+					Meteor.call('updateActivity', _id, {
+						statement: statement,
+						cmpId: Session.get('cmp') ? Session.get('cmp').cmpId : '',
+						cmpName: Session.get('cmp') ? Session.get('cmp').cmpName : '',
+						userId: Meteor.userId(),
+						userName: Meteor.user().username,
+					});
+				}
+				else {
+					Meteor.call('addActivityEml', {
+						statement: statement,
+						cmpId: Session.get('cmp') ? Session.get('cmp').cmpId : '',
+						cmpName: Session.get('cmp') ? Session.get('cmp').cmpName : '',
+						userId: Meteor.userId(),
+						userName: Meteor.user().username,
+					});
+					$('#statement-eml').val('');
+				}				
 			}
 			else {
-				Meteor.call('addActivityEml', {
-					statement: statement,
-					cmpId: Session.get('cmp').cmpId,
-					cmpName: Session.get('cmp').cmpName,
-					userId: Meteor.userId(),
-					userName: Meteor.user().username,
-				});
-				$('#statement-eml').val('');
+				$('#statement-eml').addClass('invalid');
 			}
 		}
 	}
