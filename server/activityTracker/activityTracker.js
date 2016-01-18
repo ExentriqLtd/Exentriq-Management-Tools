@@ -1,5 +1,5 @@
-Meteor.publish("boards", function (username) {
-   return Boards.find({"username":username}, {sort: {title: +1}});
+Meteor.publish("userBoards", function (username) {
+   return UserBoards.find({"username":username}, {sort: {title: +1}});
 });
 
 Meteor.startup(function() {
@@ -105,7 +105,7 @@ Meteor.methods({
 					console.log(bSpace);
 					BoardSpaces.update({id:bSpace.id},bSpace, { upsert: true } )
 				}
-				Boards.update({id:project.id, username: project.username},project, { upsert: true } )
+				UserBoards.update({id:project.id, username: project.username},project, { upsert: true } )
 			});
 		}
 	}
@@ -205,7 +205,7 @@ var parseActivity = function(activity) {
 
 	obj.description=description.trim();
 	
-	var prj = Boards.findOne({title:obj.project});
+	var prj = UserBoards.findOne({title:obj.project});
 	if(prj!=null){
 		obj.cmpId=prj.space;
 		console.log("searching space info: " + prj.space);

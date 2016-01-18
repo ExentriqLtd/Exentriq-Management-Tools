@@ -1,8 +1,11 @@
 Meteor.publish("tasks", function (space) {
    return Tasks.find({space:space});
 });
-Meteor.publish("appUsers", function (space) {
+Meteor.publish("appUsers", function () {
    return AppUsers.find({});
+});
+Meteor.publish("boards", function () {
+   return Boards.find({});
 });
 
 Meteor.startup(function () {
@@ -55,6 +58,16 @@ Meteor.methods({
 		if(response!=null){
 			response.forEach(function(user){
 				AppUsers.update({username:user.username},user, { upsert: true } );
+			});
+		}
+	},
+	'refreshBoards' : function(){
+		this.unblock();
+		var apiUrl = Meteor.settings.private.integrationBusPath + '/getAllProjects';
+		var response = Meteor.wrapAsync(apiCall)(apiUrl);
+		if(response!=null){
+			response.forEach(function(board){
+				Boards.update({id:board.id},board, { upsert: true } );
 			});
 		}
 	}
@@ -120,7 +133,7 @@ var stringToEml = function(statement, id, author, space){
 	    var result ={};
 	    var regexpUser = /@([^"^\s]+)/g;
 	    var regexpUserDoubleQuote = /@\"([^\"]+)\"/g;
-	    var regexpBoardDoubleQuote = /(#)\"(.+)\"/g;
+	    var regexpBoardDoubleQuote = /(#)\"([^\"]+)\"/g;
 	    var regexpBoard = /#([^\s]+)/g;
 	    var regexpMilestone = /\s!([^\s]+)/g;
 	    var regexpEta = /ETA([^\s]+)/g;

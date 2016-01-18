@@ -3,7 +3,7 @@ Tracker.autorun(function(){
     var username = Meteor.user().username;
     console.log("username: " + username);
     Meteor.subscribe("activities");
-	Meteor.subscribe("boards", username);
+	Meteor.subscribe("userBoards", username);
 	Meteor.call('refreshUserProjects', username);
   }
 });
@@ -41,7 +41,7 @@ Template.activityTracker.helpers({
 	      rules: [
 	        {
 	          token: '#',
-	          collection: Boards,
+	          collection: UserBoards,
 	          field: "title",
 	          template: Template.activityBoardPill
 	        }
@@ -102,7 +102,7 @@ Template.activityTracker.updateActivity = function(_id, statement) {
 				projName = regexpBoardResult[2];
 			}
 
-			var proj = Boards.find({title: projName}).fetch();
+			var proj = UserBoards.find({title: projName}).fetch();
 			
 			if (proj.length){
 				if (_id){

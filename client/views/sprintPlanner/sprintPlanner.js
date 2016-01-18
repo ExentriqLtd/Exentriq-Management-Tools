@@ -2,6 +2,8 @@ Tracker.autorun(function(){
   if(Meteor.user()){
 	  console.log('refreshAppUsers');
 	  Meteor.call('refreshAppUsers');
+	  console.log('refreshBoards');
+	  Meteor.call('refreshBoards');
   }
 });
 // sprintPlanner template
@@ -107,6 +109,7 @@ Template.sprintPlanner.onCreated(function() {
 
 	Meteor.subscribe("tasks", space);
 	Meteor.subscribe("appUsers", space);
+	Meteor.subscribe("boards", space);
 	
 	Session.set('space', space);
 	Session.set('selectedTeam', null);
