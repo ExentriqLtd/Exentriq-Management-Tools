@@ -1,9 +1,9 @@
 {
   "public": {
-    "loginFormPath": "http://www.exentriq.com/signin_new"
+    "loginFormPath": "http://stage.exentriq.com/signin_new"
   },
   "private": {
-    "integrationBusPath": "http://bus.exentriq.com:1880",
-    "loginEndpoint": "http://www.exentriq.com/JSON-RPC"
+    "integrationBusPath": "http://bus.stage.exentriq.com:1880",
+    "loginEndpoint": "http://stage.exentriq.com/JSON-RPC"
   }
 }
