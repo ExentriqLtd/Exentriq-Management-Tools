@@ -1,10 +1,13 @@
 Tracker.autorun(function(){
   if(Meteor.user()){
     var username = Meteor.user().username;
+	var company = Session.get('cmp');
+	console.log(company);
     console.log("username: " + username);
     Meteor.subscribe("activities");
-	Meteor.subscribe("boards", username);
+	Meteor.subscribe("userBoards", username, company);
 	Meteor.call('refreshUserProjects', username);
+	
   }
 });
 
@@ -41,7 +44,7 @@ Template.activityTracker.helpers({
 	      rules: [
 	        {
 	          token: '#',
-	          collection: Boards,
+	          collection: UserBoards,
 	          field: "title",
 	          template: Template.activityBoardPill
 	        }
@@ -73,21 +76,21 @@ Template.activityTracker.updateActivity = function(_id, statement, time) {
 	if (statement) {
 
 		// validate proj
-		var regexpBoardDoubleQuote = /(#)\"(.*)\"/g;
-		var regexpBoard = /(#)([^\s]*)/g;
+		var regexpBoardDoubleQuote = /(#)\"([^\"]+)\"/g;
+		var regexpBoard = /(#)([^"^\s]+)/g;
 		var regexpBoardDoubleQuoteResult = regexpBoardDoubleQuote.exec(statement);
 		var regexpBoardResult = regexpBoard.exec(statement);
 
 		// validate days
-		var regexDays = /\b([0-9]*)(d|D|day|days|DAY|DAYS|Day|Days)\b/g;
+		var regexDays = /\b([0-9]+)(d|D|day|days|DAY|DAYS|Day|Days)\b/g;
 		var regexpDaysResult = regexDays.exec(statement);
 
 		// validate hours
-		var regexHours = /\b([0-9]*)(h|H|hour|hours|HOUR|HOURS|Hour|Hours)\b/g;
+		var regexHours = /\b([0-9]+)(h|H|hour|hours|HOUR|HOURS|Hour|Hours)\b/g;
 		var regexpHoursResult = regexHours.exec(statement);
 
 		// validate minutes
-		var regexMinutes = /\b([0-9]*)(m|M|minute|minutes|MINUTE|MINUTES|Minute|Minutes)\b/g;
+		var regexMinutes = /\b([0-9]+)(m|M|minute|minutes|MINUTE|MINUTES|Minute|Minutes)\b/g;
 		var regexpMinutesResult = regexMinutes.exec(statement);
 
 		if ((regexpBoardResult !== null || regexpBoardDoubleQuoteResult !== null) && (regexpDaysResult || regexpHoursResult || regexpMinutesResult)) {
@@ -102,7 +105,7 @@ Template.activityTracker.updateActivity = function(_id, statement, time) {
 				projName = regexpBoardResult[2];
 			}
 
-			var proj = Boards.find({title: projName}).fetch();
+			var proj = UserBoards.find({title: projName}).fetch();
 			
 			if (proj.length){
 				if (_id){

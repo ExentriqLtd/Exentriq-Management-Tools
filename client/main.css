@@ -372,6 +372,6 @@ ul.drop-down .drop-down-item:hover {
     border-left: 1px solid #f0f0f0;
 }
 
-.eq-ui-card.activities-add-panel{
+.eq-ui-card.activities-add-panel, #eq-ui-modal-add{
 	overflow: visible;
 }

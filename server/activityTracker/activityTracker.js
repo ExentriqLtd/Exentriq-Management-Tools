@@ -1,5 +1,9 @@
-Meteor.publish("boards", function (username) {
-   return Boards.find({"username":username}, {sort: {title: +1}});
+Meteor.publish("userBoards", function (username, company) {
+	var filter = {"username":username};
+	if(company!==null){
+		filter.space=company.cmpId;
+	}
+	return UserBoards.find(filter, {sort: {title: +1}});
 });
 
 Meteor.startup(function() {
@@ -99,13 +103,11 @@ Meteor.methods({
 				project.username = username;
 				var boardSpace = BoardSpaces.findOne({"id":project.space});
 				if(boardSpace==null){
-					console.log("not found");
 					var spacesUrl = Meteor.settings.private.integrationBusPath + '/getSpaceInfo?spaceid='+encodeURIComponent(project.space);
 					var bSpace = Meteor.wrapAsync(apiCall)(spacesUrl);
-					console.log(bSpace);
 					BoardSpaces.update({id:bSpace.id},bSpace, { upsert: true } )
 				}
-				Boards.update({id:project.id, username: project.username},project, { upsert: true } )
+				UserBoards.update({id:project.id, username: project.username},project, { upsert: true } )
 			});
 		}
 	}
@@ -154,11 +156,11 @@ var parseActivity = function(activity) {
 		obj._id = activity._id;
 	}
 
-	var regexpBoardDoubleQuote = /(#)\"(.*)\"/g;
-	var regexpBoard = /(#)([^\s]*)/g;
-	var regexDays = /\b([0-9]*)(d|D|day|days|DAY|DAYS|Day|Days)\b/g;
-	var regexHours = /\b([0-9]*)(h|H|hour|hours|HOUR|HOURS|Hour|Hours)\b/g;
-	var regexMinutes = /\b([0-9]*)(m|M|minute|minutes|MINUTE|MINUTES|Minute|Minutes)\b/g;
+	var regexpBoardDoubleQuote = /(#)\"([^\"]+)\"/g;
+	var regexpBoard = /(#)([^"^\s]+)/g;
+	var regexDays = /\b([0-9]+)(d|D|day|days|DAY|DAYS|Day|Days)\b/g;
+	var regexHours = /\b([0-9]+)(h|H|hour|hours|HOUR|HOURS|Hour|Hours)\b/g;
+	var regexMinutes = /\b([0-9]+)(m|M|minute|minutes|MINUTE|MINUTES|Minute|Minutes)\b/g;
 	
 	var description = activity.statement;
 
@@ -205,7 +207,7 @@ var parseActivity = function(activity) {
 
 	obj.description=description.trim();
 	
-	var prj = Boards.findOne({title:obj.project});
+	var prj = UserBoards.findOne({title:obj.project});
 	if(prj!=null){
 		obj.cmpId=prj.space;
 		console.log("searching space info: " + prj.space);
