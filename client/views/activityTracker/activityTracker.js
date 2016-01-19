@@ -55,11 +55,11 @@ Template.activityTracker.helpers({
 
 Template.activityTracker.events({
 	'keyup #statement-eml': function(evt, tpl) {
-		evt.preventDefault();
+		/*evt.preventDefault();
 		evt.stopPropagation();
 		if (evt.keyCode == '13'){
 			Template.activityTracker.updateActivity(null, tpl.find('#statement-eml').value);	
-		}
+		}*/
 	},
 	'click #statement-add': function(evt, tpl) {
 		evt.preventDefault();
@@ -207,3 +207,7 @@ Template.editActivity.events({
 		Template.activityTracker.updateActivity(Session.get('selectedActivity')._id, statement, tpl.find('#time').value);
 	}
 });
+
+Template.activityBoardPill.events({
+
+})
