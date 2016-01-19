@@ -1,10 +1,13 @@
 Tracker.autorun(function(){
   if(Meteor.user()){
     var username = Meteor.user().username;
+	var company = Session.get('cmp');
+	console.log(company);
     console.log("username: " + username);
     Meteor.subscribe("activities");
-	Meteor.subscribe("userBoards", username);
+	Meteor.subscribe("userBoards", username, company);
 	Meteor.call('refreshUserProjects', username);
+	
   }
 });
 

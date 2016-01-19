@@ -1,5 +1,9 @@
-Meteor.publish("userBoards", function (username) {
-   return UserBoards.find({"username":username}, {sort: {title: +1}});
+Meteor.publish("userBoards", function (username, company) {
+	var filter = {"username":username};
+	if(company!==null){
+		filter.space=company.cmpId;
+	}
+	return UserBoards.find(filter, {sort: {title: +1}});
 });
 
 Meteor.startup(function() {
@@ -99,10 +103,8 @@ Meteor.methods({
 				project.username = username;
 				var boardSpace = BoardSpaces.findOne({"id":project.space});
 				if(boardSpace==null){
-					console.log("not found");
 					var spacesUrl = Meteor.settings.private.integrationBusPath + '/getSpaceInfo?spaceid='+encodeURIComponent(project.space);
 					var bSpace = Meteor.wrapAsync(apiCall)(spacesUrl);
-					console.log(bSpace);
 					BoardSpaces.update({id:bSpace.id},bSpace, { upsert: true } )
 				}
 				UserBoards.update({id:project.id, username: project.username},project, { upsert: true } )
