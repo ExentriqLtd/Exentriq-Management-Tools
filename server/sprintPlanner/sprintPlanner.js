@@ -147,22 +147,20 @@ var stringToEml = function(statement, id, author, space){
 	    var regexpUserDoubleQuoteResults; 
 	    result.users = [];
 	    while ((regexpUserResults = regexpUser.exec(statement)) !== null) {
-	    	console.log("1: " + regexpUserResults[1]);
-	        result.users.push(regexpUserResults[1]);
+	        result.users.push(regexpUserResults[1].trim());
 	    }
 	    while ((regexpUserDoubleQuoteResults = regexpUserDoubleQuote.exec(statement)) !== null) {
-	    	console.log("2: " + regexpUserDoubleQuoteResults[1]);
-	        result.users.push(regexpUserDoubleQuoteResults[1]);
+	        result.users.push(regexpUserDoubleQuoteResults[1].trim());
 	    }
 	    
 	    var regexpBoardDoubleQuoteResult = regexpBoardDoubleQuote.exec(statement);
 		if (regexpBoardDoubleQuoteResult !== null) {
-			result.board = regexpBoardDoubleQuoteResult[2];
+			result.board = regexpBoardDoubleQuoteResult[2].trim();
 		}
 		else{
 			var regexpBoardResult = regexpBoard.exec(statement);
 			if (regexpBoardResult !== null) {
-				result.board = regexpBoardResult[2];
+				result.board = regexpBoardResult[2].trim();
 			}
 		}
 	    var regexpMilestoneResult = regexpMilestone.exec(statement);

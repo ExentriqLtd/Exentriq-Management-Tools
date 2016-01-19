@@ -89,7 +89,6 @@ Meteor.methods({
 		}
 	},
 	'updateActivity': function(_id, activity){
-		console.log("UPDATE");
 		var obj = parseActivity(activity);
 		if(obj!=null){
 			Activities.update(_id, obj);
@@ -102,11 +101,19 @@ Meteor.methods({
 		if(response!=null){
 			response.forEach(function(project){
 				project.username = username;
+				project.spaceTitle = null;
 				var boardSpace = BoardSpaces.findOne({"id":project.space});
 				if(boardSpace==null){
 					var spacesUrl = Meteor.settings.private.integrationBusPath + '/getSpaceInfo?spaceid='+encodeURIComponent(project.space);
 					var bSpace = Meteor.wrapAsync(apiCall)(spacesUrl);
-					BoardSpaces.update({id:bSpace.id},bSpace, { upsert: true } )
+					
+					if(bSpace!=null){
+						project.spaceTitle=bSpace.title;
+						BoardSpaces.update({id:bSpace.id},bSpace, { upsert: true } );
+					}
+				}
+				if(project.spaceTitle == null || typeof project.spaceTitle == 'undefined'){
+					project.spaceTitle="SPACE NOT FOUND!";
 				}
 				UserBoards.update({id:project.id, username: project.username},project, { upsert: true } )
 			});
@@ -153,8 +160,6 @@ var parseActivity = function(activity) {
 		time: new Date()
 	}
 	
-	console.log("update");
-	console.log(activity);
 	if(activity.hasOwnProperty('time')){
 		obj.time = moment(activity.time, "MM-DD-YYYY").toDate();
 	}
@@ -163,7 +168,7 @@ var parseActivity = function(activity) {
 		obj._id = activity._id;
 	}
 
-	var regexpBoardDoubleQuote = /(#)\"([^\"]+)\"/g;
+	var regexpBoardDoubleQuote = /(#)\"([^\"^\(^\)]+)(?:\(([^\"^\(^\)]+)\))?"/g;
 	var regexpBoard = /(#)([^"^\s]+)/g;
 	var regexDays = /\b([0-9]+)(d|D|day|days|DAY|DAYS|Day|Days)\b/g;
 	var regexHours = /\b([0-9]+)(h|H|hour|hours|HOUR|HOURS|Hour|Hours)\b/g;
@@ -174,13 +179,17 @@ var parseActivity = function(activity) {
 	// set project
 	var regexpBoardDoubleQuoteResult = regexpBoardDoubleQuote.exec(activity.statement);
 	if (regexpBoardDoubleQuoteResult !== null) {
-		obj.project = regexpBoardDoubleQuoteResult[2];
+		obj.project = regexpBoardDoubleQuoteResult[2].trim();
+		obj.cmpName=regexpBoardDoubleQuoteResult[3];
+		if(regexpBoardDoubleQuoteResult[3] != null || typeof regexpBoardDoubleQuoteResult[3] != 'undefined'){
+			description = description.replace("(" + regexpBoardDoubleQuoteResult[3] + ")", "");
+		}
 		description = description.replace(regexpBoardDoubleQuoteResult[1]+"\""+regexpBoardDoubleQuoteResult[2]+"\"", "");
 	}
 	else{
 		var regexpBoardResult = regexpBoard.exec(activity.statement);
 		if (regexpBoardResult !== null) {
-			obj.project = regexpBoardResult[2];
+			obj.project = regexpBoardResult[2].trim();
 			description = description.replace(regexpBoardResult[1]+regexpBoardResult[2], "");
 		}
 	}
@@ -214,19 +223,24 @@ var parseActivity = function(activity) {
 
 	obj.description=description.trim();
 	
-	var prj = UserBoards.findOne({title:obj.project});
+	var filter = {title:obj.project};
+	if(obj.cmpName != null || typeof obj.cmpName != 'undefined'){
+		filter.spaceTitle=obj.cmpName;
+	}
+	var prj = UserBoards.findOne(filter);
 	if(prj!=null){
 		obj.cmpId=prj.space;
-		console.log("searching space info: " + prj.space);
-		var boardSpace = BoardSpaces.findOne({"id":Number(prj.space)});
-		console.log(boardSpace);
-		if(boardSpace!=null){
-			obj.cmpName=boardSpace.title;
-			
-		}
-		else{
-			obj.cmpName="SPACE NOT FOUND!";
-		}
+		obj.cmpName = prj.spaceTitle;
+//		console.log("searching space info: " + prj.space);
+//		var boardSpace = BoardSpaces.findOne({"id":Number(prj.space)});
+//		console.log(boardSpace);
+//		if(boardSpace!=null){
+//			obj.cmpName=boardSpace.title;
+//			
+//		}
+//		else{
+//			obj.cmpName="SPACE NOT FOUND!";
+//		}
 		return obj;
 	}
 	return null;

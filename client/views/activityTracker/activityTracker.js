@@ -81,7 +81,7 @@ Template.activityTracker.events({
 		var replaceTo;
 		if(doc.hasOwnProperty('title')){
 			replaceFrom = '#'+doc.title;
-			replaceTo = "#\""+doc.title+"\""
+			replaceTo = "#\""+doc.title + " (" + doc.spaceTitle + ")" +"\""
 		}
 		else{
 			replaceFrom = '@'+doc.username;
@@ -94,11 +94,10 @@ Template.activityTracker.events({
 });
 
 Template.activityTracker.updateActivity = function(_id, statement, time) {
-	console.log(statement);
 	if (statement) {
 		
 		// validate proj
-		var regexpBoardDoubleQuote = /(#)\"([^\"]+)\"/g;
+		var regexpBoardDoubleQuote = /(#)\"([^\"^\(^\)]+)(?:\(([^\"^\(^\)]+)\))?"/g;
 		var regexpBoard = /(#)([^"^\s]+)/g;
 		var regexpBoardDoubleQuoteResult = regexpBoardDoubleQuote.exec(statement);
 		var regexpBoardResult = regexpBoard.exec(statement);
@@ -121,10 +120,10 @@ Template.activityTracker.updateActivity = function(_id, statement, time) {
 			var projName = '';
 
 			if (regexpBoardDoubleQuoteResult){
-				projName = regexpBoardDoubleQuoteResult[2];
+				projName = regexpBoardDoubleQuoteResult[2].trim();
 			}
 			else if (regexpBoardResult){
-				projName = regexpBoardResult[2];
+				projName = regexpBoardResult[2].trim();
 			}
 
 			var proj = UserBoards.find({title: projName}).fetch();
