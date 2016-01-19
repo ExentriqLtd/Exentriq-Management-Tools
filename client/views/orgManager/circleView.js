@@ -168,6 +168,15 @@ Template.circleView.setModel = function(_model) {
 Template.circleView.renderDone = false;
 Template.circleView.rendered = function() {
 
+	// DropDown configuration
+	$('.dropdown-trigger').dropdown({
+        inDuration: 300,
+        outDuration: 225,
+        hover: true,
+        gutter: 0,
+        belowOrigin: false
+    });
+
 	// Modal configuration
 	$('.eq-ui-modal-trigger').leanModal({
 		dismissible: true,

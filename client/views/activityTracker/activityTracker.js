@@ -69,7 +69,7 @@ Template.activityTracker.events({
 	  }
 });
 
-Template.activityTracker.updateActivity = function(_id, statement) {
+Template.activityTracker.updateActivity = function(_id, statement, time) {
 	if (statement) {
 
 		// validate proj
@@ -112,6 +112,7 @@ Template.activityTracker.updateActivity = function(_id, statement) {
 						cmpName: Session.get('cmp') ? Session.get('cmp').cmpName : '',
 						userId: Meteor.userId(),
 						userName: Meteor.user().username,
+						time: time
 					});
 				}
 				else {
@@ -172,6 +173,7 @@ Template.atActivity.events({
 	'click .eml-edit': function(evt, tpl) {
 		Session.set('selectedActivity', this);
 		$('#eq-ui-modal-edit').openModal();
+		$('#time').val(moment(this.time).format('MM/DD/YYYY')).datepicker();
 		
 		/*setTimeout(function(){
 			$('#eq-ui-modal-edit').find('input').each(function(i){
@@ -199,6 +201,6 @@ Template.editActivity.helpers({
 Template.editActivity.events({
 	'click #activity_save_submit': function(evt, tpl){
 		var statement = tpl.find('#logged').value + ' #' + tpl.find('#project').value + ' ' +  tpl.find('#description').value;
-		Template.activityTracker.updateActivity(Session.get('selectedActivity')._id, statement);
+		Template.activityTracker.updateActivity(Session.get('selectedActivity')._id, statement, tpl.find('#time').value);
 	}
 });
