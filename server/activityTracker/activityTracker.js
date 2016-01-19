@@ -151,6 +151,8 @@ var parseActivity = function(activity) {
 		userName: activity.userName,
 		time: new Date()
 	}
+	
+	//TODO use activity.time if not null
 
 	if (activity._id) {
 		obj._id = activity._id;

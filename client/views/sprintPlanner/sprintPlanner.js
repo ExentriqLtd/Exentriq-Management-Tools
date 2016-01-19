@@ -108,8 +108,8 @@ Template.sprintPlanner.onCreated(function() {
 	//END: ORGANIZATION MANAGER TREE VIEW
 
 	Meteor.subscribe("tasks", space);
-	Meteor.subscribe("appUsers", space);
-	Meteor.subscribe("boards", space);
+	Meteor.subscribe("appUsers");
+	Meteor.subscribe("boards");
 	
 	Session.set('space', space);
 	Session.set('selectedTeam', null);

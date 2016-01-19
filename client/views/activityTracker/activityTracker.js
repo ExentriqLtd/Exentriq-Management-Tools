@@ -6,6 +6,7 @@ Tracker.autorun(function(){
     console.log("username: " + username);
     Meteor.subscribe("activities");
 	Meteor.subscribe("userBoards", username, company);
+	Meteor.subscribe("appUsers");
 	Meteor.call('refreshUserProjects', username);
 	
   }
@@ -47,6 +48,12 @@ Template.activityTracker.helpers({
 	          collection: UserBoards,
 	          field: "title",
 	          template: Template.activityBoardPill
+	        },
+	        {
+	          token: '@',
+	          collection: AppUsers,
+	          field: "username",
+	          template: Template.userPill
 	        }
 	      ]
 	    };
@@ -66,8 +73,22 @@ Template.activityTracker.events({
 		Template.activityTracker.updateActivity(null, tpl.find('#statement-eml').value);
 	},
 	"autocompleteselect input": function(event, template, doc) {
+//		var statementDom = template.find('#statement-eml');
+//	    var statement = statementDom.value.replace('#'+doc.title, "#\""+doc.title+"\"");
+//	    $(statementDom).val(statement);
+	    
+	    var replaceFrom;
+		var replaceTo;
+		if(doc.hasOwnProperty('title')){
+			replaceFrom = '#'+doc.title;
+			replaceTo = "#\""+doc.title+"\""
+		}
+		else{
+			replaceFrom = '@'+doc.username;
+			replaceTo = "@\""+doc.username+"\""
+		}
 		var statementDom = template.find('#statement-eml');
-	    var statement = statementDom.value.replace('#'+doc.title, "#\""+doc.title+"\"");
+	    var statement = statementDom.value.replace(replaceFrom, replaceTo);
 	    $(statementDom).val(statement);
 	  }
 });
