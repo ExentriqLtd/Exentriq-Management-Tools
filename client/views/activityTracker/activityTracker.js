@@ -94,8 +94,9 @@ Template.activityTracker.events({
 });
 
 Template.activityTracker.updateActivity = function(_id, statement, time) {
+	console.log(statement);
 	if (statement) {
-
+		
 		// validate proj
 		var regexpBoardDoubleQuote = /(#)\"([^\"]+)\"/g;
 		var regexpBoard = /(#)([^"^\s]+)/g;
@@ -224,7 +225,7 @@ Template.editActivity.helpers({
 
 Template.editActivity.events({
 	'click #activity_save_submit': function(evt, tpl){
-		var statement = tpl.find('#logged').value + ' #' + tpl.find('#project').value + ' ' +  tpl.find('#description').value;
+		var statement = tpl.find('#logged').value + ' #"' + tpl.find('#project').value + '" ' +  tpl.find('#description').value;
 		Template.activityTracker.updateActivity(Session.get('selectedActivity')._id, statement, tpl.find('#time').value);
 	}
 });

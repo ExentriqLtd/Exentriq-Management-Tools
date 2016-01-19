@@ -89,6 +89,7 @@ Meteor.methods({
 		}
 	},
 	'updateActivity': function(_id, activity){
+		console.log("UPDATE");
 		var obj = parseActivity(activity);
 		if(obj!=null){
 			Activities.update(_id, obj);
@@ -152,7 +153,11 @@ var parseActivity = function(activity) {
 		time: new Date()
 	}
 	
-	//TODO use activity.time if not null
+	console.log("update");
+	console.log(activity);
+	if(activity.hasOwnProperty('time')){
+		obj.time = moment(activity.time, "MM-DD-YYYY").toDate();
+	}
 
 	if (activity._id) {
 		obj._id = activity._id;
