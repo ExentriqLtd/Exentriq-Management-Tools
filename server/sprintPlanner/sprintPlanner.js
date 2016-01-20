@@ -68,7 +68,7 @@ Meteor.methods({
 
 var stringToEml = function(statement, id, author, space){
 	eml = Eml.parse(statement);
-	eml.what_and_why=statement;
+	eml.what_and_why=eml.clean;
 	//In SprintPlanner projects ar called boards
 	eml.board=eml.project;
 	eml.author=author;
