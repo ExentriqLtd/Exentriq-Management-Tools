@@ -32,13 +32,6 @@ Meteor.startup(function () {
           var eml = stringToEml(statementEml, statementId, username , space);
           console.log(eml);
           return "OK";
-//          if (article) {
-//            return {status: "success", data: article};
-//          }
-//          return {
-//            statusCode: 400,
-//            body: {status: "fail", message: "Unable to add article"}
-//          };
         }
       }
     });
@@ -54,7 +47,7 @@ Meteor.methods({
 	'refreshAppUsers' : function(){
 		this.unblock();
 		var apiUrl = Meteor.settings.private.integrationBusPath + '/getAllUsers';
-		var response = Meteor.wrapAsync(apiCall)(apiUrl);
+		var response = Rest.get(apiUrl);
 		if(response!=null){
 			response.forEach(function(user){
 				AppUsers.update({username:user.username},user, { upsert: true } );
@@ -64,7 +57,7 @@ Meteor.methods({
 	'refreshBoards' : function(){
 		this.unblock();
 		var apiUrl = Meteor.settings.private.integrationBusPath + '/getAllProjects';
-		var response = Meteor.wrapAsync(apiCall)(apiUrl);
+		var response = Rest.get(apiUrl);
 		if(response!=null){
 			response.forEach(function(board){
 				Boards.update({id:board.id},board, { upsert: true } );
@@ -73,133 +66,13 @@ Meteor.methods({
 	}
 });
 
-var apiCall = function (apiUrl, callback) {
-  // try…catch allows you to handle errors 
-  try {
-    var response = HTTP.get(apiUrl).data;
-    // A successful API call returns no error 
-    // but the contents from the JSON responseif 
-    callback(null, response);
-  } catch (error) {
-    // If the API responded with an error message and a payload 
-    if (error.response) {
-      var errorCode = error.response.data.code;
-      var errorMessage = error.response.data.message;
-    // Otherwise use a generic error message
-    } else {
-      var errorCode = 500;
-      var errorMessage = 'Cannot access the API';
-    }
-    // Create an Error object and return it via callback
-    var myError = new Meteor.Error(errorCode, errorMessage);
-    callback(myError, null);
-  }
-}
-
-var apiCallPost = function (apiUrl, username, space, team, statementId, statementEml, callback) {
-	  // try…catch allows you to handle errors 
-	 console.log('post...');
-	  try {
-		  HTTP.call( 'POST', apiUrl, {
-			  data: {"id":statementId, "author":username, "space":space, "team":team, "message":statementEml}
-			}, function( error, response ) {
-			  if ( error ) {
-			    callback(error, null);
-			  } else {
-			    callback(null, response.data);
-			  }
-			});
-		  console.log('post done');
-	  } catch (error) {
-		  console.log(error);
-	    // If the API responded with an error message and a payload 
-	    if (error.response) {
-	      var errorCode = error.response.data.code;
-	      var errorMessage = error.response.data.message;
-	    // Otherwise use a generic error message
-	    } else {
-	      var errorCode = 500;
-	      var errorMessage = 'Cannot access the API';
-	    }
-	    // Create an Error object and return it via callback
-	    var myError = new Meteor.Error(errorCode, errorMessage);
-	    callback(myError, null);
-	  }
-	}
-
 var stringToEml = function(statement, id, author, space){
-	try{
-	    
-	    var result ={};
-	    var regexpUser = /@([^"^\s]+)/g;
-	    var regexpUserDoubleQuote = /@\"([^\"]+)\"/g;
-	    var regexpBoardDoubleQuote = /(#)\"([^\"]+)\"/g;
-	    var regexpBoard = /#([^\s]+)/g;
-	    var regexpMilestone = /\s!([^\s]+)/g;
-	    var regexpEta = /ETA([^\s]+)/g;
-	    var regexpEffort = /~([^\s]+)/g;
-	    var regexpProgress = /%([^\s]+)/g;
-	    var regexpPriority = /\[(.+)\]/g;
-	    var regexpBudget = /\$([^\s]+)/g;
-	    var regexpCard = /&([^\s]+)/g;
-	    
-	    var regexpUserResults; 
-	    var regexpUserDoubleQuoteResults; 
-	    result.users = [];
-	    while ((regexpUserResults = regexpUser.exec(statement)) !== null) {
-	        result.users.push(regexpUserResults[1].trim());
-	    }
-	    while ((regexpUserDoubleQuoteResults = regexpUserDoubleQuote.exec(statement)) !== null) {
-	        result.users.push(regexpUserDoubleQuoteResults[1].trim());
-	    }
-	    
-	    var regexpBoardDoubleQuoteResult = regexpBoardDoubleQuote.exec(statement);
-		if (regexpBoardDoubleQuoteResult !== null) {
-			result.board = regexpBoardDoubleQuoteResult[2].trim();
-		}
-		else{
-			var regexpBoardResult = regexpBoard.exec(statement);
-			if (regexpBoardResult !== null) {
-				result.board = regexpBoardResult[2].trim();
-			}
-		}
-	    var regexpMilestoneResult = regexpMilestone.exec(statement);
-	    if(regexpMilestoneResult!==null){
-	        result.milestone=regexpMilestoneResult[1];
-	    }
-	    var regexpEtaResult = regexpEta.exec(statement);
-	    if(regexpEtaResult!==null){
-	        result.eta=regexpEtaResult[1];
-	    }
-	    var regexpEffortResult = regexpEffort.exec(statement);
-	    if(regexpEffortResult!==null){
-	        result.effort=regexpEffortResult[1];
-	    }
-	    var regexpProgressResult = regexpProgress.exec(statement);
-	    if(regexpProgressResult!==null){
-	        result.progress=regexpProgressResult[1];
-	    }
-	    var regexpPriorityResult = regexpPriority.exec(statement);
-	    if(regexpPriorityResult!==null){
-	        result.points=regexpPriorityResult[1];
-	    }
-	    var regexpBudgetResult = regexpBudget.exec(statement);
-	    if(regexpBudgetResult!==null){
-	        result.budget=regexpBudgetResult[1];
-	    }
-	    var regexpCardResult = regexpCard.exec(statement);
-	    if(regexpCardResult!==null){
-	        result.card=regexpCardResult[1];
-	    }
-	    result.author=author;
-	    result.eml_id=id;
-	    result.space=space;
-	    result.what_and_why=statement;
-	    return result;
-	}
-	catch(err){
-		console.log(err);
-	    return null;
-	}
-	return msg;
+	eml = Eml.parse(statement);
+	eml.what_and_why=statement;
+	//In SprintPlanner projects ar called boards
+	eml.board=eml.project;
+	eml.author=author;
+	eml.eml_id=id;
+	eml.space=space;
+	return eml;
 }

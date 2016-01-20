@@ -79,7 +79,7 @@ Meteor.methods({
 
 		this.unblock();
 		var apiUrl = Meteor.settings.private.integrationBusPath + '/getSpaceInfo?spaceid='+encodeURIComponent(spaceId);
-		var response = Meteor.wrapAsync(apiCall)(apiUrl);
+		var response = Rest.get(apiUrl);
 		return response;
 	},
 	'addActivityEml': function(activity) {
@@ -97,7 +97,7 @@ Meteor.methods({
 	'refreshUserProjects' : function(username){
 		this.unblock();
 		var apiUrl = Meteor.settings.private.integrationBusPath + '/getUserProjects?username='+encodeURIComponent(username);
-		var response = Meteor.wrapAsync(apiCall)(apiUrl);
+		var response = Rest.get(apiUrl);
 		if(response!=null){
 			response.forEach(function(project){
 				project.username = username;
@@ -105,7 +105,7 @@ Meteor.methods({
 				var boardSpace = BoardSpaces.findOne({"id":project.space});
 				if(boardSpace==null){
 					var spacesUrl = Meteor.settings.private.integrationBusPath + '/getSpaceInfo?spaceid='+encodeURIComponent(project.space);
-					var bSpace = Meteor.wrapAsync(apiCall)(spacesUrl);
+					var bSpace = Rest.get(spacesUrl);
 					
 					if(bSpace!=null){
 						project.spaceTitle=bSpace.title;
@@ -121,127 +121,31 @@ Meteor.methods({
 	}
 });
 
-var apiCall = function (apiUrl, callback) {
-  // try…catch allows you to handle errors 
-  try {
-    var response = HTTP.get(apiUrl).data;
-    // A successful API call returns no error 
-    // but the contents from the JSON responseif 
-    callback(null, response);
-  } catch (error) {
-    // If the API responded with an error message and a payload 
-    if (error.response) {
-      var errorCode = error.response.data.code;
-      var errorMessage = error.response.data.message;
-    // Otherwise use a generic error message
-    } else {
-      var errorCode = 500;
-      var errorMessage = 'Cannot access the API';
-    }
-    // Create an Error object and return it via callback
-    var myError = new Meteor.Error(errorCode, errorMessage);
-    callback(myError, null);
-  }
-}
-
 var parseActivity = function(activity) {
+	eml = Eml.parse(activity.statement);
+	eml.description = eml.clean;
+	eml.userId	= activity.userId;
+	eml.userName = activity.userName;
 
-	var obj = {
-		days: '',
-		hours: '',
-		minutes: '',
-		project: '',
-
-		description: '',
-		cmpId: null,
-		cmpName: null,
-		userId: activity.userId,
-		userName: activity.userName,
-		time: new Date()
-	}
-	
 	if(activity.hasOwnProperty('time')){
-		obj.time = moment(activity.time, "MM-DD-YYYY").toDate();
+		eml.time = moment(activity.time, "MM-DD-YYYY").toDate();
 	}
-
 	if (activity._id) {
-		obj._id = activity._id;
+		eml._id = activity._id;
 	}
-
-	var regexpBoardDoubleQuote = /(#)\"([^\"^\(^\)]+)(?:\(([^\"^\(^\)]+)\))?"/g;
-	var regexpBoard = /(#)([^"^\s]+)/g;
-	var regexDays = /\b([0-9]+)(d|D|day|days|DAY|DAYS|Day|Days)\b/g;
-	var regexHours = /\b([0-9]+)(h|H|hour|hours|HOUR|HOURS|Hour|Hours)\b/g;
-	var regexMinutes = /\b([0-9]+)(m|M|minute|minutes|MINUTE|MINUTES|Minute|Minutes)\b/g;
 	
-	var description = activity.statement;
-
-	// set project
-	var regexpBoardDoubleQuoteResult = regexpBoardDoubleQuote.exec(activity.statement);
-	if (regexpBoardDoubleQuoteResult !== null) {
-		obj.project = regexpBoardDoubleQuoteResult[2].trim();
-		obj.cmpName=regexpBoardDoubleQuoteResult[3];
-		if(regexpBoardDoubleQuoteResult[3] != null || typeof regexpBoardDoubleQuoteResult[3] != 'undefined'){
-			description = description.replace("(" + regexpBoardDoubleQuoteResult[3] + ")", "");
-		}
-		description = description.replace(regexpBoardDoubleQuoteResult[1]+"\""+regexpBoardDoubleQuoteResult[2]+"\"", "");
-	}
-	else{
-		var regexpBoardResult = regexpBoard.exec(activity.statement);
-		if (regexpBoardResult !== null) {
-			obj.project = regexpBoardResult[2].trim();
-			description = description.replace(regexpBoardResult[1]+regexpBoardResult[2], "");
-		}
-	}
-
-	// set days
-	var regexDaysResult = regexDays.exec(activity.statement);
-	if (regexDaysResult !== null) {
-		obj.days = Number(regexDaysResult[1]);
-		description = description.replace(regexDaysResult[1]+regexDaysResult[2], "");
-	} else {
-		obj.days = 0;
-	}
-
-	// set hours
-	var regexHoursResult = regexHours.exec(activity.statement);
-	if (regexHoursResult !== null) {
-		obj.hours = Number(regexHoursResult[1]);
-		description = description.replace(regexHoursResult[1]+regexHoursResult[2], "");
-	} else {
-		obj.hours = 0;
-	}
-
-	// set minutes
-	var regexMinutesResult = regexMinutes.exec(activity.statement);
-	if (regexMinutesResult !== null) {
-		obj.minutes = Number(regexMinutesResult[1]);
-		description = description.replace(regexMinutesResult[1]+regexMinutesResult[2], "");
-	} else {
-		obj.minutes = 0;
-	}
-
-	obj.description=description.trim();
-	
-	var filter = {title:obj.project};
-	if(obj.cmpName != null || typeof obj.cmpName != 'undefined'){
-		filter.spaceTitle=obj.cmpName;
+	var filter = {title:eml.project};
+	if(eml.cmpName != null || typeof eml.cmpName != 'undefined'){
+		filter.spaceTitle=eml.cmpName;
 	}
 	var prj = UserBoards.findOne(filter);
 	if(prj!=null){
-		obj.cmpId=prj.space;
-		obj.cmpName = prj.spaceTitle;
-//		console.log("searching space info: " + prj.space);
-//		var boardSpace = BoardSpaces.findOne({"id":Number(prj.space)});
-//		console.log(boardSpace);
-//		if(boardSpace!=null){
-//			obj.cmpName=boardSpace.title;
-//			
-//		}
-//		else{
-//			obj.cmpName="SPACE NOT FOUND!";
-//		}
-		return obj;
+		eml.prjId = prj.id;
+		eml.cmpId=prj.space;
+		eml.cmpName = prj.spaceTitle;
+		return eml;
 	}
-	return null;
+	else{
+		return null;
+	}
 }
