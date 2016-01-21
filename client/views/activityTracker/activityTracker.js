@@ -224,8 +224,9 @@ Template.editActivity.helpers({
 
 Template.editActivity.events({
 	'click #activity_save_submit': function(evt, tpl){
-		var statement = tpl.find('#logged').value + ' #"' + tpl.find('#project').value + '" ' +  tpl.find('#description').value;
-		Template.activityTracker.updateActivity(Session.get('selectedActivity')._id, statement, tpl.find('#time').value);
+		var activity = Session.get('selectedActivity');
+		var statement = tpl.find('#logged').value + ' #"' + tpl.find('#project').value + '('+activity.cmpName+')" ' +  tpl.find('#description').value;
+		Template.activityTracker.updateActivity(activity._id, statement, tpl.find('#time').value);
 	}
 });
 

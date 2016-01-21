@@ -21,13 +21,25 @@
 					</div>
 				</header>
 				<div style="top: 5px; right: 5px; height:50px" class="eq-ui-btn-fab-floating doc-show-in-layout-struture-1 ">
-			        <a data-target="eq-ui-modal-add" class="btn btn-primary eq-ui-btn-fab eq-ui-waves-light eq-ui-modal-trigger"><i class="mdi mdi-plus icon"></i></a>
+			        <a id="add-btn" data-target="eq-ui-modal-add" class="btn btn-primary eq-ui-btn-fab eq-ui-waves-light eq-ui-modal-trigger"><i class="mdi mdi-plus icon"></i></a>
 			    </div>
 			    <div class="table-responsive">
 				<table id="sprint-planner-table" class="table eq-ui-data-table z-depth-1 eq-ui-hoverable">
 			        <thead>
 			            <tr>
-                            <th style="width:30px;"></th>
+                            <th style="width:30px;">
+                            	<td>
+							        <a data-target="doc-dropdown-app-bar-filter" data-hover="false" data-below-origin="true" 
+							        class="btn btn-default eq-ui-btn-flat eq-ui-btn-fab eq-ui-btn-menu-fab eq-ui-waves dropdown-trigger waves-effect" >
+							            <i class="mdi mdi-filter-variant eq-ui-icon"></i>
+							        </a>
+							        <ul id="doc-dropdown-app-bar-filter" class="eq-ui-dropdown eq-ui-dropdown-left-top">
+							        	<li><a data-filter="all" class="{{activeClass 'all'}} task-filter">{{{activeFlag 'all'}}}All</a></li>
+							            <li><a data-filter="open" class="{{activeClass 'open'}} task-filter">{{{activeFlag 'open'}}}Open Projects</a></li>
+							            <li><a data-filter="closed" class="{{activeClass 'closed'}} task-filter">{{{activeFlag 'closed'}}}Closed Projects</a></li>
+							        </ul>
+							    </td>
+                            </th>
 			                <th>Description</th>
 			                <th>[]Points</th>
 			                <th>@Assigned To</th>
@@ -70,15 +82,15 @@
         </ul>
     </td>
     <td title="{{what_and_why}}" class="eq-ui-data-table-cell-non-numeric">{{{formatLink what_and_why}}}</td>
-    <td title="{{points}}" class="eq-ui-data-table-cell-non-numeric">{{{formatLink points}}}</td>
+    <td title="{{points}}" class="eq-ui-data-table-cell-non-numeric">{{points}}</td>
     <td title="{{users}}" class="eq-ui-data-table-cell-non-numeric">{{{formatLink users}}}</td>
-    <td title="{{milestone}}" class="eq-ui-data-table-cell-non-numeric">{{{formatLink milestone}}}</td>
+    <td title="{{milestone}}" class="eq-ui-data-table-cell-non-numeric">{{formatLink milestone}}</td>
     <td title="{{card}}" class="eq-ui-data-table-cell-non-numeric">{{{formatLink card}}}</td>
     <td title="{{board}}" class="eq-ui-data-table-cell-non-numeric">{{{formatLink board}}}</td>
-    <td title="{{progress}}" class="eq-ui-data-table-cell-non-numeric">{{{formatLink progress}}}</td>
+    <td title="{{progress}}" class="eq-ui-data-table-cell-non-numeric">{{formatLink progress}}</td>
     <td title="{{effort}}" class="eq-ui-data-table-cell-non-numeric">{{{formatLink effort}}}</td>
-    <td title="{{eta}}" class="eq-ui-data-table-cell-non-numeric">{{{formatLink eta}}}</td>
-    <td title="{{closed_on}}" class="eq-ui-data-table-cell-non-numeric">{{{formatLink closed_on}}}</td>
+    <td title="{{eta}}" class="eq-ui-data-table-cell-non-numeric">{{eta}}</td>
+    <td title="{{closed_on}}" class="eq-ui-data-table-cell-non-numeric">{{closed_on}}</td>
 </tr>	
 </template>
 <template name="sp_team">

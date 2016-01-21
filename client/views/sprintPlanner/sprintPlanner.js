@@ -107,26 +107,32 @@ Template.sprintPlanner.onCreated(function() {
 
 	Meteor.subscribe("tasks", space);
 	Meteor.subscribe("appUsers");
-	Meteor.subscribe("boards");
+	Meteor.subscribe("boards", space);
 	
 	Session.set('space', space);
 	Session.set('selectedTeam', null);
+	Session.set('task_filter','open');
 
 });
 
 Template.sprintPlanner.helpers({
 	tasks: function() {
 		var team = Session.get('selectedTeam');
+		
+		var filterName = Session.get('task_filter');
+		var filter = {};
+		if(filterName=='open'){
+			filter.closed_on={$in:[null, '']};
+		}
+		else if(filterName=='closed'){
+			filter.closed_on={$not:{$in:[null, '']}};
+			//filter.closed_on=/[^/s]+/;
+		}
 		var tasks;
 		if (team !== null) {
-			tasks = Tasks.find({
-				users: {
-					$in: team.members
-				}
-			});
-		} else {
-			tasks = Tasks.find();
+			filter.users ={ $in: team.members };
 		}
+		tasks = Tasks.find(filter,{sort: {points: -1}});
 		return tasks;
 	},
 	teams: function() {
@@ -149,6 +155,12 @@ Template.sprintPlanner.helpers({
 			return team.name;
 		}
 		return team.name;
+	},
+	activeClass: function(filter) {
+		return (Session.get('task_filter')==filter) ? 'active' : '';
+	},
+	activeFlag: function(filter) {
+		return (Session.get('task_filter')==filter) ? '<i class="mdi mdi-check icon eq-ui-select-icon"></i>' : '';
 	}
 });
 
@@ -159,8 +171,12 @@ Template.sprintPlanner.events({
 		var space = Session.get('space');
 		var statementEml = tpl.find('#statement-eml').value;
 		var selectedTeam = Session.get('selectedTeam');
-
+		
 		Meteor.call('addEmlStatement', statementEml, username, space);
+	},
+	
+	'click #add-btn': function(evt, tpl) {
+		$(tpl.find('#statement-eml')).val('');
 	},
 
 	'click .team-item': function(evt, tpl) {
@@ -176,7 +192,14 @@ Template.sprintPlanner.events({
 
 	},
 	'click .eml-edit': function(evt, tpl) {
-		console.log('cliccato edit');
+		if(this.closed_on!=null){
+			console.log(moment(this.closed_on).format('MM/DD/YYYY'));
+			$('#edit-statement-closedOn').datepicker();
+			$(tpl.find('#edit-statement-closedOn')).val(moment(this.closed_on).format('MM/DD/YYYY'));
+		}
+		else{
+			$('#edit-statement-closedOn').datepicker();
+		}
 		var emlId = this.eml_id;
 		var description = this.what_and_why;
 		Session.set('statementId', emlId);
@@ -184,6 +207,12 @@ Template.sprintPlanner.events({
 		Session.set('selectedTask', this);
 		$('#eq-ui-modal-edit').openModal();
 	},
+	
+	'click .task-filter': function(evt, tpl) {
+		var filter = $(evt.currentTarget).data('filter')
+		Session.set('task_filter', filter)
+	},
+	
 	"autocompleteselect input": function(event, template, doc) {
 		var replaceFrom;
 		var replaceTo;
@@ -240,18 +269,23 @@ Template.editEml.events({
 	'click #statement-modify': function(evt, tpl) {
 		evt.preventDefault();
 
-		console.log('modify');
-
 		var eml = Session.get('selectedTask');
-		eml.points = tpl.find('#edit-statement-points').value;
+		eml.points = Number(tpl.find('#edit-statement-points').value);
 		eml.milestone = tpl.find('#edit-statement-milestone').value;
 		eml.card = tpl.find('#edit-statement-card').value;
 		eml.board = tpl.find('#edit-statement-board').value;
 		eml.progress = tpl.find('#edit-statement-progress').value;
 		eml.effort = tpl.find('#edit-statement-effort').value;
 		eml.eta = tpl.find('#edit-statement-eta').value;
-		eml.closed_on = tpl.find('#edit-statement-closedOn').value;
 		eml.what_and_why = tpl.find('#edit-statement-what_and_why').value;
+		
+		if(tpl.find('#edit-statement-closedOn').value != ''){
+			eml.closed_on = moment(tpl.find('#edit-statement-closedOn').value, "MM/DD/YYYY").toDate();
+		}
+		else{
+			eml.closed_on = null;
+		}
+
 		
 		var users = tpl.find('#edit-statement-users').value;
 		var usersArray = users.split(",");
