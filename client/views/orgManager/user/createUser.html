@@ -1,4 +1,4 @@
-<template name="createUserDialog">
+<!--<template name="createUserDialog">
 	<div id="eq-ui-modal-create-user" class="eq-ui-modal eq-ui-modal-fixed eq-ui-modal-small eq-ui-modal-new-user"> 
 		<div class="eq-ui-modal-header"> 
 			<div class="header-title"> 
@@ -33,4 +33,30 @@
 			<a id="create_user_submit" href="#" data-target="eq-ui-modal-user-permissions-off" class="btn btn-primary eq-ui-waves-light eq-ui-modal-close">Save user</a> 
 		</div> 
 	</div>
+</template>-->
+
+<template name="createUserDialog">
+	<div id="eq-ui-modal-create-user" class="eq-ui-modal">
+
+        <!-- Content -->
+        <div class="eq-ui-modal-content">
+	        <form id="query">
+			    <div class="row">
+	                <div class="col-md-12">
+	                    <div class="eq-ui-form-group eq-ui-input-field">
+	                        {{> inputAutocomplete settings=autocompleteSettings id="statement-eml-user" class="eq-ui-input" placeholder="@user to add user"}}
+	                        <label for="statement-eml" class="active">Exentrinq Markup Language statement</label>
+	                    </div>
+	                </div>
+			    </div>
+		    </form>
+        </div>
+
+        <!-- Footer -->
+        <div class="eq-ui-modal-footer">
+            <a id="statement-add" href="#" class="btn btn-default eq-ui-btn-flat eq-ui-waves eq-ui-secondary-color-text eq-ui-modal-close">Add</a>
+            <a href="#" class="btn btn-default eq-ui-btn-flat eq-ui-waves eq-ui-secondary-color-text eq-ui-modal-close">Cancel</a>
+        </div>
+
+    </div>
 </template>

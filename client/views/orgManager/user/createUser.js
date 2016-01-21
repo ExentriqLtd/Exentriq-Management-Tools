@@ -1,9 +1,26 @@
 'use strict';
 
-Template.createUserDialog.events({
-	'click #create_user_submit': function() {
+Template.createUserDialog.helpers({
+	autocompleteSettings: function() {
+	    return {
+	      position: "bottom",
+	      limit: 20,
+	      rules: [
+	        {
+	          token: '@',
+	          collection: AppUsers,
+	          field: "username",
+	          template: Template.userPill
+	        }
+	      ]
+	    };
+	  }
+});
 
-		var userName = $('#create_user_username').val();
+Template.createUserDialog.events({
+	'click #statement-add': function() {
+
+		var userName = $('#statement-eml-user').val().replace('@', '').trim();
 		if (userName) {
 			Template.orgManager.insertSpace({
 				name: userName,
@@ -11,8 +28,11 @@ Template.createUserDialog.events({
 				cmpId: Template.orgManager._cmpId,
 				type: 'user'
 			});
-
-			$('#create_user_username').val('');
 		}
+		$('#statement-eml-user').val('');
 	}
 });
+
+Template.createUserDialog.rendered = function() {
+	$('#statement-eml').attr('autocomplete', 'off');
+};

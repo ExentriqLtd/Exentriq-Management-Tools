@@ -1,4 +1,4 @@
-<template name="createSpaceDialog">
+<!--<template name="createSpaceDialog">
 	<div id="eq-ui-modal-create-space" class="eq-ui-modal eq-ui-modal-fixed eq-ui-modal-small eq-ui-modal-new-space"> 
 		<div class="eq-ui-modal-header"> 
 			<div class="header-title"> 
@@ -27,4 +27,30 @@
 			<a id="create_space_submit" data-target="eq-ui-modal-space-permissions-off" class="btn btn-primary eq-ui-waves-light eq-ui-modal-close">Save space</a> 
 		</div> 
 	</div>
+</template>-->
+
+<template name="createSpaceDialog">
+	<div id="eq-ui-modal-create-space" class="eq-ui-modal">
+
+        <!-- Content -->
+        <div class="eq-ui-modal-content">
+	        <form id="query">
+			    <div class="row">
+	                <div class="col-md-12">
+	                    <div class="eq-ui-form-group eq-ui-input-field">
+	                        {{> inputAutocomplete settings=autocompleteSettings id="statement-eml-space" class="eq-ui-input" placeholder="@space to add space"}}
+	                        <label for="statement-eml" class="active">Exentrinq Markup Language statement</label>
+	                    </div>
+	                </div>
+			    </div>
+		    </form>
+        </div>
+
+        <!-- Footer -->
+        <div class="eq-ui-modal-footer">
+            <a id="statement-add" href="#" class="btn btn-default eq-ui-btn-flat eq-ui-waves eq-ui-secondary-color-text eq-ui-modal-close">Add</a>
+            <a href="#" class="btn btn-default eq-ui-btn-flat eq-ui-waves eq-ui-secondary-color-text eq-ui-modal-close">Cancel</a>
+        </div>
+
+    </div>
 </template>

@@ -61,13 +61,7 @@ Template.activityTracker.helpers({
 });
 
 Template.activityTracker.events({
-	'keyup #statement-eml': function(evt, tpl) {
-		/*evt.preventDefault();
-		evt.stopPropagation();
-		if (evt.keyCode == '13'){
-			Template.activityTracker.updateActivity(null, tpl.find('#statement-eml').value);	
-		}*/
-	},
+	'keyup #statement-eml': function(evt, tpl) { },
 	'click #statement-add': function(evt, tpl) {
 		evt.preventDefault();
 		Template.activityTracker.updateActivity(null, tpl.find('#statement-eml').value);
@@ -175,6 +169,8 @@ Template.activityTracker.rendered = function() {
 		gutter: 0,
 		belowOrigin: false
 	});
+
+	$('#statement-eml').attr('autocomplete', 'off');
 };
 
 //atActivity template
