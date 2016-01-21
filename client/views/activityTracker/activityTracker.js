@@ -47,13 +47,15 @@ Template.activityTracker.helpers({
 	          token: '#',
 	          collection: UserBoards,
 	          field: "title",
-	          template: Template.activityBoardPill
+	          noMatchTemplate: Template.noMatch,
+	          template: Template.activityBoardPill,
 	        },
 	        {
 	          token: '@',
 	          collection: AppUsers,
 	          field: "username",
-	          template: Template.userPill
+	          noMatchTemplate: Template.noMatch,
+	          template: Template.userPill,
 	        }
 	      ]
 	    };
@@ -66,10 +68,12 @@ Template.activityTracker.events({
 		evt.preventDefault();
 		Template.activityTracker.updateActivity(null, tpl.find('#statement-eml').value);
 	},
+	'keypress #statement-eml':function(evt, tpl){
+//		var value = tpl.find('#statement-eml').value;
+//		var char = String.fromCharCode(event.which);
+//		console.log(char);
+	},
 	"autocompleteselect input": function(event, template, doc) {
-//		var statementDom = template.find('#statement-eml');
-//	    var statement = statementDom.value.replace('#'+doc.title, "#\""+doc.title+"\"");
-//	    $(statementDom).val(statement);
 	    
 	    var replaceFrom;
 		var replaceTo;

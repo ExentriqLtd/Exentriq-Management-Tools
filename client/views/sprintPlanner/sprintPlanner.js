@@ -1,8 +1,6 @@
 Tracker.autorun(function(){
   if(Meteor.user()){
-	  console.log('refreshAppUsers');
 	  Meteor.call('refreshAppUsers');
-	  console.log('refreshBoards');
 	  Meteor.call('refreshBoards');
   }
 });
@@ -253,7 +251,8 @@ Template.editEml.events({
 		eml.effort = tpl.find('#edit-statement-effort').value;
 		eml.eta = tpl.find('#edit-statement-eta').value;
 		eml.closed_on = tpl.find('#edit-statement-closedOn').value;
-
+		eml.what_and_why = tpl.find('#edit-statement-what_and_why').value;
+		
 		var users = tpl.find('#edit-statement-users').value;
 		var usersArray = users.split(",");
 		eml.users = [];
@@ -291,13 +290,15 @@ Template.addEml.helpers({
 	          token: '@',
 	          collection: AppUsers,
 	          field: "username",
-	          template: Template.userPill
+	          template: Template.userPill,
+	          noMatchTemplate: Template.noMatch
 	        },
 	        {
 	          token: '#',
 	          collection: Boards,
 	          field: "title",
-	          template: Template.boardPill
+	          template: Template.boardPill,
+	          noMatchTemplate: Template.noMatch
 	        }
 	      ]
 	    };

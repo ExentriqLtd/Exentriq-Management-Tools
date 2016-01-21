@@ -399,3 +399,7 @@ ul.drop-down .drop-down-item:hover {
 	margin-left: 20px;
 	margin-top: 20px;
 }
+
+.-autocomplete-container {
+    border: none; /*1px solid #DDD;*/
+}
