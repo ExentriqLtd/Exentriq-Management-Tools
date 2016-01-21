@@ -380,3 +380,22 @@ ul.drop-down .drop-down-item:hover {
 .eq-ui-card.activities-add-panel, #eq-ui-modal-add{
 	overflow: visible;
 }
+
+#sprint-planner-table{
+	table-layout: fixed;
+}
+
+#sprint-planner-table th{
+	text-align: left;
+	width: 200px;
+}
+
+#sprint-planner-table td {
+	word-wrap: break-word;
+	white-space: normal;
+}
+
+#sprint-planner-table .eq-ui-dropdown-left-top{
+	margin-left: 20px;
+	margin-top: 20px;
+}
