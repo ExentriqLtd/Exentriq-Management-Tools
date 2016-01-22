@@ -126,7 +126,6 @@ Template.sprintPlanner.helpers({
 		}
 		else if(filterName=='closed'){
 			filter.closed_on={$not:{$in:[null, '']}};
-			//filter.closed_on=/[^/s]+/;
 		}
 		var tasks;
 		if (team !== null) {
