@@ -254,28 +254,9 @@ Template.editEml.helpers({
 	selectedTask: function() {
 		return Session.get('selectedTask');
 	},
-	autocompleteSettings: function() {
-	    return {
-	      position: "bottom",
-	      limit: 20,
-	      rules: [
-	        {
-	          token: '@',
-	          collection: AppUsers,
-	          field: "username",
-	          template: Template.userPill,
-	          noMatchTemplate: Template.noMatch
-	        },
-	        {
-	          token: '#',
-	          collection: Boards,
-	          field: "title",
-	          template: Template.boardPill,
-	          noMatchTemplate: Template.noMatch
-	        }
-	      ]
-	    };
-	  }
+	autocompleteSettings: function(){
+		return sprintPlannerAutocompleteSettings();
+	}
 });
 
 Template.editEml.events({
@@ -330,26 +311,7 @@ Template.addEml.helpers({
 		return Session.get('description');
 	},
 	autocompleteSettings: function() {
-	    return {
-	      position: "bottom",
-	      limit: 20,
-	      rules: [
-	        {
-	          token: '@',
-	          collection: AppUsers,
-	          field: "username",
-	          template: Template.userPill,
-	          noMatchTemplate: Template.noMatch
-	        },
-	        {
-	          token: '#',
-	          collection: Boards,
-	          field: "title",
-	          template: Template.boardPill,
-	          noMatchTemplate: Template.noMatch
-	        }
-	      ]
-	    };
+		return sprintPlannerAutocompleteSettings();
 	  }
 });
 
@@ -415,3 +377,26 @@ var autocompleteReplace = function(event, template, doc, fieldName){
     var statement = statementDom.value.replace(replaceFrom, replaceTo);
     $(statementDom).val(statement);
 }
+
+var sprintPlannerAutocompleteSettings = function() {
+    return {
+	      position: "bottom",
+	      limit: 20,
+	      rules: [
+	        {
+	          token: '@',
+	          collection: AppUsers,
+	          field: "username",
+	          template: Template.userPill,
+	          noMatchTemplate: Template.noMatch
+	        },
+	        {
+	          token: '#',
+	          collection: Boards,
+	          field: "title",
+	          template: Template.boardPill,
+	          noMatchTemplate: Template.noMatch
+	        }
+	      ]
+	    };
+	  }
