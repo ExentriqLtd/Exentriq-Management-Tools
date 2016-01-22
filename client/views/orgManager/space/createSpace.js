@@ -19,18 +19,7 @@ Template.createSpaceDialog.events({
 
 Template.createSpaceDialog.helpers({
 	autocompleteSettings: function() {
-	    return {
-	      position: "bottom",
-	      limit: 20,
-	      rules: [
-	        {
-	          token: '#',
-	          collection: Boards,
-	          field: "title",
-	          template: Template.boardPill
-	        }
-	      ]
-	    };
+	    return {};
 	  }
 });
 
@@ -51,5 +40,5 @@ Template.createSpaceDialog.events({
 });
 
 Template.createSpaceDialog.rendered = function() {
-	$('#statement-eml').attr('autocomplete', 'off');
+	$('#statement-eml-space').attr('autocomplete', 'off');
 };

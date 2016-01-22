@@ -7,7 +7,7 @@ Template.createUserDialog.helpers({
 	      limit: 20,
 	      rules: [
 	        {
-	          token: '@',
+	          token: '',
 	          collection: AppUsers,
 	          field: "username",
 	          template: Template.userPill
@@ -20,7 +20,7 @@ Template.createUserDialog.helpers({
 Template.createUserDialog.events({
 	'click #statement-add': function() {
 
-		var userName = $('#statement-eml-user').val().replace('@', '').trim();
+		var userName = $('#statement-eml-user').val();
 		if (userName) {
 			Template.orgManager.insertSpace({
 				name: userName,
@@ -34,5 +34,5 @@ Template.createUserDialog.events({
 });
 
 Template.createUserDialog.rendered = function() {
-	$('#statement-eml').attr('autocomplete', 'off');
+	$('#statement-eml-user').attr('autocomplete', 'off');
 };

@@ -40,12 +40,12 @@
 
         <!-- Content -->
         <div class="eq-ui-modal-content">
-	        <form id="query">
+	        <form onsubmit="return false;">
 			    <div class="row">
 	                <div class="col-md-12">
 	                    <div class="eq-ui-form-group eq-ui-input-field">
-	                        {{> inputAutocomplete settings=autocompleteSettings id="statement-eml-user" class="eq-ui-input" placeholder="@user to add user"}}
-	                        <label for="statement-eml" class="active">Exentrinq Markup Language statement</label>
+	                        {{> inputAutocomplete settings=autocompleteSettings id="statement-eml-user" class="eq-ui-input"}}
+	                        <label for="statement-eml-user" class="active">User Name</label>
 	                    </div>
 	                </div>
 			    </div>

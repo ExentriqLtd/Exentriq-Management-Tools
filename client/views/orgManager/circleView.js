@@ -47,7 +47,7 @@ Template.circleView.setModel = function(_model) {
 		return;
 	}
 
-	var model = jQuery.extend(true, {}, _model)
+	var model = _model;// jQuery.extend(true, {}, _model)
 	// set size
 	Template.circleView._setSize(model.children);
 

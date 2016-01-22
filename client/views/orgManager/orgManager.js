@@ -249,7 +249,44 @@ Template.orgManager.insertSpace = function(item) {
 		id: item.id
 	};
 
-	Spaces.insert(obj);
+	Template.orgManager._block = true;
+	var _id = Spaces.insert(obj);
+
+	// update position
+	var ordering;
+	if (item.parent) {
+		ordering = Template.treeView.getOrdering({
+			shadowItem: {
+				_id: _id,
+				parent: item.parent
+			}
+		});
+	} else {
+		ordering = Template.treeView.getOrdering({
+			shadowItem: { _id: _id }
+		});
+	}
+
+	Template.orgManager._block = false;
+
+	if (!Ordering.find({
+			cmpId: Template.orgManager._cmpId
+		}).fetch().length) {
+		Ordering.insert({
+			cmpId: Template.orgManager._cmpId,
+			ordering: ordering
+		});
+	} else {
+		var firstId = Ordering.find({
+			cmpId: Template.orgManager._cmpId
+		}).fetch()[0]._id;
+		Ordering.update({
+			_id: firstId
+		}, {
+			cmpId: Template.orgManager._cmpId,
+			ordering: ordering
+		});
+	}
 };
 
 Template.orgManager.rendered = function() {

@@ -34,12 +34,12 @@
 
         <!-- Content -->
         <div class="eq-ui-modal-content">
-	        <form id="query">
+	        <form onsubmit="return false;">
 			    <div class="row">
 	                <div class="col-md-12">
 	                    <div class="eq-ui-form-group eq-ui-input-field">
-	                        {{> inputAutocomplete settings=autocompleteSettings id="statement-eml-space" class="eq-ui-input" placeholder="@space to add space"}}
-	                        <label for="statement-eml" class="active">Exentrinq Markup Language statement</label>
+	                    	<input id="statement-eml-space" type="text" class="eq-ui-input">
+                        	<label for="statement-eml-space">Space Name</label>
 	                    </div>
 	                </div>
 			    </div>

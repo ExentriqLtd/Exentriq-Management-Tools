@@ -95,6 +95,19 @@ Template.treeView.dropDown = function(param) {
 };
 
 Template.treeView.getOrdering = function(param) {
+
+	if (param && param.shadowItem.parent){
+		$('.tree-view').find('li').toArray().forEach(function(i){
+
+			if ($(i).data('item')._id === param.shadowItem.parent){
+				$('<li/>').hide().data('item', {_id: param.shadowItem._id}).prependTo($(i).find('ol:first'))
+			}
+		});
+	}
+	else if (param && param.shadowItem){
+		$('<li/>').hide().data('item', {_id: param.shadowItem._id}).prependTo($('.tree-view'));
+	}
+
 	return $('.tree-view').find('li').toArray().map(function(i) {
 		return {
 			_id: $(i).data('item')._id,
@@ -220,8 +233,9 @@ Template.treeView.setModel = function(model, _p) {
 				e.stopPropagation();
 				showMenuAtction(liNode);
 			});
-			liNode.find('.node-title').off().on('click', function() {
+			liNode.find('.node-title').off().on('click', function(e) {
 
+				e.stopPropagation();
 				liNode.toggleClass('mjs-nestedSortable-expanded');
 				if (liNode.hasClass('space')) {
 					root.find('.selected').removeClass('selected');
@@ -445,6 +459,10 @@ Template.treeView.setModel = function(model, _p) {
 Template.treeView.renderDone = false;
 Template.treeView.rendered = function() {
 	Template.treeView.renderDone = true;
+	$('.tree-view-wrapper').on('click', function(){
+		$('.tree-view').find('.selected').removeClass('selected');
+		Template.treeView.selectedNode = null;
+	})
 };
 
 Template.editSpaceDialog.helpers({
