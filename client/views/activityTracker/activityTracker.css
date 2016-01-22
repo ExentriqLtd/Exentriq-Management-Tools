@@ -13,7 +13,7 @@
 }
 
 #__blaze-root .eq-ui-card.activities-add-panel {
-	height: auto;
+	height: 90px;
 }
 
 .activity-tracker .row {
@@ -33,6 +33,36 @@
 .activities-add-panel .eq-ui-form-group {
 }
 
+.activity-tracker .activities-filter {
+    height: 90px;
+    margin-top: 20px;
+    overflow: visible;
+}
 
+.activity-tracker .activities-filter .row {
+	height: 90px;
+}
+
+.activity-tracker .activities-filter .dropdown-trigger {
+	top: 20px;
+}
+
+.activity-tracker .activities-filter .filter-item {
+	border-right: 1px solid #dddddd;
+    height: 60px;
+}
+
+.activity-tracker .activities-filter .filter-item.no-border {
+	border: none;
+}
+
+.activity-tracker .activities-filter .eq-ui-dropdown {
+ 	overflow-x: hidden;
+    overflow-y: auto;
+}
+
+.activity-tracker .activities-filter .eq-ui-input-field {
+	width: calc(100% - 40px);
+}
 
  

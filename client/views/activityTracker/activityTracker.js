@@ -23,7 +23,6 @@ Template.activityTracker.helpers({
 	activities: function() {
 
 		var request = {};
-
 		if (Session.get('cmp')) {
 			request.cmpId = Session.get('cmp').cmpId;
 		}
@@ -37,6 +36,9 @@ Template.activityTracker.helpers({
 		}
 		var activities = Activities.find(request);
 		return activities;
+	},
+	userBoards: function() {
+		return UserBoards.find();
 	},
 	autocompleteSettings: function() {
 	    return {
@@ -59,6 +61,52 @@ Template.activityTracker.helpers({
 	        }
 	      ]
 	    };
+	  },
+	  filterItems: function(){
+
+	  	return [
+  			// project
+	  		{
+	  			id: 'project-filter',
+	  			title: 'Project',
+	  			disabled: false,
+	  			initValue: '',
+	  			dropDown: true
+
+	  		},
+	  		// space
+	  		{
+	  			id: 'space-filter',
+	  			title: 'Space',
+	  			disabled: Session.get('cmp') || false,
+	  			initValue: (Session.get('cmp') && Session.get('cmp').cmpName) || '',
+	  			dropDown: !Session.get('cmp')
+	  		},
+	  		// user
+	  		{
+	  			id: 'user-filter',
+	  			title: 'User',
+	  			disabled: Session.get('user') || false,
+	  			initValue: (Session.get('user') && Session.get('user').userName) || '',
+	  			dropDown: !Session.get('user')
+	  		},
+	  		// from
+	  		{
+	  			id: 'from-filter',
+	  			title: 'From',
+	  			disabled: false,
+	  			initValue: '',
+	  			dropDown: false
+	  		},
+	  		// to
+	  		{
+	  			id: 'to-filter',
+	  			title: 'To',
+	  			disabled: false,
+	  			initValue: '',
+	  			dropDown: false
+	  		}
+	  	]
 	  }
 });
 
@@ -175,6 +223,12 @@ Template.activityTracker.rendered = function() {
 	});
 
 	$('#statement-eml').attr('autocomplete', 'off');
+
+	// Set date picker
+	$('#from-filter').datepicker();
+	$('#to-filter').datepicker();
+
+	
 };
 
 //atActivity template

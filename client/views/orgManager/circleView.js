@@ -47,7 +47,7 @@ Template.circleView.setModel = function(_model) {
 		return;
 	}
 
-	var model = _model;// jQuery.extend(true, {}, _model)
+	var model = jQuery.extend(true, {}, _model)
 	// set size
 	Template.circleView._setSize(model.children);
 
@@ -116,7 +116,28 @@ Template.circleView.setModel = function(_model) {
 
 	zoomTo([model.x, model.y, model.r * 2 + margin]);
 
-	function zoom(d) {
+	function zoom(_d) {
+
+		var d;
+
+		function findCircle(items){
+
+			items.forEach && items.forEach(function(i){
+				if (i._id === _d._id){
+					d = i;
+					return false;
+				}
+
+				findCircle(i.children || []);
+			});			
+		}
+
+		findCircle(model.children || []);
+
+		if (!d){
+			d = model;
+		}
+
 		var focus0 = focus;
 		focus = d;
 		var transition = d3.transition()

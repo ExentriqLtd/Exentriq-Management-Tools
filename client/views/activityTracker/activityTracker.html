@@ -20,6 +20,33 @@
 					<!--</form>-->
 				</div>
 
+				<div class="eq-ui-card eq-ui-card-with-table activities-filter">
+					<div class="row valign-wrapper">
+						
+						{{#each filterItems}}
+				    		
+							<div class="col-md-2 filter-item ">
+								<div class="eq-ui-form-group eq-ui-input-field">
+			                    	<input id="{{id}}" type="text" class="eq-ui-input" value="{{initValue}}" disabled="{{disabled}}" >
+		                        	<label class="{{#if disabled}} active {{/if}}" for="{{id}}">{{title}}</label>
+			                    </div>
+
+			                    {{#if dropDown}}
+									<a data-target="doc-dropdown-{{id}}" data-hover="false" class="btn btn-default eq-ui-btn-flat eq-ui-btn-fab eq-ui-btn-menu-fab eq-ui-waves dropdown-trigger waves-effect waves-effect">
+					        			<i class="mdi mdi-dots-vertical icon"></i>
+					    			</a>
+				    			{{/if}}
+							</div>
+
+				    	{{/each}}
+
+				    	<div class="col-md-2 filter-item no-border">
+							<a class="btn btn-primary eq-ui-waves-light">Apply</a>
+						</div>
+
+					</div>
+				</div>
+
 				<div class="eq-ui-card eq-ui-card-with-table activities-table">
 				    <table id="activity-tracker-table" class="table eq-ui-data-table eq-ui-with-checkbox z-depth-1">
 				        <thead>
