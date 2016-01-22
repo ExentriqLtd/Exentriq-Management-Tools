@@ -11,6 +11,7 @@
 	                        <label for="edit-statement-what_and_why" class="active">Description</label>
 	                    </div>
 	                </div>
+			    	
 			    	<div class="col-md-12">
 	                    <div class="eq-ui-form-group eq-ui-input-field">
 	                        {{> inputAutocomplete settings=autocompleteSettings id="edit-statement-users" class="eq-ui-input"}}
@@ -25,7 +26,7 @@
 	                </div>
 	                <div class="col-md-12">
 	                    <div class="eq-ui-form-group eq-ui-input-field">
-	                        <input id="edit-statement-milestone" type="text" class="eq-ui-input"/>
+	                        <input id="edit-statement-milestone" type="text" class="eq-ui-input" value="{{selectedTask.milestone}}"/>
 	                        <label for="edit-statement-milestone" class="active">!Milestone</label>
 	                    </div>
 	                </div>
@@ -55,7 +56,7 @@
 	                </div>
 	                <div class="col-md-12">
 	                    <div class="eq-ui-form-group eq-ui-input-field">
-	                        <input id="edit-statement-eta" type="text" class="eq-ui-input"/>
+	                        <input id="edit-statement-eta" type="text" class="eq-ui-input" value="{{selectedTask.eta}}"/>
 	                        <label for="edit-statement-eta" class="active">ETA</label>
 	                    </div>
 	                </div>
