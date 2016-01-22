@@ -7,7 +7,14 @@
 			    <div class="row">
 			    	<div class="col-md-12">
 	                    <div class="eq-ui-form-group eq-ui-input-field">
-	                        <input id="edit-statement-users" type="text" class="eq-ui-input" value="{{selectedTask.users}}"/>
+	                        <input id="edit-statement-what_and_why" type="text" class="eq-ui-input" value="{{selectedTask.what_and_why}}"/>
+	                        <label for="edit-statement-what_and_why" class="active">Description</label>
+	                    </div>
+	                </div>
+			    	
+			    	<div class="col-md-12">
+	                    <div class="eq-ui-form-group eq-ui-input-field">
+	                        {{> inputAutocomplete settings=autocompleteSettings id="edit-statement-users" class="eq-ui-input"}}
 	                        <label for="edit-statement-users" class="active">@Assigned To</label>
 	                    </div>
 	                </div>
@@ -31,7 +38,7 @@
 	                </div>
 	                <div class="col-md-12">
 	                    <div class="eq-ui-form-group eq-ui-input-field">
-	                        <input id="edit-statement-board" type="text" class="eq-ui-input" value="{{selectedTask.board}}"/>
+	                        {{> inputAutocomplete settings=autocompleteSettings id="edit-statement-board" class="eq-ui-input"}}
 	                        <label for="edit-statement-board" class="active">#Board</label>
 	                    </div>
 	                </div>
@@ -51,12 +58,6 @@
 	                    <div class="eq-ui-form-group eq-ui-input-field">
 	                        <input id="edit-statement-eta" type="text" class="eq-ui-input" value="{{selectedTask.eta}}"/>
 	                        <label for="edit-statement-eta" class="active">ETA</label>
-	                    </div>
-	                </div>
-	                <div class="col-md-12">
-	                    <div class="eq-ui-form-group eq-ui-input-field">
-	                        <input id="edit-statement-what_and_why" type="text" class="eq-ui-input" value="{{selectedTask.what_and_why}}"/>
-	                        <label for="edit-statement-what_and_why" class="active">Description</label>
 	                    </div>
 	                </div>
 	                <div class="col-md-12">

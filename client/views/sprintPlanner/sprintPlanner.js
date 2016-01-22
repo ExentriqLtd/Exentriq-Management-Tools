@@ -126,7 +126,6 @@ Template.sprintPlanner.helpers({
 		}
 		else if(filterName=='closed'){
 			filter.closed_on={$not:{$in:[null, '']}};
-			//filter.closed_on=/[^/s]+/;
 		}
 		var tasks;
 		if (team !== null) {
@@ -200,6 +199,9 @@ Template.sprintPlanner.events({
 		else{
 			$('#edit-statement-closedOn').datepicker();
 		}
+		$(tpl.find('#edit-statement-users')).val(Eml.format(this, 'users'));
+		this.project=this.board;
+		$(tpl.find('#edit-statement-board')).val(Eml.format(this, 'project'));
 		var emlId = this.eml_id;
 		var description = this.what_and_why;
 		Session.set('statementId', emlId);
@@ -214,19 +216,7 @@ Template.sprintPlanner.events({
 	},
 	
 	"autocompleteselect input": function(event, template, doc) {
-		var replaceFrom;
-		var replaceTo;
-		if(doc.hasOwnProperty('title')){
-			replaceFrom = '#'+doc.title;
-			replaceTo = "#\""+doc.title+"\""
-		}
-		else{
-			replaceFrom = '@'+doc.username;
-			replaceTo = "@\""+doc.username+"\""
-		}
-		var statementDom = template.find('#statement-eml');
-	    var statement = statementDom.value.replace(replaceFrom, replaceTo);
-	    $(statementDom).val(statement);
+		autocompleteReplace(event, template, doc, '#statement-eml');
 	  }
 });
 
@@ -262,6 +252,9 @@ Template.editEml.helpers({
 	},
 	selectedTask: function() {
 		return Session.get('selectedTask');
+	},
+	autocompleteSettings: function(){
+		return sprintPlannerAutocompleteSettings();
 	}
 });
 
@@ -273,7 +266,7 @@ Template.editEml.events({
 		eml.points = Number(tpl.find('#edit-statement-points').value);
 		eml.milestone = tpl.find('#edit-statement-milestone').value;
 		eml.card = tpl.find('#edit-statement-card').value;
-		eml.board = tpl.find('#edit-statement-board').value;
+		
 		eml.progress = tpl.find('#edit-statement-progress').value;
 		eml.effort = tpl.find('#edit-statement-effort').value;
 		eml.eta = tpl.find('#edit-statement-eta').value;
@@ -285,17 +278,12 @@ Template.editEml.events({
 		else{
 			eml.closed_on = null;
 		}
-
 		
-		var users = tpl.find('#edit-statement-users').value;
-		var usersArray = users.split(",");
-		eml.users = [];
-		usersArray.forEach(function(elem) {
-			var user = elem.trim();
-			if (user !== '') {
-				eml.users.push(user);
-			}
-		});
+		var boardEml = Eml.parse(tpl.find('#edit-statement-board').value);
+		eml.board = boardEml.project;
+
+		var usersEml = Eml.parse(tpl.find('#edit-statement-users').value);
+		eml.users = usersEml.users;
 
 		var task = Tasks.findOne({
 			eml_id: eml.eml_id
@@ -303,6 +291,12 @@ Template.editEml.events({
 		console.log(task);
 		Tasks.update(task._id, eml);
 
+	},
+	"autocompleteselect #edit-statement-users": function(event, template, doc) {
+		autocompleteReplace(event, template, doc, '#edit-statement-users');
+	},
+	"autocompleteselect #edit-statement-board": function(event, template, doc) {
+		autocompleteReplace(event, template, doc, '#edit-statement-board');
 	}
 
 });
@@ -316,26 +310,7 @@ Template.addEml.helpers({
 		return Session.get('description');
 	},
 	autocompleteSettings: function() {
-	    return {
-	      position: "bottom",
-	      limit: 20,
-	      rules: [
-	        {
-	          token: '@',
-	          collection: AppUsers,
-	          field: "username",
-	          template: Template.userPill,
-	          noMatchTemplate: Template.noMatch
-	        },
-	        {
-	          token: '#',
-	          collection: Boards,
-	          field: "title",
-	          template: Template.boardPill,
-	          noMatchTemplate: Template.noMatch
-	        }
-	      ]
-	    };
+		return sprintPlannerAutocompleteSettings();
 	  }
 });
 
@@ -385,3 +360,42 @@ var handleTasks = function(err, res) {
 		return res;
 	}
 }
+
+var autocompleteReplace = function(event, template, doc, fieldName){
+	var replaceFrom;
+	var replaceTo;
+	if(doc.hasOwnProperty('title')){
+		replaceFrom = '#'+doc.title;
+		replaceTo = "#\""+doc.title+"\""
+	}
+	else{
+		replaceFrom = '@'+doc.username;
+		replaceTo = "@\""+doc.username+"\""
+	}
+	var statementDom = template.find(fieldName);
+    var statement = statementDom.value.replace(replaceFrom, replaceTo);
+    $(statementDom).val(statement);
+}
+
+var sprintPlannerAutocompleteSettings = function() {
+    return {
+	      position: "bottom",
+	      limit: 20,
+	      rules: [
+	        {
+	          token: '@',
+	          collection: AppUsers,
+	          field: "username",
+	          template: Template.userPill,
+	          noMatchTemplate: Template.noMatch
+	        },
+	        {
+	          token: '#',
+	          collection: Boards,
+	          field: "title",
+	          template: Template.boardPill,
+	          noMatchTemplate: Template.noMatch
+	        }
+	      ]
+	    };
+	  }
