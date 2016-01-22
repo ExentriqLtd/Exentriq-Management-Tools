@@ -16,3 +16,22 @@ Template.registerHelper('formatLoggedTime', function(logged) {
 	}
 	return result;
 });
+
+Template.registerHelper('formatLink', function(text) {
+	if(typeof text == 'string'){
+		if(startsWith(text, 'http')){
+			return '<a href="'+text+'" target="_blank">'+text+'</a>';
+		}
+		else{
+			return text;
+		}
+	}
+	else{
+		return text;
+	}
+	
+});
+
+function startsWith (string, prefix) {
+    return string.slice(0, prefix.length) == prefix;
+}

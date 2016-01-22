@@ -47,13 +47,15 @@ Template.activityTracker.helpers({
 	          token: '#',
 	          collection: UserBoards,
 	          field: "title",
-	          template: Template.activityBoardPill
+	          noMatchTemplate: Template.noMatch,
+	          template: Template.activityBoardPill,
 	        },
 	        {
 	          token: '@',
 	          collection: AppUsers,
 	          field: "username",
-	          template: Template.userPill
+	          noMatchTemplate: Template.noMatch,
+	          template: Template.userPill,
 	        }
 	      ]
 	    };
@@ -66,10 +68,12 @@ Template.activityTracker.events({
 		evt.preventDefault();
 		Template.activityTracker.updateActivity(null, tpl.find('#statement-eml').value);
 	},
+	'keypress #statement-eml':function(evt, tpl){
+//		var value = tpl.find('#statement-eml').value;
+//		var char = String.fromCharCode(event.which);
+//		console.log(char);
+	},
 	"autocompleteselect input": function(event, template, doc) {
-//		var statementDom = template.find('#statement-eml');
-//	    var statement = statementDom.value.replace('#'+doc.title, "#\""+doc.title+"\"");
-//	    $(statementDom).val(statement);
 	    
 	    var replaceFrom;
 		var replaceTo;
@@ -220,8 +224,9 @@ Template.editActivity.helpers({
 
 Template.editActivity.events({
 	'click #activity_save_submit': function(evt, tpl){
-		var statement = tpl.find('#logged').value + ' #"' + tpl.find('#project').value + '" ' +  tpl.find('#description').value;
-		Template.activityTracker.updateActivity(Session.get('selectedActivity')._id, statement, tpl.find('#time').value);
+		var activity = Session.get('selectedActivity');
+		var statement = tpl.find('#logged').value + ' #"' + tpl.find('#project').value + '('+activity.cmpName+')" ' +  tpl.find('#description').value;
+		Template.activityTracker.updateActivity(activity._id, statement, tpl.find('#time').value);
 	}
 });
 

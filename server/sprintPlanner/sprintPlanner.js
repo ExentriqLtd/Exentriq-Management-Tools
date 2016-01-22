@@ -2,10 +2,10 @@ Meteor.publish("tasks", function (space) {
    return Tasks.find({space:space});
 });
 Meteor.publish("appUsers", function () {
-   return AppUsers.find({});
+   return AppUsers.find({}, {sort: {username: +1}});
 });
-Meteor.publish("boards", function () {
-   return Boards.find({});
+Meteor.publish("boards", function (space) {
+   return Boards.find({space:space}, {sort: {title: +1}});
 });
 
 Meteor.startup(function () {
