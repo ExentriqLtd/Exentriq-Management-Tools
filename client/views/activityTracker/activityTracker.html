@@ -40,10 +40,24 @@
 
 				    	{{/each}}
 
-				    	<div class="col-md-2 filter-item no-border">
-							<a class="btn btn-primary eq-ui-waves-light">Apply</a>
+				    	<div class="col-md-2 valign-wrapper filter-item no-border">
+							<a id="apply-filter-button" class="btn btn-primary eq-ui-waves-light">Apply</a>
 						</div>
 
+					</div>
+				</div>
+
+				<div class="eq-ui-card eq-ui-card-with-table activities-total">
+					<div class="row valign-wrapper">
+						<div class="col-md-2">
+							<label class="total-label">Total:</label>
+							<span class="total-value">{{totalTime}}</span>
+						</div>
+						<div class="col-md-8">
+						</div>
+						<div class="col-md-2">
+							<a class="btn btn-primary eq-ui-waves-light">Export</a>
+						</div>
 					</div>
 				</div>
 

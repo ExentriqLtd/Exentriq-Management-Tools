@@ -16,6 +16,10 @@
 	height: 90px;
 }
 
+.activity-tracker .btn-primary {
+	width: 100%;
+}
+
 .activity-tracker .row {
 	width: 100%;
 	padding: 0;
@@ -63,6 +67,16 @@
 
 .activity-tracker .activities-filter .eq-ui-input-field {
 	width: calc(100% - 40px);
+}
+
+.activity-tracker .activities-total {
+	height: 60px;
+    margin-top: 20px;
+    overflow: visible;
+}
+
+.activity-tracker .activities-total .total-value {
+	margin-left: 10px;
 }
 
  

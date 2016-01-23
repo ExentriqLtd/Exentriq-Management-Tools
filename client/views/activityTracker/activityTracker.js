@@ -1,145 +1,195 @@
-Tracker.autorun(function(){
-  if(Meteor.user()){
-    var username = Meteor.user().username;
-	var company = Session.get('cmp');
-    Meteor.subscribe("activities");
-	Meteor.subscribe("userBoards", username, company);
-	Meteor.subscribe("appUsers");
-	Meteor.call('refreshUserProjects', username);
-	
-  }
+Tracker.autorun(function() {
+	if (Meteor.user()) {
+		var username = Meteor.user().username;
+		var company = Session.get('cmp');
+		Meteor.subscribe("activities");
+		Meteor.subscribe("userBoards", username, company);
+		Meteor.subscribe("appUsers");
+		Meteor.call('refreshUserProjects', username);
+
+	}
 });
 
 // sprintPlanner template
-Template.activityTracker.render = function(_param) {
-}
+Template.activityTracker.render = function(_param) {}
 
-Template.activityTracker.onCreated(function() {
-});
+Template.activityTracker.onCreated(function() {});
+
+Template.activityTracker.getActivitiesWithFilter = function(){
+
+	var request = {};
+	if (Session.get('cmp')) {
+		request.cmpId = Session.get('cmp').cmpId;
+	}
+
+	if (Session.get('project')) {
+		request.project = Session.get('project');
+	}
+
+	if (Session.get('user')) {
+		request.userId = Session.get('user').userId;
+	}
+
+	if ($('#project-filter').val()){
+		request.project = $('#project-filter').val();
+	}
+
+	if ($('#space-filter').val()){
+		request.cmpName = $('#space-filter').val();
+	}
+
+	var activities = Activities.find(request);
+	return activities.fetch();
+};
 
 Template.activityTracker.helpers({
 	activities: function() {
-
-		var request = {};
-		if (Session.get('cmp')) {
-			request.cmpId = Session.get('cmp').cmpId;
-		}
-
-		if (Session.get('project')) {
-			request.project = Session.get('project');
-		}
-
-		if (Session.get('user')){
-			request.userId = Session.get('user').userId;
-		}
-		var activities = Activities.find(request);
-		return activities;
+		Session.set('activities', Template.activityTracker.getActivitiesWithFilter());
+		return Session.get('activities');
 	},
 	userBoards: function() {
 		return UserBoards.find();
 	},
 	autocompleteSettings: function() {
-	    return {
-	      position: "bottom",
-	      limit: 10,
-	      rules: [
-	        {
-	          token: '#',
-	          collection: UserBoards,
-	          field: "title",
-	          noMatchTemplate: Template.noMatch,
-	          template: Template.activityBoardPill,
-	        },
-	        {
-	          token: '@',
-	          collection: AppUsers,
-	          field: "username",
-	          noMatchTemplate: Template.noMatch,
-	          template: Template.userPill,
-	        }
-	      ]
-	    };
-	  },
-	  filterItems: function(){
+		return {
+			position: "bottom",
+			limit: 10,
+			rules: [{
+				token: '#',
+				collection: UserBoards,
+				field: "title",
+				noMatchTemplate: Template.noMatch,
+				template: Template.activityBoardPill,
+			}, {
+				token: '@',
+				collection: AppUsers,
+				field: "username",
+				noMatchTemplate: Template.noMatch,
+				template: Template.userPill,
+			}]
+		};
+	},
+	filterItems: function() {
 
-	  	return [
-  			// project
-	  		{
-	  			id: 'project-filter',
-	  			title: 'Project',
-	  			disabled: false,
-	  			initValue: '',
-	  			dropDown: true
+		return [
+			// project
+			{
+				id: 'project-filter',
+				title: 'Project',
+				disabled: false,
+				initValue: '',
+				dropDown: true
 
-	  		},
-	  		// space
-	  		{
-	  			id: 'space-filter',
-	  			title: 'Space',
-	  			disabled: Session.get('cmp') || false,
-	  			initValue: (Session.get('cmp') && Session.get('cmp').cmpName) || '',
-	  			dropDown: !Session.get('cmp')
-	  		},
-	  		// user
-	  		{
-	  			id: 'user-filter',
-	  			title: 'User',
-	  			disabled: Session.get('user') || false,
-	  			initValue: (Session.get('user') && Session.get('user').userName) || '',
-	  			dropDown: !Session.get('user')
-	  		},
-	  		// from
-	  		{
-	  			id: 'from-filter',
-	  			title: 'From',
-	  			disabled: false,
-	  			initValue: '',
-	  			dropDown: false
-	  		},
-	  		// to
-	  		{
-	  			id: 'to-filter',
-	  			title: 'To',
-	  			disabled: false,
-	  			initValue: '',
-	  			dropDown: false
-	  		}
-	  	]
-	  }
+			},
+			// space
+			{
+				id: 'space-filter',
+				title: 'Space',
+				disabled: Session.get('cmp') || false,
+				initValue: (Session.get('cmp') && Session.get('cmp').cmpName) || '',
+				dropDown: !Session.get('cmp')
+			},
+			// user
+			{
+				id: 'user-filter',
+				title: 'User',
+				disabled: Session.get('user') || false,
+				initValue: (Session.get('user') && Session.get('user').userName) || '',
+				dropDown: !Session.get('user')
+			},
+			// from
+			{
+				id: 'from-filter',
+				title: 'From',
+				disabled: false,
+				initValue: '',
+				dropDown: false
+			},
+			// to
+			{
+				id: 'to-filter',
+				title: 'To',
+				disabled: false,
+				initValue: '',
+				dropDown: false
+			}
+		]
+	},
+	totalTime: function() {
+
+		var activities = Session.get('activities');
+		var totalDays = 0;
+		var totalHours = 0;
+		var totalMinutes = 0;
+
+		activities.forEach(function(i){
+
+			i.days && (totalDays+=i.days);
+			i.hours && (totalHours+=i.hours);
+			i.minutes && (totalMinutes+=i.minutes);
+		});
+
+		if (totalMinutes > 60){
+			var hrs = Math.floor(totalMinutes/60);
+			totalHours += hrs;
+			totalMinutes = totalMinutes - (hrs * 60);
+		}
+
+		if (totalHours > 24){
+			var days = Math.floor(totalHours/24);
+			totalDays += days;
+			totalHours = totalHours - (days * 24);
+		}
+
+		var total = '';
+		if (totalDays > 0){
+			total += totalDays + 'd ';
+		}
+		if (totalHours > 0){
+			total += totalHours + 'h ';
+		}
+		if (totalMinutes > 0){
+			total += totalMinutes + 'm';	
+		}
+		return total;
+	}
 });
 
 Template.activityTracker.events({
-	'keyup #statement-eml': function(evt, tpl) { },
+	'click #apply-filter-button': function(evt, tpl) {
+		Session.set('activities', Template.activityTracker.getActivitiesWithFilter());
+		return Session.get('activities');
+	},
+	'keyup #statement-eml': function(evt, tpl) {},
 	'click #statement-add': function(evt, tpl) {
 		evt.preventDefault();
 		Template.activityTracker.updateActivity(null, tpl.find('#statement-eml').value);
 	},
-	'keypress #statement-eml':function(evt, tpl){
-//		var value = tpl.find('#statement-eml').value;
-//		var char = String.fromCharCode(event.which);
-//		console.log(char);
+	'keypress #statement-eml': function(evt, tpl) {
+		//		var value = tpl.find('#statement-eml').value;
+		//		var char = String.fromCharCode(event.which);
+		//		console.log(char);
 	},
 	"autocompleteselect input": function(event, template, doc) {
-	    
-	    var replaceFrom;
+
+		var replaceFrom;
 		var replaceTo;
-		if(doc.hasOwnProperty('title')){
-			replaceFrom = '#'+doc.title;
-			replaceTo = "#\""+doc.title + " (" + doc.spaceTitle + ")" +"\""
-		}
-		else{
-			replaceFrom = '@'+doc.username;
-			replaceTo = "@\""+doc.username+"\""
+		if (doc.hasOwnProperty('title')) {
+			replaceFrom = '#' + doc.title;
+			replaceTo = "#\"" + doc.title + " (" + doc.spaceTitle + ")" + "\""
+		} else {
+			replaceFrom = '@' + doc.username;
+			replaceTo = "@\"" + doc.username + "\""
 		}
 		var statementDom = template.find('#statement-eml');
-	    var statement = statementDom.value.replace(replaceFrom, replaceTo);
-	    $(statementDom).val(statement);
-	  }
+		var statement = statementDom.value.replace(replaceFrom, replaceTo);
+		$(statementDom).val(statement);
+	}
 });
 
 Template.activityTracker.updateActivity = function(_id, statement, time) {
 	if (statement) {
-		
+
 		// validate proj
 		var regexpBoardDoubleQuote = /(#)\"([^\"^\(^\)]+)(?:\(([^\"^\(^\)]+)\))?"/g;
 		var regexpBoard = /(#)([^"^\s]+)/g;
@@ -159,21 +209,22 @@ Template.activityTracker.updateActivity = function(_id, statement, time) {
 		var regexpMinutesResult = regexMinutes.exec(statement);
 
 		if ((regexpBoardResult !== null || regexpBoardDoubleQuoteResult !== null) && (regexpDaysResult || regexpHoursResult || regexpMinutesResult)) {
-			
+
 			// check proj
 			var projName = '';
 
-			if (regexpBoardDoubleQuoteResult){
+			if (regexpBoardDoubleQuoteResult) {
 				projName = regexpBoardDoubleQuoteResult[2].trim();
-			}
-			else if (regexpBoardResult){
+			} else if (regexpBoardResult) {
 				projName = regexpBoardResult[2].trim();
 			}
 
-			var proj = UserBoards.find({title: projName}).fetch();
-			
-			if (proj.length){
-				if (_id){
+			var proj = UserBoards.find({
+				title: projName
+			}).fetch();
+
+			if (proj.length) {
+				if (_id) {
 					Meteor.call('updateActivity', _id, {
 						statement: statement,
 						cmpId: Session.get('cmp') ? Session.get('cmp').cmpId : '',
@@ -182,8 +233,7 @@ Template.activityTracker.updateActivity = function(_id, statement, time) {
 						userName: Meteor.user().username,
 						time: time
 					});
-				}
-				else {
+				} else {
 					Meteor.call('addActivityEml', {
 						statement: statement,
 						cmpId: Session.get('cmp') ? Session.get('cmp').cmpId : '',
@@ -192,9 +242,8 @@ Template.activityTracker.updateActivity = function(_id, statement, time) {
 						userName: Meteor.user().username,
 					});
 					$('#statement-eml').val('');
-				}				
-			}
-			else {
+				}
+			} else {
 				$('#statement-eml').addClass('invalid');
 			}
 		}
@@ -226,7 +275,7 @@ Template.activityTracker.rendered = function() {
 	$('#from-filter').datepicker();
 	$('#to-filter').datepicker();
 
-	
+
 };
 
 //atActivity template
@@ -250,7 +299,7 @@ Template.atActivity.events({
 		Session.set('selectedActivity', this);
 		$('#eq-ui-modal-edit').openModal();
 		$('#time').val(moment(this.time).format('MM/DD/YYYY')).datepicker();
-		
+
 		/*setTimeout(function(){
 			$('#eq-ui-modal-edit').find('input').each(function(i){
 				$(i).click().focus().blur();
@@ -269,15 +318,15 @@ Template.deleteActivityEml.events({
 
 //editActivity
 Template.editActivity.helpers({
-	selectedActivity: function(){
+	selectedActivity: function() {
 		return Session.get('selectedActivity');
 	}
 });
 
 Template.editActivity.events({
-	'click #activity_save_submit': function(evt, tpl){
+	'click #activity_save_submit': function(evt, tpl) {
 		var activity = Session.get('selectedActivity');
-		var statement = tpl.find('#logged').value + ' #"' + tpl.find('#project').value + '('+activity.cmpName+')" ' +  tpl.find('#description').value;
+		var statement = tpl.find('#logged').value + ' #"' + tpl.find('#project').value + '(' + activity.cmpName + ')" ' + tpl.find('#description').value;
 		Template.activityTracker.updateActivity(activity._id, statement, tpl.find('#time').value);
 	}
 });
