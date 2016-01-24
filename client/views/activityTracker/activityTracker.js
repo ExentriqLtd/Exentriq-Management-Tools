@@ -15,7 +15,7 @@ Template.activityTracker.render = function(_param) {}
 
 Template.activityTracker.onCreated(function() {});
 
-Template.activityTracker.getActivitiesWithFilter = function(){
+Template.activityTracker.getActivitiesWithFilter = function() {
 
 	var request = {};
 	if (Session.get('cmp')) {
@@ -30,11 +30,11 @@ Template.activityTracker.getActivitiesWithFilter = function(){
 		request.userId = Session.get('user').userId;
 	}
 
-	if ($('#project-filter').val()){
+	if ($('#project-filter').val()) {
 		request.project = $('#project-filter').val();
 	}
 
-	if ($('#space-filter').val()){
+	if ($('#space-filter').val()) {
 		request.cmpName = $('#space-filter').val();
 	}
 
@@ -122,40 +122,86 @@ Template.activityTracker.helpers({
 		var totalHours = 0;
 		var totalMinutes = 0;
 
-		activities.forEach(function(i){
+		activities && activities .length &&
+		activities.forEach(function(i) {
 
-			i.days && (totalDays+=i.days);
-			i.hours && (totalHours+=i.hours);
-			i.minutes && (totalMinutes+=i.minutes);
+			i.days && (totalDays += i.days);
+			i.hours && (totalHours += i.hours);
+			i.minutes && (totalMinutes += i.minutes);
 		});
 
-		if (totalMinutes > 60){
-			var hrs = Math.floor(totalMinutes/60);
+		if (totalMinutes > 60) {
+			var hrs = Math.floor(totalMinutes / 60);
 			totalHours += hrs;
 			totalMinutes = totalMinutes - (hrs * 60);
 		}
 
-		if (totalHours > 24){
-			var days = Math.floor(totalHours/24);
+		if (totalHours > 24) {
+			var days = Math.floor(totalHours / 24);
 			totalDays += days;
 			totalHours = totalHours - (days * 24);
 		}
 
 		var total = '';
-		if (totalDays > 0){
+		if (totalDays > 0) {
 			total += totalDays + 'd ';
 		}
-		if (totalHours > 0){
+		if (totalHours > 0) {
 			total += totalHours + 'h ';
 		}
-		if (totalMinutes > 0){
-			total += totalMinutes + 'm';	
+		if (totalMinutes > 0) {
+			total += totalMinutes + 'm';
 		}
 		return total;
 	}
 });
 
+Template.activityTracker._exportTableToPDF = function(source) {
+
+	var pdf = new jsPDF('p', 'pt', 'letter');
+	// source can be HTML-formatted string, or a reference
+	// to an actual DOM element from which the text will be scraped.
+	//source = $('#customers')[0];
+
+	// we support special element handlers. Register them with jQuery-style 
+	// ID selector for either ID or node name. ("#iAmID", "div", "span" etc.)
+	// There is no support for any other type of selectors 
+	// (class, of compound) at this time.
+	specialElementHandlers = {
+		// element with id of "bypass" - jQuery style selector
+		'#bypassme': function(element, renderer) {
+			// true = "handled elsewhere, bypass text extraction"
+			return true
+		}
+	};
+	margins = {
+		top: 80,
+		bottom: 60,
+		left: 40,
+		width: 522
+	};
+	// all coords and widths are in jsPDF instance's declared units
+	// 'inches' in this case
+	pdf.fromHTML(
+		source, // HTML string or DOM elem ref.
+		margins.left, // x coord
+		margins.top, { // y coord
+			'width': margins.width, // max width of content on PDF
+			'elementHandlers': specialElementHandlers
+		},
+
+		function(dispose) {
+			// dispose: object with X, Y of the last line add to the PDF 
+			//          this allow the insertion of new lines after html
+			pdf.save('Test.pdf');
+		}, margins);
+}
+
 Template.activityTracker.events({
+	'click #export-activity': function() {
+
+		Template.activityTracker._exportTableToPDF($('#export-table-wrapper')[0]);
+	},
 	'click #apply-filter-button': function(evt, tpl) {
 		Session.set('activities', Template.activityTracker.getActivitiesWithFilter());
 		return Session.get('activities');

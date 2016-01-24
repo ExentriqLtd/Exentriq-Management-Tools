@@ -18,6 +18,8 @@ cfs:ejson-file@0.1.4
 cfs:file@0.1.15
 cfs:storage-adapter@0.1.1
 check@1.1.0
+chipcastledotcom:jspdf@0.0.2
+chipcastledotcom:meteor-jspdf@0.0.8
 coffeescript@1.0.11
 cosmos:browserify@0.9.3
 d3js:d3@3.5.8

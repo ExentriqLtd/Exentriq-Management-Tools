@@ -56,7 +56,7 @@
 						<div class="col-md-8">
 						</div>
 						<div class="col-md-2">
-							<a class="btn btn-primary eq-ui-waves-light">Export</a>
+							<a id="export-activity" class="btn btn-primary eq-ui-waves-light">Export</a>
 						</div>
 					</div>
 				</div>
@@ -83,6 +83,41 @@
 					    	{{/each}}
 				    	</tbody>
 			    	</table>
+
+			    	<div id="export-table-wrapper">
+			    		<table>
+			    			<colgroup>
+					            <col width="20%">
+				                <col width="20%">
+			                    <col width="20%">
+		                        <col width="10%">
+		                        <col width="20%">
+		                        <col width="10%">
+					        </colgroup>
+					        <thead>
+					        	<tr>
+					                <th class="eq-ui-data-table-cell-non-numeric">Project</th>
+					                <th class="eq-ui-data-table-cell-non-numeric">Description</th>
+					                <th class="eq-ui-data-table-cell-non-numeric">Space</th>
+					                <th class="eq-ui-data-table-cell-non-numeric">User</th>
+					                <th class="eq-ui-data-table-cell-non-numeric">Time</th>
+					                <th class="eq-ui-data-table-cell-non-numeric">Logged</th>
+				            	</tr>
+			            	</thead>
+			            	<tbody>
+					        	{{#each activities}}
+						    		<tr>
+										<td>{{project}}</td>
+									    <td>{{description}}</td>
+									    <td>{{cmpName}}</td>
+									    <td>{{userName}}</td>
+									    <td>{{formatDate time}}</td>
+									    <td>{{formatLoggedTime this}}</td>
+									</tr>	
+						    	{{/each}}
+					    	</tbody>
+				    	</table>
+			    	</div>
 		    	</div>
 		    </div>
 		</div>
