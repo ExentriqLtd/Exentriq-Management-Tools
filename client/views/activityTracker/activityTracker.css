@@ -4,9 +4,9 @@
 }
 
 .activity-tracker #export-table-wrapper {
-	display: none;
-	width: 0px;
-	height: 0px;	
+    position: absolute;
+    width: 100%;
+    opacity: 0;
 }
 
 .activity-tracker .btn.dropdown-trigger {
