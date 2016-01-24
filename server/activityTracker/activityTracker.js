@@ -18,7 +18,7 @@ Meteor.startup(function() {
 
 	// Generates: GET/POST on activitytracker/api/v1/activities, and GET/PUT/DELETE on activitytracker/api/v1/activities/:id 
 	// for Mongo.Collection("Activities") collection
-	Api.addCollection(Activities);
+	//Api.addCollection(Activities);
 
 	Api.addRoute('addActivityEml', {
 		authRequired: false
@@ -27,19 +27,20 @@ Meteor.startup(function() {
 			roleRequired: [],
 			action: function() {
 				try {
-					var space = this.bodyParams.space;
 					var statementEml = this.bodyParams.message;
 					var username = this.bodyParams.username;
-					//addActivity(statementEml, username, space);
+					console.log(statementEml);
+					console.log(username);
+					var activity = {"userName":username, "statement":statementEml};
 					var obj = parseActivity(activity);
-					return {
-						status: "success"
-					};
+					if(obj!=null){
+						Activities.insert(obj);
+						return {status: "success" };
+					}
+					return { status: "error", message:"unable to add the activity" };
 				} catch (e) {
-					console.err(e);
-					return {
-						status: "error"
-					};
+					console.error(e);
+					return { status: "error", message: "generic error"};
 				}
 			}
 		}
@@ -55,6 +56,32 @@ Meteor.startup(function() {
 					var space = this.urlParams.space;
 					var day = this.queryParams.day;
 					var query = {"cmpId":space};
+					if(day!=null){
+						var start = moment(day).startOf('day').toDate();
+						var end = moment(day).endOf('day').toDate();
+						query.time={$gte: start, $lt: end};
+					}
+					var activities = Activities.find(query).fetch();
+					return { status: "success", "activities": activities };
+				} catch (e) {
+					console.log(e);
+					return {
+						status: "error"
+					};
+				}
+			}
+		}
+	});
+	
+	Api.addRoute('activities', {
+		authRequired: false
+	}, {
+		get: {
+			roleRequired: [],
+			action: function() {
+				try {
+					var day = this.queryParams.day;
+					var query = {};
 					if(day!=null){
 						var start = moment(day).startOf('day').toDate();
 						var end = moment(day).endOf('day').toDate();
