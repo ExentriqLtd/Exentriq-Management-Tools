@@ -387,12 +387,14 @@ ul.drop-down .drop-down-item:hover {
 
 #sprint-planner-table th{
 	text-align: left;
-	width: 200px;
+	width: 160px;
+	font-size: 14px;
 }
 
 #sprint-planner-table td {
 	word-wrap: break-word;
 	white-space: normal;
+	font-size: 14px;
 }
 
 #sprint-planner-table .eq-ui-dropdown-left-top{
