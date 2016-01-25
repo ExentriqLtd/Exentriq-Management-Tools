@@ -42,7 +42,7 @@ Meteor.methods({
 	'addEmlStatement' : function(statementEml, username, space) {
 		var statementId = Random.id();
 		var eml = stringToEml(statementEml, statementId, username , space);
-		Tasks.insert(eml);
+		addTask(eml);
 	},
 	'refreshAppUsers' : function(){
 		this.unblock();
@@ -65,6 +65,20 @@ Meteor.methods({
 		}
 	}
 });
+
+var addTask = function(task){
+	//Save the task
+	Tasks.insert(task);
+	//Send notification to all users added to the task
+	var users = task.users;
+	users.forEach(function(username){
+		var author = task.author;
+		var picture = Meteor.settings.private.talkPath + "/avatar/"+author+".jpg";
+		var subject = author+' assigned you the task "'+task.statement+'"';
+		var notification = {'from':author, 'to':username, 'link':'','subject':subject, 'picture':picture};
+		Bus.sendNotification(notification, Meteor.settings.private.integrationBusPath);
+	});
+}
 
 var stringToEml = function(statement, id, author, space){
 	eml = Eml.parse(statement);
