@@ -285,11 +285,7 @@ Template.editEml.events({
 		var usersEml = Eml.parse(tpl.find('#edit-statement-users').value);
 		eml.users = usersEml.users;
 
-		var task = Tasks.findOne({
-			eml_id: eml.eml_id
-		});
-		console.log(task);
-		Tasks.update(task._id, eml);
+		Meteor.call('updateTask', eml);
 
 	},
 	"autocompleteselect #edit-statement-users": function(event, template, doc) {
