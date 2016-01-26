@@ -21,7 +21,7 @@ Template.activityTracker.filters = function() {
 			initValue: '',
 			dropDownFieldName: 'title',
 			dropDown: true,
-			dropDownValues: [] // UserBoards.find().fetch()
+			dropDownValues: []
 		},
 		// space
 		{
@@ -39,7 +39,7 @@ Template.activityTracker.filters = function() {
 			initValue: (Session.get('user') && Session.get('user').userName) || '',
 			dropDownFieldName: 'username',
 			dropDown: !Session.get('user'),
-			dropDownValues: [] // Session.get('filterUsers')
+			dropDownValues: []
 		},
 		// from
 		{
@@ -385,11 +385,11 @@ Template.activityTracker.rendered = function() {
 	}
 
 	if (Session.get('user')){
-		_filters.set('user-filter', 'initValue', Session.get('cmp').userName);
+		_filters.set('user-filter', 'initValue', Session.get('user').userName);
 		_filters.set('user-filter', 'disabled', true);		
 	}
 
-	Session.set('_filters', _filters);
+	Session.set('_filters', _filters.get());
 };
 
 //atActivity template
