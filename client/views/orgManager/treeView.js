@@ -230,12 +230,12 @@ Template.treeView.setModel = function(model, _p) {
 			liNode = $(liNode);
 
 			liNode.find('.node-action:first').off().on('click', function(e) {
-				e.stopPropagation();
+				//e.stopPropagation();
 				showMenuAtction(liNode);
 			});
 			liNode.find('.node-title').off().on('click', function(e) {
 
-				e.stopPropagation();
+				//e.stopPropagation();
 				liNode.toggleClass('mjs-nestedSortable-expanded');
 				if (liNode.hasClass('space')) {
 					root.find('.selected').removeClass('selected');
@@ -459,10 +459,12 @@ Template.treeView.setModel = function(model, _p) {
 Template.treeView.renderDone = false;
 Template.treeView.rendered = function() {
 	Template.treeView.renderDone = true;
-	$('.tree-view-wrapper').on('click', function(){
-		$('.tree-view').find('.selected').removeClass('selected');
-		Template.treeView.selectedNode = null;
-	})
+	$('.tree-view-wrapper').on('keyup', function(e){
+		if (e.keyCode == 27){
+			$('.tree-view').find('.selected').removeClass('selected');
+			Template.treeView.selectedNode = null;	
+		}
+	});
 };
 
 Template.editSpaceDialog.helpers({
