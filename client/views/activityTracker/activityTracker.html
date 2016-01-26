@@ -25,16 +25,23 @@
 						
 						{{#each filterItems}}
 				    		
-							<div class="col-md-2 filter-item ">
+							<div class="col-md-2 filter-item">
 								<div class="eq-ui-form-group eq-ui-input-field">
 			                    	<input id="{{id}}" type="text" class="eq-ui-input" value="{{initValue}}" disabled="{{disabled}}" >
-		                        	<label class="{{#if disabled}} active {{/if}}" for="{{id}}">{{title}}</label>
+		                        	<label class="{{#if initValue}} active {{/if}}" for="{{id}}">{{title}}</label>
 			                    </div>
-
 			                    {{#if dropDown}}
-									<a data-target="doc-dropdown-{{id}}" data-hover="false" class="btn btn-default eq-ui-btn-flat eq-ui-btn-fab eq-ui-btn-menu-fab eq-ui-waves dropdown-trigger waves-effect waves-effect">
-					        			<i class="mdi mdi-dots-vertical icon"></i>
-					    			</a>
+			                    	{{#if disabled}}
+							        {{else}}
+							        	<a data-target="filter-dropdown-{{id}}" data-hover="false" class="btn btn-default eq-ui-btn-flat eq-ui-btn-fab eq-ui-btn-menu-fab eq-ui-waves dropdown-trigger waves-effect waves-effect">
+						        			<i class="mdi mdi-dots-vertical icon"></i>
+						    			</a>
+						    			<ul id="filter-dropdown-{{id}}" class="eq-ui-dropdown eq-ui-dropdown-right-top">
+								            {{#each dropDownValues}}
+								            	<li><a>{{ title }}</a></li>
+								            {{/each}}
+								        </ul>
+			                    	{{/if}}
 				    			{{/if}}
 							</div>
 

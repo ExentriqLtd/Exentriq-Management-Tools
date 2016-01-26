@@ -102,6 +102,12 @@ Meteor.startup(function() {
 });
 
 Meteor.methods({
+	'getUserInSpace' : function(spaceId){
+		this.unblock();
+		var apiUrl = Meteor.settings.private.integrationBusPath + '/getAllUsers?spaceid='+encodeURIComponent(spaceId);
+		var response = Rest.get(apiUrl);
+		return response;
+	},
 	'getSpaceInfo': function(spaceId){
 
 		this.unblock();

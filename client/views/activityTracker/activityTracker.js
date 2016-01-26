@@ -10,6 +10,77 @@ Tracker.autorun(function() {
 	}
 });
 
+// filters
+Template.activityTracker.filters = function() {
+	var _filters = [
+		// project
+		{
+			id: 'project-filter',
+			title: 'Project',
+			disabled: false,
+			initValue: '',
+			dropDownFieldName: 'title',
+			dropDown: true,
+			dropDownValues: [] // UserBoards.find().fetch()
+		},
+		// space
+		{
+			id: 'space-filter',
+			title: 'Space',
+			disabled: (Session.get('cmp') ? true : false),
+			initValue: (Session.get('cmp') && Session.get('cmp').cmpName) || '',
+			dropDown: !Session.get('cmp')
+		},
+		// user
+		{
+			id: 'user-filter',
+			title: 'User',
+			disabled: (Session.get('user') ? true : false),
+			initValue: (Session.get('user') && Session.get('user').userName) || '',
+			dropDownFieldName: 'username',
+			dropDown: !Session.get('user'),
+			dropDownValues: [] // Session.get('filterUsers')
+		},
+		// from
+		{
+			id: 'from-filter',
+			title: 'From',
+			disabled: false,
+			initValue: '',
+			dropDown: false
+		},
+		// to
+		{
+			id: 'to-filter',
+			title: 'To',
+			disabled: false,
+			initValue: '',
+			dropDown: false
+		}
+	];
+
+	function get() {
+		return _filters;
+	}
+
+	function set(_filterId, _filterProperty, _filterValue) {
+		_filters.forEach(function(i) {
+			if (i.id === _filterId) {
+				i[_filterProperty] = _filterValue;
+				return false;
+			}
+		});
+	}
+
+	return {
+		get: get,
+		set: set
+	}
+}
+
+var _filters = Template.activityTracker.filters();
+Session.set('_filters', _filters.get());
+
 // sprintPlanner template
 Template.activityTracker.render = function(_param) {}
 
@@ -38,6 +109,10 @@ Template.activityTracker.getActivitiesWithFilter = function() {
 		request.cmpName = $('#space-filter').val();
 	}
 
+	if ($('#user-filter').val()) {
+		request.userName = $('#user-filter').val();
+	}
+
 	var activities = Activities.find(request);
 	return activities.fetch();
 };
@@ -46,9 +121,6 @@ Template.activityTracker.helpers({
 	activities: function() {
 		Session.set('activities', Template.activityTracker.getActivitiesWithFilter());
 		return Session.get('activities');
-	},
-	userBoards: function() {
-		return UserBoards.find();
 	},
 	autocompleteSettings: function() {
 		return {
@@ -70,50 +142,8 @@ Template.activityTracker.helpers({
 		};
 	},
 	filterItems: function() {
-
-		return [
-			// project
-			{
-				id: 'project-filter',
-				title: 'Project',
-				disabled: false,
-				initValue: '',
-				dropDown: true
-
-			},
-			// space
-			{
-				id: 'space-filter',
-				title: 'Space',
-				disabled: Session.get('cmp') || false,
-				initValue: (Session.get('cmp') && Session.get('cmp').cmpName) || '',
-				dropDown: !Session.get('cmp')
-			},
-			// user
-			{
-				id: 'user-filter',
-				title: 'User',
-				disabled: Session.get('user') || false,
-				initValue: (Session.get('user') && Session.get('user').userName) || '',
-				dropDown: !Session.get('user')
-			},
-			// from
-			{
-				id: 'from-filter',
-				title: 'From',
-				disabled: false,
-				initValue: '',
-				dropDown: false
-			},
-			// to
-			{
-				id: 'to-filter',
-				title: 'To',
-				disabled: false,
-				initValue: '',
-				dropDown: false
-			}
-		]
+		console.log(_filters.get());
+		return Session.get('_filters');
 	},
 	totalTime: function() {
 
@@ -122,13 +152,13 @@ Template.activityTracker.helpers({
 		var totalHours = 0;
 		var totalMinutes = 0;
 
-		activities && activities .length &&
-		activities.forEach(function(i) {
+		activities && activities.length &&
+			activities.forEach(function(i) {
 
-			i.days && (totalDays += i.days);
-			i.hours && (totalHours += i.hours);
-			i.minutes && (totalMinutes += i.minutes);
-		});
+				i.days && (totalDays += i.days);
+				i.hours && (totalHours += i.hours);
+				i.minutes && (totalMinutes += i.minutes);
+			});
 
 		if (totalMinutes > 60) {
 			var hrs = Math.floor(totalMinutes / 60);
@@ -198,6 +228,15 @@ Template.activityTracker._exportTableToPDF = function(source) {
 }
 
 Template.activityTracker.events({
+	'click #filter-dropdown-user-filter li': function(evt, tpl) {
+		_filters.set('user-filter', 'initValue', this.title);
+		Session.set('_filters', _filters.get());
+	},
+	'click #filter-dropdown-space-filter li': function(evt, tpl) {},
+	'click #filter-dropdown-project-filter li': function(evt, tpl) {
+		_filters.set('project-filter', 'initValue', this.title);
+		Session.set('_filters', _filters.get());	
+	},
 	'click #export-activity': function() {
 
 		Template.activityTracker._exportTableToPDF($('#export-table-wrapper')[0]);
@@ -321,7 +360,31 @@ Template.activityTracker.rendered = function() {
 	$('#from-filter').datepicker();
 	$('#to-filter').datepicker();
 
+	// get users
+	_filters.set('project-filter', 'dropDownValues', UserBoards.find().fetch().map(function(i) {
+		return {
+			title: i.title
+		}
+	}));
+	if (Session.get('cmp')) {
+		_filters.set('space-filter', 'initValue', Session.get('cmp').cmpName);
+		_filters.set('space-filter', 'disabled', true);
 
+		Meteor.call('getUserInSpace', Session.get('cmp').cmpId, function(error, data) {
+			if (error) {
+				_filters.set('user-filter', 'dropDownValues', []);
+				Session.set('_filters', _filters.get());
+			} else {
+				_filters.set('user-filter', 'dropDownValues', data.map(function(i) {
+					return {
+						title: i.username
+					}
+				}));
+				Session.set('_filters', _filters.get());
+			}
+		});
+	}
+	Session.set('_filters', _filters);
 };
 
 //atActivity template
