@@ -142,7 +142,6 @@ Template.activityTracker.helpers({
 		};
 	},
 	filterItems: function() {
-		console.log(_filters.get());
 		return Session.get('_filters');
 	},
 	totalTime: function() {
@@ -384,6 +383,12 @@ Template.activityTracker.rendered = function() {
 			}
 		});
 	}
+
+	if (Session.get('user')){
+		_filters.set('user-filter', 'initValue', Session.get('cmp').userName);
+		_filters.set('user-filter', 'disabled', true);		
+	}
+
 	Session.set('_filters', _filters);
 };
 
