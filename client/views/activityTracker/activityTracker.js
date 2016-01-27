@@ -43,7 +43,14 @@ Template.activityTracker.getActivitiesWithFilter = function() {
 	}
 
 	var activities = Activities.find(request);
-	return activities.fetch();
+	return activities.fetch().sort(function(a,b){
+
+		console.log('a-'+a.time);
+		console.log('b-'+b.time);
+		if (a.time.getTime() > b.time.getTime()){return -1;}
+		else if (a.time.getTime() < b.time.getTime()){return 1;}
+		else return 0;
+	});
 };
 
 Template.activityTracker.helpers({
@@ -316,37 +323,16 @@ Template.activityTracker.rendered = function() {
 	$('#from-filter').datepicker();
 	$('#to-filter').datepicker();
 
-	// get users
-	_filters.set('project-filter', 'dropDownValues', UserBoards.find().fetch().map(function(i) {
-		return {
-			title: i.title
-		}
-	}));
 	if (Session.get('cmp')) {
-		_filters.set('space-filter', 'initValue', Session.get('cmp').cmpName);
-		_filters.set('space-filter', 'disabled', true);
 
 		Meteor.call('getUserInSpace', Session.get('cmp').cmpId, function(error, data) {
 			if (error) {
-				_filters.set('user-filter', 'dropDownValues', []);
-				Session.set('_filters', _filters.get());
+				
 			} else {
-				_filters.set('user-filter', 'dropDownValues', data.map(function(i) {
-					return {
-						title: i.username
-					}
-				}));
-				Session.set('_filters', _filters.get());
+				
 			}
 		});
 	}
-
-	if (Session.get('user')){
-		_filters.set('user-filter', 'initValue', Session.get('user').userName);
-		_filters.set('user-filter', 'disabled', true);		
-	}
-
-	Session.set('_filters', _filters.get());
 };
 
 //atActivity template

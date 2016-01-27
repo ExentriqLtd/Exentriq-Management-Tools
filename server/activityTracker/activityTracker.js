@@ -163,6 +163,9 @@ var parseActivity = function(activity) {
 	if(activity.hasOwnProperty('time')){
 		eml.time = moment(activity.time, "MM-DD-YYYY").toDate();
 	}
+	else {
+		eml.time = new Date();
+	}
 	if (activity._id) {
 		eml._id = activity._id;
 	}
