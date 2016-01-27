@@ -10,77 +10,6 @@ Tracker.autorun(function() {
 	}
 });
 
-// filters
-Template.activityTracker.filters = function() {
-	var _filters = [
-		// project
-		{
-			id: 'project-filter',
-			title: 'Project',
-			disabled: false,
-			initValue: '',
-			dropDownFieldName: 'title',
-			dropDown: true,
-			dropDownValues: []
-		},
-		// space
-		{
-			id: 'space-filter',
-			title: 'Space',
-			disabled: (Session.get('cmp') ? true : false),
-			initValue: (Session.get('cmp') && Session.get('cmp').cmpName) || '',
-			dropDown: !Session.get('cmp')
-		},
-		// user
-		{
-			id: 'user-filter',
-			title: 'User',
-			disabled: (Session.get('user') ? true : false),
-			initValue: (Session.get('user') && Session.get('user').userName) || '',
-			dropDownFieldName: 'username',
-			dropDown: !Session.get('user'),
-			dropDownValues: []
-		},
-		// from
-		{
-			id: 'from-filter',
-			title: 'From',
-			disabled: false,
-			initValue: '',
-			dropDown: false
-		},
-		// to
-		{
-			id: 'to-filter',
-			title: 'To',
-			disabled: false,
-			initValue: '',
-			dropDown: false
-		}
-	];
-
-	function get() {
-		return _filters;
-	}
-
-	function set(_filterId, _filterProperty, _filterValue) {
-		_filters.forEach(function(i) {
-			if (i.id === _filterId) {
-				i[_filterProperty] = _filterValue;
-				return false;
-			}
-		});
-	}
-
-	return {
-		get: get,
-		set: set
-	}
-}
-
-var _filters = Template.activityTracker.filters();
-Session.set('_filters', _filters.get());
-
 // sprintPlanner template
 Template.activityTracker.render = function(_param) {}
 
@@ -122,6 +51,45 @@ Template.activityTracker.helpers({
 		Session.set('activities', Template.activityTracker.getActivitiesWithFilter());
 		return Session.get('activities');
 	},
+	autocompleteFilterProject: function() {
+		return {
+			position: "bottom",
+			limit: 10,
+			rules: [{
+				token: '',
+				collection: UserBoards,
+				field: "title",
+				noMatchTemplate: Template.noMatch,
+				template: Template.activityBoardPill
+			}]
+		};
+	},
+	autocompleteFilterUser: function() {
+		return {
+			position: "bottom",
+			limit: 10,
+			rules: [{
+				token: '',
+				collection: AppUsers,
+				field: "username",
+				noMatchTemplate: Template.noMatch,
+				template: Template.userPill
+			}]
+		};
+	},
+	autocompleteFilterSpace: function() {
+		return {
+			position: "bottom",
+			limit: 10,
+			rules: [{
+				token: '',
+				collection: UserBoards,
+				field: "title",
+				noMatchTemplate: Template.noMatch,
+				template: Template.activityBoardPill
+			}]
+		};
+	},
 	autocompleteSettings: function() {
 		return {
 			position: "bottom",
@@ -131,18 +99,15 @@ Template.activityTracker.helpers({
 				collection: UserBoards,
 				field: "title",
 				noMatchTemplate: Template.noMatch,
-				template: Template.activityBoardPill,
+				template: Template.activityBoardPill
 			}, {
 				token: '@',
 				collection: AppUsers,
 				field: "username",
 				noMatchTemplate: Template.noMatch,
-				template: Template.userPill,
+				template: Template.userPill
 			}]
 		};
-	},
-	filterItems: function() {
-		return Session.get('_filters');
 	},
 	totalTime: function() {
 
@@ -226,25 +191,17 @@ Template.activityTracker._exportTableToPDF = function(source) {
 		}, margins);
 }
 
+Template.activityTracker._filterTimeout = null;
 Template.activityTracker.events({
-	'click #filter-dropdown-user-filter li': function(evt, tpl) {
-		_filters.set('user-filter', 'initValue', this.title);
-		Session.set('_filters', _filters.get());
-	},
-	'click #filter-dropdown-space-filter li': function(evt, tpl) {},
-	'click #filter-dropdown-project-filter li': function(evt, tpl) {
-		_filters.set('project-filter', 'initValue', this.title);
-		Session.set('_filters', _filters.get());	
+	'change .filter-item input': function(){
+		clearTimeout(Template.activityTracker._filterTimeout);
+		Template.activityTracker._filterTimeout = setTimeout(function(){
+			Session.set('activities', Template.activityTracker.getActivitiesWithFilter());
+		}, 1000);
 	},
 	'click #export-activity': function() {
-
 		Template.activityTracker._exportTableToPDF($('#export-table-wrapper')[0]);
 	},
-	'click #apply-filter-button': function(evt, tpl) {
-		Session.set('activities', Template.activityTracker.getActivitiesWithFilter());
-		return Session.get('activities');
-	},
-	'keyup #statement-eml': function(evt, tpl) {},
 	'click #statement-add': function(evt, tpl) {
 		evt.preventDefault();
 		Template.activityTracker.updateActivity(null, tpl.find('#statement-eml').value);

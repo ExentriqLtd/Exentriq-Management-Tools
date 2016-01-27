@@ -20,8 +20,7 @@
 					<!--</form>-->
 				</div>
 
-				<div class="eq-ui-card eq-ui-card-with-table activities-filter">
-					<div class="row valign-wrapper">
+				<!--	<div class="row valign-wrapper">
 						
 						{{#each filterItems}}
 				    		
@@ -66,22 +65,65 @@
 							<a id="export-activity" class="btn btn-primary eq-ui-waves-light">Export</a>
 						</div>
 					</div>
-				</div>
+				</div>-->
 
 				<div class="eq-ui-card eq-ui-card-with-table activities-table">
+
+					<div class="row valign-wrapper activities-total">
+						<div class="col-md-2">
+							<label class="total-label">Total:</label>
+							<span class="total-value">{{totalTime}}</span>
+						</div>
+						<div class="col-md-8">
+						</div>
+						<div class="col-md-2">
+							<a id="export-activity" class="btn btn-primary eq-ui-waves-light">Export</a>
+						</div>
+					</div>
+
 				    <table id="activity-tracker-table" class="table eq-ui-data-table eq-ui-with-checkbox z-depth-1">
 				        <thead>
 				        	<tr>
-					        	<th>
+					        	<th style="vertical-align: middle;">
 						            <input type="checkbox" class="eq-ui-input filled-in" id="checkbox-all" />
 						            <label for="checkbox-all"></label>
 						        </th>
-				                <th class="eq-ui-data-table-cell-non-numeric">Project</th>
-				                <th class="eq-ui-data-table-cell-non-numeric">Description</th>
-				                <th class="eq-ui-data-table-cell-non-numeric">Space</th>
-				                <th class="eq-ui-data-table-cell-non-numeric">User</th>
-				                <th class="eq-ui-data-table-cell-non-numeric">Time</th>
-				                <th class="eq-ui-data-table-cell-non-numeric">Logged</th>
+				                <th class="eq-ui-data-table-cell-non-numeric">
+				                	<div class="eq-ui-form-group eq-ui-input-field filter-item">
+					                	{{> inputAutocomplete settings=autocompleteFilterProject id="project-filter" class="eq-ui-input" }}
+			                        	<label for="project-filter">Project</label>
+		                        	</div>
+				                </th>
+				                <th class="eq-ui-data-table-cell-non-numeric">
+				                	<div class="eq-ui-form-group eq-ui-input-field filter-item">
+					                	<input id="description-filter" type="text" class="eq-ui-input">
+			                        	<label for="description-filter">Description</label>
+		                        	</div>
+				                </th>
+				                <th class="eq-ui-data-table-cell-non-numeric">
+				                	<div class="eq-ui-form-group eq-ui-input-field filter-item">
+					                	{{> inputAutocomplete settings=autocompleteFilterSpace id="space-filter" class="eq-ui-input" }}
+			                        	<label for="space-filter">Space</label>
+		                        	</div>
+				                </th>
+				                <th class="eq-ui-data-table-cell-non-numeric">
+				                	<div class="eq-ui-form-group eq-ui-input-field filter-item">
+					                	{{> inputAutocomplete settings=autocompleteFilterUser id="user-filter" class="eq-ui-input" }}
+			                        	<label for="user-filter">User</label>
+		                        	</div>
+				                </th>
+				                <th class="eq-ui-data-table-cell-non-numeric">
+				                	<div class="eq-ui-form-group eq-ui-input-field filter-item">
+					                	<input id="time-filter" type="text" class="eq-ui-input">
+			                        	<label for="time-filter">Time</label>
+		                        	</div>
+				                </th>
+				                <th class="eq-ui-data-table-cell-non-numeric filter-item">
+				                	<div class="eq-ui-form-group eq-ui-input-field">
+					                	<input id="logged-filter" type="text" class="eq-ui-input">
+			                        	<label for="logged-filter">Logged</label>
+		                        	</div>
+				                </th>
 			            	</tr>
 		            	</thead>
 		            	<tbody>
