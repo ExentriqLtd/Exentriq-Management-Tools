@@ -70,24 +70,19 @@
 				<div class="eq-ui-card eq-ui-card-with-table activities-table">
 
 					<div class="row valign-wrapper activities-total">
-						<div class="col-md-2">
-							<label class="total-label">Total:</label>
-							<span class="total-value">{{totalTime}}</span>
+						<div class="col-md-2 eq-ui-card-title">
+							<h2 class="eq-ui-card-title-text">Total: <span class="hide-in-sm">&nbsp;{{totalTime}}  </span></h2>
 						</div>
 						<div class="col-md-8">
 						</div>
-						<div class="col-md-2">
-							<a id="export-activity" class="btn btn-primary eq-ui-waves-light">Export</a>
+						<div class="col-md-2" style="text-align: right;">
+							<a title="Export" id="export-activity" class="btn btn-default eq-ui-btn-flat eq-ui-btn-fab eq-ui-btn-menu-fab eq-ui-waves grey-text-600 riot-dropdown-trigger-groups "> <i class="mdi mdi-filter-variant eq-ui-icon"></i> </a>
 						</div>
 					</div>
 
 				    <table id="activity-tracker-table" class="table eq-ui-data-table eq-ui-with-checkbox z-depth-1">
 				        <thead>
 				        	<tr>
-					        	<th style="vertical-align: middle;">
-						            <input type="checkbox" class="eq-ui-input filled-in" id="checkbox-all" />
-						            <label for="checkbox-all"></label>
-						        </th>
 				                <th class="eq-ui-data-table-cell-non-numeric">
 				                	<div class="eq-ui-form-group eq-ui-input-field filter-item">
 					                	{{> inputAutocomplete settings=autocompleteFilterProject id="project-filter" class="eq-ui-input" }}
@@ -178,10 +173,6 @@
 
 <template name="atActivity">
 	<tr>
-		<td>
-            <input type="checkbox" class="eq-ui-input filled-in" id="checkbox-{{_id}}" />
-            <label for="checkbox-{{_id}}"></label>
-		</td>
 	    <td title="{{project}}" class="eq-ui-data-table-cell-non-numeric">{{project}}</td>
 	    <td title="{{description}}" class="eq-ui-data-table-cell-non-numeric">{{description}}</td>
 	    <td title="{{space}}" class="eq-ui-data-table-cell-non-numeric">{{cmpName}}</td>
