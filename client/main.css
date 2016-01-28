@@ -9,6 +9,10 @@ body, html {
 	height: 100%;
 }
 
+.-autocomplete-container {
+	top: 50px !important;
+}
+
 .eq-ui-dropdown {
 	z-index: 10001;
 }

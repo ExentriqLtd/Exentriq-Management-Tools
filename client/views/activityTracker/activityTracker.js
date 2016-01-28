@@ -20,6 +20,7 @@ Template.activityTracker.getActivitiesWithFilter = function() {
 	var request = {};
 	if (Session.get('cmp')) {
 		request.cmpId = Session.get('cmp').cmpId;
+		request.cmpName = Session.get('cmp').cmpName;
 	}
 
 	if (Session.get('project')) {
@@ -28,6 +29,7 @@ Template.activityTracker.getActivitiesWithFilter = function() {
 
 	if (Session.get('user')) {
 		request.userId = Session.get('user').userId;
+		request.userName = Session.get('user').userName;
 	}
 
 	if ($('#project-filter').val()) {
@@ -42,11 +44,14 @@ Template.activityTracker.getActivitiesWithFilter = function() {
 		request.userName = $('#user-filter').val();
 	}
 
+	if ($('#description-filter').val()) {
+		request.description = $('#user-filter').val();
+	}	
+
+	Session.set('lastRequestFilter', request);
+
 	var activities = Activities.find(request);
 	return activities.fetch().sort(function(a,b){
-
-		console.log('a-'+a.time);
-		console.log('b-'+b.time);
 		if (a.time.getTime() > b.time.getTime()){return -1;}
 		else if (a.time.getTime() < b.time.getTime()){return 1;}
 		else return 0;
@@ -54,6 +59,27 @@ Template.activityTracker.getActivitiesWithFilter = function() {
 };
 
 Template.activityTracker.helpers({
+	projectFilter: function(){
+		return Session.get('lastRequestFilter').project || 'ALL';
+	},
+	descriptionFilter: function(){
+		return Session.get('lastRequestFilter').description || 'ALL';
+	},
+	spaceFilter: function(){
+		return Session.get('lastRequestFilter').cmpName || 'ALL';
+	},
+	userFilter: function(){
+		return Session.get('lastRequestFilter').userName || 'ALL';
+	},
+	timeFilter: function(){
+		return Session.get('lastRequestFilter').time || 'ALL';
+	},
+	loggedFilter: function(){
+		return Session.get('lastRequestFilter').logged || 'ALL';
+	},
+	currentUserName: function(){
+		return Meteor.user().username;
+	},
 	activities: function() {
 		Session.set('activities', Template.activityTracker.getActivitiesWithFilter());
 		return Session.get('activities');
@@ -322,6 +348,19 @@ Template.activityTracker.rendered = function() {
 	// Set date picker
 	$('#from-filter').datepicker();
 	$('#to-filter').datepicker();
+
+	if (Session.get('user')){
+		$('#user-filter').val(Session.get('user').userName);
+		$('#user-filter').attr('disabled', 'disabled');
+		$('label[for="user-filter"]').addClass('active');
+	}
+
+	if (Session.get('cmp')){
+		$('#space-filter').val(Session.get('cmp').cmpName);
+		$('#space-filter').attr('disabled', 'disabled');
+		$('label[for="space-filter"]').addClass('active');
+	}	
+	
 
 	if (Session.get('cmp')) {
 

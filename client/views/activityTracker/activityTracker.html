@@ -83,37 +83,37 @@
 				    <table id="activity-tracker-table" class="table eq-ui-data-table eq-ui-with-checkbox z-depth-1">
 				        <thead>
 				        	<tr>
-				                <th class="eq-ui-data-table-cell-non-numeric">
+				                <th width="10%" class="eq-ui-data-table-cell-non-numeric">
 				                	<div class="eq-ui-form-group eq-ui-input-field filter-item">
 					                	{{> inputAutocomplete settings=autocompleteFilterProject id="project-filter" class="eq-ui-input" }}
 			                        	<label for="project-filter">Project</label>
 		                        	</div>
 				                </th>
-				                <th class="eq-ui-data-table-cell-non-numeric">
+				                <th width="30%" class="eq-ui-data-table-cell-non-numeric">
 				                	<div class="eq-ui-form-group eq-ui-input-field filter-item">
 					                	<input id="description-filter" type="text" class="eq-ui-input">
 			                        	<label for="description-filter">Description</label>
 		                        	</div>
 				                </th>
-				                <th class="eq-ui-data-table-cell-non-numeric">
+				                <th width="10%" class="eq-ui-data-table-cell-non-numeric">
 				                	<div class="eq-ui-form-group eq-ui-input-field filter-item">
 					                	{{> inputAutocomplete settings=autocompleteFilterSpace id="space-filter" class="eq-ui-input" }}
 			                        	<label for="space-filter">Space</label>
 		                        	</div>
 				                </th>
-				                <th class="eq-ui-data-table-cell-non-numeric">
+				                <th width="10%" class="eq-ui-data-table-cell-non-numeric">
 				                	<div class="eq-ui-form-group eq-ui-input-field filter-item">
 					                	{{> inputAutocomplete settings=autocompleteFilterUser id="user-filter" class="eq-ui-input" }}
 			                        	<label for="user-filter">User</label>
 		                        	</div>
 				                </th>
-				                <th class="eq-ui-data-table-cell-non-numeric">
+				                <th width="30%" class="eq-ui-data-table-cell-non-numeric">
 				                	<div class="eq-ui-form-group eq-ui-input-field filter-item">
 					                	<input id="time-filter" type="text" class="eq-ui-input">
 			                        	<label for="time-filter">Time</label>
 		                        	</div>
 				                </th>
-				                <th class="eq-ui-data-table-cell-non-numeric filter-item">
+				                <th width="10%" class="eq-ui-data-table-cell-non-numeric filter-item">
 				                	<div class="eq-ui-form-group eq-ui-input-field">
 					                	<input id="logged-filter" type="text" class="eq-ui-input">
 			                        	<label for="logged-filter">Logged</label>
@@ -129,6 +129,18 @@
 			    	</table>
 
 			    	<div id="export-table-wrapper">
+			    		<h4>Activity tracker</h4>
+			    		<ul>
+			    			<li>Current User: {{currentUserName}}</li>
+			    			<li>Project: {{projectFilter}}</li>
+			    			<li>Description: {{descriptionFilter}}</li>
+			    			<li>Space: {{spaceFilter}}</li>
+			    			<li>User: {{userFilter}}</li>
+			    			<li>Time: {{timeFilter}}</li>
+			    			<li>Logged: {{loggedFilter}}</li>
+
+			    		</ul>
+			    		
 			    		<table>
 			    			<colgroup>
 					            <col width="20%">
