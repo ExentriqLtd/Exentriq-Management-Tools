@@ -46,54 +46,55 @@ Template.activityTracker.getActivitiesWithFilter = function() {
 
 	if ($('#description-filter').val()) {
 		request.description = $('#user-filter').val();
-	}	
+	}
 
 	Session.set('lastRequestFilter', request);
 
 	var from, to;
 	var tf = $('#time-filter').val();
-	if (tf){
+	if (tf) {
 		tf = tf.split('-');
 		from = moment(tf[0].replace(' ', ''));
 		to = moment(tf[1].replace(' ', ''));
-	}
-	else {
+	} else {
 		from = moment().subtract(29, 'days');
 		to = moment();
 	}
 
 	var activities = Activities.find(request);
 	return activities.fetch()
-	.filter(function(t){
-		return t.time.getTime() > from._d.getTime() && t.time.getTime() < to._d.getTime();
-	})
-	.sort(function(a,b){
-		if (a.time.getTime() > b.time.getTime()){return -1;}
-		else if (a.time.getTime() < b.time.getTime()){return 1;}
-		else return 0;
-	});
+		.filter(function(t) {
+			return t.time.getTime() > from._d.getTime() && t.time.getTime() < to._d.getTime();
+		})
+		.sort(function(a, b) {
+			if (a.time.getTime() > b.time.getTime()) {
+				return -1;
+			} else if (a.time.getTime() < b.time.getTime()) {
+				return 1;
+			} else return 0;
+		});
 };
 
 Template.activityTracker.helpers({
-	projectFilter: function(){
+	projectFilter: function() {
 		return Session.get('lastRequestFilter').project || 'ALL';
 	},
-	descriptionFilter: function(){
+	descriptionFilter: function() {
 		return Session.get('lastRequestFilter').description || 'ALL';
 	},
-	spaceFilter: function(){
+	spaceFilter: function() {
 		return Session.get('lastRequestFilter').cmpName || 'ALL';
 	},
-	userFilter: function(){
+	userFilter: function() {
 		return Session.get('lastRequestFilter').userName || 'ALL';
 	},
-	timeFilter: function(){
+	timeFilter: function() {
 		return Session.get('lastRequestFilter').time || 'ALL';
 	},
-	loggedFilter: function(){
+	loggedFilter: function() {
 		return Session.get('lastRequestFilter').logged || 'ALL';
 	},
-	currentUserName: function(){
+	currentUserName: function() {
 		return Meteor.user().username;
 	},
 	activities: function() {
@@ -242,12 +243,12 @@ Template.activityTracker._exportTableToPDF = function(source) {
 
 Template.activityTracker._filterTimeout = null;
 Template.activityTracker.events({
-	'click #exportToPDF': function(){
+	'click #exportToPDF': function() {
 		Template.activityTracker._exportTableToPDF($('#export-table-wrapper')[0]);
 	},
-	'change .filter-item input': function(){
+	'change .filter-item input': function() {
 		clearTimeout(Template.activityTracker._filterTimeout);
-		Template.activityTracker._filterTimeout = setTimeout(function(){
+		Template.activityTracker._filterTimeout = setTimeout(function() {
 			Session.set('activities', Template.activityTracker.getActivitiesWithFilter());
 		}, 1000);
 	},
@@ -365,36 +366,37 @@ Template.activityTracker.rendered = function() {
 	$('#from-filter').datepicker();
 	$('#to-filter').datepicker();
 
-	if (Session.get('user')){
+	if (Session.get('user')) {
 		$('#user-filter').val(Session.get('user').userName);
 		$('#user-filter').attr('disabled', 'disabled');
 		$('label[for="user-filter"]').addClass('active');
 	}
 
-	if (Session.get('cmp')){
+	if (Session.get('cmp')) {
 		$('#space-filter').val(Session.get('cmp').cmpName);
 		$('#space-filter').attr('disabled', 'disabled');
 		$('label[for="space-filter"]').addClass('active');
-	}	
+	}
 
 	var from = moment().subtract(29, 'days');
 	var to = moment();
 
 	$('#time-filter')
-	.val(moment(from).format('MM/DD/YYYY') + ' - ' + moment(to).format('MM/DD/YYYY'))
-	.daterangepicker({
-        locale: {
-            format: 'MM/DD/YYYY'
-        },
-        ranges: {
-           'Today': [moment(), moment()],
-           'Yesterday': [moment().subtract(1, 'days'), moment().subtract(1, 'days')],
-           'Last 7 Days': [moment().subtract(6, 'days'), moment()],
-           'Last 30 Days': [moment().subtract(29, 'days'), moment()],
-           'This Month': [moment().startOf('month'), moment().endOf('month')],
-           'Last Month': [moment().subtract(1, 'month').startOf('month'), moment().subtract(1, 'month').endOf('month')]
-        }
-	});
+		.val(moment(from).format('MM/DD/YYYY') + ' - ' + moment(to).format('MM/DD/YYYY'))
+		.daterangepicker({
+			ranges: {
+				'Today': [moment(), moment()],
+				'Yesterday': [moment().subtract(1, 'days'), moment().subtract(1, 'days')],
+				'Last 7 Days': [moment().subtract(6, 'days'), moment()],
+				'Last 30 Days': [moment().subtract(29, 'days'), moment()],
+				'This Month': [moment().startOf('month'), moment().endOf('month')],
+				'Last Month': [moment().subtract(1, 'month').startOf('month'), moment().subtract(1, 'month').endOf('month')]
+			},
+			opens: 'left'
+		}, function(a, b) {
+			console.log(a);
+			console.log(b);
+		});
 };
 
 //atActivity template

@@ -1,3 +1,8 @@
+/* FIX */
+.calendar.right {
+	float: left!important;
+}
+
 .activity-tracker {
 	padding: 10px;
 	height: 100%;
