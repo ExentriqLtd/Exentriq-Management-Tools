@@ -33,3 +33,4 @@ accounts-password
 cfs:ejson-file
 rajit:bootstrap3-datepicker
 chipcastledotcom:meteor-jspdf
+dangrossman:bootstrap-daterangepicker

@@ -70,13 +70,16 @@
 				<div class="eq-ui-card eq-ui-card-with-table activities-table">
 
 					<div class="row valign-wrapper activities-total">
-						<div class="col-md-2 eq-ui-card-title">
+						<div class="col-md-4 eq-ui-card-title">
 							<h2 class="eq-ui-card-title-text">Total: <span class="hide-in-sm">&nbsp;{{totalTime}}  </span></h2>
 						</div>
-						<div class="col-md-8">
+						<div class="col-md-6">
 						</div>
 						<div class="col-md-2" style="text-align: right;">
-							<a title="Export" id="export-activity" class="btn btn-default eq-ui-btn-flat eq-ui-btn-fab eq-ui-btn-menu-fab eq-ui-waves grey-text-600 riot-dropdown-trigger-groups "> <i class="mdi mdi-filter-variant eq-ui-icon"></i> </a>
+							<a data-target="doc-dropdown-export" data-hover="false" class="doc-dropdown-export btn btn-default eq-ui-btn-flat eq-ui-btn-fab eq-ui-btn-menu-fab eq-ui-waves dropdown-trigger waves-effect waves-effect"><i class="mdi mdi-filter-variant eq-ui-icon"></i></a>
+						    <ul id="doc-dropdown-export" class="eq-ui-dropdown eq-ui-dropdown-right-top">
+					            <li><a id="exportToPDF" class="eml-edit">Export to PDF</a></li>
+					        </ul>
 						</div>
 					</div>
 
@@ -114,10 +117,7 @@
 		                        	</div>
 				                </th>
 				                <th width="10%" class="eq-ui-data-table-cell-non-numeric filter-item">
-				                	<div class="eq-ui-form-group eq-ui-input-field">
-					                	<input id="logged-filter" type="text" class="eq-ui-input">
-			                        	<label for="logged-filter">Logged</label>
-		                        	</div>
+				                	Logged
 				                </th>
 			            	</tr>
 		            	</thead>
@@ -131,6 +131,7 @@
 			    	<div id="export-table-wrapper">
 			    		<h4>Activity tracker</h4>
 			    		<ul>
+			    			<li>Total: {{totalTime}}</li>
 			    			<li>Current User: {{currentUserName}}</li>
 			    			<li>Project: {{projectFilter}}</li>
 			    			<li>Description: {{descriptionFilter}}</li>
@@ -138,7 +139,6 @@
 			    			<li>User: {{userFilter}}</li>
 			    			<li>Time: {{timeFilter}}</li>
 			    			<li>Logged: {{loggedFilter}}</li>
-
 			    		</ul>
 			    		
 			    		<table>
@@ -189,7 +189,7 @@
 	    <td title="{{description}}" class="eq-ui-data-table-cell-non-numeric">{{description}}</td>
 	    <td title="{{space}}" class="eq-ui-data-table-cell-non-numeric">{{cmpName}}</td>
 	    <td title="{{user}}" class="eq-ui-data-table-cell-non-numeric" >{{userName}}</td>
-	    <td title="{{time}}" class="eq-ui-data-table-cell-non-numeric">{{formatDate time}}</td>
+	    <td title="{{time}}" class="eq-ui-data-table-cell-non-numeric">{{formatDate_MM_DD_YYYY time}}</td>
 	    <td title="{{logged}}" class="eq-ui-data-table-cell-non-numeric">{{formatLoggedTime this}}</td>
 	    <td>
 		    <a data-target="doc-dropdown-app-bar-{{_id}}" data-hover="false" class="btn btn-default eq-ui-btn-flat eq-ui-btn-fab eq-ui-btn-menu-fab eq-ui-waves dropdown-trigger waves-effect waves-effect">

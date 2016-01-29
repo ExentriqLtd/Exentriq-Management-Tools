@@ -50,8 +50,24 @@ Template.activityTracker.getActivitiesWithFilter = function() {
 
 	Session.set('lastRequestFilter', request);
 
+	var from, to;
+	var tf = $('#time-filter').val();
+	if (tf){
+		tf = tf.split('-');
+		from = moment(tf[0].replace(' ', ''));
+		to = moment(tf[1].replace(' ', ''));
+	}
+	else {
+		from = moment().subtract(29, 'days');
+		to = moment();
+	}
+
 	var activities = Activities.find(request);
-	return activities.fetch().sort(function(a,b){
+	return activities.fetch()
+	.filter(function(t){
+		return t.time.getTime() > from._d.getTime() && t.time.getTime() < to._d.getTime();
+	})
+	.sort(function(a,b){
 		if (a.time.getTime() > b.time.getTime()){return -1;}
 		else if (a.time.getTime() < b.time.getTime()){return 1;}
 		else return 0;
@@ -226,14 +242,14 @@ Template.activityTracker._exportTableToPDF = function(source) {
 
 Template.activityTracker._filterTimeout = null;
 Template.activityTracker.events({
+	'click #exportToPDF': function(){
+		Template.activityTracker._exportTableToPDF($('#export-table-wrapper')[0]);
+	},
 	'change .filter-item input': function(){
 		clearTimeout(Template.activityTracker._filterTimeout);
 		Template.activityTracker._filterTimeout = setTimeout(function(){
 			Session.set('activities', Template.activityTracker.getActivitiesWithFilter());
 		}, 1000);
-	},
-	'click #export-activity': function() {
-		Template.activityTracker._exportTableToPDF($('#export-table-wrapper')[0]);
 	},
 	'click #statement-add': function(evt, tpl) {
 		evt.preventDefault();
@@ -360,18 +376,25 @@ Template.activityTracker.rendered = function() {
 		$('#space-filter').attr('disabled', 'disabled');
 		$('label[for="space-filter"]').addClass('active');
 	}	
-	
 
-	if (Session.get('cmp')) {
+	var from = moment().subtract(29, 'days');
+	var to = moment();
 
-		Meteor.call('getUserInSpace', Session.get('cmp').cmpId, function(error, data) {
-			if (error) {
-				
-			} else {
-				
-			}
-		});
-	}
+	$('#time-filter')
+	.val(moment(from).format('MM/DD/YYYY') + ' - ' + moment(to).format('MM/DD/YYYY'))
+	.daterangepicker({
+        locale: {
+            format: 'MM/DD/YYYY'
+        },
+        ranges: {
+           'Today': [moment(), moment()],
+           'Yesterday': [moment().subtract(1, 'days'), moment().subtract(1, 'days')],
+           'Last 7 Days': [moment().subtract(6, 'days'), moment()],
+           'Last 30 Days': [moment().subtract(29, 'days'), moment()],
+           'This Month': [moment().startOf('month'), moment().endOf('month')],
+           'Last Month': [moment().subtract(1, 'month').startOf('month'), moment().subtract(1, 'month').endOf('month')]
+        }
+	});
 };
 
 //atActivity template

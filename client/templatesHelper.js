@@ -5,6 +5,12 @@ Template.registerHelper('formatDate', function(date) {
 	return moment(date).format(format);
 });
 
+Template.registerHelper('formatDate_MM_DD_YYYY', function(date) {
+
+	var format = 'MM/DD/YYYY';
+	return moment(date).format(format);
+});
+
 Template.registerHelper('formatLoggedTime', function(logged) {
 
 	var result = '';

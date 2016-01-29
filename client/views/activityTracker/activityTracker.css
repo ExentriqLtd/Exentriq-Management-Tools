@@ -90,4 +90,8 @@
 	box-shadow: none;
 }
 
- 
+.doc-dropdown-export {
+    position: absolute;
+    top: -15px;
+    right: 35px;
+}
