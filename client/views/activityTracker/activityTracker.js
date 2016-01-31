@@ -74,7 +74,7 @@ Template.activityTracker.getActivitiesWithFilter = function() {
 		.sort(function(a, b) {
 
 			// if property time is missing
-			if (!t.time) {
+			if (!a.time || !b.time) {
 				return 0;
 			}
 
