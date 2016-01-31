@@ -64,9 +64,20 @@ Template.activityTracker.getActivitiesWithFilter = function() {
 	var activities = Activities.find(request);
 	return activities.fetch()
 		.filter(function(t) {
+
+			// if property time is missing
+			if (!t.time) {
+				return true;
+			}
 			return t.time.getTime() > from._d.getTime() && t.time.getTime() < (to._d.getTime() + (1000*60*60*24));
 		})
 		.sort(function(a, b) {
+
+			// if property time is missing
+			if (!t.time) {
+				return 0;
+			}
+
 			if (a.time.getTime() > b.time.getTime()) {
 				return -1;
 			} else if (a.time.getTime() < b.time.getTime()) {
