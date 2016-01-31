@@ -117,6 +117,8 @@ Meteor.methods({
 	},
 	'addActivityEml': function(activity) {
 		var obj = parseActivity(activity);
+		console.log('OBJ');
+		console.log(obj);
 		if(obj!=null){
 			Activities.insert(obj);
 		}

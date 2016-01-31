@@ -95,8 +95,8 @@
 	box-shadow: none;
 }
 
-.doc-dropdown-export {
+a.btn.dropdown-trigger.doc-dropdown-export {
     position: absolute;
-    top: -15px;
-    right: 35px;
+    top: -25px;
+    right: 25px;
 }

@@ -64,7 +64,7 @@ Template.activityTracker.getActivitiesWithFilter = function() {
 	var activities = Activities.find(request);
 	return activities.fetch()
 		.filter(function(t) {
-			return t.time.getTime() > from._d.getTime() && t.time.getTime() < to._d.getTime();
+			return t.time.getTime() > from._d.getTime() && t.time.getTime() < (to._d.getTime() + (1000*60*60*24));
 		})
 		.sort(function(a, b) {
 			if (a.time.getTime() > b.time.getTime()) {
@@ -133,7 +133,7 @@ Template.activityTracker.helpers({
 			limit: 10,
 			rules: [{
 				token: '',
-				collection: UserBoards,
+				collection: [],
 				field: "title",
 				noMatchTemplate: Template.noMatch,
 				template: Template.activityBoardPill
@@ -362,16 +362,14 @@ Template.activityTracker.rendered = function() {
 
 	$('#statement-eml').attr('autocomplete', 'off');
 
-	// Set date picker
-	$('#from-filter').datepicker();
-	$('#to-filter').datepicker();
-
+	// set user for user/me
 	if (Session.get('user')) {
 		$('#user-filter').val(Session.get('user').userName);
 		$('#user-filter').attr('disabled', 'disabled');
 		$('label[for="user-filter"]').addClass('active');
 	}
 
+	// set company 
 	if (Session.get('cmp')) {
 		$('#space-filter').val(Session.get('cmp').cmpName);
 		$('#space-filter').attr('disabled', 'disabled');
