@@ -16,6 +16,7 @@
     /* display: none; */
     top: 0;
     left: 0;
+    z-index: -1;
 }
 
 .activity-tracker .btn.dropdown-trigger {
