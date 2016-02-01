@@ -10,8 +10,12 @@
 
 .activity-tracker #export-table-wrapper {
     position: absolute;
-    width: 100%;
+    /* width: 0; */
     opacity: 0;
+    height: 0;
+    /* display: none; */
+    top: 0;
+    left: 0;
 }
 
 .activity-tracker .btn.dropdown-trigger {
@@ -19,8 +23,10 @@
 }
 
 #__blaze-root .eq-ui-card.activities-table {
-	margin-top: 20px;
-	height: calc(100% - 110px);
+    margin-top: 20px;
+    height: calc(100% - 110px);
+    overflow: auto;
+    position: relative;
 }
 
 

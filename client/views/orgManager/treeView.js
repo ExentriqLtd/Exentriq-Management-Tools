@@ -230,7 +230,7 @@ Template.treeView.setModel = function(model, _p) {
 			liNode = $(liNode);
 
 			liNode.find('.node-action:first').off().on('click', function(e) {
-				//e.stopPropagation();
+				e.stopPropagation();
 				showMenuAtction(liNode);
 			});
 			liNode.find('.node-title').off().on('click', function(e) {
