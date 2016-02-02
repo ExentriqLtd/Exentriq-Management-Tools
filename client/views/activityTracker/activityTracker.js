@@ -50,8 +50,11 @@ Template.activityTracker.getActivitiesWithFilter = function() {
 
 	Session.set('lastRequestFilter', request);
 
+
 	var from, to;
 	var tf = $('#time-filter').val();
+	Session.set('lastTimeFilter', tf);
+
 	if (tf) {
 		tf = tf.split('-');
 		from = moment(tf[0].replace(' ', ''));
@@ -100,7 +103,7 @@ Template.activityTracker.helpers({
 		return Session.get('lastRequestFilter').userName || 'ALL';
 	},
 	timeFilter: function() {
-		return Session.get('lastRequestFilter').time || 'ALL';
+		return Session.get('lastTimeFilter') || 'ALL';
 	},
 	loggedFilter: function() {
 		return Session.get('lastRequestFilter').logged || 'ALL';
@@ -390,6 +393,7 @@ Template.activityTracker.rendered = function() {
 	var from = moment().subtract(29, 'days');
 	var to = moment();
 
+	Session.set('lastTimeFilter', moment(from).format('MM/DD/YYYY') + ' - ' + moment(to).format('MM/DD/YYYY'));
 	$('#time-filter')
 		.val(moment(from).format('MM/DD/YYYY') + ' - ' + moment(to).format('MM/DD/YYYY'))
 		.daterangepicker({
@@ -420,7 +424,7 @@ Template.atActivity.onRendered(function() {
 });
 
 Template.atActivity.events({
-
+	
 	'click .eml-delete': function(evt, tpl) {
 		Session.set('selectedActivity', this);
 		$('#eq-ui-modal-delete').openModal();
@@ -448,6 +452,19 @@ Template.deleteActivityEml.events({
 
 //editActivity
 Template.editActivity.helpers({
+	autocompleteFilterProject: function() {
+		return {
+			position: "bottom",
+			limit: 10,
+			rules: [{
+				token: '',
+				collection: UserBoards,
+				field: "title",
+				noMatchTemplate: Template.noMatch,
+				template: Template.activityBoardPill
+			}]
+		};
+	},
 	selectedActivity: function() {
 		return Session.get('selectedActivity');
 	}
@@ -460,6 +477,9 @@ Template.editActivity.events({
 		Template.activityTracker.updateActivity(activity._id, statement, tpl.find('#time').value);
 	}
 });
+
+Template.editActivity.rendered = function(){
+};
 
 Template.activityBoardPill.events({
 
