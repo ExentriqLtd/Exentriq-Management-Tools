@@ -41,7 +41,7 @@ Meteor.startup(function() {
 						Activities.insert(obj);
 						return {status: "success" };
 					}
-					return { status: "error", message:"unable to add the activity, no project specified?" };
+					return { status: "error", message:"I did no understand what you just wrote... Type something like this: 2h 30m #project did something serious" };
 				} catch (e) {
 					console.error(e);
 					return { status: "error", message: "generic error"};
