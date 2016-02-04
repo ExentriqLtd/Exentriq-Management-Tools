@@ -34,10 +34,14 @@ Meteor.startup(function() {
 					var activity = {"userName":username, "statement":statementEml};
 					var obj = parseActivity(activity);
 					if(obj!=null){
+						if(obj.days==0 && obj.hours==0 && obj.minutes==0){
+							return { status: "error", message:"no time logged. You have to add something like this: 1h 30m" };
+						}
+						
 						Activities.insert(obj);
 						return {status: "success" };
 					}
-					return { status: "error", message:"unable to add the activity" };
+					return { status: "error", message:"unable to add the activity, no project specified?" };
 				} catch (e) {
 					console.error(e);
 					return { status: "error", message: "generic error"};

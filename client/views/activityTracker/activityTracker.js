@@ -28,7 +28,7 @@ Template.activityTracker.getActivitiesWithFilter = function() {
 	}
 
 	if (Session.get('user')) {
-		request.userId = Session.get('user').userId;
+//		request.userId = Session.get('user').userId;
 		request.userName = Session.get('user').userName;
 	}
 
