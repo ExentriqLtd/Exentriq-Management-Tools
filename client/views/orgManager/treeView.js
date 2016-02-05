@@ -177,7 +177,7 @@ Template.treeView.setModel = function(model, _p) {
 				opacity: .6,
 				placeholder: 'placeholder',
 				revert: 250,
-				tabSize: 25,
+				tabSize: 5,
 				tolerance: 'pointer',
 				toleranceElement: '> div',
 				maxLevels: 10,
@@ -268,7 +268,7 @@ Template.treeView.setModel = function(model, _p) {
 
 		var menu = _param.allowMenu ?
 			'<span class="node-action">' +
-			'<span class="glyphicon glyphicon-option-horizontal" aria-hidden="true"></span>' +
+			'<span class="glyphicon glyphicon-option-vertical" aria-hidden="true"></span>' +
 			'</span>' :
 			'';
 

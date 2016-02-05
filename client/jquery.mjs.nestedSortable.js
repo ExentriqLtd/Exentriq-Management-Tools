@@ -803,6 +803,9 @@
 		},
 
 		_clearEmpty: function (item) {
+
+
+
 			function replaceClass(elem, search, replace, swap) {
 				if (swap) {
 					search = [replace, replace = search][0];
@@ -824,7 +827,10 @@
 				replaceClass(item, o.branchClass, o.leafClass, doNotClear);
 
 				if (doNotClear && hasChildren) {
-					replaceClass(item, o.collapsedClass, o.expandedClass);
+					o._timeout && clearTimeout(o._timeout);
+					o._timeout = setTimeout(function(){
+						replaceClass(item, o.collapsedClass, o.expandedClass);
+					}, o.expandOnHover);
 				}
 			}
 
