@@ -89,9 +89,7 @@
 }
 
 .activity-tracker .activities-total {
-	height: 40px;
-    margin-top: 20px;
-    overflow: visible;
+	height: 60px;
 }
 
 .activity-tracker .activities-total .total-value {
@@ -100,10 +98,11 @@
 
 #activity-tracker-table {
 	box-shadow: none;
+    margin-bottom: 80px;
 }
 
 a.btn.dropdown-trigger.doc-dropdown-export {
     position: absolute;
-    top: -28px;
+    top: 14px;
     right: 12px;
 }
