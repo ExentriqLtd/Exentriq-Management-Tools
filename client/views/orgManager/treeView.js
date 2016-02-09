@@ -182,7 +182,7 @@ Template.treeView.setModel = function(model, _p) {
 				toleranceElement: '> div',
 				maxLevels: 10,
 				isTree: true,
-				expandOnHover: 1000,
+				expandOnHover: 600,
 				startCollapsed: true,
 				isAllowed: function(placeholder, placeholderParent, currentItem) {
 
