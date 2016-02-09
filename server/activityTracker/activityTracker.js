@@ -162,6 +162,7 @@ Meteor.methods({
 
 var parseActivity = function(activity) {
 	eml = Eml.parse(activity.statement);
+	eml = adjustLoggedTime(eml);
 	eml.description = eml.clean;
 	eml.userId	= activity.userId;
 	eml.userName = activity.userName;
@@ -190,4 +191,30 @@ var parseActivity = function(activity) {
 	else{
 		return null;
 	}
+}
+
+var adjustLoggedTime = function(activity){
+	
+	var seconds = activity.seconds;
+	
+	var secondsInAMinute = 60;
+    var secondsInAnHour  = 60 * secondsInAMinute;
+    var secondsInADay    = 8 * secondsInAnHour;
+
+    // extract days
+    var days = Math.floor(seconds / secondsInADay);
+
+    // extract hours
+    var hourSeconds = seconds % secondsInADay;
+    var hours = Math.floor(hourSeconds / secondsInAnHour);
+
+    // extract minutes
+    var minuteSeconds = hourSeconds % secondsInAnHour;
+    var minutes = Math.floor(minuteSeconds / secondsInAMinute);
+    
+    activity.days = days;
+    activity.hours = hours;
+    activity.minutes = minutes;
+	
+	return activity;
 }
