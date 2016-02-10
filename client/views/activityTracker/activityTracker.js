@@ -194,10 +194,10 @@ Template.activityTracker.helpers({
 			totalMinutes = totalMinutes - (hrs * 60);
 		}
 
-		if (totalHours > 24) {
-			var days = Math.floor(totalHours / 24);
+		if (totalHours > 8) {
+			var days = Math.floor(totalHours / 8);
 			totalDays += days;
-			totalHours = totalHours - (days * 24);
+			totalHours = totalHours - (days * 8);
 		}
 
 		var total = '';
