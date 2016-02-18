@@ -99,6 +99,14 @@
 #activity-tracker-table {
 	box-shadow: none;
     margin-bottom: 80px;
+    table-layout: fixed;
+}
+
+#activity-tracker-table td,
+#activity-tracker-table th {
+	white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
 }
 
 a.btn.dropdown-trigger.doc-dropdown-export {

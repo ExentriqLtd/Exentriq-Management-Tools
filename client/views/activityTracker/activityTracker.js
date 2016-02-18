@@ -28,7 +28,7 @@ Template.activityTracker.getActivitiesWithFilter = function() {
 	}
 
 	if (Session.get('user')) {
-//		request.userId = Session.get('user').userId;
+		//		request.userId = Session.get('user').userId;
 		request.userName = Session.get('user').userName;
 	}
 
@@ -72,7 +72,7 @@ Template.activityTracker.getActivitiesWithFilter = function() {
 			if (!t.time) {
 				return true;
 			}
-			return t.time.getTime() > from._d.getTime() && t.time.getTime() < (to._d.getTime() + (1000*60*60*24));
+			return t.time.getTime() > from._d.getTime() && t.time.getTime() < (to._d.getTime() + (1000 * 60 * 60 * 24));
 		})
 		.sort(function(a, b) {
 
@@ -257,6 +257,19 @@ Template.activityTracker._exportTableToPDF = function(source) {
 
 Template.activityTracker._filterTimeout = null;
 Template.activityTracker.events({
+	'click td a': function(e) {
+
+		Session.set('selectedActivity', this);
+		setTimeout(function() {
+			var dd = $('#doc-dropdown-app-bar');
+			dd.css({
+				width: '100px',
+				top: e.clientY - 120 + 'px',
+				right: 0
+			});
+		}, 10);
+
+	},
 	'click #exportToPDF': function() {
 		Template.activityTracker._exportTableToPDF($('#export-table-wrapper')[0]);
 	},
@@ -289,15 +302,22 @@ Template.activityTracker.events({
 		var statementDom = template.find('#statement-eml');
 		var statement = statementDom.value.replace(replaceFrom, replaceTo);
 		$(statementDom).val(statement);
+	},
+	'click .eml-delete': function(evt, tpl) {
+		$('#eq-ui-modal-delete').openModal();
+	},
+	'click .eml-edit': function(evt, tpl) {
+		$('#eq-ui-modal-edit').openModal();
+		$('#time').val(moment(this.time).format('MM/DD/YYYY')).datepicker();
 	}
 });
 
 Template.activityTracker.updateActivity = function(_id, statement, time) {
 	if (statement) {
-		
+
 		var obj = Eml.parse(statement);
-		
-		if (obj.project !== null && (obj.days>0 || obj.hours>0 || obj.minutes>0)) {
+
+		if (obj.project !== null && (obj.days > 0 || obj.hours > 0 || obj.minutes > 0)) {
 
 			// check proj
 			var projName = obj.project;
@@ -401,25 +421,6 @@ Template.atActivity.onRendered(function() {
 	});
 });
 
-Template.atActivity.events({
-	
-	'click .eml-delete': function(evt, tpl) {
-		Session.set('selectedActivity', this);
-		$('#eq-ui-modal-delete').openModal();
-	},
-	'click .eml-edit': function(evt, tpl) {
-		Session.set('selectedActivity', this);
-		$('#eq-ui-modal-edit').openModal();
-		$('#time').val(moment(this.time).format('MM/DD/YYYY')).datepicker();
-
-		/*setTimeout(function(){
-			$('#eq-ui-modal-edit').find('input').each(function(i){
-				$(i).click().focus().blur();
-			})
-		});*/
-	}
-});
-
 //deleteActivityEml template
 Template.deleteActivityEml.events({
 	'click #statement-delete': function(evt, tpl) {
@@ -456,8 +457,7 @@ Template.editActivity.events({
 	}
 });
 
-Template.editActivity.rendered = function(){
-};
+Template.editActivity.rendered = function() {};
 
 Template.activityBoardPill.events({
 
