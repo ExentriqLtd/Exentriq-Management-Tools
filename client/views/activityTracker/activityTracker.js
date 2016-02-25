@@ -273,11 +273,15 @@ Template.activityTracker.events({
 	'click #exportToPDF': function() {
 		Template.activityTracker._exportTableToPDF($('#export-table-wrapper')[0]);
 	},
-	'change .filter-item input': function() {
-		clearTimeout(Template.activityTracker._filterTimeout);
-		Template.activityTracker._filterTimeout = setTimeout(function() {
-			Session.set('activities', Template.activityTracker.getActivitiesWithFilter());
-		}, 1000);
+	'blur .filter-item input': function() { 
+		Session.set('activities', Template.activityTracker.getActivitiesWithFilter());
+	},
+	'keyup .filter-item input': function(e) {
+		e.keyCode === 13 && 
+		Session.set('activities', Template.activityTracker.getActivitiesWithFilter());
+	},
+	'click .-autocomplete-container li': function(e) {
+		Session.set('activities', Template.activityTracker.getActivitiesWithFilter());
 	},
 	'click #statement-add': function(evt, tpl) {
 		evt.preventDefault();

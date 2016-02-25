@@ -102,8 +102,7 @@
     table-layout: fixed;
 }
 
-#activity-tracker-table td,
-#activity-tracker-table th {
+#activity-tracker-table td {
 	white-space: nowrap;
     overflow: hidden;
     text-overflow: ellipsis;
