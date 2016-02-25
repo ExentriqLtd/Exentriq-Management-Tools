@@ -31,14 +31,16 @@ Template.sprintPlanner.onCreated(function() {
 						cmpId: cmpId
 					});
 
-					var childrens = [{
+					var childrens = [/*{
 						cmpId: null,
 						id: null,
 						name: "All Teams",
 						type: "space"
-					}];
+					}*/];
 					childrens = childrens.concat(Template.orgManager.convertNode(query.fetch()))
-
+					if (childrens[0]) {
+						childrens[0].expanded = true;	
+					}
 					Template.treeView.setModel({
 						name: "root",
 						children: childrens
@@ -191,6 +193,7 @@ Template.sprintPlanner.events({
 
 	},
 	'click .eml-edit': function(evt, tpl) {
+		
 		if(this.closed_on!=null){
 			console.log(moment(this.closed_on).format('MM/DD/YYYY'));
 			$('#edit-statement-closedOn').datepicker();
@@ -199,6 +202,9 @@ Template.sprintPlanner.events({
 		else{
 			$('#edit-statement-closedOn').datepicker();
 		}
+
+		$('#edit-statement-eta').datepicker();
+
 		$(tpl.find('#edit-statement-users')).val(Eml.format(this, 'users'));
 		this.project=this.board;
 		$(tpl.find('#edit-statement-board')).val(Eml.format(this, 'project'));
