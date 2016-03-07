@@ -100,6 +100,24 @@ Meteor.startup(function () {
           }
         }
       });
+    
+    Api.addRoute('users/:username/tasks', {authRequired: false}, {
+    	get: {
+            roleRequired: [],
+            action: function () {
+              try {
+            	  var username = this.urlParams.username;
+            	  var tasks = Tasks.find({"users":{ $in: [username] }}).fetch();
+            	  console.log(username);
+            	  return { status: "OK", "tasks": tasks };
+              }
+              catch(e){
+            	  console.log(e);
+            	  return { status: "FAIL"};
+              }
+            }
+          }
+    });
   });
 
 Meteor.methods({
