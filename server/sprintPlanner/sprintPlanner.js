@@ -35,6 +35,71 @@ Meteor.startup(function () {
         }
       }
     });
+    
+    Api.addRoute('changeUsername', {authRequired: false}, {
+        post: {
+          roleRequired: [],
+          action: function () {
+            var from = this.bodyParams.from;
+            var to = this.bodyParams.to;
+
+            console.log('change from ' + from + ' to ' + to);
+            
+            //verifico se l'utente esiste
+            var appUser = AppUsers.findOne({username: to});
+            if(appUser){
+            	return {"status":"FAIL", "error":"username exists", "detail":"app user"};
+            }
+            
+            var task = Tasks.findOne({author: to});
+            if(task){
+            	return {"status":"FAIL", "error":"username exists", "detail":"task author"};
+            }
+            
+            var filter = {};
+            filter.users ={ $in: [to] };
+            task = Tasks.findOne(filter);
+            if(task){
+            	return {"status":"FAIL", "error":"username exists", "detail":"task user"};
+            }
+            
+            try {
+            	 //rinomino l'utente
+                appUser = AppUsers.findOne({username: from});
+                if(appUser){
+                	appUser.username=to;
+                	AppUsers.update(appUser._id, appUser);
+                }
+                
+                var tasks = Tasks.find({author: from}).fetch();
+                if(tasks.length>0){
+                	tasks.forEach(function(task){
+                		task.author=to;
+                		Tasks.update(task._id, task);
+                	});
+                }
+                
+                tasks = Tasks.find({"users":{ $in: [from] }}).fetch();
+                if(tasks.length>0){
+                	tasks.forEach(function(task){
+                		var users = task.users;
+                		var index = users.indexOf(from);
+                		if (index > -1) {
+                			users.splice(index, 1);
+                			users.push(to);
+                		}
+                		Tasks.update(task._id, task);
+                	});
+                }
+			} catch (e) {
+				return {"status":"FAIL", "error":"generic error updating username"};
+			}
+           
+            
+            return {"status":"OK", "from":from, "to":to	};
+          }
+        }
+      });
   });
 
 Meteor.methods({
