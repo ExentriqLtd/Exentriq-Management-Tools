@@ -102,6 +102,72 @@ Meteor.startup(function() {
 			}
 		}
 	});
+	
+	   Api.addRoute('changeUsername', {authRequired: false}, {
+	        post: {
+	          roleRequired: [],
+	          action: function () {
+	            var from = this.bodyParams.from;
+	            var to = this.bodyParams.to;
+
+	            console.log('change from ' + from + ' to ' + to);
+	            
+	            //verifico se l'utente esiste
+	            var activity = Activities.findOne({userName: to});
+	            if(activity){
+	            	return {"status":"FAIL", "error":"username exists", "detail":"activity user"};
+	            }
+	            
+	            activity = Activities.findOne({users:{ $in: [to] }});
+	            if(activity){
+	            	return {"status":"FAIL", "error":"username exists", "detail":"activity mentioned user"};
+	            }
+	            
+	            var userBoard = UserBoards.findOne({username: to});
+	            if(userBoard){
+	            	return {"status":"FAIL", "error":"username exists", "detail":"board user"};
+	            }
+	            
+	            
+	            try {
+	            	 //rinomino l'utente
+	                var activities = Activities.find({userName: from}).fetch();
+	                if(activities.length>0){
+	                	activities.forEach(function(act){
+	                		act.userName=to;
+	                		Activities.update(act._id, act);
+	                	});
+	                }
+	                
+	                activities = Activities.find({"users":{ $in: [from] }}).fetch();
+	                if(activities.length>0){
+	                	activities.forEach(function(act){
+	                		var users = act.users;
+	                		var index = users.indexOf(from);
+	                		if (index > -1) {
+	                			users.splice(index, 1);
+	                			users.push(to);
+	                		}
+	                		Activities.update(act._id, act);
+	                	});
+	                }
+	                
+	                var userBoards = UserBoards.find({username: from}).fetch();
+	                if(userBoards.length>0){
+	                	userBoards.forEach(function(ub){
+	                		ub.username=to;
+	                		UserBoards.update(ub._id, ub);
+	                	});
+	                }
+				} catch (e) {
+					return {"status":"FAIL", "error":"generic error updating username"};
+				}
+	           
+	            
+	            return {"status":"OK", "from":from, "to":to	};
+	          }
+	        }
+	      });
 
 });
 
