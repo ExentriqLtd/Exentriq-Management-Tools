@@ -1,2 +1,5 @@
 *.project
 /npm-debug.log
+.DS_Store
+.idea
+.meteor/local

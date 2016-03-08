@@ -1,0 +1,49 @@
+<template name="notifications_main">
+    <div id="notifications_main">
+
+        <!-- TABS -->
+        <div class="eq-ui-card eq-mt-card-tabs">
+            <div class="eq-ui-card-supporting-text">
+                <div class="eq-ui-scrollbar-wrap eq-ui-scrollbar-wrap-x eq-ui-scrollbar-wrap-hide">
+                    <ul class="eq-ui-tabs eq-ui-tabs-with-top-icons eq-ui-tabs-justified">
+                        <li class="eq-ui-tab">
+                            <a class="active" href="#eq-ui-tab-notify-1">
+                                <i class="mdi mdi-bell eq-ui-icon eq-ui-badge eq-ui-badge-overlap" data-badge="12"></i><br>Notifications
+                            </a>
+                        </li>
+                        <li class="eq-ui-tab">
+                            <a href="#eq-ui-tab-notify-2">
+                                <i class="mdi mdi-checkbox-marked-outline eq-ui-icon eq-ui-badge eq-ui-badge-overlap" data-badge="12"></i><br>Tasks
+                            </a>
+                        </li>
+                        <li class="eq-ui-tab">
+                            <a href="#eq-ui-tab-notify-3">
+                                <i class="mdi mdi-adjust eq-ui-icon eq-ui-badge eq-ui-badge-overlap" data-badge="12"></i><br>Missions
+                            </a>
+                        </li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+
+        <div class="notifications-wrapper">
+
+            <!-- Notifications -->
+            <div id="eq-ui-tab-notify-1">
+                {{> notifications}}
+            </div>
+
+            <!-- Tasks -->
+            <div id="eq-ui-tab-notify-2">
+                {{> tasks}}
+            </div>
+
+            <!-- Missions -->
+            <div id="eq-ui-tab-notify-3">
+                {{> missions}}
+            </div>
+
+        </div>
+
+    </div>
+</template>
