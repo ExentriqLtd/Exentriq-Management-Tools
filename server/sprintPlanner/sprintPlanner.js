@@ -107,8 +107,26 @@ Meteor.startup(function () {
             action: function () {
               try {
             	  var username = this.urlParams.username;
-            	  var tasks = Tasks.find({"users":{ $in: [username] }}).fetch();
             	  console.log(username);
+            	  var tasks = Tasks.find({"users":{ $in: [username] }}).fetch();
+            	  return { status: "OK", "tasks": tasks };
+              }
+              catch(e){
+            	  console.log(e);
+            	  return { status: "FAIL"};
+              }
+            }
+          }
+    });
+    
+    Api.addRoute('spaces/:spaceid/tasks', {authRequired: false}, {
+    	get: {
+            roleRequired: [],
+            action: function () {
+              try {
+            	  var spaceid = this.urlParams.spaceid;
+            	  console.log(spaceid);
+            	  var tasks = Tasks.find({"space":spaceid}).fetch();
             	  return { status: "OK", "tasks": tasks };
               }
               catch(e){
