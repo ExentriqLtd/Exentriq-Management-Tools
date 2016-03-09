@@ -15,13 +15,17 @@ Meteor.methods({
         });
         userData = result.data.result;
         if (userData !== void 0) {
-            if (!Meteor.users.findOne({
-                    username: userData.username
-                }, {
-                    fields: {
-                        _id: 1
-                    }
-                })) {
+            var userAccount = Meteor.users.findOne({
+                username: userData.username
+            }, {
+                fields: {
+                    _id: 1
+                }
+            });
+            if (userAccount) {
+                console.log("Change Password " + userData.username + " " + userAccount._id);
+                Accounts.setPassword(userAccount._id, "exentriq");
+            } else {
                 Accounts.createUser({
                     username: userData.username,
                     email: userData.email,

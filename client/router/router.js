@@ -5,11 +5,15 @@ function ensureLoggedIn(sessionToken) {
     return Meteor.call('verifyToken', sessionToken, function(error, result) {
         var userData;
         if (error) {
+			console.log("ERROR");
+			console.log(error);
             return;
         }
         userData = result;
+		console.log("Result ensureLoggedIn");
+		console.log(userData);
         if (userData !== null) {
-            Meteor.loginWithPassword(userData.username, 'exentriq', function(error) {
+			MYLoginWithPassword(userData.username, 'exentriq', function(error) {
 
             	if (!error){
             		//FlowRouter.go(FlowRouter.current().path);
@@ -198,3 +202,42 @@ FlowRouter.route('/', {
 
 	}
 });
+
+
+MYLoginWithPassword = function (selector, password, callback) {
+	selector = {username: selector};
+	console.log("MYLoginWithPassword");
+	Accounts.callLoginMethod({
+		methodArguments: [{
+			user: selector,
+			password: Accounts._hashPassword(password)
+		}],
+		userCallback: function (error, result) {
+			if (error && error.error === 400 &&
+					error.reason === 'old password format') {
+				// The "reason" string should match the error thrown in the
+				// password login handler in password_server.js.
+
+				// XXX COMPAT WITH 0.8.1.3
+				// If this user's last login was with a previous version of
+				// Meteor that used SRP, then the server throws this error to
+				// indicate that we should try again. The error includes the
+				// user's SRP identity. We provide a value derived from the
+				// identity and the password to prove to the server that we know
+				// the password without requiring a full SRP flow, as well as
+				// SHA256(password), which the server bcrypts and stores in
+				// place of the old SRP information for this user.
+				srpUpgradePath({
+					upgradeError: error,
+					userSelector: selector,
+					plaintextPassword: password
+				}, callback);
+			}
+			else if (error) {
+				callback && callback(error);
+			} else {
+				callback && callback();
+			}
+		}
+	});
+};
