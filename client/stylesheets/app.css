@@ -23032,11 +23032,74 @@ html.is-touch .eq-ui-dropdown li > a:not(.active):hover {
 /* ---------------------------------------------------------------------- */
 /* Notifications
 /* ---------------------------------------------------------------------- */
+#notifications {
+  height: calc(100% - 56px);
+}
+
+#notifications .eq-ui-list {
+  border: 0;
+  display: block;
+}
+
+#notifications .notifications_footer {
+  border-top: 1px solid #e1e1e1;
+  height: 56px;
+  padding: 10px 24px;
+}
+
+#notifications .notifications_footer p {
+  text-align: center;
+  padding: 0;
+}
+
+#notifications .notifications_footer p a {
+  font-size: 14px;
+  color: #757575;
+}
+
+#notifications .notifications_footer p a:hover {
+  background-color: transparent;
+}
+
+/* ---------------------------------------------------------------------- */
+/* Notifications Item
+/* ---------------------------------------------------------------------- */
+#notifications_main .notifications_item .eq-ui-list-body {
+  font-size: 12px;
+}
+
+#notifications_main .notifications_item .eq-ui-list-body .eq-ui-list-title {
+  white-space: normal;
+  font-size: 14px;
+  line-height: 1.4;
+}
+
+#notifications_main .notifications_item .eq-ui-list-body .eq-ui-list-title strong {
+  font-weight: 600;
+}
+
+#notifications_main .notifications_item .eq-ui-list-body .eq-ui-list-title a {
+  color: rgba(0, 0, 0, 0.87);
+  text-decoration: underline;
+}
+
+#notifications_main .notifications_item .eq-ui-list-secondary-content-body {
+  top: 9px;
+}
+
+#notifications_main .notifications_item .eq-ui-list-secondary-content-body i {
+  font-size: 16px;
+}
+
 /* ---------------------------------------------------------------------- */
 /* Notifications main
 /* ---------------------------------------------------------------------- */
 body.tp_notifications_main #__blaze-root {
   background-color: #f1f1f1;
+  position: fixed;
+  top: 0;
+  bottom: 0;
+  width: 100%;
 }
 
 #notifications_main {
@@ -23044,6 +23107,16 @@ body.tp_notifications_main #__blaze-root {
   max-width: 360px;
   height: 100%;
   margin: 0 auto;
+}
+
+#notifications_main .notifications-wrapper {
+  height: calc(100% - 56px);
+}
+
+#notifications_main .notifications-wrapper #eq-ui-tab-notify-1,
+#notifications_main .notifications-wrapper #eq-ui-tab-notify-2,
+#notifications_main .notifications-wrapper #eq-ui-tab-notify-3 {
+  height: 100%;
 }
 
 #notifications_main .eq-mt-card-tabs {

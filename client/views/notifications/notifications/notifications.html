@@ -1,3 +1,37 @@
 <template name="notifications">
-    <p>notifications...</p>
+    <div id="notifications">
+
+        <div class="eq-ui-scrollbar-wrap eq-ui-scrollbar-wrap-y">
+            <ul class="eq-ui-list eq-ui-hoverable">
+
+                {{#each notifications}}
+                {{> notifications_item}}
+                {{/each}}
+
+            </ul>
+        </div>
+
+        <div class="notifications_footer">
+            <p>
+                <a href="#" class="btn btn-default eq-ui-btn-flat">{{tr "Mark all as read"}}</a>
+                <a href="#" class="btn btn-default eq-ui-btn-flat remove-all-notify">{{tr "Clear all"}}</a>
+            </p>
+        </div>
+
+    </div>
+</template>
+
+<template name="notifications_item">
+
+    <li class="eq-ui-list-item eq-ui-list-avatar eq-ui-list-secondary-content notifications_item">
+        <img class="circle" src="/img/avatar_0.jpg">
+        <div class="eq-ui-list-body">
+            <h6 class="eq-ui-list-title"><strong>{{ first_name }}</strong> {{ description }} {{#if action}}<a href="{{action}}">Exentriq UI</a>{{/if}}</h6>
+            {{ livestamp date }}
+        </div>
+        <a class="eq-ui-list-secondary-content-body shades-text-black-hover remove-notify">
+            <i class="mdi mdi-close-circle icon"></i>
+        </a>
+    </li>
+
 </template>

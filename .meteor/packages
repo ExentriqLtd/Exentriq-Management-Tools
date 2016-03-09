@@ -34,3 +34,19 @@ cfs:ejson-file
 rajit:bootstrap3-datepicker
 chipcastledotcom:meteor-jspdf
 dangrossman:bootstrap-daterangepicker
+
+# Core
+reactive-var
+
+# Localization
+tap:i18n
+
+# Tools
+chrismbeckett:toastr
+liyu:sprintfjs
+
+# Utils
+copleykj:livestamp
+
+# Local packages
+eq-meteor-lib
