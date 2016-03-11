@@ -11,7 +11,7 @@ Template.notifications.onRendered(function(){
 Template.notifications.helpers({
     notifications: function () {
         // TODO - Connect to DB
-        return EqApp.sample_notifications.get(); // Sample data
+        return EqApp.notifications_data.get(); // Sample data
     }
 });
 
