@@ -23162,6 +23162,7 @@ body.tp_notifications_main #__blaze-root {
 /* ---------------------------------------------------------------------- */
 #tasks {
   height: calc(100% - 56px);
+  background-color: #f9f9f9;
 }
 
 #tasks .eq-man-tasks-list {
@@ -23173,7 +23174,33 @@ body.tp_notifications_main #__blaze-root {
   padding: 8px;
   padding-bottom: 0;
   margin: 0;
-  background-color: #f9f9f9;
+  background-color: transparent;
+}
+
+#tasks .eq-man-tasks-list-show-completed {
+  text-align: center;
+  padding-bottom: 8px;
+}
+
+#tasks .eq-man-tasks-list-show-completed a {
+  display: none;
+  font-size: 12px;
+  min-width: 32px;
+  height: 32px;
+  line-height: 32px;
+}
+
+#tasks .eq-man-tasks-list-show-completed a.show {
+  display: inline-block !important;
+}
+
+#tasks .eq-man-tasks-list-show-completed .hide-all-tasks-completed {
+  display: none;
+}
+
+#tasks .eq-man-tasks-list-completed {
+  display: none;
+  padding-top: 0;
 }
 
 #tasks .tasks_footer {
@@ -23190,6 +23217,11 @@ body.tp_notifications_main #__blaze-root {
 #tasks .tasks_footer p a {
   font-size: 14px;
   color: #757575;
+}
+
+#tasks .tasks_footer p a.disabled {
+  box-shadow: none;
+  opacity: .5;
 }
 
 #tasks .tasks_footer p a:hover {

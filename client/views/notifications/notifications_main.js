@@ -11,7 +11,14 @@ Template.notifications_main.helpers({
     },
     tasks_num: function () {
         // TODO - Connect to DB
-        return EqApp.tasks_data.get().length; // Sample data
+        var _completed = EqApp.tasks_data.get();
+        var _completed_new = [];
+        for(var key in _completed) {
+            if (_completed[key].complete === false) {
+                _completed_new.push(_completed[key]);
+            }
+        }
+        return _completed_new.length; // Sample data
     },
     missions_num: function () {
         // TODO - Connect to DB
