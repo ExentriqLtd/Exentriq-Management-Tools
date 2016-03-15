@@ -136,6 +136,23 @@ Meteor.startup(function () {
             }
           }
     });
+    
+    Api.addRoute('appUsers', {authRequired: false}, {
+        post: {
+          roleRequired: [],
+          action: function () {
+            var username = this.bodyParams.username;
+            var appUser = AppUsers.findOne({username: username});
+            if(appUser){
+            	return {"status":"fail", "error":"username exists", "detail":"add new user"};
+            }
+            var user = {"username":username};
+            AppUsers.update({username:username},user, { upsert: true } );
+            console.log(username);
+            return { "status": "success", "data": {username:username}};
+          }
+        }
+      });
   });
 
 Meteor.methods({
