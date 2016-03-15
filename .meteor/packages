@@ -37,6 +37,8 @@ dangrossman:bootstrap-daterangepicker
 
 # Core
 reactive-var
+brentjanderson:buzz
+joncursi:socket-io-client
 
 # Localization
 tap:i18n

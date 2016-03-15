@@ -23061,6 +23061,11 @@ html.is-touch .eq-ui-dropdown li > a:not(.active):hover {
   background-color: transparent;
 }
 
+#notifications .notifications_footer p a.disabled {
+  box-shadow: none;
+  opacity: .5;
+}
+
 /* ---------------------------------------------------------------------- */
 /* Notifications Item
 /* ---------------------------------------------------------------------- */
@@ -23089,6 +23094,10 @@ html.is-touch .eq-ui-dropdown li > a:not(.active):hover {
 
 #notifications_main .notifications_item .eq-ui-list-secondary-content-body i {
   font-size: 16px;
+}
+
+#notifications_main .notifications_item.notifications_item_unread {
+  background-color: rgba(27, 188, 155, 0.05);
 }
 
 /* ---------------------------------------------------------------------- */
@@ -23188,6 +23197,8 @@ body.tp_notifications_main #__blaze-root {
   min-width: 32px;
   height: 32px;
   line-height: 32px;
+  box-shadow: none;
+  background-color: transparent;
 }
 
 #tasks .eq-man-tasks-list-show-completed a.show {
@@ -23261,6 +23272,10 @@ body.tp_notifications_main #__blaze-root {
   font-size: 15px;
   font-weight: 500;
   line-height: 1.3;
+}
+
+#notifications_main .tasks_item .eq-ui-card .eq-ui-card-title h2 a {
+  color: inherit;
 }
 
 #notifications_main .tasks_item .eq-ui-card .eq-ui-card-supporting-text {
@@ -23368,5 +23383,9 @@ body.tp_notifications_main #__blaze-root {
 #notifications_main .tasks_item .eq-ui-card .eq-ui-card-menu .eq-ui-nav-menu .eq-ui-nav-menu-item-icon input.eq-ui-input[type="checkbox"].filled-in:checked + label:after {
   /*border: 2px solid #1bbc9b;
                                         background-color: #fff;*/
+}
+
+#notifications_main .tasks_item.tasks_item_complete {
+  opacity: .7;
 }
 /*# sourceMappingURL=app.css.map */

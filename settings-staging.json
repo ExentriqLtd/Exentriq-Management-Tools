@@ -1,7 +1,7 @@
 {
     "public": {
-        "isDebug": false,
-        "rootPath": "http://www.exentriq.com",
+        "isDebug": true,
+        "rootPath": "http://stage.exentriq.com",
         "loginFormPath": "http://stage.exentriq.com/signin_new",
         "notificationBusPath": "wss://bus.exentriq.com:1881/ws/notification"
     },

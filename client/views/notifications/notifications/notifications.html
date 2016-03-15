@@ -13,8 +13,8 @@
 
         <div class="notifications_footer">
             <p>
-                <a href="#" class="btn btn-default eq-ui-btn-flat">{{tr "Mark all as read"}}</a>
-                <a href="#" class="btn btn-default eq-ui-btn-flat remove-all-notify">{{tr "Clear all"}}</a>
+                <a href="#" class="btn btn-default eq-ui-btn-flat mark-all-notify {{#if ifCond notifications_num '==' 0}}disabled{{/if}}">{{tr "Mark all as read"}}</a>
+                <a href="#" class="btn btn-default eq-ui-btn-flat remove-all-notify {{#if ifCond notifications.length '==' 0}}disabled{{/if}}">{{tr "Clear all"}}</a>
             </p>
         </div>
 
@@ -23,10 +23,10 @@
 
 <template name="notifications_item">
 
-    <li class="eq-ui-list-item eq-ui-list-avatar eq-ui-list-secondary-content notifications_item">
-        <img class="circle" src="/img/avatar_0.jpg">
+    <li class="eq-ui-list-item eq-ui-list-avatar eq-ui-list-secondary-content notifications_item {{#if unread}}notifications_item_unread{{/if}}">
+        <img class="circle" src="{{avatar}}">
         <div class="eq-ui-list-body">
-            <h6 class="eq-ui-list-title"><strong>{{ first_name }}</strong> {{ description }} {{#if action}}<a href="{{action}}">Exentriq UI</a>{{/if}}</h6>
+            <h6 class="eq-ui-list-title"><strong>{{ from_user }}</strong> {{{ subject }}} {{#if action}}<a target="_blank" href="{{action}}">{{tr "Go to"}} {{action_label}}</a>{{/if}}</h6>
             {{ livestamp date }}
         </div>
         <a class="eq-ui-list-secondary-content-body shades-text-black-hover remove-notify">

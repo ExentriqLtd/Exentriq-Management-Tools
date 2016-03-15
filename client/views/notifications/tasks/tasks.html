@@ -14,8 +14,8 @@
             </ul>
 
             <div class="eq-man-tasks-list-show-completed {{#if ifCond tasks_completed_num '==' 0}}hide{{/if}}">
-                <a href="#" class="btn btn-primary show-all-tasks-completed {{#if ifCond tasks_is_hide_completed '==' true}}show{{/if}}">{{tr "Show completed tasks"}}</a>
-                <a href="#" class="btn btn-primary hide-all-tasks-completed {{#if ifCond tasks_is_hide_completed '==' false}}show{{/if}}">{{tr "Hide completed tasks"}}</a>
+                <a href="#" class="btn btn-default show-all-tasks-completed {{#if ifCond tasks_is_hide_completed '==' true}}show{{/if}}">{{tr "Show completed tasks"}}</a>
+                <a href="#" class="btn btn-default hide-all-tasks-completed {{#if ifCond tasks_is_hide_completed '==' false}}show{{/if}}">{{tr "Hide completed tasks"}}</a>
             </div>
 
             <ul class="eq-man-tasks-list eq-man-tasks-list-completed {{#if ifCond tasks_completed_num '==' 0}}hide{{/if}}">
@@ -33,6 +33,8 @@
         <div class="tasks_footer">
             <p>
                 <a href="#" class="btn btn-default eq-ui-btn-flat mark-all-tasks-done {{#if ifCond tasks_num '==' 0}}disabled{{/if}}">{{tr "Mark all as done"}}</a>
+                <!--a href="#" class="btn btn-default eq-ui-btn-flat show-all-tasks-completed {{#if ifCond tasks_is_hide_completed '==' true}}show{{/if}}">{{tr "Show completed"}}</a>
+                <a href="#" class="btn btn-default eq-ui-btn-flat hide-all-tasks-completed {{#if ifCond tasks_is_hide_completed '==' false}}show{{/if}}">{{tr "Hide completed"}}</a-->
             </p>
         </div>
 
@@ -42,11 +44,11 @@
 
 <template name="tasks_item">
 
-    <li class="eq-man-tasks-list-item tasks_item">
+    <li class="eq-man-tasks-list-item tasks_item {{#if complete}}tasks_item_complete{{/if}}">
         <div class="eq-ui-card">
 
             <div class="eq-ui-card-title">
-                <h2 class="eq-ui-card-title-text">User interface for contact manager ({{id}})</h2>
+                <h2 class="eq-ui-card-title-text"><a target="_blank" href="{{action}}">{{subject}}</a></h2>
             </div>
 
             <div class="eq-ui-card-supporting-text">

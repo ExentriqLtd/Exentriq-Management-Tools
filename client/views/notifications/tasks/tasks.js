@@ -2,44 +2,28 @@
 //  Tasks
 //---------------------------------------------------
 
+// Created
+Template.tasks.onCreated(function(){
+    Session.setDefault("tasksHideCompleted", true);
+});
+
 // Rendered
 Template.tasks.onRendered(function(){
-    console.log('tasks rendered...');
-
-    Session.set("tasksHideCompleted", true);
+    //console.log('tasks rendered...');
 });
 
 // Helpers
 Template.tasks.helpers({
     tasks: function () {
-        // TODO - Connect to DB
-        // Sample data
         return EqApp.tasks_data.get();
     },
     tasks_num: function () {
-        // TODO - Connect to DB
-        var _completed = EqApp.tasks_data.get();
-        var _completed_new = [];
-        for(var key in _completed) {
-            if (_completed[key].complete === false) {
-                _completed_new.push(_completed[key]);
-            }
-        }
-        return _completed_new.length; // Sample data
+        return EqApp.client.notification.tasks_count();
     },
     tasks_completed_num: function () {
-        // TODO - Connect to DB
-        var _completed = EqApp.tasks_data.get();
-        var _completed_new = [];
-        for(var key in _completed) {
-            if (_completed[key].complete === true) {
-                _completed_new.push(_completed[key]);
-            }
-        }
-        return _completed_new.length; // Sample data
+        return EqApp.client.notification.tasks_complete_count();
     },
     tasks_is_hide_completed: function () {
-        // TODO - Connect to DB
         return Session.get("tasksHideCompleted");
     }
 });
@@ -71,7 +55,7 @@ Template.tasks.events({
 
 // Rendered
 Template.tasks_item.onRendered(function(){
-    console.log('tasks item rendered...');
+    //console.log('tasks item rendered...');
 });
 
 // Events
