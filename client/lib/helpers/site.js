@@ -10,6 +10,31 @@ var _start_point = EqApp.client;
     _this.window_load = false;
 
     /* --------------------------------------- */
+    /* Username
+    /* --------------------------------------- */
+    _this.username = function () {
+        var username = null;
+
+        // Get username
+        if(Meteor.user() && Meteor.user().username){
+            username = Meteor.user().username;
+        }
+
+        // Debug
+        if(Meteor.settings.public.isDebug){
+            // Get Query
+            var query_string = EqUI.site.query_string;
+
+            // Is username
+            if(query_string.debugUsername !== undefined) {
+                username = query_string.debugUsername;
+            }
+        }
+
+        return username;
+    };
+
+    /* --------------------------------------- */
     /* User language
     /* --------------------------------------- */
     _this.user_language = function () {

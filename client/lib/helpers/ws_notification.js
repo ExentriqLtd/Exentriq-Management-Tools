@@ -9,8 +9,8 @@ var _start_point = EqApp.client;
 
     _this.window_load = false;
 
-    _this.username = null;
     _this.service = null;
+    _this.service_is_init = false;
     _this.notify_sound = null;
 
     /* --------------------------------------- */
@@ -273,22 +273,68 @@ var _start_point = EqApp.client;
     // List all notifications
     _this.ws_list_all_notifications = function () {
         var msg = {'cmd':'ALL'};
-        msg.value=_this.username;
+        msg.value=EqApp.client.site.username();
         _this.service.send(JSON.stringify(msg));
     };
 
     // New notifications
     _this.ws_new_notifications = function () {
         var msg = {'cmd':'NEW'};
-        msg.value=_this.username;
+        msg.value=EqApp.client.site.username();
         _this.service.send(JSON.stringify(msg));
     };
 
     // Show new notifications
     _this.ws_show_new_notifications = function () {
         var msg = {'cmd':'SHOW_NEW'};
-        msg.value=_this.username;
+        msg.value=EqApp.client.site.username();
         _this.service.send(JSON.stringify(msg));
+    };
+
+    // WS Init
+    _this.ws_init = function () {
+        if(_this.service_is_init || EqApp.client.site.username()===null){return;}
+
+        _this.service_is_init = true;
+
+        // Socket
+        _this.service = new WebSocket(Meteor.settings.public.notificationBusPath);
+
+        // Message
+        _this.service.onmessage = function(event){
+            var data = $.parseJSON(event.data);
+
+            // Debug
+            if(Meteor.settings.public.isDebug){ console.log('new message', data); }
+
+            if(data.cmd==='LIST_ALL'){
+
+                // Update all notifications
+                _this.update_all_notifications(data);
+
+            }
+            else if(data.cmd==='NOTIFICATION'){
+
+                // Add notification
+                _this.add_notification(data.value);
+
+            }
+        };
+
+        _this.service.onopen = function(){
+            // Debug
+            if(Meteor.settings.public.isDebug){ console.log('ws open'); }
+
+            // List all notifications
+            _this.ws_list_all_notifications();
+
+            // New notifications
+            _this.ws_new_notifications();
+        };
+
+        _this.service.onclose = function(evt) { _this.service_is_init = false; console.log(evt); };
+
+        _this.service.onerror = function(evt) { console.log(evt); };
     };
 
     // Init
@@ -325,62 +371,6 @@ var _start_point = EqApp.client;
     _this.mtr_init = function() {
         // Set notify sound
         _this.notify_sound = new buzz.sound('http://talk.exentriq.com/sounds/notify.mp3');
-
-        // Set username
-        if(Meteor.user()){
-            _this.username = Meteor.user().username;
-        }
-
-        // Debug
-        if(Meteor.settings.public.isDebug){
-            // Get Query
-            var query_string = EqUI.site.query_string;
-
-            // Is username
-            if(query_string.debugUsername !== undefined) {
-                _this.username = query_string.debugUsername;
-            }
-        }
-
-        // Socket
-        _this.service = new WebSocket(Meteor.settings.public.notificationBusPath);
-
-        // Message
-        _this.service.onmessage = function(event){
-            var data = $.parseJSON(event.data);
-
-            // Debug
-            if(Meteor.settings.public.isDebug){ console.log('new message', data); }
-
-            if(!_this.username){return;}
-
-            if(data.cmd==='LIST_ALL'){
-
-                // Update all notifications
-                _this.update_all_notifications(data);
-
-            }
-            else if(data.cmd==='NOTIFICATION'){
-
-                // Add notification
-                _this.add_notification(data.value);
-
-            }
-        };
-
-        _this.service.onopen = function(){
-            //console.log('open...');
-
-            // List all notifications
-            _this.ws_list_all_notifications();
-
-            // New notifications
-            _this.ws_new_notifications();
-        };
-
-        _this.service.onclose = function(evt) { console.log(evt); };
-
-        _this.service.onerror = function(evt) { console.log(evt); };
     };
 
     // Meteor startup

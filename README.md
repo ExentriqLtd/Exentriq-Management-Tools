@@ -2,7 +2,7 @@
 
 ## Notifications app
 
-### Test in Stage
+### Stage
 
 Use the ```settings-staging.json``` for run meteor
 
@@ -22,7 +22,7 @@ Remote:
 http://37.187.137.140:5007/notifications/?sessionToken=1454865801761741&debugUsername=myusername
 ```
 
-### Test in Production
+### Production
 
 Use the ```settings.json``` for run meteor
 

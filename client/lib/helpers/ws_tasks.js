@@ -9,8 +9,6 @@ var _start_point = EqApp.client;
 
     _this.window_load = false;
 
-    _this.username = null;
-
     /* --------------------------------------- */
     /* Build
     /* --------------------------------------- */
@@ -119,9 +117,23 @@ var _start_point = EqApp.client;
     // Get all
     _this.ws_get_all = function (callback) {
         // List all
-        Meteor.call('tasks.get_all', _this.username,
+        Meteor.call('tasks.get_all', EqApp.client.site.username(),
         function(error, result){
             if($.isFunction(callback)){callback(result, error);}
+        });
+    };
+
+    // WS Update all
+    _this.ws_update_all = function () {
+        if(EqApp.client.site.username()===null){return;}
+
+        // List all
+        _this.ws_get_all(function(result, error){
+            if(result){
+                _this.update_all(result);
+            } else if (error){
+                console.log('error:', error);
+            }
         });
     };
 
@@ -157,32 +169,7 @@ var _start_point = EqApp.client;
 
     // Meteor Init
     _this.mtr_init = function() {
-        // Set username
-        if(Meteor.user()){
-            _this.username = Meteor.user().username;
-        }
-
-        // Debug
-        if(Meteor.settings.public.isDebug){
-            // Get Query
-            var query_string = EqUI.site.query_string;
-
-            // Is username
-            if(query_string.debugUsername !== undefined) {
-                _this.username = query_string.debugUsername;
-            }
-        }
-
-        if(!_this.username){return;}
-
-        // List all
-        _this.ws_get_all(function(result, error){
-            if(result){
-                _this.update_all(result);
-            } else if (error){
-                console.log('error:', error);
-            }
-        });
+        // ...
     };
 
     // Meteor startup

@@ -4,7 +4,19 @@
 
 // Created
 Template.tasks.onCreated(function(){
+    var template = this;
+
     Session.setDefault("tasksHideCompleted", true);
+
+    template.autorun(function() {
+        if(Meteor.user() && Meteor.user().username){
+            if(Meteor.settings.public.isDebug){
+                console.log('[tasks] username to token:', Meteor.user().username);
+            }
+            EqApp.client.tasks.ws_update_all(); // Update all
+        }
+        //console.log('autorun');
+    });
 });
 
 // Rendered
