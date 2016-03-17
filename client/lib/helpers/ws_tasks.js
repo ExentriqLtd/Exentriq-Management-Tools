@@ -30,6 +30,7 @@ var _start_point = EqApp.client;
             "id": task.id,
             "subject": task.content.clean,
             "action": link,
+            "progress": task.content.progress,
             "points": task.content.points,
             "effort": task.content.days,
             "project": task.boardTitle,
