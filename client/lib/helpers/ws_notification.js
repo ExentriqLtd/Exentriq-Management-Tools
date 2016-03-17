@@ -14,80 +14,6 @@ var _start_point = EqApp.client;
     _this.notify_sound = null;
 
     /* --------------------------------------- */
-    /* Create task
-    /* --------------------------------------- */
-    _this.create_task = function (message) {
-        var link = _this.parse_notifications_url(message);
-        //var avatar = "http://www.exentriq.com/AvatarService?username=" + message.from_user;
-
-        // Check is valid task
-        if(!_this.is_valid('task', message)){return null;}
-
-        // Build task
-        return {
-            "id": message.id,
-            "subject": message.message,
-            "action": link.url,
-            "action_label": message.message,
-            "from_users": message.from_user,
-            "to_users": message.to_user,
-            "complete": message.status === 'CLOSE',
-            "date": message.timestamp
-        };
-    };
-
-    /* --------------------------------------- */
-    /* Update all tasks
-    /* --------------------------------------- */
-    _this.update_all_tasks = function (data) {
-
-        var tasks = [];
-
-        // Build array
-        data.value.forEach(function(message){
-            var item = _this.create_task(message);
-            if(item){ tasks.push(item); } // Add
-        });
-
-        console.log('tasks', tasks);
-
-        // Set react var
-        EqApp.tasks_data.set(tasks);
-    };
-
-    /* --------------------------------------- */
-    /* Tasks count
-    /* --------------------------------------- */
-    _this.tasks_count = function () {
-        var _items = EqApp.tasks_data.get();
-        var _items_new = [];
-        for(var key in _items) {
-            if (_items[key].complete === false) {
-                _items_new.push(_items[key]);
-            }
-        }
-        return _items_new.length;
-    };
-
-    /* --------------------------------------- */
-    /* Tasks complete count
-    /* --------------------------------------- */
-    _this.tasks_complete_count = function () {
-        var _items = EqApp.tasks_data.get();
-        var _items_new = [];
-        for(var key in _items) {
-            if (_items[key].complete === true) {
-                _items_new.push(_items[key]);
-            }
-        }
-        return _items_new.length;
-    };
-
-
-    /* ------------------------------------------------------------------------------------ */
-
-
-    /* --------------------------------------- */
     /* Create notification
     /* --------------------------------------- */
     _this.create_notification = function (message) {
@@ -433,9 +359,6 @@ var _start_point = EqApp.client;
                 // Update all notifications
                 _this.update_all_notifications(data);
 
-                // Update all tasks
-                _this.update_all_tasks(data);
-
             }
             else if(data.cmd==='NOTIFICATION'){
 
@@ -446,7 +369,7 @@ var _start_point = EqApp.client;
         };
 
         _this.service.onopen = function(){
-            console.log('open...');
+            //console.log('open...');
 
             // List all notifications
             _this.ws_list_all_notifications();

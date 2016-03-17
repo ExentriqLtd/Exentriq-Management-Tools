@@ -6,7 +6,9 @@
 
 Use the ```settings-staging.json``` for run meteor
 
-Remplace ```myusername``` for your username and remplace ```sessionToken``` for your sessionToken
+Remplace ```sessionToken``` for your sessionToken
+
+Optional (debugUsername): Remplace ```myusername``` for your username
 
 Local:
 
@@ -17,7 +19,7 @@ http://localhost:3000/notifications/?sessionToken=1454865801761741&debugUsername
 Remote:
 
 ```
-http://149.202.77.27:5007/notifications/?sessionToken=1454865801761741&debugUsername=myusername
+http://37.187.137.140:5007/notifications/?sessionToken=1454865801761741&debugUsername=myusername
 ```
 
 ### Test in Production

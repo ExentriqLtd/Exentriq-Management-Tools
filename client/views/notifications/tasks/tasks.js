@@ -18,10 +18,10 @@ Template.tasks.helpers({
         return EqApp.tasks_data.get();
     },
     tasks_num: function () {
-        return EqApp.client.notification.tasks_count();
+        return EqApp.client.tasks.count();
     },
     tasks_completed_num: function () {
-        return EqApp.client.notification.tasks_complete_count();
+        return EqApp.client.tasks.complete_count();
     },
     tasks_is_hide_completed: function () {
         return Session.get("tasksHideCompleted");

@@ -9,7 +9,7 @@ Template.notifications_main.helpers({
         return EqApp.client.notification.notifications_count();
     },
     tasks_num: function () {
-        return EqApp.client.notification.tasks_count();
+        return EqApp.client.tasks.count();
     },
     missions_num: function () {
         // TODO

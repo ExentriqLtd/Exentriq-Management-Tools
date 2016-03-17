@@ -52,31 +52,32 @@
             </div>
 
             <div class="eq-ui-card-supporting-text">
-                <div class="tasks_item_assigned left">
+                <!--div class="tasks_item_assigned left">
                     <span class="tasks_item_assigned_title">{{tr "Assigned by"}}:</span>
                     <div class="tasks_item_assigned_avatars">
                         <img class="circle" src="/img/avatar_0.jpg">
                         <img class="circle" src="/img/avatar_0.jpg">
                     </div>
-                </div>
+                </div-->
                 <div class="tasks_item_assigned right">
                     <span class="tasks_item_assigned_title">{{tr "Assigned to"}}:</span>
                     <div class="tasks_item_assigned_avatars">
-                        <img class="circle" src="/img/avatar_0.jpg">
-                        <img class="circle" src="/img/avatar_0.jpg">
+                        {{#each assigned_to}}
+                        <img class="circle" src="{{avatar}}">
+                        {{/each}}
                     </div>
                 </div>
             </div>
 
             <div class="eq-ui-card-supporting-text">
                 <div class="tasks_item_details left">
-                    <span class="tasks_item_details_label">{{tr "Milestone"}}:<span>11/11/2016</span></span>
-                    <span class="tasks_item_details_label">{{tr "Project"}}:<span>Exentriq UI</span></span>
-                    <span class="tasks_item_details_label">{{tr "Card"}}:<span>Media Library</span></span>
+                    <span class="tasks_item_details_label">{{tr "Milestone"}}:<span>{{milestone}}</span></span>
+                    <span class="tasks_item_details_label">{{tr "Project"}}:<span>{{project}}</span></span>
+                    <span class="tasks_item_details_label">{{tr "Card"}}:<span>TODO</span></span>
                 </div>
                 <div class="tasks_item_details right">
-                    <span class="tasks_item_details_label">{{tr "Effort"}}:<span>20 days</span></span>
-                    <span class="tasks_item_details_label">{{tr "ETA"}}:<span>11/11/2016</span></span>
+                    <span class="tasks_item_details_label">{{tr "Effort"}}:<span>{{effort}} {{tr "days"}}</span></span>
+                    <span class="tasks_item_details_label">{{tr "ETA"}}:<span>{{eta}}</span></span>
                     <span class="tasks_item_details_label">{{tr "Closed On"}}:<span>Not Closed</span></span>
                 </div>
             </div>
@@ -95,7 +96,7 @@
             <div class="eq-ui-card-menu">
                 <ul class="right eq-ui-nav-menu">
                     <li class="eq-ui-nav-menu-item-icon">
-                        <span class="tasks_item_percent_top">80</span>
+                        <span class="tasks_item_percent_top">{{points}}</span>
                     </li>
                     <li class="eq-ui-nav-menu-item-icon">
                         <input type="checkbox" id="tasks_item_check_{{id}}" class="eq-ui-input filled-in mark-complete" checked="{{complete}}" />
