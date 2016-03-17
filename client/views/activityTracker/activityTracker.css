@@ -19,6 +19,11 @@
     z-index: -1;
 }
 
+.activity-tracker #export-table-wrapper th,
+.activity-tracker #export-table-wrapper td {
+    padding: 4px;
+}
+
 .activity-tracker .btn.dropdown-trigger {
 	z-index: 1;
 }
