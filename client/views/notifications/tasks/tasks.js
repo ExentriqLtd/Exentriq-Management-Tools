@@ -46,7 +46,7 @@ Template.tasks.events({
         event.preventDefault();
         Session.set("tasksHideCompleted", true);
         $('.eq-man-tasks-list-completed').css('display','none');
-        Meteor.call("tasks.set_all_complete");
+        EqApp.client.tasks.set_all_complete();
     },
     "click .show-all-tasks-completed": function (event) {
         event.preventDefault();
@@ -73,7 +73,7 @@ Template.tasks_item.onRendered(function(){
 // Events
 Template.tasks_item.events({
     "click .mark-complete": function (event) {
-        // Remove
-        Meteor.call("tasks.set_complete", this.id, !this.complete);
+        // Set complete
+        EqApp.client.tasks.set_complete(this.id, !this.complete);
     }
 });

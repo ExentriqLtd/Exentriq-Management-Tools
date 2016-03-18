@@ -2,48 +2,47 @@
 if(!EqApp.client){EqApp.client = {};}
 var _start_point = EqApp.client;
 
-// Client -> tasks
+// Client -> missions
 (function (mtr, $) {
-    _start_point.tasks = {};
-    var _this = function(){return _start_point.tasks;}();
+    _start_point.missions = {};
+    var _this = function(){return _start_point.missions;}();
 
     _this.window_load = false;
 
     /* --------------------------------------- */
     /* Build
     /* --------------------------------------- */
-    _this.build = function (task) {
-        var link = _this.parse_url(task);
+    _this.build = function (mission) {
+        //var link = _this.parse_url(mission);
         var assigned_to = [];
 
         // Build avatars
-        task.content.users.forEach(function(user){
+        mission.content.users.forEach(function(user){
             assigned_to.push({avatar:_this.avatar(user)});
         });
 
-        //console.log('task', task);
+        //console.log('mission', mission);
 
-        // Build task
+        // Build mission
         return {
-            "id": task.id,
-            "subject": task.content.clean,
-            "action": link,
+            "id": mission.id,
+            "subject": mission.content.clean || '&nbsp;',
 
-            "points": task.content.points,
+            "points": mission.content.points,
 
             "assigned_to": assigned_to,
 
-            "effort": task.content.days,
-            "eta": task.content.eta,
-            "closed_on": 'Not Closed',
+            "effort": mission.content.days,
+            "eta": mission.content.eta,
+            "closed_on": mission.content.closed_on || 'Not Closed',
 
-            "milestone": task.content.milestone,
-            "project": task.boardTitle,
-            "card": '&nbsp;',
+            "milestone": mission.content.milestone,
+            "project": mission.boardTitle || '&nbsp;',
+            "card": mission.content.card || '&nbsp;',
 
-            "progress": task.content.progress,
+            "progress": mission.content.progress,
 
-            "complete": task.status
+            "complete": mission.status
         };
     };
 
@@ -52,18 +51,18 @@ var _start_point = EqApp.client;
     /* --------------------------------------- */
     _this.update_all = function (data) {
 
-        var tasks = [];
+        var missions = [];
 
         // Build array
-        data.result.forEach(function(task){
-            var item = _this.build(task);
-            if(item){ tasks.push(item); } // Add
+        data.result.forEach(function(mission){
+            var item = _this.build(mission);
+            if(item){ missions.push(item); } // Add
         });
 
-        //console.log('tasks', tasks);
+        //console.log('missions', missions);
 
         // Set react var
-        EqApp.tasks_data.set(tasks);
+        EqApp.missions_data.set(missions);
     };
 
     /* --------------------------------------- */
@@ -75,15 +74,15 @@ var _start_point = EqApp.client;
         //_this.ws_set_complete_by_id(id);
 
         // Update UI
-        var tasks = EqApp.tasks_data.get();
+        var missions = EqApp.missions_data.get();
         var is_update = false;
-        for (var key in tasks) {
-            if (tasks[key].id === id) {
-                tasks[key].complete = value;
+        for (var key in missions) {
+            if (missions[key].id === id) {
+                missions[key].complete = value;
                 is_update = true;
             }
         }
-        if(is_update){EqApp.tasks_data.set(tasks);}
+        if(is_update){EqApp.missions_data.set(missions);}
     };
 
     /* --------------------------------------- */
@@ -92,26 +91,26 @@ var _start_point = EqApp.client;
     _this.set_all_complete = function () {
 
         // Update UI
-        var tasks = EqApp.tasks_data.get();
+        var missions = EqApp.missions_data.get();
         var is_update = false;
-        for (var key in tasks) {
-            var _item = tasks[key];
+        for (var key in missions) {
+            var _item = missions[key];
             if (_item.complete === false) {
                 // Send to ws
                 //_this.ws_set_complete_by_id(_item.id);
 
-                tasks[key].complete = true;
+                missions[key].complete = true;
                 is_update = true;
             }
         }
-        if(is_update){EqApp.tasks_data.set(tasks);}
+        if(is_update){EqApp.missions_data.set(missions);}
     };
 
     /* --------------------------------------- */
     /* Count
     /* --------------------------------------- */
     _this.count = function () {
-        var _items = EqApp.tasks_data.get();
+        var _items = EqApp.missions_data.get();
         var _items_new = [];
         for(var key in _items) {
             if (_items[key].complete === false) {
@@ -125,7 +124,7 @@ var _start_point = EqApp.client;
     /* Complete count
     /* --------------------------------------- */
     _this.complete_count = function () {
-        var _items = EqApp.tasks_data.get();
+        var _items = EqApp.missions_data.get();
         var _items_new = [];
         for(var key in _items) {
             if (_items[key].complete === true) {
@@ -140,7 +139,7 @@ var _start_point = EqApp.client;
     /* --------------------------------------- */
 
     // Parse url
-    _this.parse_url = function(object) {
+    /*_this.parse_url = function(object) {
         var _url = Meteor.settings.public.rootPath;
         var _link = object.link.replace(new RegExp('&#x2F;', 'g'), "/").replace(new RegExp('&amp;', 'g'), "&");
 
@@ -152,7 +151,7 @@ var _start_point = EqApp.client;
         _url += '/manager' + _link + '&menu=projects-manage';
 
         return _url;
-    };
+    };*/
 
     // Avatar
     _this.avatar = function(username) {
@@ -161,12 +160,12 @@ var _start_point = EqApp.client;
 
     /* --------------------------------------- */
     /* WS Helps
-    /* --------------------------------------- */
+     /* --------------------------------------- */
 
     // Get all
     _this.ws_get_all = function (callback) {
         // List all
-        Meteor.call('tasks.get_all', EqApp.client.site.username(),
+        Meteor.call('missions.get_all', EqApp.client.site.username(),
         function(error, result){
             if($.isFunction(callback)){callback(result, error);}
         });

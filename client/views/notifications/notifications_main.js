@@ -12,7 +12,6 @@ Template.notifications_main.helpers({
         return EqApp.client.tasks.count();
     },
     missions_num: function () {
-        // TODO
-        return 0;
+        return EqApp.client.missions.count();
     }
 });

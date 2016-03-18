@@ -1,3 +1,109 @@
 <template name="missions">
-    <p>missions...</p>
+    <div id="missions">
+
+        <div class="eq-ui-scrollbar-wrap eq-ui-scrollbar-wrap-y">
+
+            <ul class="eq-man-missions-list">
+
+                {{#each missions}}
+                    {{#if ifCond complete '==' false}}
+                        {{> missions_item}}
+                    {{/if}}
+                {{/each}}
+
+            </ul>
+
+            <div class="eq-man-missions-list-show-completed {{#if ifCond missions_completed_num '==' 0}}hide{{/if}}">
+                <a href="#" class="btn btn-default show-all-missions-completed {{#if ifCond missions_is_hide_completed '==' true}}show{{/if}}">{{tr "Show completed missions"}}</a>
+                <a href="#" class="btn btn-default hide-all-missions-completed {{#if ifCond missions_is_hide_completed '==' false}}show{{/if}}">{{tr "Hide completed missions"}}</a>
+            </div>
+
+            <ul class="eq-man-missions-list eq-man-missions-list-completed {{#if ifCond missions_completed_num '==' 0}}hide{{/if}}">
+
+                {{#each missions}}
+                    {{#if ifCond complete '==' true}}
+                        {{> missions_item}}
+                    {{/if}}
+                {{/each}}
+
+            </ul>
+
+        </div>
+
+        <div class="missions_footer">
+            <p>
+                <a href="#" class="btn btn-default eq-ui-btn-flat mark-all-missions-done {{#if ifCond missions_num '==' 0}}disabled{{/if}}">{{tr "Mark all as done"}}</a>
+            </p>
+        </div>
+
+    </div>
+</template>
+
+
+<template name="missions_item">
+
+    <li class="eq-man-tasks-list-item tasks_item {{#if complete}}tasks_item_complete{{/if}}">
+        <div class="eq-ui-card">
+
+            <div class="eq-ui-card-title">
+                <h2 class="eq-ui-card-title-text">{{{subject}}}</h2>
+            </div>
+
+            <div class="eq-ui-card-supporting-text">
+                <!--div class="tasks_item_assigned left">
+                    <span class="tasks_item_assigned_title">{{tr "Assigned by"}}:</span>
+                    <div class="tasks_item_assigned_avatars">
+                        <img class="circle" src="/img/avatar_0.jpg">
+                        <img class="circle" src="/img/avatar_0.jpg">
+                    </div>
+                </div-->
+                <div class="tasks_item_assigned right">
+                    <span class="tasks_item_assigned_title">{{tr "Assigned to"}}:</span>
+                    <div class="tasks_item_assigned_avatars">
+                        {{#each assigned_to}}
+                        <img class="circle" src="{{avatar}}">
+                        {{/each}}
+                    </div>
+                </div>
+            </div>
+
+            <div class="eq-ui-card-supporting-text">
+                <div class="tasks_item_details left">
+                    <span class="tasks_item_details_label">{{tr "Milestone"}}:<span>{{milestone}}</span></span>
+                    <span class="tasks_item_details_label">{{tr "Project"}}:<span>{{{project}}}</span></span>
+                    <span class="tasks_item_details_label">{{tr "Card"}}:<span>{{{card}}}</span></span>
+                </div>
+                <div class="tasks_item_details right">
+                    <span class="tasks_item_details_label">{{tr "Effort"}}:<span>{{effort}} {{tr "days"}}</span></span>
+                    <span class="tasks_item_details_label">{{tr "ETA"}}:<span>{{eta}}</span></span>
+                    <span class="tasks_item_details_label">{{tr "Closed On"}}:<span>{{closed_on}}</span></span>
+                </div>
+            </div>
+
+            <div class="eq-ui-card-supporting-text last">
+                <div class="tasks_item_progress">
+                    <div class="tasks_item_progress_bar">
+                        <div class="eq-ui-progress">
+                            <div class="eq-ui-determinate" style="width: {{progress}}%;"></div>
+                        </div>
+                    </div>
+                    <div class="tasks_item_progress_num">{{progress}}%</div>
+                </div>
+            </div>
+
+            <div class="eq-ui-card-menu">
+                <ul class="right eq-ui-nav-menu">
+                    <li class="eq-ui-nav-menu-item-icon">
+                        <span class="tasks_item_percent_top">{{points}}</span>
+                    </li>
+                    <li class="eq-ui-nav-menu-item-icon">
+                        <input type="checkbox" id="tasks_item_check_{{id}}" class="eq-ui-input filled-in mark-complete" checked="{{complete}}" />
+                        <label for="tasks_item_check_{{id}}"></label>
+                    </li>
+                </ul>
+            </div>
+
+        </div>
+    </li>
+
 </template>
