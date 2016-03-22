@@ -7,6 +7,7 @@ Template.missions.onCreated(function(){
     var template = this;
 
     Session.setDefault("missionsHideCompleted", true);
+    Session.setDefault("missionsShowModalAdd", false);
 
     template.autorun(function() {
         if(Meteor.user() && Meteor.user().username){
@@ -37,6 +38,9 @@ Template.missions.helpers({
     },
     missions_is_hide_completed: function () {
         return Session.get("missionsHideCompleted");
+    },
+    is_show_modal_add: function () {
+        return Session.get("missionsShowModalAdd");
     }
 });
 
@@ -58,6 +62,10 @@ Template.missions.events({
         Session.set("missionsHideCompleted", true);
         $('.eq-man-missions-list-completed').css('display','none');
 
+    },
+    "click .trigger-eq-man-missions-modal-add": function (event) {
+        event.preventDefault();
+        Session.set("missionsShowModalAdd", true);
     }
 });
 
@@ -67,7 +75,7 @@ Template.missions.events({
 
 // Rendered
 Template.missions_item.onRendered(function(){
-    //console.log('tasks item rendered...');
+    //console.log('missions item rendered...');
 });
 
 // Events

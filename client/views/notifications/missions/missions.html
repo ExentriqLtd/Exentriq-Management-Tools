@@ -36,6 +36,16 @@
             </p>
         </div>
 
+        <div class="eq-ui-btn-fab-action">
+            <a class="btn btn-primary eq-ui-btn-fab eq-ui-waves-light trigger-eq-man-missions-modal-add">
+                <i class="mdi mdi-plus icon"></i>
+            </a>
+        </div>
+
+        {{#if is_show_modal_add}}
+            {{> missions_modal_add}}
+        {{/if}}
+
     </div>
 </template>
 
@@ -50,13 +60,19 @@
             </div>
 
             <div class="eq-ui-card-supporting-text">
-                <!--div class="tasks_item_assigned left">
+
+                {{#if assigned_from.length}}
+                <div class="tasks_item_assigned left">
                     <span class="tasks_item_assigned_title">{{tr "Assigned by"}}:</span>
                     <div class="tasks_item_assigned_avatars">
-                        <img class="circle" src="/img/avatar_0.jpg">
-                        <img class="circle" src="/img/avatar_0.jpg">
+                        {{#each assigned_from}}
+                            <img class="circle" src="{{avatar}}">
+                        {{/each}}
                     </div>
-                </div-->
+                </div>
+                {{/if}}
+
+                {{#if assigned_to.length}}
                 <div class="tasks_item_assigned right">
                     <span class="tasks_item_assigned_title">{{tr "Assigned to"}}:</span>
                     <div class="tasks_item_assigned_avatars">
@@ -65,18 +81,26 @@
                         {{/each}}
                     </div>
                 </div>
+                {{/if}}
+
             </div>
 
             <div class="eq-ui-card-supporting-text">
                 <div class="tasks_item_details left">
                     <span class="tasks_item_details_label">{{tr "Milestone"}}:<span>{{milestone}}</span></span>
-                    <span class="tasks_item_details_label">{{tr "Project"}}:<span>{{{project}}}</span></span>
-                    <span class="tasks_item_details_label">{{tr "Card"}}:<span>{{{card}}}</span></span>
+                    <span class="tasks_item_details_label">{{tr "Project"}}:<span>{{project}}</span></span>
+                    <span class="tasks_item_details_label">{{tr "Card"}}:<span>{{card}}</span></span>
                 </div>
                 <div class="tasks_item_details right">
                     <span class="tasks_item_details_label">{{tr "Effort"}}:<span>{{effort}} {{tr "days"}}</span></span>
                     <span class="tasks_item_details_label">{{tr "ETA"}}:<span>{{eta}}</span></span>
-                    <span class="tasks_item_details_label">{{tr "Closed On"}}:<span>{{closed_on}}</span></span>
+                    <span class="tasks_item_details_label">{{tr "Closed On"}}:
+                        {{#if ifCond closed_on '==' null}}
+                            <span>{{tr "Not Closed"}}</span>
+                        {{else}}
+                            <span>{{ livestamp closed_on }}</span>
+                        {{/if}}
+                    </span>
                 </div>
             </div>
 

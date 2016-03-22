@@ -26,22 +26,22 @@ var _start_point = EqApp.client;
         // Build task
         return {
             "id": task.id,
-            "subject": task.content.clean,
-            "action": link,
+            "subject": task.content.clean || '&nbsp;',
+            "action": link || '#',
 
-            "points": task.content.points,
+            "points": task.content.points || 0,
 
             "assigned_to": assigned_to,
 
-            "effort": task.content.days,
-            "eta": task.content.eta,
+            "effort": task.content.days || 0,
+            "eta": task.content.eta || '',
             "closed_on": 'Not Closed',
 
-            "milestone": task.content.milestone,
-            "project": task.boardTitle,
-            "card": '&nbsp;',
+            "milestone": task.content.milestone || '',
+            "project": task.boardTitle || '',
+            "card": '',
 
-            "progress": task.content.progress,
+            "progress": task.content.progress || 0,
 
             "complete": task.status
         };

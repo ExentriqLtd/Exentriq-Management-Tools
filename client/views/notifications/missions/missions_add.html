@@ -1,0 +1,36 @@
+<template name="missions_modal_add">
+
+    <div id="eq-man-missions-modal-add" class="eq-ui-modal eq-ui-modal-bottom-sheet">
+
+        <!-- Content -->
+        <div class="eq-ui-modal-content">
+
+            <form id="query">
+			    <div class="row">
+	                <div class="col-md-12">
+	                    <div class="eq-ui-form-group eq-ui-input-field eq-man-autocomplete">
+	                        {{> inputAutocomplete settings=autocompleteSettings id="statement-eml" class="eq-ui-input" placeholder="assign @user to mission inside a #board"}}
+	                        <label for="statement-eml" class="active">{{tr "Exentrinq Markup Language statement"}}</label>
+	                    </div>
+	                </div>
+			    </div>
+                <div class="row">
+                    <div class="col-md-12">
+                        <div class="eq-ui-form-group eq-ui-input-field autocomplete-guide">
+                            <span>Guide: [@user] [#board]</span>
+                        </div>
+                    </div>
+                </div>
+		    </form>
+
+        </div>
+
+        <!-- Footer -->
+        <div class="eq-ui-modal-footer">
+            <a class="btn btn-default eq-ui-btn-flat eq-ui-waves eq-ui-secondary-color-text eq-ui-modal-close">{{tr "Cancel"}}</a>
+            <a id="add-mission-action" class="btn btn-default eq-ui-btn-flat eq-ui-waves eq-ui-secondary-color-text eq-ui-modal-close">{{tr "Add"}}</a>
+        </div>
+
+    </div>
+
+</template>

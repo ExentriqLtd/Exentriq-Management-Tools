@@ -35,6 +35,23 @@ var _start_point = EqApp.client;
     };
 
     /* --------------------------------------- */
+    /* Space
+    /* --------------------------------------- */
+    _this.space = function () {
+        var space = null;
+        
+        // Get Query
+        var query_string = EqUI.site.query_string;
+
+        // Is spaceid
+        if(query_string.spaceid !== undefined) {
+            space = query_string.spaceid;
+        }
+        
+        return space;
+    };
+
+    /* --------------------------------------- */
     /* User language
     /* --------------------------------------- */
     _this.user_language = function () {

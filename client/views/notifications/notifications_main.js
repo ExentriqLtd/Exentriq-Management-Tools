@@ -1,3 +1,12 @@
+if(!EqApp.notifications){EqApp.notifications = {};}
+
+// Created
+Template.notifications_main.onCreated(function() {
+    var space = EqApp.client.site.space();
+    Meteor.subscribe("appUsers");
+    Meteor.subscribe("boards", space);
+});
+
 // Rendered
 Template.notifications_main.onRendered(function(){
     //console.log('notifications_main rendered...');
@@ -13,5 +22,52 @@ Template.notifications_main.helpers({
     },
     missions_num: function () {
         return EqApp.client.missions.count();
+    },
+    classes: function () {
+        var _classes = '';
+        if(Meteor.settings.public.isDebug){
+            _classes += ' is-debug';
+        }
+        return _classes;
     }
 });
+
+// Global Helps
+EqApp.notifications.autocompleteReplace = function(event, template, doc, fieldName){
+    var replaceFrom;
+    var replaceTo;
+    if(doc.hasOwnProperty('title')){
+        replaceFrom = '#'+doc.title;
+        replaceTo = "#\""+doc.title+"\"";
+    }
+    else{
+        replaceFrom = '@'+doc.username;
+        replaceTo = "@\""+doc.username+"\"";
+    }
+    var statementDom = template.find(fieldName);
+    var statement = statementDom.value.replace(replaceFrom, replaceTo);
+    $(statementDom).val(statement);
+};
+
+EqApp.notifications.autocompleteSettings = function() {
+    return {
+        position: "top",
+        limit: 6,
+        rules: [
+            {
+                token: '@',
+                collection: AppUsers,
+                field: "username",
+                template: Template.notifyUserPill,
+                noMatchTemplate: Template.noMatch
+            },
+            {
+                token: '#',
+                collection: Boards,
+                field: "title",
+                template: Template.notifyBoardPill,
+                noMatchTemplate: Template.noMatch
+            }
+        ]
+    };
+};
