@@ -7,6 +7,7 @@ Template.tasks.onCreated(function(){
     var template = this;
 
     Session.setDefault("tasksHideCompleted", true);
+    Session.setDefault("tasksShowModalAdd", false);
 
     template.autorun(function() {
         if(Meteor.user() && Meteor.user().username){
@@ -37,6 +38,9 @@ Template.tasks.helpers({
     },
     tasks_is_hide_completed: function () {
         return Session.get("tasksHideCompleted");
+    },
+    is_show_modal_add: function () {
+        return Session.get("tasksShowModalAdd");
     }
 });
 
@@ -58,6 +62,10 @@ Template.tasks.events({
         Session.set("tasksHideCompleted", true);
         $('.eq-man-tasks-list-completed').css('display','none');
 
+    },
+    "click .trigger-eq-man-tasks-modal-add": function (event) {
+        event.preventDefault();
+        Session.set("tasksShowModalAdd", true);
     }
 });
 

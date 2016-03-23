@@ -23319,6 +23319,7 @@ body.tp_notifications_main #__blaze-root {
 #tasks {
   height: calc(100% - 56px);
   background-color: #f9f9f9;
+  position: relative;
 }
 
 #tasks .eq-man-tasks-list {
@@ -23535,5 +23536,20 @@ body.tp_notifications_main #__blaze-root {
 
 #notifications_main .tasks_item.tasks_item_complete {
   opacity: .7;
+}
+
+/* ---------------------------------------------------------------------- */
+/* Missions Modal Add
+/* ---------------------------------------------------------------------- */
+#tasks #eq-man-tasks-modal-add {
+  overflow: visible;
+}
+
+#tasks #eq-man-tasks-modal-add .eq-ui-modal-footer {
+  text-align: center;
+}
+
+#tasks #eq-man-tasks-modal-add .eq-ui-modal-footer a {
+  float: none;
 }
 /*# sourceMappingURL=app.css.map */

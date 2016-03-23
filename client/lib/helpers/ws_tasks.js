@@ -14,6 +14,7 @@ var _start_point = EqApp.client;
     /* --------------------------------------- */
     _this.build = function (task) {
         var link = _this.parse_url(task);
+        var assigned_from = [];
         var assigned_to = [];
 
         // Build avatars
@@ -31,11 +32,12 @@ var _start_point = EqApp.client;
 
             "points": task.content.points || 0,
 
+            "assigned_from": assigned_from,
             "assigned_to": assigned_to,
 
             "effort": task.content.days || 0,
             "eta": task.content.eta || '',
-            "closed_on": 'Not Closed',
+            "closed_on": task.content.closed_on || null,
 
             "milestone": task.content.milestone || '',
             "project": task.boardTitle || '',
@@ -67,23 +69,79 @@ var _start_point = EqApp.client;
     };
 
     /* --------------------------------------- */
+    /* Add
+    /* --------------------------------------- */
+    _this.add = function (statementEml) {
+
+        // Data
+        var data = {
+            username: EqApp.client.site.username(),
+            message: statementEml
+        };
+
+        //console.log('data', data);
+
+        // WS Add
+        _this.ws_add(function(result, error){
+            if(result){
+                if(result.status === 'fail'){
+                    console.log('error:', result.error);
+                    EqApp.client.site.toast.error('Error for Create Task: ' + result.error);
+                } else {
+                    console.log('add', result);
+                    _this.ws_update_all();
+                    EqApp.client.site.toast.success("Create Task Successfully");
+                }
+            } else if (error){
+                console.log('error:', error);
+            }
+        }, data);
+    };
+
+    /* --------------------------------------- */
     /* Set complete
     /* --------------------------------------- */
     _this.set_complete = function (id, value) {
 
-        // Send to ws
-        //_this.ws_set_complete_by_id(id);
+        // Data
+        var data = {
+            id: id,
+            open: !value === true ? "true":"false"
+        };
+
+        //console.log('data', data);
 
         // Update UI
         var tasks = EqApp.tasks_data.get();
         var is_update = false;
+        var key_update = null;
         for (var key in tasks) {
             if (tasks[key].id === id) {
                 tasks[key].complete = value;
+                key_update = key;
                 is_update = true;
             }
         }
         if(is_update){EqApp.tasks_data.set(tasks);}
+
+        // WS Open
+        _this.ws_open(function(result, error){
+            if(result){
+                if(result.status === 'fail'){
+                    console.log('error:', result.error);
+                } else {
+                    console.log('success:', result);
+                    // Update UI
+                    /*if(key_update && result.data){
+                        var tasks = EqApp.tasks_data.get();
+                        tasks[key_update].closed_on = result.data.closed_on || null;
+                        EqApp.tasks_data.set(tasks);
+                    }*/
+                }
+            } else if (error){
+                console.log('error:', error);
+            }
+        }, data);
     };
 
     /* --------------------------------------- */
@@ -93,18 +151,20 @@ var _start_point = EqApp.client;
 
         // Update UI
         var tasks = EqApp.tasks_data.get();
-        var is_update = false;
+        //var is_update = false;
         for (var key in tasks) {
             var _item = tasks[key];
             if (_item.complete === false) {
+                _this.set_complete(tasks[key].id, true);
+
                 // Send to ws
                 //_this.ws_set_complete_by_id(_item.id);
 
-                tasks[key].complete = true;
-                is_update = true;
+                //tasks[key].complete = true;
+                //is_update = true;
             }
         }
-        if(is_update){EqApp.tasks_data.set(tasks);}
+        //if(is_update){EqApp.tasks_data.set(tasks);}
     };
 
     /* --------------------------------------- */
@@ -183,6 +243,22 @@ var _start_point = EqApp.client;
             } else if (error){
                 console.log('error:', error);
             }
+        });
+    };
+
+    // Add
+    _this.ws_add = function (callback, data) {
+        Meteor.call('tasks.add', data,
+        function(error, result){
+            if($.isFunction(callback)){callback(result, error);}
+        });
+    };
+
+    // Open
+    _this.ws_open = function (callback, data) {
+        Meteor.call('tasks.open', data,
+        function(error, result){
+            if($.isFunction(callback)){callback(result, error);}
         });
     };
 
