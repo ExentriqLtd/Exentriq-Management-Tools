@@ -1,11 +1,16 @@
 if(!EqApp.notifications){EqApp.notifications = {};}
 
+Tracker.autorun(function() {
+	if (Meteor.user()) {
+	    var username = Meteor.user().username;
+	    Meteor.subscribe("userBoards", username, null);
+	}
+});
+
 // Created
 Template.notifications_main.onCreated(function() {
     var space = EqApp.client.site.space();
     Meteor.subscribe("appUsers");
-    var username = Meteor.user().username;
-    Meteor.subscribe("userBoards", username, null);
 });
 
 // Rendered
