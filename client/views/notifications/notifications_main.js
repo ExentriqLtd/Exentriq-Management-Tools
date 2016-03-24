@@ -4,7 +4,7 @@ if(!EqApp.notifications){EqApp.notifications = {};}
 Template.notifications_main.onCreated(function() {
     var space = EqApp.client.site.space();
     Meteor.subscribe("appUsers");
-    Meteor.subscribe("boards", space);
+    Meteor.subscribe("all_boards");
 });
 
 // Rendered
