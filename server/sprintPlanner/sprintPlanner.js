@@ -7,6 +7,9 @@ Meteor.publish("appUsers", function () {
 Meteor.publish("boards", function (space) {
    return Boards.find({space:space}, {sort: {title: +1}});
 });
+Meteor.publish("all_boards", function (space) {
+    return Boards.find({}, {sort: {title: +1}});
+ });
 
 Meteor.startup(function () {
     // Global configuration
