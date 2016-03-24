@@ -4,7 +4,8 @@ if(!EqApp.notifications){EqApp.notifications = {};}
 Template.notifications_main.onCreated(function() {
     var space = EqApp.client.site.space();
     Meteor.subscribe("appUsers");
-    Meteor.subscribe("all_boards");
+    var username = Meteor.user().username;
+    Meteor.subscribe("userBoards", username, null);
 });
 
 // Rendered
@@ -66,7 +67,7 @@ EqApp.notifications.autocompleteSettings = function() {
             },
             {
                 token: '#',
-                collection: Boards,
+                collection: UserBoards,
                 field: "title",
                 template: Template.notifyBoardPill,
                 noMatchTemplate: Template.noMatch
