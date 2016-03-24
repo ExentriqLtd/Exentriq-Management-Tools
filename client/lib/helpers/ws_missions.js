@@ -10,6 +10,13 @@ var _start_point = EqApp.client;
     _this.window_load = false;
 
     /* --------------------------------------- */
+    /* Update Collection
+    /* --------------------------------------- */
+    _this.updateCollection = function () {
+        Session.set("missionsUpdatedNum", Session.get("missionsUpdatedNum")+1);
+    };
+
+    /* --------------------------------------- */
     /* Build
     /* --------------------------------------- */
     _this.build = function (mission) {
@@ -91,7 +98,8 @@ var _start_point = EqApp.client;
                     EqApp.client.site.toast.error('Error for Create Mission: ' + result.error);
                 } else {
                     //console.log('add', result);
-                    _this.ws_update_all();
+                    //_this.ws_update_all();
+                    _this.updateCollection();
                     EqApp.client.site.toast.success("Create Mission Successfully");
                 }
             } else if (error){
@@ -112,7 +120,7 @@ var _start_point = EqApp.client;
         };
 
         // Update UI
-        var missions = EqApp.missions_data.get();
+        /*var missions = EqApp.missions_data.get();
         var is_update = false;
         var key_update = null;
         for (var key in missions) {
@@ -122,7 +130,7 @@ var _start_point = EqApp.client;
                 is_update = true;
             }
         }
-        if(is_update){EqApp.missions_data.set(missions);}
+        if(is_update){EqApp.missions_data.set(missions);}*/
 
         // WS Open
         _this.ws_open(function(result, error){
@@ -130,13 +138,14 @@ var _start_point = EqApp.client;
                 if(result.status === 'fail'){
                     console.log('error:', result.error);
                 } else {
+                    _this.updateCollection();
                     //console.log('success:', result);
                     // Update UI
-                    if(key_update && result.data){
+                    /*if(key_update && result.data){
                         var missions = EqApp.missions_data.get();
                         missions[key_update].closed_on = result.data.closed_on || null;
                         EqApp.missions_data.set(missions);
-                    }
+                    }*/
                 }
             } else if (error){
                 console.log('error:', error);

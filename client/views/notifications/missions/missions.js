@@ -8,15 +8,17 @@ Template.missions.onCreated(function(){
 
     Session.setDefault("missionsHideCompleted", true);
     Session.setDefault("missionsShowModalAdd", false);
+    Session.setDefault("missionsUpdatedNum", 1);
 
     template.autorun(function() {
         if(Meteor.user() && Meteor.user().username){
             if(Meteor.settings.public.isDebug){
                 console.log('[missions] username to token:', Meteor.user().username);
             }
+            Meteor.subscribe("notifyMissions", EqApp.client.site.username(), Session.get("missionsUpdatedNum"));
             EqApp.client.missions.ws_update_all(); // Update all
         }
-        //console.log('autorun');
+        console.log('autorun', Session.get("missionsUpdatedNum"));
     });
 });
 
@@ -27,14 +29,28 @@ Template.missions.onRendered(function(){
 
 // Helpers
 Template.missions.helpers({
-    missions: function () {
-        return EqApp.missions_data.get();
+    missions: function (type) {
+        //return EqApp.missions_data.get();
+        var filter = {};
+        if(type==='open'){
+            filter.closed_on={$in:[null, '']};
+        }
+        else if(type==='closed'){
+            filter.closed_on={$not:{$in:[null, '']}};
+        }
+        return NotifyMissions.find(filter, {sort: {points: -1}});
     },
     missions_num: function () {
-        return EqApp.client.missions.count();
+        var filter = {};
+        filter.closed_on={$in:[null, '']};
+        return NotifyMissions.find(filter, {sort: {points: -1}}).count();
+        //return EqApp.client.missions.count();
     },
     missions_completed_num: function () {
-        return EqApp.client.missions.complete_count();
+        var filter = {};
+        filter.closed_on={$not:{$in:[null, '']}};
+        return NotifyMissions.find(filter, {sort: {points: -1}}).count();
+        //return EqApp.client.missions.complete_count();
     },
     missions_is_hide_completed: function () {
         return Session.get("missionsHideCompleted");

@@ -5,10 +5,10 @@
 
             <ul class="eq-man-missions-list">
 
-                {{#each missions}}
-                    {{#if ifCond complete '==' false}}
+                {{#each missions 'open'}}
+
                         {{> missions_item}}
-                    {{/if}}
+
                 {{/each}}
 
             </ul>
@@ -20,10 +20,10 @@
 
             <ul class="eq-man-missions-list eq-man-missions-list-completed {{#if ifCond missions_completed_num '==' 0}}hide{{/if}}">
 
-                {{#each missions}}
-                    {{#if ifCond complete '==' true}}
+                {{#each missions 'closed'}}
+
                         {{> missions_item}}
-                    {{/if}}
+
                 {{/each}}
 
             </ul>

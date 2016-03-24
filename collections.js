@@ -6,3 +6,6 @@ BoardSpaces = new Mongo.Collection('boardSpaces');
 Tasks = new Mongo.Collection("tasks");
 AppUsers = new Mongo.Collection('appUsers');
 UserBoards = new Mongo.Collection('userBoards');
+
+// Notifications
+NotifyMissions = new Mongo.Collection('notifyMissions');
