@@ -21,7 +21,10 @@ Template.notifications_main.helpers({
         return EqApp.client.tasks.count();
     },
     missions_num: function () {
-        return EqApp.client.missions.count();
+        var filter = {};
+        filter.closed_on={$in:[null, '']};
+        return NotifyMissions.find(filter, {sort: {points: -1}}).count();
+        //return EqApp.client.missions.count();
     },
     classes: function () {
         var _classes = '';
