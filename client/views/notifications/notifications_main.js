@@ -1,16 +1,40 @@
 if(!EqApp.notifications){EqApp.notifications = {};}
 
-Tracker.autorun(function() {
-	if (Meteor.user()) {
-	    var username = Meteor.user().username;
-	    Meteor.subscribe("userBoards", username, null);
-	}
+var notifyInterval;
+
+// Destroyed
+Template.notifications_main.onDestroyed(function () {
+    Meteor.clearInterval(notifyInterval);
 });
 
 // Created
 Template.notifications_main.onCreated(function() {
+    var template = this;
     var space = EqApp.client.site.space();
     Meteor.subscribe("appUsers");
+
+    // Main Interval (5 min.)
+    var notifyIntervalTime = 60000*5;
+    notifyInterval = Meteor.setInterval(function() {
+        if(Meteor.settings.public.isDebug){
+            console.log('[Auto Update tasks and missions]');
+        }
+        // Update tasks - TODO
+
+        // Update missions
+        EqApp.client.missions.updateCollection();
+    }, notifyIntervalTime);
+
+    // Autorun
+    template.autorun(function() {
+        if(Meteor.user() && Meteor.user().username){
+            if(Meteor.settings.public.isDebug){
+                console.log('[notifications main] username to token:', Meteor.user().username);
+            }
+            Meteor.subscribe("userBoards", EqApp.client.site.username(), null);
+        }
+        //console.log('autorun');
+    });
 });
 
 // Rendered
@@ -27,10 +51,7 @@ Template.notifications_main.helpers({
         return EqApp.client.tasks.count();
     },
     missions_num: function () {
-        var filter = {};
-        filter.closed_on={$in:[null, '']};
-        return NotifyMissions.find(filter, {sort: {points: -1}}).count();
-        //return EqApp.client.missions.count();
+        return EqApp.client.missions.count();
     },
     classes: function () {
         var _classes = '';

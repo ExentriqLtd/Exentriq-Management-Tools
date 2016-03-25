@@ -14,10 +14,11 @@ Template.missions.onCreated(function(){
         if(Meteor.user() && Meteor.user().username){
             if(Meteor.settings.public.isDebug){
                 console.log('[missions] username to token:', Meteor.user().username);
+                console.log('[Update notifyMissions] x', Session.get("missionsUpdatedNum"));
             }
             Meteor.subscribe("notifyMissions", EqApp.client.site.username(), Session.get("missionsUpdatedNum"));
         }
-        console.log('autorun', Session.get("missionsUpdatedNum"));
+        //console.log('autorun');
     });
 });
 

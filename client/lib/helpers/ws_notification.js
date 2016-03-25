@@ -314,10 +314,20 @@ var _start_point = EqApp.client;
 
             }
             else if(data.cmd==='NOTIFICATION'){
+                var _ms = 2000;
+
+                BasUtils.helps.delay(function(){
+                    // List all notifications
+                    _this.ws_list_all_notifications();
+
+                    // Update tasks - TODO
+
+                    // Update missions
+                    EqApp.client.missions.updateCollection();
+                }, _ms );
 
                 // Add notification
-                _this.add_notification(data.value);
-
+                //_this.add_notification(data.value);
             }
         };
 
