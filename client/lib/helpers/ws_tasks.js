@@ -73,6 +73,8 @@ var _start_point = EqApp.client;
     /* --------------------------------------- */
     _this.add = function (statementEml) {
 
+        if(statementEml === ''){return;}
+
         // Data
         var data = {
             username: EqApp.client.site.username(),

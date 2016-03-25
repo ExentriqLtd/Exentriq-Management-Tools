@@ -16,7 +16,6 @@ Template.missions.onCreated(function(){
                 console.log('[missions] username to token:', Meteor.user().username);
             }
             Meteor.subscribe("notifyMissions", EqApp.client.site.username(), Session.get("missionsUpdatedNum"));
-            EqApp.client.missions.ws_update_all(); // Update all
         }
         console.log('autorun', Session.get("missionsUpdatedNum"));
     });
@@ -30,27 +29,13 @@ Template.missions.onRendered(function(){
 // Helpers
 Template.missions.helpers({
     missions: function (type) {
-        //return EqApp.missions_data.get();
-        var filter = {};
-        if(type==='open'){
-            filter.closed_on={$in:[null, '']};
-        }
-        else if(type==='closed'){
-            filter.closed_on={$not:{$in:[null, '']}};
-        }
-        return NotifyMissions.find(filter, {sort: {points: -1}});
+        return EqApp.client.missions.all(type);
     },
     missions_num: function () {
-        var filter = {};
-        filter.closed_on={$in:[null, '']};
-        return NotifyMissions.find(filter, {sort: {points: -1}}).count();
-        //return EqApp.client.missions.count();
+        return EqApp.client.missions.count();
     },
     missions_completed_num: function () {
-        var filter = {};
-        filter.closed_on={$not:{$in:[null, '']}};
-        return NotifyMissions.find(filter, {sort: {points: -1}}).count();
-        //return EqApp.client.missions.complete_count();
+        return EqApp.client.missions.complete_count();
     },
     missions_is_hide_completed: function () {
         return Session.get("missionsHideCompleted");

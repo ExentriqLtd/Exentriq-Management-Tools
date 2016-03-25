@@ -6,9 +6,7 @@
             <ul class="eq-man-missions-list">
 
                 {{#each missions 'open'}}
-
-                        {{> missions_item}}
-
+                    {{> missions_item}}
                 {{/each}}
 
             </ul>
@@ -21,9 +19,7 @@
             <ul class="eq-man-missions-list eq-man-missions-list-completed {{#if ifCond missions_completed_num '==' 0}}hide{{/if}}">
 
                 {{#each missions 'closed'}}
-
-                        {{> missions_item}}
-
+                    {{> missions_item}}
                 {{/each}}
 
             </ul>

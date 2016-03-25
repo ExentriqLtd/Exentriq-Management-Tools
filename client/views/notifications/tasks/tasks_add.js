@@ -10,17 +10,8 @@ Template.tasks_modal_add.onRendered(function(){
     EqUI.site.body = $('#__blaze-root');
 
     $('#eq-man-tasks-modal-add').openModal({
-        complete: function() {
-            //console.log('close modal...');
-            Session.set("tasksShowModalAdd", false);
-        },
-        ready: function() {
-            //console.log('open modal...');
-            // Rollback to body
-            EqUI.site.body = $('body');
-            // Focus
-            $('#eq-man-tasks-modal-add .eq-man-autocomplete input').focus();
-        }
+        complete: on_close_modal,
+        ready: on_open_modal
     });
 
 });
@@ -34,12 +25,31 @@ Template.tasks_modal_add.helpers({
 
 // Events
 Template.tasks_modal_add.events({
-    "click #add-task-action": function(event, template) {
+    "click #add-task-action, submit #form-tasks-add": function(event, template) {
         event.preventDefault();
         var statementEml = template.find('#statement-eml').value;
         EqApp.client.tasks.add(statementEml);
+
+        // Close
+        $('#eq-man-tasks-modal-add').closeModal({
+            complete: on_close_modal
+        });
     },
     "autocompleteselect input": function(event, template, doc) {
         EqApp.notifications.autocompleteReplace(event, template, doc, '#statement-eml');
     }
 });
+
+// COMMONS
+var on_close_modal = function(){
+    //console.log('close modal...');
+    Session.set("tasksShowModalAdd", false);
+};
+
+var on_open_modal = function(){
+    //console.log('open modal...');
+    // Rollback to body
+    EqUI.site.body = $('body');
+    // Focus
+    $('#eq-man-tasks-modal-add .eq-man-autocomplete input').focus();
+};

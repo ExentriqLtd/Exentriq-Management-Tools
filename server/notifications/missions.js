@@ -1,59 +1,68 @@
-Meteor.methods({
-    'missions.get_all': function(username){
-        this.unblock();
-        var apiUrl = Meteor.settings.private.integrationBusPath + '/getUserMissions?username=' + encodeURIComponent(username);
-        return Rest.get(apiUrl);
-    },
-    'missions.add': function(data){
-        this.unblock();
-        var apiUrl = Meteor.settings.private.integrationBusPath + '/createMission';
-        return Rest.post(apiUrl, data);
-    },
-    'missions.open': function(data){
-        this.unblock();
-        var apiUrl = Meteor.settings.private.integrationBusPath + '/updateMission';
-        return Rest.post(apiUrl, data);
-    }
-});
+var subs_notifyMissions = {};
 
 Meteor.publish('notifyMissions', function(username, fake_update_num) {
     var self = this;
+    subs_notifyMissions[self._session.id] = self;
 
     try {
 
         var apiUrl = Meteor.settings.private.integrationBusPath + '/getUserMissions?username=' + encodeURIComponent(username);
         var response = HTTP.get(apiUrl);
 
-        console.log('update missions...');
+        console.log('update missions x', fake_update_num);
 
         _.each(response.data.result, function(item) {
             var _item = build_item(item);
-
-            console.log(_item.id);
-
             self.added('notifyMissions', _item.id, _item);
         });
 
         self.ready();
+
+        self.onStop(function () {
+            delete subs_notifyMissions[self._session.id];
+        });
 
     } catch (error) {
         console.log(error);
     }
 });
 
+
+Meteor.methods({
+    'missions.add': function(data){
+        this.unblock();
+        var apiUrl = Meteor.settings.private.integrationBusPath + '/createMission';
+        return Rest.post(apiUrl, data);
+    },
+    'missions.open': function(data, doc){
+        // Update UI
+        _.each(subs_notifyMissions, function(sub) {
+            sub.changed('notifyMissions', doc.id, doc);
+        });
+        
+        // Update WS
+        this.unblock();
+        var apiUrl = Meteor.settings.private.integrationBusPath + '/updateMission';
+        return Rest.post(apiUrl, data);
+    }
+});
+
+
 /* --------------------------------------- */
-/* Build item
+/* HELPS
 /* --------------------------------------- */
+
+// Build item
 var build_item = function (item) {
     var assigned_from = [];
     var assigned_to = [];
 
-    // Avatar from
+    // Build avatars from
     if(item.content.author){
         assigned_from.push({avatar:EqApp.lib.common.avatar(item.content.author)});
     }
 
-    // Build avatars
+    // Build avatars to
     item.content.users.forEach(function(user){
         assigned_to.push({avatar:EqApp.lib.common.avatar(user)});
     });
