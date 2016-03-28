@@ -19,7 +19,8 @@ Template.notifications_main.onCreated(function() {
         if(Meteor.settings.public.isDebug){
             console.log('[Auto Update tasks and missions]');
         }
-        // Update tasks - TODO
+        // Update tasks
+        EqApp.client.tasks.updateCollection();
 
         // Update missions
         EqApp.client.missions.updateCollection();

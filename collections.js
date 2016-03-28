@@ -8,4 +8,5 @@ AppUsers = new Mongo.Collection('appUsers');
 UserBoards = new Mongo.Collection('userBoards');
 
 // Notifications
+NotifyTasks = new Mongo.Collection('notifyTasks');
 NotifyMissions = new Mongo.Collection('notifyMissions');

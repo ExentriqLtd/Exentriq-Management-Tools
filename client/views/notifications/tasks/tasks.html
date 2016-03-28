@@ -5,10 +5,8 @@
 
             <ul class="eq-man-tasks-list">
 
-                {{#each tasks}}
-                    {{#if ifCond complete '==' false}}
-                        {{> tasks_item}}
-                    {{/if}}
+                {{#each tasks 'open'}}
+                    {{> tasks_item}}
                 {{/each}}
 
             </ul>
@@ -20,10 +18,8 @@
 
             <ul class="eq-man-tasks-list eq-man-tasks-list-completed {{#if ifCond tasks_completed_num '==' 0}}hide{{/if}}">
 
-                {{#each tasks}}
-                    {{#if ifCond complete '==' true}}
-                        {{> tasks_item}}
-                    {{/if}}
+                {{#each tasks 'closed'}}
+                    {{> tasks_item}}
                 {{/each}}
 
             </ul>

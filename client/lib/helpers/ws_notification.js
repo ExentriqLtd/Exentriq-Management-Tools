@@ -174,6 +174,9 @@ var _start_point = EqApp.client;
         var _link = object.link.replace(new RegExp('&#x2F;', 'g'), "/").replace(new RegExp('&amp;', 'g'), "&");
         var _link_label = object.type;
 
+        //console.log('valid_url', BasUtils.helps.valid_url(_link));
+        //console.log('type: ', object.type, 'link: ', _link);
+
         // Is board
         if(_link.indexOf("/boards")===0){
             _link = "/emawrap?path="+_link.substring(1,_link.length);
@@ -320,7 +323,8 @@ var _start_point = EqApp.client;
                     // List all notifications
                     _this.ws_list_all_notifications();
 
-                    // Update tasks - TODO
+                    // Update tasks
+                    EqApp.client.tasks.updateCollection();
 
                     // Update missions
                     EqApp.client.missions.updateCollection();

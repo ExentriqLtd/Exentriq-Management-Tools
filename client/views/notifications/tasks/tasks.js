@@ -8,13 +8,15 @@ Template.tasks.onCreated(function(){
 
     Session.setDefault("tasksHideCompleted", true);
     Session.setDefault("tasksShowModalAdd", false);
+    Session.setDefault("tasksUpdatedNum", 1);
 
     template.autorun(function() {
         if(Meteor.user() && Meteor.user().username){
             if(Meteor.settings.public.isDebug){
                 console.log('[tasks] username to token:', Meteor.user().username);
+                console.log('[Update notifyTasks] x', Session.get("tasksUpdatedNum"));
             }
-            EqApp.client.tasks.ws_update_all(); // Update all
+            Meteor.subscribe("notifyTasks", EqApp.client.site.username(), Session.get("tasksUpdatedNum"));
         }
         //console.log('autorun');
     });
@@ -27,8 +29,8 @@ Template.tasks.onRendered(function(){
 
 // Helpers
 Template.tasks.helpers({
-    tasks: function () {
-        return EqApp.tasks_data.get();
+    tasks: function (type) {
+        return EqApp.client.tasks.all(type);
     },
     tasks_num: function () {
         return EqApp.client.tasks.count();
