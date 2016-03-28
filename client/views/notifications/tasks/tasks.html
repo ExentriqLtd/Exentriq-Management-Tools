@@ -38,6 +38,16 @@
             </p>
         </div>
 
+        <div class="eq-ui-btn-fab-action">
+            <a class="btn btn-primary eq-ui-btn-fab eq-ui-waves-light trigger-eq-man-tasks-modal-add">
+                <i class="mdi mdi-plus icon"></i>
+            </a>
+        </div>
+
+        {{#if is_show_modal_add}}
+            {{> tasks_modal_add}}
+        {{/if}}
+
     </div>
 </template>
 
@@ -48,36 +58,51 @@
         <div class="eq-ui-card">
 
             <div class="eq-ui-card-title">
-                <h2 class="eq-ui-card-title-text"><a target="_blank" href="{{action}}">{{subject}}</a></h2>
+                <h2 class="eq-ui-card-title-text"><a target="_blank" href="{{action}}">{{{subject}}}</a></h2>
             </div>
 
             <div class="eq-ui-card-supporting-text">
-                <div class="tasks_item_assigned left">
-                    <span class="tasks_item_assigned_title">{{tr "Assigned by"}}:</span>
-                    <div class="tasks_item_assigned_avatars">
-                        <img class="circle" src="/img/avatar_0.jpg">
-                        <img class="circle" src="/img/avatar_0.jpg">
+
+                {{#if assigned_from.length}}
+                    <div class="tasks_item_assigned left">
+                        <span class="tasks_item_assigned_title">{{tr "Assigned by"}}:</span>
+                        <div class="tasks_item_assigned_avatars">
+                            {{#each assigned_from}}
+                                <img class="circle" src="{{avatar}}">
+                            {{/each}}
+                        </div>
                     </div>
-                </div>
+                {{/if}}
+
+                {{#if assigned_to.length}}
                 <div class="tasks_item_assigned right">
                     <span class="tasks_item_assigned_title">{{tr "Assigned to"}}:</span>
                     <div class="tasks_item_assigned_avatars">
-                        <img class="circle" src="/img/avatar_0.jpg">
-                        <img class="circle" src="/img/avatar_0.jpg">
+                        {{#each assigned_to}}
+                        <img class="circle" src="{{avatar}}">
+                        {{/each}}
                     </div>
                 </div>
+                {{/if}}
+
             </div>
 
             <div class="eq-ui-card-supporting-text">
                 <div class="tasks_item_details left">
-                    <span class="tasks_item_details_label">{{tr "Milestone"}}:<span>11/11/2016</span></span>
-                    <span class="tasks_item_details_label">{{tr "Project"}}:<span>Exentriq UI</span></span>
-                    <span class="tasks_item_details_label">{{tr "Card"}}:<span>Media Library</span></span>
+                    <span class="tasks_item_details_label">{{tr "Milestone"}}:<span>{{milestone}}</span></span>
+                    <span class="tasks_item_details_label">{{tr "Project"}}:<span>{{project}}</span></span>
+                    <span class="tasks_item_details_label">{{tr "Card"}}:<span>{{card}}</span></span>
                 </div>
                 <div class="tasks_item_details right">
-                    <span class="tasks_item_details_label">{{tr "Effort"}}:<span>20 days</span></span>
-                    <span class="tasks_item_details_label">{{tr "ETA"}}:<span>11/11/2016</span></span>
-                    <span class="tasks_item_details_label">{{tr "Closed On"}}:<span>Not Closed</span></span>
+                    <span class="tasks_item_details_label">{{tr "Effort"}}:<span>{{effort}} {{tr "days"}}</span></span>
+                    <span class="tasks_item_details_label">{{tr "ETA"}}:<span>{{eta}}</span></span>
+                    <span class="tasks_item_details_label">{{tr "Closed On"}}:
+                        {{#if ifCond closed_on '==' null}}
+                            <span>{{tr "Not Closed"}}</span>
+                        {{else}}
+                            <span>{{ livestamp closed_on }}</span>
+                        {{/if}}
+                    </span>
                 </div>
             </div>
 
@@ -85,17 +110,17 @@
                 <div class="tasks_item_progress">
                     <div class="tasks_item_progress_bar">
                         <div class="eq-ui-progress">
-                            <div class="eq-ui-determinate" style="width: 50%;"></div>
+                            <div class="eq-ui-determinate" style="width: {{progress}}%;"></div>
                         </div>
                     </div>
-                    <div class="tasks_item_progress_num">50%</div>
+                    <div class="tasks_item_progress_num">{{progress}}%</div>
                 </div>
             </div>
 
             <div class="eq-ui-card-menu">
                 <ul class="right eq-ui-nav-menu">
                     <li class="eq-ui-nav-menu-item-icon">
-                        <span class="tasks_item_percent_top">80</span>
+                        <span class="tasks_item_percent_top">{{points}}</span>
                     </li>
                     <li class="eq-ui-nav-menu-item-icon">
                         <input type="checkbox" id="tasks_item_check_{{id}}" class="eq-ui-input filled-in mark-complete" checked="{{complete}}" />

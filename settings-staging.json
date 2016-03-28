@@ -3,7 +3,7 @@
         "isDebug": true,
         "rootPath": "http://stage.exentriq.com",
         "loginFormPath": "http://stage.exentriq.com/signin_new",
-        "notificationBusPath": "wss://bus.exentriq.com:1881/ws/notification"
+        "notificationBusPath": "ws://bus.stage.exentriq.com:1880/ws/notification"
     },
     "private": {
         "integrationBusPath": "http://bus.stage.exentriq.com:1880",

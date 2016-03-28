@@ -23029,6 +23029,92 @@ html.is-touch .eq-ui-dropdown li > a:not(.active):hover {
 /* ---------------------------------------------------------------------- */
 /* Missions
 /* ---------------------------------------------------------------------- */
+#missions {
+  height: calc(100% - 56px);
+  background-color: #f9f9f9;
+  position: relative;
+}
+
+#missions .eq-man-missions-list {
+  border: 0;
+  display: block;
+  overflow: hidden;
+  position: relative;
+  width: 100%;
+  padding: 8px;
+  padding-bottom: 0;
+  margin: 0;
+  background-color: transparent;
+}
+
+#missions .eq-man-missions-list-show-completed {
+  text-align: center;
+  padding-bottom: 8px;
+}
+
+#missions .eq-man-missions-list-show-completed a {
+  display: none;
+  font-size: 12px;
+  min-width: 32px;
+  height: 32px;
+  line-height: 32px;
+  box-shadow: none;
+  background-color: transparent;
+}
+
+#missions .eq-man-missions-list-show-completed a.show {
+  display: inline-block !important;
+}
+
+#missions .eq-man-missions-list-show-completed .hide-all-missions-completed {
+  display: none;
+}
+
+#missions .eq-man-missions-list-completed {
+  display: none;
+  padding-top: 0;
+}
+
+#missions .missions_footer {
+  border-top: 1px solid #e1e1e1;
+  height: 56px;
+  padding: 10px 24px;
+}
+
+#missions .missions_footer p {
+  text-align: center;
+  padding: 0;
+}
+
+#missions .missions_footer p a {
+  font-size: 14px;
+  color: #757575;
+}
+
+#missions .missions_footer p a.disabled {
+  box-shadow: none;
+  opacity: .5;
+}
+
+#missions .missions_footer p a:hover {
+  background-color: transparent;
+}
+
+/* ---------------------------------------------------------------------- */
+/* Missions Modal Add
+/* ---------------------------------------------------------------------- */
+#missions #eq-man-missions-modal-add {
+  overflow: visible;
+}
+
+#missions #eq-man-missions-modal-add .eq-ui-modal-footer {
+  text-align: center;
+}
+
+#missions #eq-man-missions-modal-add .eq-ui-modal-footer a {
+  float: none;
+}
+
 /* ---------------------------------------------------------------------- */
 /* Notifications
 /* ---------------------------------------------------------------------- */
@@ -23113,7 +23199,6 @@ body.tp_notifications_main #__blaze-root {
 
 #notifications_main {
   background-color: #fff;
-  max-width: 360px;
   height: 100%;
   margin: 0 auto;
 }
@@ -23126,6 +23211,16 @@ body.tp_notifications_main #__blaze-root {
 #notifications_main .notifications-wrapper #eq-ui-tab-notify-2,
 #notifications_main .notifications-wrapper #eq-ui-tab-notify-3 {
   height: 100%;
+}
+
+#notifications_main .notifications-wrapper .eq-ui-btn-fab-action {
+  position: absolute;
+  right: 16px;
+  bottom: 16px;
+}
+
+#notifications_main .notifications-wrapper .eq-ui-modal.eq-ui-modal-bottom-sheet {
+  margin: 0 auto;
 }
 
 #notifications_main .eq-mt-card-tabs {
@@ -23166,12 +23261,65 @@ body.tp_notifications_main #__blaze-root {
   color: #1bbc9b;
 }
 
+#notifications_main .-autocomplete-container {
+  position: absolute;
+  left: -24px !important;
+  right: -24px !important;
+  top: auto !important;
+  bottom: 84px !important;
+}
+
+#notifications_main .-autocomplete-container li.-autocomplete-item {
+  height: 48px;
+  line-height: 48px;
+  padding: 0 24px;
+  font-size: 16px;
+  cursor: pointer;
+  color: #9b9b9b;
+  display: block;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+#notifications_main .-autocomplete-container li.-autocomplete-item:hover, #notifications_main .-autocomplete-container li.-autocomplete-item.selected {
+  background-color: #e1e1e1;
+}
+
+#notifications_main .eq-man-autocomplete {
+  margin-bottom: 5px;
+}
+
+#notifications_main .eq-man-autocomplete .eq-ui-input {
+  margin-bottom: 0;
+}
+
+#notifications_main .autocomplete-guide {
+  margin: 0;
+}
+
+#notifications_main .autocomplete-guide span {
+  font-weight: 400;
+  font-size: 0.8rem;
+  color: #9e9e9e;
+  text-decoration: none;
+}
+
+#notifications_main.is-debug {
+  max-width: 360px;
+}
+
+#notifications_main.is-debug .eq-ui-modal.eq-ui-modal-bottom-sheet {
+  max-width: 360px;
+}
+
 /* ---------------------------------------------------------------------- */
 /* Tasks
 /* ---------------------------------------------------------------------- */
 #tasks {
   height: calc(100% - 56px);
   background-color: #f9f9f9;
+  position: relative;
 }
 
 #tasks .eq-man-tasks-list {
@@ -23325,6 +23473,7 @@ body.tp_notifications_main #__blaze-root {
   color: #777777;
   float: left;
   margin-bottom: 6px;
+  width: 100%;
 }
 
 #notifications_main .tasks_item .eq-ui-card .eq-ui-card-supporting-text .tasks_item_details .tasks_item_details_label > span {
@@ -23387,5 +23536,20 @@ body.tp_notifications_main #__blaze-root {
 
 #notifications_main .tasks_item.tasks_item_complete {
   opacity: .7;
+}
+
+/* ---------------------------------------------------------------------- */
+/* Missions Modal Add
+/* ---------------------------------------------------------------------- */
+#tasks #eq-man-tasks-modal-add {
+  overflow: visible;
+}
+
+#tasks #eq-man-tasks-modal-add .eq-ui-modal-footer {
+  text-align: center;
+}
+
+#tasks #eq-man-tasks-modal-add .eq-ui-modal-footer a {
+  float: none;
 }
 /*# sourceMappingURL=app.css.map */

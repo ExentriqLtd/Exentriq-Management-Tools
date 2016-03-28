@@ -10,6 +10,48 @@ var _start_point = EqApp.client;
     _this.window_load = false;
 
     /* --------------------------------------- */
+    /* Username
+    /* --------------------------------------- */
+    _this.username = function () {
+        var username = null;
+
+        // Get username
+        if(Meteor.user() && Meteor.user().username){
+            username = Meteor.user().username;
+        }
+
+        // Debug
+        if(Meteor.settings.public.isDebug){
+            // Get Query
+            var query_string = EqUI.site.query_string;
+
+            // Is username
+            if(query_string.debugUsername !== undefined) {
+                username = query_string.debugUsername;
+            }
+        }
+
+        return username;
+    };
+
+    /* --------------------------------------- */
+    /* Space
+    /* --------------------------------------- */
+    _this.space = function () {
+        var space = null;
+        
+        // Get Query
+        var query_string = EqUI.site.query_string;
+
+        // Is spaceid
+        if(query_string.spaceid !== undefined) {
+            space = query_string.spaceid;
+        }
+        
+        return space;
+    };
+
+    /* --------------------------------------- */
     /* User language
     /* --------------------------------------- */
     _this.user_language = function () {

@@ -2,6 +2,23 @@
 //  Notifications
 //---------------------------------------------------
 
+// Created
+Template.notifications.onCreated(function(){
+    var template = this;
+
+    template.autorun(function() {
+        if(Meteor.user() && Meteor.user().username){
+            if(Meteor.settings.public.isDebug){
+                console.log('[notifications] username to token:', Meteor.user().username);
+            }
+            if(!EqApp.client.notification.service_is_init){
+                EqApp.client.notification.ws_init(); // Init
+            }
+        }
+        //console.log('autorun');
+    });
+});
+
 // Rendered
 Template.notifications.onRendered(function(){
     // console.log('notifications rendered...');

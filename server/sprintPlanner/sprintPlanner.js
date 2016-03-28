@@ -7,6 +7,9 @@ Meteor.publish("appUsers", function () {
 Meteor.publish("boards", function (space) {
    return Boards.find({space:space}, {sort: {title: +1}});
 });
+Meteor.publish("all_boards", function (space) {
+    return Boards.find({}, {sort: {title: +1}});
+ });
 
 Meteor.startup(function () {
     // Global configuration
@@ -31,32 +34,72 @@ Meteor.startup(function () {
           var statementId = Random.id();
           try {
               var eml = stringToEml(statementEml, statementId, username , spaceid);
-              
-              var cmpName = eml.cmpName;
-              if(cmpName){
-            	  var space = BoardSpaces.findOne({title: cmpName});
-            	  if(space){
-            		  spaceid = space.id.toString();;
-            		  eml.space = spaceid;
-            	  }
+	      
+              if(eml.project){
+                  var filter = {title:eml.project};
+                  if(eml.cmpName){
+            	  	filter.spaceTitle=eml.cmpName;
+                  }
+                  var prj = UserBoards.findOne(filter);
+                  if(prj!=null){
+            	  	eml.space = prj.space;
+                  }
               }
               
               console.log(eml);
-              
               if(!eml.users || !eml.users.length>0){
-            	  return {"status":"fail", "error":"users not found"};
+        	  return {"status":"fail", "error":"users not found"};
               }
               if(!eml.board){
-            	  return {"status":"fail", "error":"project not found"};
+        	  return {"status":"fail", "error":"project not found"};
               }
               if(!eml.space){
-            	  return {"status":"fail", "error":"space not found"};
+        	  return {"status":"fail", "error":"space not found"};
               }
-              
               addTask(eml);
               return {"status":"success"};
           } catch (e) {
-        	  return {"status":"fail", "error":"generic error"};
+              return {"status":"fail", "error":"generic error"};
+          }
+        }
+      }
+    });
+    
+    Api.addRoute('tryAddEml', {authRequired: false}, {
+      post: {
+        roleRequired: [],
+        action: function () {
+          var spaceid;
+          var statementEml = this.bodyParams.message;
+          var username = this.bodyParams.author;
+          var statementId = Random.id();
+          try {
+              var eml = stringToEml(statementEml, statementId, username , spaceid);
+	      
+              if(eml.project){
+                  var filter = {title:eml.project};
+                  if(eml.cmpName){
+            	  	filter.spaceTitle=eml.cmpName;
+                  }
+                  var prj = UserBoards.findOne(filter);
+                  if(prj!=null){
+            	  	eml.space = prj.space;
+                  }
+              }
+              
+              console.log(eml);
+              if(!eml.users || !eml.users.length>0){
+        	  return {"status":"fail", "error":"users not found"};
+              }
+              if(!eml.board){
+        	  return {"status":"fail", "error":"project not found"};
+              }
+              if(!eml.space){
+        	  return {"status":"fail", "error":"space not found"};
+              }
+              return {"status":"success"};
+          } catch (e) {
+              return {"status":"fail", "error":"generic error"};
           }
         }
       }
