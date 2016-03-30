@@ -81,11 +81,11 @@ var build_item = function (item) {
 
         "effort": item.content.days || 0,
         "eta": item.content.eta || '',
-        "closed_on": item.content.closed_on || null,
+        "closed_on": item.closed_on || null,
 
         "milestone": item.content.milestone || '',
         "project": item.boardTitle || '',
-        "card": '',
+        "card":  item.card || '',
 
         "progress": item.content.progress || 0,
 

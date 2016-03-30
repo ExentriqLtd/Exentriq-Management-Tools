@@ -30,9 +30,14 @@ function ensureLoggedIn(sessionToken) {
 }
 
 function handleLogin(context) {
-    var sessionToken;
+	var sessionToken;
     sessionToken = context.queryParams.sessionToken;
-    if (localStorage.getItem("MeteorLoginStatus") === "halted") {
+
+	var channelUrl = context.queryParams.channelUrl || Session.get('currentChannel');
+	console.log("ChannelUrl=" + channelUrl);
+	Session.set('currentChannel', channelUrl);
+
+	if (localStorage.getItem("MeteorLoginStatus") === "halted") {
         if (sessionToken) {
             if (Meteor.userId()) {
                 if (sessionToken !== localStorage.getItem('MeteorLastSessionToken')) {
@@ -52,8 +57,8 @@ function handleLogin(context) {
         }
     }
     if (!Meteor.user() && !(localStorage.getItem("MeteorLoginStatus") === "in-progress")) {
-        window.location.href = Meteor.settings.public.loginFormPath;
-    }
+		window.location.href = Meteor.settings.public.loginFormPath;
+	}
 }
 
 function isLoggedCallback(ready){

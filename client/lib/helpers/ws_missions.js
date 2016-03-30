@@ -48,8 +48,8 @@ var _start_point = EqApp.client;
             _this.updateCollection();
             if(result){
                 if(result.status === 'fail'){
-                    console.log('error:', result.error);
-                    EqApp.client.site.toast.error('Error for Create Mission: ' + result.error);
+                    console.log('error:', result.message);
+                    EqApp.client.site.toast.error('Error for Create Mission: ' + result.message);
                 } else {
                     //console.log('add', result);
                     EqApp.client.site.toast.success("Create Mission Successfully");
