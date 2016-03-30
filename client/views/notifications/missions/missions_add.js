@@ -33,7 +33,7 @@ Template.missions_modal_add.events({
         if(!obj.project){
             EqApp.client.site.toast.error('The project is mandatory. Type something like this: #project @user1 mission description.');
         }
-        else if(!obj.users || obj.users.length==0){
+        else if(!obj.users || obj.users.length===0){
             EqApp.client.site.toast.error('The user is mandatory. Type something like this: #project @user1 mission description.');
         }
         else{

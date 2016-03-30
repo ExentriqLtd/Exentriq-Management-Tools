@@ -87,3 +87,25 @@ Template.missions_item.events({
         EqApp.client.missions.set_complete(this.id, !this.complete);
     }
 });
+
+//---------------------------------------------------
+//  Notifications Item Avatar
+//---------------------------------------------------
+
+// Rendered
+Template.missions_item_avatar.onRendered(function(){
+    var _data = Template.currentData();
+
+    $('.trigger-dropdown-missions_item_avatar-'+_data.avatar_id).dropdown({
+        inDuration: 300,
+        outDuration: 225,
+        hover: false,
+        gutter: 0,
+        belowOrigin: false
+    });
+});
+
+// Events
+Template.missions_item_avatar.events({
+
+});

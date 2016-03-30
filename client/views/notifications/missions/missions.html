@@ -58,25 +58,25 @@
             <div class="eq-ui-card-supporting-text">
 
                 {{#if assigned_from.length}}
-                <div class="tasks_item_assigned left">
-                    <span class="tasks_item_assigned_title">{{tr "Assigned by"}}:</span>
-                    <div class="tasks_item_assigned_avatars">
-                        {{#each assigned_from}}
-                            <img class="circle" src="{{avatar}}">
-                        {{/each}}
+                    <div class="tasks_item_assigned left">
+                        <span class="tasks_item_assigned_title">{{tr "Assigned by"}}:</span>
+                        <div class="tasks_item_assigned_avatars">
+                            {{#each assigned_from}}
+                                {{> missions_item_avatar}}
+                            {{/each}}
+                        </div>
                     </div>
-                </div>
                 {{/if}}
 
                 {{#if assigned_to.length}}
-                <div class="tasks_item_assigned right">
-                    <span class="tasks_item_assigned_title">{{tr "Assigned to"}}:</span>
-                    <div class="tasks_item_assigned_avatars">
-                        {{#each assigned_to}}
-                        <img class="circle" src="{{avatar}}">
-                        {{/each}}
+                    <div class="tasks_item_assigned right">
+                        <span class="tasks_item_assigned_title">{{tr "Assigned to"}}:</span>
+                        <div class="tasks_item_assigned_avatars">
+                            {{#each assigned_to}}
+                                {{> missions_item_avatar}}
+                            {{/each}}
+                        </div>
                     </div>
-                </div>
                 {{/if}}
 
             </div>
@@ -126,4 +126,18 @@
         </div>
     </li>
 
+</template>
+
+
+<template name="missions_item_avatar">
+    <div class="tasks_item_assigned_avatar">
+        <a data-target="dropdown-missions_item_avatar-{{avatar_id}}" class="trigger-dropdown-missions_item_avatar-{{avatar_id}}">
+            <img class="circle" src="{{avatar}}">
+        </a>
+
+        <!-- Dropdown Structure -->
+        <ul id="dropdown-missions_item_avatar-{{avatar_id}}" class="eq-ui-dropdown {{#if ifCond type '==' 'to'}}eq-ui-dropdown-right-top{{/if}}">
+            <li><a><img class="circle" src="{{avatar}}"> {{user}}</a></li>
+        </ul>
+    </div>
 </template>

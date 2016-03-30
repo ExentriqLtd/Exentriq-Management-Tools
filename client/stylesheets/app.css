@@ -23454,11 +23454,39 @@ body.tp_notifications_main #__blaze-root {
   float: left;
 }
 
-#notifications_main .tasks_item .eq-ui-card .eq-ui-card-supporting-text .tasks_item_assigned .tasks_item_assigned_avatars .circle {
+#notifications_main .tasks_item .eq-ui-card .eq-ui-card-supporting-text .tasks_item_assigned .tasks_item_assigned_avatars {
+  position: relative;
+}
+
+#notifications_main .tasks_item .eq-ui-card .eq-ui-card-supporting-text .tasks_item_assigned .tasks_item_assigned_avatars .tasks_item_assigned_avatar {
+  position: relative;
   margin-right: 8px;
   width: 32px;
   height: 32px;
   float: left;
+}
+
+#notifications_main .tasks_item .eq-ui-card .eq-ui-card-supporting-text .tasks_item_assigned .tasks_item_assigned_avatars .tasks_item_assigned_avatar > a {
+  width: 32px;
+  height: 32px;
+  cursor: pointer;
+}
+
+#notifications_main .tasks_item .eq-ui-card .eq-ui-card-supporting-text .tasks_item_assigned .tasks_item_assigned_avatars .tasks_item_assigned_avatar > a .circle {
+  width: 32px;
+  height: 32px;
+}
+
+#notifications_main .tasks_item .eq-ui-card .eq-ui-card-supporting-text .tasks_item_assigned .tasks_item_assigned_avatars .tasks_item_assigned_avatar .eq-ui-dropdown li a {
+  padding-left: 50px;
+}
+
+#notifications_main .tasks_item .eq-ui-card .eq-ui-card-supporting-text .tasks_item_assigned .tasks_item_assigned_avatars .tasks_item_assigned_avatar .eq-ui-dropdown li a img {
+  width: 24px;
+  height: 24px;
+  position: absolute;
+  left: 16px;
+  top: 12px;
 }
 
 #notifications_main .tasks_item .eq-ui-card .eq-ui-card-supporting-text .tasks_item_assigned.right .tasks_item_assigned_title {
@@ -23469,7 +23497,7 @@ body.tp_notifications_main #__blaze-root {
   text-align: right;
 }
 
-#notifications_main .tasks_item .eq-ui-card .eq-ui-card-supporting-text .tasks_item_assigned.right .tasks_item_assigned_avatars .circle {
+#notifications_main .tasks_item .eq-ui-card .eq-ui-card-supporting-text .tasks_item_assigned.right .tasks_item_assigned_avatars .tasks_item_assigned_avatar {
   margin-right: 0;
   margin-left: 8px;
   float: right;
