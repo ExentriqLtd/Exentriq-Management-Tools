@@ -10,6 +10,26 @@ var _start_point = EqApp.client;
     _this.window_load = false;
 
     /* --------------------------------------- */
+    /* Is Cordova
+    /* --------------------------------------- */
+    _this.is_cordova = function () {
+        var _is_cordova = Meteor.isCordova;
+
+        // Debug
+        if(Meteor.settings.public.isDebug){
+            // Get Query
+            var query_string = EqUI.site.query_string;
+
+            // Is username
+            if(query_string.debugCordova !== undefined) {
+                _is_cordova = query_string.debugCordova === 'true';
+            }
+        }
+
+        return _is_cordova;
+    };
+
+    /* --------------------------------------- */
     /* Username
     /* --------------------------------------- */
     _this.username = function () {

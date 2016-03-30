@@ -1,6 +1,27 @@
 <template name="notifications_main">
     <div id="notifications_main" class="{{classes}}">
 
+        {{#if is_cordova}}
+            <div class="notifications-wrapper">
+
+                <!-- Notifications -->
+                <div id="eq-ui-tab-notify-1">
+                    {{> notifications}}
+                </div>
+
+                <!-- Tasks -->
+                <div id="eq-ui-tab-notify-2">
+                    {{> tasks}}
+                </div>
+
+                <!-- Missions -->
+                <div id="eq-ui-tab-notify-3">
+                    {{> missions}}
+                </div>
+
+            </div>
+        {{/if}}
+
         <!-- TABS -->
         <div class="eq-ui-card eq-mt-card-tabs">
             <div class="eq-ui-card-supporting-text">
@@ -29,24 +50,26 @@
             </div>
         </div>
 
-        <div class="notifications-wrapper">
+        {{#if is_desktop}}
+            <div class="notifications-wrapper">
 
-            <!-- Notifications -->
-            <div id="eq-ui-tab-notify-1">
-                {{> notifications}}
+                <!-- Notifications -->
+                <div id="eq-ui-tab-notify-1">
+                    {{> notifications}}
+                </div>
+
+                <!-- Tasks -->
+                <div id="eq-ui-tab-notify-2">
+                    {{> tasks}}
+                </div>
+
+                <!-- Missions -->
+                <div id="eq-ui-tab-notify-3">
+                    {{> missions}}
+                </div>
+
             </div>
-
-            <!-- Tasks -->
-            <div id="eq-ui-tab-notify-2">
-                {{> tasks}}
-            </div>
-
-            <!-- Missions -->
-            <div id="eq-ui-tab-notify-3">
-                {{> missions}}
-            </div>
-
-        </div>
+        {{/if}}
 
     </div>
 </template>

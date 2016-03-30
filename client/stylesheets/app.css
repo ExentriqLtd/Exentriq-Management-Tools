@@ -23012,6 +23012,11 @@ html.is-touch .eq-ui-dropdown li > a:not(.active):hover {
 /* --------------------------------------- */
 /* Global
 /* --------------------------------------- */
+/* Cordova */
+html.is_cordova .hidden_cordova {
+  display: none;
+}
+
 /* Container */
 .container, .container-fluid {
   padding-left: 24px;
@@ -23184,6 +23189,13 @@ html.is-touch .eq-ui-dropdown li > a:not(.active):hover {
 
 #notifications_main .notifications_item.notifications_item_unread {
   background-color: rgba(27, 188, 155, 0.05);
+}
+
+/* ---------------------------------------------------------------------- */
+/* CORDOVA
+/* ---------------------------------------------------------------------- */
+html.is_cordova #notifications {
+  height: 100%;
 }
 
 /* ---------------------------------------------------------------------- */
