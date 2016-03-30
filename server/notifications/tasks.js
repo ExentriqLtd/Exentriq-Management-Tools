@@ -59,10 +59,10 @@ var build_item = function (item) {
     var assigned_to = [];
 
     // Build avatars from
-    if(item.content.author){
+    if(item.user){
         assigned_from.push({
-            avatar_id:item.id + '-from-' + item.content.author,
-            avatar:EqApp.lib.common.avatar(item.content.author),
+            avatar_id:item.id + '-from-' + item.user,
+            avatar:EqApp.lib.common.avatar(item.user),
             user:item.content.author,
             type:'from'
         });
