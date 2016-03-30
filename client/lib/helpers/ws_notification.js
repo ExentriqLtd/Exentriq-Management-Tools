@@ -170,7 +170,7 @@ var _start_point = EqApp.client;
 
     // Parse notifications url
     _this.parse_notifications_url = function(object) {
-        var _url = Meteor.settings.public.rootPath;
+        var _url = ""; //Meteor.settings.public.rootPath;
         var _link = object.link.replace(new RegExp('&#x2F;', 'g'), "/").replace(new RegExp('&amp;', 'g'), "&");
         var _link_label = object.type;
 
@@ -248,7 +248,8 @@ var _start_point = EqApp.client;
     // Go to url
     _this.go_to_url = function (url, target) {
         if(url === null || target === null){ return; }
-        window.open(url, target);
+        console.log(Session.get('currentChannel') + url);
+        window.open(Session.get('currentChannel') + url, target);
     };
 
     /* --------------------------------------- */

@@ -68,6 +68,12 @@ Template.missions.events({
     "click .trigger-eq-man-missions-modal-add": function (event) {
         event.preventDefault();
         Session.set("missionsShowModalAdd", true);
+    },
+    "click .eq-ui-card-title-text a": function (event) {
+        event.preventDefault();
+        // Go to url
+        var url = $(event.currentTarget).attr('href');
+        EqApp.client.notification.go_to_url(url, '_blank');
     }
 });
 
