@@ -105,9 +105,8 @@ var build_item = function (item) {
 
 // Parse url
 var parse_url = function(object) {
-    var _url = Meteor.settings.public.rootPath;
+    var _url = ""; //Meteor.settings.public.rootPath;
     var _link = object.link.replace(new RegExp('&#x2F;', 'g'), "/").replace(new RegExp('&amp;', 'g'), "&");
-    
     // Is board
     if(_link.indexOf("/boards")===0){
         _link = "/emawrap?path="+_link.substring(1,_link.length);

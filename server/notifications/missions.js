@@ -77,7 +77,7 @@ var build_item = function (item) {
         });
     });
 
-    var _url = Meteor.settings.public.rootPath;
+    var _url = "";//Meteor.settings.public.rootPath;
 
     // Build
     return {
