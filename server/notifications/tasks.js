@@ -61,7 +61,7 @@ var build_item = function (item) {
     // Build avatars from
     if(item.user){
         assigned_from.push({
-            avatar_id:item.id + '-from-' + item.user,
+            avatar_id:EqApp.lib.common.guid(),
             avatar:EqApp.lib.common.avatar(item.user),
             user:item.content.author,
             type:'from'
@@ -71,7 +71,7 @@ var build_item = function (item) {
     // Build avatars to
     item.content.users.forEach(function(user){
         assigned_to.push({
-            avatar_id:item.id + '-to-' + user,
+            avatar_id:EqApp.lib.common.guid(),
             avatar:EqApp.lib.common.avatar(user),
             user:user,
             type:'to'
