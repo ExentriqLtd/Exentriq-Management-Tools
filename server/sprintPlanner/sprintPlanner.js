@@ -264,8 +264,8 @@ var addTask = function(task){
 	users.forEach(function(username){
 		var author = task.author;
 		var picture = Meteor.settings.private.talkPath + "/avatar/"+author+".jpg";
-		var subject = author+' assigned you the task "'+task.statement+'"';
-		var notification = {'from':author, 'to':username, 'link':'','subject':subject, 'picture':picture};
+		var subject = author+' assigned you the mission "'+task.statement+'"';
+		var notification = {'from':author, 'to':username, 'link':'/management-tools?spaceid='+task.space+'&menu=sprintplanner','subject':subject, 'picture':picture,'type':'mission'};
 		Bus.sendNotification(notification, Meteor.settings.private.integrationBusPath);
 	});
 }
@@ -287,8 +287,8 @@ var updateTask = function(task){
 		if(oldUsers.indexOf(username)<0){
 			var author = task.author;
 			var picture = Meteor.settings.private.talkPath + "/avatar/"+author+".jpg";
-			var subject = author+' assigned you the task "'+task.statement+'"';
-			var notification = {'from':author, 'to':username, 'link':'','subject':subject, 'picture':picture};
+			var subject = author+' assigned you the mission "'+task.statement+'"';
+			var notification = {'from':author, 'to':username, 'link':'/management-tools?spaceid='+task.space+'&menu=sprintplanner','subject':subject, 'picture':picture,'type':'mission'};
 			Bus.sendNotification(notification, Meteor.settings.private.integrationBusPath);
 		}
 	});

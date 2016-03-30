@@ -67,11 +67,13 @@ var build_item = function (item) {
         assigned_to.push({avatar:EqApp.lib.common.avatar(user)});
     });
 
+    var _url = Meteor.settings.public.rootPath;
+
     // Build
     return {
         "id": item.id,
         "subject": item.content.clean || '&nbsp;',
-
+        "action": _url + "/manager/management-tools?spaceid=" + item.content.space + "&menu=sprintplanner",
         "points": item.content.points || 0,
 
         "assigned_from": assigned_from,

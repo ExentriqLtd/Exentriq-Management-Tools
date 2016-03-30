@@ -193,6 +193,9 @@ var _start_point = EqApp.client;
             case 'chat-request':
                 _url += '/manager' + _link + '&menu=support-manage';
                 break;
+            case 'mission':
+                _url += '/manager' + _link;
+                break;
             default:
                 _url += '/manager' + _link + '&menu=projects-manage';
         }

@@ -28,12 +28,21 @@ Template.tasks_modal_add.events({
     "click #add-task-action, submit #form-tasks-add": function(event, template) {
         event.preventDefault();
         var statementEml = template.find('#statement-eml').value;
-        EqApp.client.tasks.add(statementEml);
+        
+        var obj = Eml.parse(statementEml);
+        if(!obj.project){
+            EqApp.client.site.toast.error('The project is mandatory. Type something like this: #project task description.');
+        }
+        else{
+            EqApp.client.tasks.add(statementEml);
 
-        // Close
-        $('#eq-man-tasks-modal-add').closeModal({
-            complete: on_close_modal
-        });
+            // Close
+            $('#eq-man-tasks-modal-add').closeModal({
+                complete: on_close_modal
+            });
+
+        }
+        
     },
     "autocompleteselect input": function(event, template, doc) {
         EqApp.notifications.autocompleteReplace(event, template, doc, '#statement-eml');
