@@ -49,10 +49,10 @@ var _start_point = EqApp.client;
             if(result){
                 if(result.status === 'fail'){
                     console.log('error:', result.message);
-                    EqApp.client.site.toast.error('Error for Create Task: ' + result.message);
+                    EqApp.client.site.toast.error('An error has occurred for the Task: ' + result.message);
                 } else {
                     //console.log('add', result);
-                    EqApp.client.site.toast.success("Create Task Successfully");
+                    EqApp.client.site.toast.success("Task has been created successfully");
                 }
             } else if (error){
                 console.log('error:', error);
