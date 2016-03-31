@@ -18,7 +18,7 @@ var _start_point = EqApp.client;
     /* --------------------------------------- */
     _this.create_notification = function (message) {
         var link = _this.parse_notifications_url(message);
-        var avatar = "http://www.exentriq.com/AvatarService?username=" + message.from_user;
+        var avatar = Meteor.settings.public.defaultAvatarPath + message.from_user;
 
         // Check is valid notification
         if(!_this.is_valid('notification', message)){return null;}

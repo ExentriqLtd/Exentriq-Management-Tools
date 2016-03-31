@@ -1,13 +1,14 @@
 {
     "public": {
-        "isDebug": false,
+        "isDebug": true,
         "rootPath": "http://www.exentriq.com",
-        "loginFormPath": "http://stage.exentriq.com/signin_new",
-        "notificationBusPath": "wss://bus.exentriq.com:1881/ws/notification"
+        "loginFormPath": "http://www.exentriq.com/signin_new",
+        "notificationBusPath": "wss://bus.exentriq.com:1881/ws/notification",
+        "defaultAvatarPath": "http://www.exentriq.com/AvatarService?username="
     },
     "private": {
-        "integrationBusPath": "http://bus.stage.exentriq.com:1880",
-        "loginEndpoint": "http://stage.exentriq.com/JSON-RPC",
-        "talkPath": "https://talk.stage.exentriq.com"
+        "integrationBusPath": "http://bus.exentriq.com:1880",
+        "loginEndpoint": "http://www.exentriq.com/JSON-RPC",
+        "talkPath": "https://talk.exentriq.com"
     }
 }

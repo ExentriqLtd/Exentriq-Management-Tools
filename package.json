@@ -1,0 +1,8 @@
+{
+  "name": "exentriq-ma-tools",
+  "version": "1.0.0",
+  "description": "Exentriq management tools",
+  "scripts": {
+    "start": "meteor --settings settings.json"
+  }
+}

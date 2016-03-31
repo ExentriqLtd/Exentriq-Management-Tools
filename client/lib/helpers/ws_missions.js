@@ -49,7 +49,7 @@ var _start_point = EqApp.client;
             if(result){
                 if(result.status === 'fail'){
                     console.log('error:', result.message);
-                    EqApp.client.site.toast.error('An error has occurred for the Mission: ' + result.message);
+                    EqApp.client.site.toast.error('An error has occurred: ' + result.message);
                 } else {
                     //console.log('add', result);
                     EqApp.client.site.toast.success("Mission has been created successfully");

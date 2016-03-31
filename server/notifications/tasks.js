@@ -63,7 +63,7 @@ var build_item = function (item) {
         assigned_from.push({
             avatar_id:EqApp.lib.common.guid(),
             avatar:EqApp.lib.common.avatar(item.user),
-            user:item.content.author,
+            user:item.user,
             type:'from'
         });
     }
@@ -112,7 +112,7 @@ var parse_url = function(object) {
         _link = "/emawrap?path="+_link.substring(1,_link.length);
     }
     
-    _url += '/manager' + _link + '&menu=projects-manage';
+    _url += '/manager' + _link + '&menu=projects-manage&spaceid='+object.space;
     
     return _url;
 };
