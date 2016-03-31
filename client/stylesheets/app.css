@@ -23459,6 +23459,8 @@ html.is_cordova #notifications_main .eq-mt-card-tabs {
   font-size: 11px;
   color: #cccccc;
   margin-bottom: 4px;
+  width: 100%;
+  text-align: left;
   float: left;
 }
 
@@ -23499,6 +23501,7 @@ html.is_cordova #notifications_main .eq-mt-card-tabs {
 
 #notifications_main .tasks_item .eq-ui-card .eq-ui-card-supporting-text .tasks_item_assigned.right .tasks_item_assigned_title {
   float: right;
+  text-align: right;
 }
 
 #notifications_main .tasks_item .eq-ui-card .eq-ui-card-supporting-text .tasks_item_assigned.right .tasks_item_assigned_avatars {
