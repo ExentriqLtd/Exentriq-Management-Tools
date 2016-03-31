@@ -18,7 +18,6 @@ var _start_point = EqApp.client;
     /* --------------------------------------- */
     _this.create_notification = function (message) {
         var link = _this.parse_notifications_url(message);
-        var avatar = Meteor.settings.public.defaultAvatarPath + message.from_user;
 
         // Check is valid notification
         if(!_this.is_valid('notification', message)){return null;}
@@ -26,7 +25,7 @@ var _start_point = EqApp.client;
         // Build notification
         return {
             "id": message.id,
-            "avatar": avatar,
+            "avatar": EqApp.lib.common.avatar(message.from_user),
             "from_user": message.from_user,
             "subject": message.subject,
             "action": link.url,

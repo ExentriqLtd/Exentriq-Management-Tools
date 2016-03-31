@@ -86,6 +86,24 @@ Template.tasks_item.onRendered(function(){
     //console.log('tasks item rendered...');
 });
 
+// Helpers
+Template.tasks_item.helpers({
+    assigned_to_visible: function (obj) {
+        if(obj.length > 4){
+            return obj.slice(0, 3); // Show 3
+        } else {
+            return obj;
+        }
+    },
+    assigned_to_hidden: function (obj) {
+        if(obj.length > 4){
+            return obj.slice(3);
+        } else {
+            return [];
+        }
+    }
+});
+
 // Events
 Template.tasks_item.events({
     "click .mark-complete": function (event) {

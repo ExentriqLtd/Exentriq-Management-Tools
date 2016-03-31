@@ -37,7 +37,11 @@ Meteor.methods({
     'missions.open': function(data, doc){
         // Update UI
         _.each(subs_notifyMissions, function(sub) {
-            sub.changed('notifyMissions', doc.id, doc);
+            try {
+                sub.changed('notifyMissions', doc.id, doc);
+            } catch (error) {
+                console.log(error);
+            }
         });
         
         // Update WS

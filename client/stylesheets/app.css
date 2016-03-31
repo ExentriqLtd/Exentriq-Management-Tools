@@ -23431,6 +23431,10 @@ html.is_cordova #notifications_main .eq-mt-card-tabs {
   text-align: center;
 }
 
+#notifications_main .tasks_item .eq-ui-card {
+  overflow: visible;
+}
+
 #notifications_main .tasks_item .eq-ui-card .eq-ui-card-title {
   padding-right: 95px;
   padding-bottom: 8px;
