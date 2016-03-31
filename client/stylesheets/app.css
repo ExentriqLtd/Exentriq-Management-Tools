@@ -23484,6 +23484,7 @@ html.is_cordova #notifications_main .eq-mt-card-tabs {
   width: 32px;
   height: 32px;
   cursor: pointer;
+  text-decoration: none;
 }
 
 #notifications_main .tasks_item .eq-ui-card .eq-ui-card-supporting-text .tasks_item_assigned .tasks_item_assigned_avatars .tasks_item_assigned_avatar > a .circle {
@@ -23491,8 +23492,22 @@ html.is_cordova #notifications_main .eq-mt-card-tabs {
   height: 32px;
 }
 
+#notifications_main .tasks_item .eq-ui-card .eq-ui-card-supporting-text .tasks_item_assigned .tasks_item_assigned_avatars .tasks_item_assigned_avatar .eq-ui-dropdown {
+  width: auto;
+  max-width: 200px;
+  max-height: 160px;
+  top: -8px;
+}
+
+@media (max-width: 320px) {
+  #notifications_main .tasks_item .eq-ui-card .eq-ui-card-supporting-text .tasks_item_assigned .tasks_item_assigned_avatars .tasks_item_assigned_avatar .eq-ui-dropdown {
+    max-width: 160px;
+  }
+}
+
 #notifications_main .tasks_item .eq-ui-card .eq-ui-card-supporting-text .tasks_item_assigned .tasks_item_assigned_avatars .tasks_item_assigned_avatar .eq-ui-dropdown li a {
   padding-left: 50px;
+  font-size: 14px;
 }
 
 #notifications_main .tasks_item .eq-ui-card .eq-ui-card-supporting-text .tasks_item_assigned .tasks_item_assigned_avatars .tasks_item_assigned_avatar .eq-ui-dropdown li a img {
@@ -23501,6 +23516,24 @@ html.is_cordova #notifications_main .eq-mt-card-tabs {
   position: absolute;
   left: 16px;
   top: 12px;
+}
+
+#notifications_main .tasks_item .eq-ui-card .eq-ui-card-supporting-text .tasks_item_assigned .tasks_item_assigned_avatars .tasks_item_assigned_avatar.tasks_item_assigned_avatar_more > a span {
+  width: 32px;
+  height: 32px;
+  display: block;
+  line-height: 32px;
+  border-radius: 50%;
+  text-align: center;
+  background-color: #C1C1C1;
+  font-size: 13px;
+  color: #fff;
+  font-weight: 700;
+  /*word-spacing: -3px;*/
+}
+
+#notifications_main .tasks_item .eq-ui-card .eq-ui-card-supporting-text .tasks_item_assigned .tasks_item_assigned_avatars .tasks_item_assigned_avatar.tasks_item_assigned_avatar_more .eq-ui-dropdown {
+  top: -40px;
 }
 
 #notifications_main .tasks_item .eq-ui-card .eq-ui-card-supporting-text .tasks_item_assigned.right .tasks_item_assigned_title {

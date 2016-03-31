@@ -74,9 +74,30 @@
                     <div class="tasks_item_assigned right">
                         <span class="tasks_item_assigned_title">{{tr "Assigned to"}}:</span>
                         <div class="tasks_item_assigned_avatars">
-                            {{#each assigned_to}}
+
+                            {{#each assigned_to_visible}}
                                 {{> tasks_item_avatar}}
                             {{/each}}
+
+                            {{#if assigned_to_hidden.length}}
+                                <div class="tasks_item_assigned_avatar tasks_item_assigned_avatar_more">
+                                    <a data-target="dropdown-tasks_item_to_more_avatars-{{id}}" class="trigger-dropdown-tasks_item_to_more_avatars-{{id}}">
+                                        <span>+{{assigned_to_hidden.length}}</span>
+                                    </a>
+
+                                    <!-- Dropdown Structure -->
+                                    <div class="eq-ui-select-wrapper">
+                                    <ul id="dropdown-tasks_item_to_more_avatars-{{id}}" class="eq-ui-dropdown eq-ui-dropdown-right-top">
+
+                                    {{#each assigned_to_hidden}}
+                                        <li><a class="truncate"><img class="circle" src="{{avatar}}"> {{user}}</a></li>
+                                    {{/each}}
+
+                                    </ul>
+                                    </div>
+                                </div>
+                            {{/if}}
+
                         </div>
                     </div>
                 {{/if}}
@@ -139,7 +160,7 @@
 
         <!-- Dropdown Structure -->
         <ul id="dropdown-tasks_item_avatar-{{avatar_id}}" class="eq-ui-dropdown {{#if ifCond type '==' 'to'}}eq-ui-dropdown-right-top{{/if}}">
-            <li><a><img class="circle" src="{{avatar}}"> {{user}}</a></li>
+            <li><a class="truncate"><img class="circle" src="{{avatar}}"> {{user}}</a></li>
         </ul>
     </div>
 </template>

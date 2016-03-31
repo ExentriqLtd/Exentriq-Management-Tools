@@ -83,7 +83,35 @@ Template.missions.events({
 
 // Rendered
 Template.missions_item.onRendered(function(){
-    //console.log('missions item rendered...');
+    var _data = Template.currentData();
+
+    $('.trigger-dropdown-missions_item_to_more_avatars-'+_data.id).dropdown({
+        inDuration: 300,
+        outDuration: 225,
+        hover: false,
+        gutter: 0,
+        belowOrigin: false
+    });
+});
+
+// Helpers
+Template.missions_item.helpers({
+    assigned_to_visible: function () {
+        var _data = Template.currentData();
+        if(_data.assigned_to.length > 4){
+            return _data.assigned_to.slice(0, 3); // Show 3
+        } else {
+            return _data.assigned_to;
+        }
+    },
+    assigned_to_hidden: function () {
+        var _data = Template.currentData();
+        if(_data.assigned_to.length > 4){
+            return _data.assigned_to.slice(3);
+        } else {
+            return [];
+        }
+    }
 });
 
 // Events
