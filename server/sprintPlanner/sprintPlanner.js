@@ -222,6 +222,27 @@ Meteor.startup(function () {
           }
         }
       });
+    
+     Api.addRoute('custom/tasks/:taskid', {authRequired: false}, {
+        put: {
+          roleRequired: [],
+          action: function () {
+              try {
+        	  var task = this.bodyParams.task;
+                  var username = this.bodyParams.username;
+                  updateTask(task, username);
+                  return { "status": "success"};
+	    } catch (e) {
+		console.log(e);
+		return { "status": "fail", "message": e.message};
+	    }
+            
+            
+            console.log(username);
+            return { "status": "success", "data": {username:username}};
+          }
+        }
+      });
   });
 
 Meteor.methods({
@@ -231,8 +252,8 @@ Meteor.methods({
 		var eml = stringToEml(statementEml, statementId, username , space);
 		addTask(eml);
 	},
-	'updateTask' : function(task) {
-		updateTask(task);
+	'updateTask' : function(task, username) {
+		updateTask(task, username);
 	},
 	'refreshAppUsers' : function(){
 		this.unblock();
@@ -270,11 +291,18 @@ var addTask = function(task){
 	});
 }
 
-var updateTask = function(task){
+var updateTask = function(task, updateUser){
+    	
+    	if(!updateUser){
+    	    updateUser = 'somebody';
+    	}
+    
 	var oldTask = Tasks.findOne({
 		eml_id: task.eml_id
 	});
 	task._id = oldTask._id;
+	var wasOpen = isOpen(oldTask);
+	var nowIsOpen = isOpen(task);
 	
 	//Update the task
 	Tasks.update(task._id, task);
@@ -284,14 +312,32 @@ var updateTask = function(task){
 
 	//Send notification to new users added to the task
 	users.forEach(function(username){
-		if(oldUsers.indexOf(username)<0){
-			var author = task.author;
-			var picture = Meteor.settings.private.talkPath + "/avatar/"+author+".jpg";
-			var subject = author+' assigned you the mission "'+task.statement+'"';
-			var notification = {'from':author, 'to':username, 'link':'/management-tools?spaceid='+task.space+'&menu=sprintplanner','subject':subject, 'picture':picture,'type':'mission'};
-			Bus.sendNotification(notification, Meteor.settings.private.integrationBusPath);
-		}
+	    	var author = updateUser;
+	    	var picture = Meteor.settings.private.talkPath + "/avatar/"+author+".jpg";
+	    	var link = '/management-tools?spaceid='+task.space+'&menu=sprintplanner';
+	    	var subject = '';
+	    	if(wasOpen!=nowIsOpen){
+	    	    var verb = (nowIsOpen) ? ' opened':' closed';
+	    	    subject = author + verb + ' the mission "'+task.statement+'"';
+	    	}
+	    	else{
+	    	    if(oldUsers.indexOf(username)<0){
+	    		subject = author+' assigned you the mission "'+task.statement+'"';
+	    	    }
+	    	    else{
+	    		subject = author+' updated the mission "'+task.statement+'"';
+	    	    }
+	    	}
+	    	
+		var notification = {'from':author, 'to':username, 'link':link,'subject':subject, 'picture':picture,'type':'mission'};
+		console.log(notification);
+		Bus.sendNotification(notification, Meteor.settings.private.integrationBusPath);
 	});
+}
+
+var isOpen = function(task){
+    var closedOn = task.closed_on;
+    return !(closedOn && closedOn!=='');
 }
 
 var stringToEml = function(statement, id, author, space){
