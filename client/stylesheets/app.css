@@ -19760,22 +19760,22 @@ pre[class*="language-"]:before {
 /* Scrollbar Classes
 /* --------------------------------------- */
 /*** Scrollbar ***/
-.eq-ui-scrollbar::-webkit-scrollbar-track, .eq-ui-scrollbar-y::-webkit-scrollbar-track, .eq-ui-scrollbar-wrap.eq-ui-scrollbar-wrap-y::-webkit-scrollbar-track, .autocomplete-suggestions::-webkit-scrollbar-track, .eq-ui-side-nav .eq-ui-side-nav-wrapper .eq-ui-side-nav-content-wrapper nav::-webkit-scrollbar-track, .eq-ui-select-wrapper .eq-ui-dropdown::-webkit-scrollbar-track, .eq-ui-dropdown.eq-ui-dropdown-scroll::-webkit-scrollbar-track, .eq-ui-modal::-webkit-scrollbar-track, .eq-ui-modal.eq-ui-modal-fixed .eq-ui-modal-content::-webkit-scrollbar-track, .eq-ui-scrollbar-x::-webkit-scrollbar-track, .eq-ui-scrollbar-wrap.eq-ui-scrollbar-wrap-x::-webkit-scrollbar-track {
+.eq-ui-scrollbar::-webkit-scrollbar-track, .eq-ui-scrollbar-y::-webkit-scrollbar-track, .eq-ui-scrollbar-wrap.eq-ui-scrollbar-wrap-y::-webkit-scrollbar-track, .autocomplete-suggestions::-webkit-scrollbar-track, .eq-ui-side-nav .eq-ui-side-nav-wrapper .eq-ui-side-nav-content-wrapper nav::-webkit-scrollbar-track, .eq-ui-select-wrapper .eq-ui-dropdown::-webkit-scrollbar-track, .eq-ui-dropdown.eq-ui-dropdown-scroll::-webkit-scrollbar-track, .eq-ui-modal::-webkit-scrollbar-track, .eq-ui-modal.eq-ui-modal-fixed .eq-ui-modal-content::-webkit-scrollbar-track, #notifications_main .-autocomplete-container::-webkit-scrollbar-track, .eq-ui-scrollbar-x::-webkit-scrollbar-track, .eq-ui-scrollbar-wrap.eq-ui-scrollbar-wrap-x::-webkit-scrollbar-track {
   border-radius: 2px;
 }
 
-.eq-ui-scrollbar::-webkit-scrollbar, .eq-ui-scrollbar-y::-webkit-scrollbar, .eq-ui-scrollbar-wrap.eq-ui-scrollbar-wrap-y::-webkit-scrollbar, .autocomplete-suggestions::-webkit-scrollbar, .eq-ui-side-nav .eq-ui-side-nav-wrapper .eq-ui-side-nav-content-wrapper nav::-webkit-scrollbar, .eq-ui-select-wrapper .eq-ui-dropdown::-webkit-scrollbar, .eq-ui-dropdown.eq-ui-dropdown-scroll::-webkit-scrollbar, .eq-ui-modal::-webkit-scrollbar, .eq-ui-modal.eq-ui-modal-fixed .eq-ui-modal-content::-webkit-scrollbar, .eq-ui-scrollbar-x::-webkit-scrollbar, .eq-ui-scrollbar-wrap.eq-ui-scrollbar-wrap-x::-webkit-scrollbar {
+.eq-ui-scrollbar::-webkit-scrollbar, .eq-ui-scrollbar-y::-webkit-scrollbar, .eq-ui-scrollbar-wrap.eq-ui-scrollbar-wrap-y::-webkit-scrollbar, .autocomplete-suggestions::-webkit-scrollbar, .eq-ui-side-nav .eq-ui-side-nav-wrapper .eq-ui-side-nav-content-wrapper nav::-webkit-scrollbar, .eq-ui-select-wrapper .eq-ui-dropdown::-webkit-scrollbar, .eq-ui-dropdown.eq-ui-dropdown-scroll::-webkit-scrollbar, .eq-ui-modal::-webkit-scrollbar, .eq-ui-modal.eq-ui-modal-fixed .eq-ui-modal-content::-webkit-scrollbar, #notifications_main .-autocomplete-container::-webkit-scrollbar, .eq-ui-scrollbar-x::-webkit-scrollbar, .eq-ui-scrollbar-wrap.eq-ui-scrollbar-wrap-x::-webkit-scrollbar {
   background-color: #F7F7F7;
 }
 
-.eq-ui-scrollbar::-webkit-scrollbar-thumb, .eq-ui-scrollbar-y::-webkit-scrollbar-thumb, .eq-ui-scrollbar-wrap.eq-ui-scrollbar-wrap-y::-webkit-scrollbar-thumb, .autocomplete-suggestions::-webkit-scrollbar-thumb, .eq-ui-side-nav .eq-ui-side-nav-wrapper .eq-ui-side-nav-content-wrapper nav::-webkit-scrollbar-thumb, .eq-ui-select-wrapper .eq-ui-dropdown::-webkit-scrollbar-thumb, .eq-ui-dropdown.eq-ui-dropdown-scroll::-webkit-scrollbar-thumb, .eq-ui-modal::-webkit-scrollbar-thumb, .eq-ui-modal.eq-ui-modal-fixed .eq-ui-modal-content::-webkit-scrollbar-thumb, .eq-ui-scrollbar-x::-webkit-scrollbar-thumb, .eq-ui-scrollbar-wrap.eq-ui-scrollbar-wrap-x::-webkit-scrollbar-thumb {
+.eq-ui-scrollbar::-webkit-scrollbar-thumb, .eq-ui-scrollbar-y::-webkit-scrollbar-thumb, .eq-ui-scrollbar-wrap.eq-ui-scrollbar-wrap-y::-webkit-scrollbar-thumb, .autocomplete-suggestions::-webkit-scrollbar-thumb, .eq-ui-side-nav .eq-ui-side-nav-wrapper .eq-ui-side-nav-content-wrapper nav::-webkit-scrollbar-thumb, .eq-ui-select-wrapper .eq-ui-dropdown::-webkit-scrollbar-thumb, .eq-ui-dropdown.eq-ui-dropdown-scroll::-webkit-scrollbar-thumb, .eq-ui-modal::-webkit-scrollbar-thumb, .eq-ui-modal.eq-ui-modal-fixed .eq-ui-modal-content::-webkit-scrollbar-thumb, #notifications_main .-autocomplete-container::-webkit-scrollbar-thumb, .eq-ui-scrollbar-x::-webkit-scrollbar-thumb, .eq-ui-scrollbar-wrap.eq-ui-scrollbar-wrap-x::-webkit-scrollbar-thumb {
   border-radius: 10px;
   -webkit-box-shadow: inset 0 0 6px rgba(0, 0, 0, 0.3);
   background-color: #BFBFBF;
 }
 
 /*** Scrollbar Y ***/
-.eq-ui-scrollbar-y::-webkit-scrollbar, .eq-ui-scrollbar-wrap.eq-ui-scrollbar-wrap-y::-webkit-scrollbar, .autocomplete-suggestions::-webkit-scrollbar, .eq-ui-side-nav .eq-ui-side-nav-wrapper .eq-ui-side-nav-content-wrapper nav::-webkit-scrollbar, .eq-ui-select-wrapper .eq-ui-dropdown::-webkit-scrollbar, .eq-ui-dropdown.eq-ui-dropdown-scroll::-webkit-scrollbar, .eq-ui-modal::-webkit-scrollbar, .eq-ui-modal.eq-ui-modal-fixed .eq-ui-modal-content::-webkit-scrollbar {
+.eq-ui-scrollbar-y::-webkit-scrollbar, .eq-ui-scrollbar-wrap.eq-ui-scrollbar-wrap-y::-webkit-scrollbar, .autocomplete-suggestions::-webkit-scrollbar, .eq-ui-side-nav .eq-ui-side-nav-wrapper .eq-ui-side-nav-content-wrapper nav::-webkit-scrollbar, .eq-ui-select-wrapper .eq-ui-dropdown::-webkit-scrollbar, .eq-ui-dropdown.eq-ui-dropdown-scroll::-webkit-scrollbar, .eq-ui-modal::-webkit-scrollbar, .eq-ui-modal.eq-ui-modal-fixed .eq-ui-modal-content::-webkit-scrollbar, #notifications_main .-autocomplete-container::-webkit-scrollbar {
   width: 5px;
 }
 
@@ -23279,6 +23279,16 @@ body.tp_notifications_main #__blaze-root {
   right: -24px !important;
   top: auto !important;
   bottom: 84px !important;
+  max-height: 288px;
+  overflow-y: auto;
+  overflow-x: hidden;
+  word-wrap: break-word;
+}
+
+@media (max-width: 320px) {
+  #notifications_main .-autocomplete-container {
+    max-height: 144px;
+  }
 }
 
 #notifications_main .-autocomplete-container li.-autocomplete-item {
@@ -23405,6 +23415,38 @@ html.is_cordova #notifications_main .eq-mt-card-tabs {
 
 #tasks .tasks_footer p a:hover {
   background-color: transparent;
+}
+
+/* ---------------------------------------------------------------------- */
+/* Tasks Filters
+/* ---------------------------------------------------------------------- */
+#notifications_main .eq-man-tasks-filters {
+  width: 100%;
+  height: 48px;
+  line-height: 48px;
+  display: block;
+  position: relative;
+  padding: 0 16px;
+}
+
+#notifications_main .eq-man-tasks-filters .eq-ui-nav-menu {
+  height: 48px;
+  line-height: 48px;
+}
+
+#notifications_main .eq-man-tasks-filters .eq-ui-nav-menu > li.eq-ui-nav-menu-item-icon > a {
+  margin: 8px 0;
+}
+
+#notifications_main .eq-man-tasks-filters .eq-ui-nav-menu > li.eq-ui-nav-menu-item-icon .eq-ui-select-wrapper .eq-ui-dropdown {
+  top: -40px;
+  width: auto;
+  max-width: 240px;
+  max-height: 160px;
+}
+
+#notifications_main .eq-man-tasks-filters + ul {
+  padding-top: 0;
 }
 
 /* ---------------------------------------------------------------------- */

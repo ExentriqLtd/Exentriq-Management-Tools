@@ -3,6 +3,33 @@
 
         <div class="eq-ui-scrollbar-wrap eq-ui-scrollbar-wrap-y">
 
+            <!-- Filters -->
+            <div class="eq-man-tasks-filters">
+                <ul class="right eq-ui-nav-menu">
+                    <li class="eq-ui-nav-menu-item-icon eq-man-tasks-filters-order-by">
+                        <a data-target="dropdown-tasks-filters-order-by" data-hover="false" class="btn btn-default eq-ui-btn-flat eq-ui-btn-fab eq-ui-btn-menu-fab eq-ui-waves grey-text-600 trigger-dropdown-tasks-filters-order-by eq-ui-secondary-color-text">
+                            <i class="mdi mdi-filter-variant eq-ui-icon"></i>
+                        </a>
+
+                        <div class="eq-ui-select-wrapper">
+                            <ul id="dropdown-tasks-filters-order-by" class="eq-ui-dropdown eq-ui-dropdown-right-top">
+                                <li class="eq-man-tasks-filters-order-by-points">
+                                    <a data-target="fake" class="truncate {{#if filters_order_by_points}}active{{/if}}">
+                                        <i class="mdi mdi-check icon eq-ui-select-icon"></i> <span>{{tr "Order by points"}}</span>
+                                    </a>
+                                </li>
+                                <li class="eq-man-tasks-filters-order-by-creation-date">
+                                    <a data-target="fake" class="truncate {{#if filters_order_by_creation_date}}active{{/if}}">
+                                        <i class="mdi mdi-check icon eq-ui-select-icon"></i> <span>{{tr "Order by creation date"}}</span>
+                                    </a>
+                                </li>
+                            </ul>
+                        </div>
+                    </li>
+                </ul>
+            </div>
+
+            <!-- Open list -->
             <ul class="eq-man-tasks-list">
 
                 {{#each tasks 'open'}}
@@ -11,11 +38,13 @@
 
             </ul>
 
+            <!-- Show/Hide -->
             <div class="eq-man-tasks-list-show-completed {{#if ifCond tasks_completed_num '==' 0}}hide{{/if}}">
                 <a href="#" class="btn btn-default show-all-tasks-completed {{#if ifCond tasks_is_hide_completed '==' true}}show{{/if}}">{{tr "Show completed tasks"}}</a>
                 <a href="#" class="btn btn-default hide-all-tasks-completed {{#if ifCond tasks_is_hide_completed '==' false}}show{{/if}}">{{tr "Hide completed tasks"}}</a>
             </div>
 
+            <!-- Closed list -->
             <ul class="eq-man-tasks-list eq-man-tasks-list-completed {{#if ifCond tasks_completed_num '==' 0}}hide{{/if}}">
 
                 {{#each tasks 'closed'}}
@@ -26,6 +55,7 @@
 
         </div>
 
+        <!-- Footer -->
         <div class="tasks_footer">
             <p>
                 <a href="#" class="btn btn-default eq-ui-btn-flat mark-all-tasks-done {{#if ifCond tasks_num '==' 0}}disabled{{/if}}">{{tr "Mark all as done"}}</a>
@@ -34,6 +64,7 @@
             </p>
         </div>
 
+        <!-- ADD -->
         <div class="eq-ui-btn-fab-action">
             <a class="btn btn-primary eq-ui-btn-fab eq-ui-waves-light trigger-eq-man-tasks-modal-add">
                 <i class="mdi mdi-plus icon"></i>

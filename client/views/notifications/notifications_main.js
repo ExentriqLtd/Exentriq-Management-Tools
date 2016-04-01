@@ -83,7 +83,7 @@ EqApp.notifications.autocompleteReplace = function(event, template, doc, fieldNa
 EqApp.notifications.autocompleteSettings = function() {
     return {
         position: "top",
-        limit: 6,
+        limit: 100,
         rules: [
             {
                 token: '@',

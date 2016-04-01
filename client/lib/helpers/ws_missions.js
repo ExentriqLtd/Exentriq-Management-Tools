@@ -20,6 +20,7 @@ var _start_point = EqApp.client;
     /* Get all
     /* --------------------------------------- */
     _this.all = function (type) {
+        
         var filter = {};
         if(type==='open'){
             filter.closed_on={$in:[null, '']};
@@ -27,7 +28,16 @@ var _start_point = EqApp.client;
         else if(type==='closed'){
             filter.closed_on={$not:{$in:[null, '']}};
         }
-        return NotifyMissions.find(filter, {sort: {points: -1}});
+
+        var sort = {};
+        if(Session.get("missionsFiltersOrderByPoints")){
+            sort.points = -1;
+        }
+        else if(Session.get("missionsFiltersOrderByCreationDate")){
+            sort.milestone = -1; // TODO - remplace for creation date
+        }
+        
+        return NotifyMissions.find(filter, {sort: sort});
     };
 
     /* --------------------------------------- */
@@ -133,7 +143,10 @@ var _start_point = EqApp.client;
     /* Helps
     /* --------------------------------------- */
 
-    // ...
+    _this.reset_all_filters = function () {
+        Session.set("missionsFiltersOrderByPoints", false);
+        Session.set("missionsFiltersOrderByCreationDate", false);
+    };
 
     /* --------------------------------------- */
     /* WS Helps

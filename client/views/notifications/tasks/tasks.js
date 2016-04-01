@@ -6,6 +6,9 @@
 Template.tasks.onCreated(function(){
     var template = this;
 
+    Session.setDefault("tasksFiltersOrderByPoints", true);
+    Session.setDefault("tasksFiltersOrderByCreationDate", false);
+
     Session.setDefault("tasksHideCompleted", true);
     Session.setDefault("tasksShowModalAdd", false);
     Session.setDefault("tasksUpdatedNum", 1);
@@ -24,7 +27,13 @@ Template.tasks.onCreated(function(){
 
 // Rendered
 Template.tasks.onRendered(function(){
-    //console.log('tasks rendered...');
+    $('.trigger-dropdown-tasks-filters-order-by').dropdown({
+        inDuration: 300,
+        outDuration: 225,
+        hover: true,
+        gutter: 0,
+        belowOrigin: false
+    });
 });
 
 // Helpers
@@ -43,11 +52,27 @@ Template.tasks.helpers({
     },
     is_show_modal_add: function () {
         return Session.get("tasksShowModalAdd");
+    },
+    filters_order_by_points: function () {
+        return Session.get("tasksFiltersOrderByPoints");
+    },
+    filters_order_by_creation_date: function () {
+        return Session.get("tasksFiltersOrderByCreationDate");
     }
 });
 
 // Events
 Template.tasks.events({
+    "click .eq-man-tasks-filters-order-by-points": function (event) {
+        event.preventDefault();
+        EqApp.client.tasks.reset_all_filters();
+        Session.set("tasksFiltersOrderByPoints", true);
+    },
+    "click .eq-man-tasks-filters-order-by-creation-date": function (event) {
+        event.preventDefault();
+        EqApp.client.tasks.reset_all_filters();
+        Session.set("tasksFiltersOrderByCreationDate", true);
+    },
     "click .mark-all-tasks-done": function (event) {
         event.preventDefault();
         Session.set("tasksHideCompleted", true);

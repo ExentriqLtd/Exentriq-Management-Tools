@@ -6,6 +6,9 @@
 Template.missions.onCreated(function(){
     var template = this;
 
+    Session.setDefault("missionsFiltersOrderByPoints", true);
+    Session.setDefault("missionsFiltersOrderByCreationDate", false);
+
     Session.setDefault("missionsHideCompleted", true);
     Session.setDefault("missionsShowModalAdd", false);
     Session.setDefault("missionsUpdatedNum", 1);
@@ -24,7 +27,13 @@ Template.missions.onCreated(function(){
 
 // Rendered
 Template.missions.onRendered(function(){
-    //console.log('missions rendered...');
+    $('.trigger-dropdown-missions-filters-order-by').dropdown({
+        inDuration: 300,
+        outDuration: 225,
+        hover: true,
+        gutter: 0,
+        belowOrigin: false
+    });
 });
 
 // Helpers
@@ -43,11 +52,27 @@ Template.missions.helpers({
     },
     is_show_modal_add: function () {
         return Session.get("missionsShowModalAdd");
+    },
+    filters_order_by_points: function () {
+        return Session.get("missionsFiltersOrderByPoints");
+    },
+    filters_order_by_creation_date: function () {
+        return Session.get("missionsFiltersOrderByCreationDate");
     }
 });
 
 // Events
 Template.missions.events({
+    "click .eq-man-missions-filters-order-by-points": function (event) {
+        event.preventDefault();
+        EqApp.client.missions.reset_all_filters();
+        Session.set("missionsFiltersOrderByPoints", true);
+    },
+    "click .eq-man-missions-filters-order-by-creation-date": function (event) {
+        event.preventDefault();
+        EqApp.client.missions.reset_all_filters();
+        Session.set("missionsFiltersOrderByCreationDate", true);
+    },
     "click .mark-all-missions-done": function (event) {
         event.preventDefault();
         Session.set("missionsHideCompleted", true);
