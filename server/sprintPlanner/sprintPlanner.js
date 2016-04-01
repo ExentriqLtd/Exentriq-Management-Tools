@@ -316,6 +316,7 @@ var updateTask = function(task, updateUser){
 	    	var picture = Meteor.settings.private.talkPath + "/avatar/"+author+".jpg";
 	    	var link = '/management-tools?spaceid='+task.space+'&menu=sprintplanner';
 	    	var subject = '';
+	    	var type='mission';
 	    	if(wasOpen!=nowIsOpen){
 	    	    var verb = (nowIsOpen) ? ' opened':' closed';
 	    	    subject = author + verb + ' the mission "'+task.statement+'"';
@@ -325,11 +326,12 @@ var updateTask = function(task, updateUser){
 	    		subject = author+' assigned you the mission "'+task.statement+'"';
 	    	    }
 	    	    else{
+	    		type = 'mission_update'
 	    		subject = author+' updated the mission "'+task.statement+'"';
 	    	    }
 	    	}
 	    	
-		var notification = {'from':author, 'to':username, 'link':link,'subject':subject, 'picture':picture,'type':'mission'};
+		var notification = {'from':author, 'to':username, 'link':link,'subject':subject, 'picture':picture,'type':type};
 		console.log(notification);
 		Bus.sendNotification(notification, Meteor.settings.private.integrationBusPath);
 	});
