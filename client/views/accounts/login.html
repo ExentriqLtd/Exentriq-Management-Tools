@@ -1,0 +1,47 @@
+<template name="login">
+
+    <div class="container eq-accounts eq-accounts-login">
+        <!-- Card -->
+        <div class="eq-ui-card">
+            <div class="eq-ui-card-supporting-text">
+
+                <h6 class="title"><img src="img/exentriq_logo.svg" alt="Exentriq"></h6>
+                <!--p class="sub-title"></p-->
+
+                <!--a class="btn btn-primary eq-ui-waves btn-google"><span><img src="img/social/google_icon.svg"></span> {{tr 'Log in with Google'}}</a-->
+                <!--a class="btn btn-primary eq-ui-waves-light btn-facebook"><span><img src="img/social/facebook_icon.svg"></span> {{tr 'Log in with Facebook'}}</a-->
+                <!--a class="btn btn-primary eq-ui-waves-light btn-linkedin"><span><img src="img/social/linkedIn_icon.svg"></span> {{tr 'Log in with Linkedin'}}</a-->
+
+                <!--p class="sep-title">{{tr 'or'}}</p-->
+
+                <form id="login-form">
+                    <div class="row">
+                        <div class="col-md-12">
+                            <div class="eq-ui-form-group eq-ui-input-field">
+                                <input id="username" type="text" data-parsley-minlength="3" class="form-control eq-ui-input" required>
+                                <label for="username" data-error="{{tr 'Min length 3'}}">{{tr 'Username'}}</label>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-md-12">
+                            <div class="eq-ui-form-group eq-ui-input-field">
+                                <input id="password" type="password" data-parsley-minlength="6" class="form-control eq-ui-input" required>
+                                <label for="password" data-error="{{tr 'Min length 6'}}">{{tr 'Password'}}</label>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-md-12">
+                            <div class="eq-ui-form-group eq-ui-input-field">
+                                <a id="login-form-submit" class="btn btn-primary eq-ui-waves-light form-submit">{{tr 'Log In'}}</a>
+                            </div>
+                        </div>
+                    </div>
+                </form>
+            </div>
+        </div>
+
+    </div>
+
+</template>

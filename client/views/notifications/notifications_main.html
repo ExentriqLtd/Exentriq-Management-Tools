@@ -19,6 +19,11 @@
                     {{> missions}}
                 </div>
 
+                <!-- Account -->
+                <div id="eq-ui-tab-notify-4">
+                    {{> account}}
+                </div>
+
             </div>
         {{/if}}
 
@@ -45,6 +50,16 @@
                                 {{tr "Missions"}}
                             </a>
                         </li>
+
+                        {{#if is_cordova}}
+                        <li class="eq-ui-tab">
+                            <a href="#eq-ui-tab-notify-4">
+                                <i class="mdi mdi-account eq-ui-icon"></i><br>
+                                {{tr "Account"}}
+                            </a>
+                        </li>
+                        {{/if}}
+
                     </ul>
                 </div>
             </div>

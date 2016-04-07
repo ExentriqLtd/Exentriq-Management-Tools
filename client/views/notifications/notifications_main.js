@@ -40,7 +40,7 @@ Template.notifications_main.onCreated(function() {
 
 // Rendered
 Template.notifications_main.onRendered(function(){
-    //console.log('notifications_main rendered...');
+    $('#notifications_main ul.eq-ui-tabs').tabs();
 });
 
 // Helpers

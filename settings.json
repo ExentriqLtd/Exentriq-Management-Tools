@@ -1,10 +1,13 @@
 {
     "public": {
-        "isDebug": true,
+        "isDebug": false,
         "rootPath": "http://www.exentriq.com",
         "loginFormPath": "http://www.exentriq.com/signin_new",
         "notificationBusPath": "wss://bus.exentriq.com:1881/ws/notification",
-        "defaultAvatarPath": "http://www.exentriq.com/AvatarService?username="
+        "defaultAvatarPath": "http://www.exentriq.com/AvatarService?username=",
+
+        "simulateCordova": false,
+        "rootAppCordoba": "notifications"
     },
     "private": {
         "integrationBusPath": "http://bus.exentriq.com:1880",

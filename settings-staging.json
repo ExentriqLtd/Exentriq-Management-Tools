@@ -4,7 +4,10 @@
         "rootPath": "http://stage.exentriq.com",
         "loginFormPath": "http://stage.exentriq.com/signin_new",
         "notificationBusPath": "ws://bus.stage.exentriq.com:1880/ws/notification",
-        "defaultAvatarPath": "http://stage.exentriq.com/AvatarService?username="
+        "defaultAvatarPath": "http://stage.exentriq.com/AvatarService?username=",
+
+        "simulateCordova": false,
+        "rootAppCordoba": "notifications"
     },
     "private": {
         "integrationBusPath": "http://bus.stage.exentriq.com:1880",

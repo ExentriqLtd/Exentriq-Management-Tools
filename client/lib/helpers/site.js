@@ -17,6 +17,11 @@ var _start_point = EqApp.client;
 
         // Debug
         if(Meteor.settings.public.isDebug){
+            // Simulate
+            if(_is_cordova === false){
+                _is_cordova = Meteor.settings.public.simulateCordova;
+            }
+            
             // Get Query
             var query_string = EqUI.site.query_string;
 
@@ -53,7 +58,24 @@ var _start_point = EqApp.client;
 
         return username;
     };
-
+    
+    /* --------------------------------------- */
+    /* Channel Url
+    /* --------------------------------------- */
+    _this.channel_url = function () {
+        var channel = Meteor.settings.public.rootPath;
+        
+        // Get Query
+        var query_string = EqUI.site.query_string;
+        
+        // Is channelUrl
+        if(query_string.channelUrl !== undefined) {
+            channel = query_string.channelUrl;
+        }
+        
+        return channel;
+    };
+    
     /* --------------------------------------- */
     /* Space
     /* --------------------------------------- */

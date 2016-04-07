@@ -60,6 +60,7 @@ var on_open_modal = function(){
     //console.log('open modal...');
     // Rollback to body
     EqUI.site.body = $('body');
+    
     // Focus
     $('#eq-man-missions-modal-add .eq-man-autocomplete input').focus();
 };

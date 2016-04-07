@@ -23032,6 +23032,143 @@ html.is_cordova .hidden_cordova {
 /* Global Search
 /* ---------------------------------------------------------------------- */
 /* ---------------------------------------------------------------------- */
+/* Accounts
+/* ---------------------------------------------------------------------- */
+body.tp_login {
+  background-color: #f1f1f1;
+}
+
+body.tp_login #__blaze-root {
+  background-color: #f1f1f1;
+  /*position: fixed;
+        top: 0;
+        bottom: 0;
+        width: 100%;*/
+}
+
+.eq-accounts {
+  width: 420px !important;
+  padding-top: 150px;
+  margin-bottom: 50px;
+}
+
+.eq-accounts .eq-ui-card {
+  margin-bottom: 20px;
+}
+
+.eq-accounts .eq-ui-card .eq-ui-card-supporting-text {
+  padding: 25px 50px;
+}
+
+.eq-accounts .eq-ui-card .eq-ui-card-supporting-text .title {
+  font-size: 23px;
+  text-align: center;
+  margin-bottom: 20px;
+}
+
+.eq-accounts .eq-ui-card .eq-ui-card-supporting-text .sub-title {
+  text-align: center;
+  font-weight: 400;
+  color: #9e9e9e;
+  margin-bottom: 25px;
+}
+
+.eq-accounts .eq-ui-card .eq-ui-card-supporting-text .sep-title {
+  text-align: center;
+  font-weight: 400;
+  color: #9e9e9e;
+  margin-top: 25px;
+  margin-bottom: 5px;
+}
+
+.eq-accounts .eq-ui-card .eq-ui-card-supporting-text .btn {
+  display: block;
+  margin-bottom: 10px;
+}
+
+.eq-accounts .eq-ui-card .eq-ui-card-supporting-text .btn span {
+  float: left;
+  margin-left: 6px;
+}
+
+.eq-accounts .eq-ui-card .eq-ui-card-supporting-text .btn span img {
+  margin-bottom: 4px;
+}
+
+.eq-accounts .eq-ui-card .eq-ui-card-supporting-text .btn-google {
+  background-color: #fff !important;
+  color: #424242;
+}
+
+.eq-accounts .eq-ui-card .eq-ui-card-supporting-text .btn-facebook {
+  background-color: #3B5998 !important;
+}
+
+.eq-accounts .eq-ui-card .eq-ui-card-supporting-text .btn-facebook img {
+  margin-left: 4px;
+}
+
+.eq-accounts .eq-ui-card .eq-ui-card-supporting-text .btn-linkedin {
+  background-color: #007BB6 !important;
+}
+
+.eq-accounts .eq-ui-card .eq-ui-card-supporting-text .form-submit {
+  margin-top: 25px;
+}
+
+.eq-accounts .bottom-links {
+  font-weight: 400;
+  font-size: 0.8rem;
+  color: #9e9e9e;
+  margin-bottom: 100px;
+}
+
+.eq-accounts .bottom-links .bottom-links-left a {
+  color: #9e9e9e;
+  text-decoration: none;
+}
+
+.eq-accounts .bottom-links .bottom-links-right {
+  float: right;
+}
+
+.eq-accounts .bottom-links .bottom-links-right a {
+  color: #1bbc9b;
+  font-weight: 800;
+  text-transform: uppercase;
+}
+
+/* Media */
+@media (max-width: 768px) {
+  .eq-accounts {
+    width: 450px !important;
+    padding-top: 64px;
+  }
+  .eq-accounts .eq-ui-card .eq-ui-card-supporting-text {
+    padding: 80px 50px;
+  }
+}
+
+@media (max-width: 480px) {
+  .eq-accounts {
+    width: auto !important;
+    padding-top: 48px;
+  }
+  .eq-accounts .eq-ui-card .eq-ui-card-supporting-text {
+    padding: 40px 30px;
+  }
+}
+
+@media (max-width: 320px) {
+  .eq-accounts {
+    padding-top: 24px;
+  }
+  .eq-accounts .eq-ui-card .eq-ui-card-supporting-text {
+    padding: 20px 16px;
+  }
+}
+
+/* ---------------------------------------------------------------------- */
 /* Missions
 /* ---------------------------------------------------------------------- */
 #missions {
@@ -23118,6 +23255,13 @@ html.is_cordova .hidden_cordova {
 
 #missions #eq-man-missions-modal-add .eq-ui-modal-footer a {
   float: none;
+}
+
+/* ---------------------------------------------------------------------- */
+/* CORDOVA
+/* ---------------------------------------------------------------------- */
+html.is_cordova #missions {
+  height: 100%;
 }
 
 /* ---------------------------------------------------------------------- */
@@ -23328,11 +23472,11 @@ body.tp_notifications_main #__blaze-root {
 }
 
 #notifications_main.is-debug {
-  max-width: 360px;
+  max-width: 414px;
 }
 
 #notifications_main.is-debug .eq-ui-modal.eq-ui-modal-bottom-sheet {
-  max-width: 360px;
+  max-width: 414px;
 }
 
 /* ---------------------------------------------------------------------- */
@@ -23681,5 +23825,12 @@ html.is_cordova #notifications_main .eq-mt-card-tabs {
 
 #tasks #eq-man-tasks-modal-add .eq-ui-modal-footer a {
   float: none;
+}
+
+/* ---------------------------------------------------------------------- */
+/* CORDOVA
+/* ---------------------------------------------------------------------- */
+html.is_cordova #tasks {
+  height: 100%;
 }
 /*# sourceMappingURL=app.css.map */

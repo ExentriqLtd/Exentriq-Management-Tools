@@ -1,4 +1,4 @@
-localStorage.setItem("MeteorLoginStatus", "halted")
+localStorage.setItem("MeteorLoginStatus", "halted");
 
 function ensureLoggedIn(sessionToken) {
     localStorage.setItem("MeteorLoginStatus", "in-progress");
@@ -31,9 +31,9 @@ function ensureLoggedIn(sessionToken) {
 
 function handleLogin(context) {
 	var sessionToken;
-    sessionToken = context.queryParams.sessionToken;
+    sessionToken = context.queryParams.sessionToken || localStorage.getItem('MeteorLoginSessionToken');
 
-	var channelUrl = context.queryParams.channelUrl || Session.get('currentChannel');
+	var channelUrl = EqApp.client.site.channel_url() || Session.get('currentChannel');
 	console.log("ChannelUrl=" + channelUrl);
 	Session.set('currentChannel', channelUrl);
 
@@ -57,7 +57,12 @@ function handleLogin(context) {
         }
     }
     if (!Meteor.user() && !(localStorage.getItem("MeteorLoginStatus") === "in-progress")) {
-		window.location.href = Meteor.settings.public.loginFormPath;
+		if(!EqApp.client.site.is_cordova()){
+            window.location.href = Meteor.settings.public.loginFormPath;
+        } else {
+            // Got to login
+            FlowRouter.go('/login');
+        }
 	}
 }
 
@@ -80,6 +85,16 @@ function isLoggedCallback(ready){
 		}, 100);
 	}
 }
+
+// Login
+FlowRouter.route('/login', {
+    action: function(params, queryParams) {
+        $('body').addClass('tp_login');
+        BlazeLayout.render('appView', {
+            center: "login"
+        });
+    }
+});
 
 FlowRouter.triggers.enter([handleLogin]);
 
@@ -145,7 +160,7 @@ FlowRouter.route('/activitytracker/user/:userId', {
 				// set session user
 				Session.set('user', {
 					userName: params.userId == 'me' ? Meteor.user().username : null,
-					userId: params.userId == 'me' ? Meteor.userId() : params.userId,
+					userId: params.userId == 'me' ? Meteor.userId() : params.userId
 				});
 
 				// render tpl
@@ -202,12 +217,14 @@ FlowRouter.route('/activitytracker/:companyId/project/:project', {
 });
 */
 
-FlowRouter.route('/', {
-	action: function(params, queryParams) {   
+// Root Web
+if(!EqApp.client.site.is_cordova()){
+    FlowRouter.route('/', {
+        action: function(params, queryParams) {
 
-	}
-});
-
+        }
+    });
+}
 
 MYLoginWithPassword = function (selector, password, callback) {
 	selector = {username: selector};
