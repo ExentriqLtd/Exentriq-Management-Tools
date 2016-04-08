@@ -25,10 +25,8 @@ Template.account.helpers({
 Template.account.events({
     'click #log-out-action' : function(e, t){
         event.preventDefault();
-
-        // TODO Calogero, integrate wiht the actual login paradigm
-
-        // Fake log out
+        
+        // Log out
         localStorage.setItem('MeteorLoginSessionToken', "");
         localStorage.setItem("MeteorLastSessionToken", "");
         Meteor.logout();

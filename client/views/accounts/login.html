@@ -26,15 +26,15 @@
                     <div class="row">
                         <div class="col-md-12">
                             <div class="eq-ui-form-group eq-ui-input-field">
-                                <input id="password" type="password" data-parsley-minlength="6" class="form-control eq-ui-input" required>
-                                <label for="password" data-error="{{tr 'Min length 6'}}">{{tr 'Password'}}</label>
+                                <input id="password" type="password" data-parsley-minlength="3" class="form-control eq-ui-input" required>
+                                <label for="password" data-error="{{tr 'Min length 3'}}">{{tr 'Password'}}</label>
                             </div>
                         </div>
                     </div>
                     <div class="row">
                         <div class="col-md-12">
                             <div class="eq-ui-form-group eq-ui-input-field">
-                                <a id="login-form-submit" class="btn btn-primary eq-ui-waves-light form-submit">{{tr 'Log In'}}</a>
+                                <a id="login-form-submit" class="btn btn-primary eq-ui-waves-light form-submit {{#if is_disabled_login_bt}}disabled{{/if}}">{{tr 'Log In'}}</a>
                             </div>
                         </div>
                     </div>

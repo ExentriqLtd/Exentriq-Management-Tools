@@ -299,8 +299,6 @@ var _start_point = EqApp.client;
 
     // WS Init
     _this.ws_init = function () {
-        console.log('test', EqApp.client.site.username());
-
         if(_this.service_is_init || EqApp.client.site.username()===null){return;}
 
         _this.service_is_init = true;

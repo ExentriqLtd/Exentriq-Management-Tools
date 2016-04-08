@@ -1,6 +1,6 @@
 // Created
 Template.login.onCreated(function () {
-
+    Session.setDefault("mtoolsLoginStatus", 'halted');
 });
 
 // Destroyed
@@ -18,7 +18,9 @@ Template.login.onRendered(function(){
 
 // HELPERS
 Template.login.helpers({
-
+    is_disabled_login_bt: function () {
+        return Session.get("mtoolsLoginStatus") !== 'halted';
+    }
 });
 
 // EVENTS
@@ -32,15 +34,20 @@ Template.login.events({
         // Validate
         if(!EqUI.forms.validate_form($('#login-form'))){return false;}
 
-        // TODO Calogero, integrate wiht the actual login paradigm
-        
+        Session.set("mtoolsLoginStatus",  'in-progress');
+
         // Login
-        console.log('login:', username, password);
-        
-        // Fake login
-        localStorage.setItem('MeteorLoginSessionToken', "1459875834346698");
-        
-        // Go to root app
-        FlowRouter.go('/');
+        Meteor.call('loginPlatformUser', username, password, function(error, result){
+            Session.set("mtoolsLoginStatus",  'halted');
+            if(result){
+                // Set login token
+                localStorage.setItem('MeteorLoginSessionToken', result.sessionToken);
+
+                // Go to root app
+                FlowRouter.go('/');
+            } else {
+                EqApp.client.site.toast.error('Invalid username or password');
+            }
+        });
     }
 });
