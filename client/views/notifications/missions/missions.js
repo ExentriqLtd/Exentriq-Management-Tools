@@ -34,6 +34,14 @@ Template.missions.onRendered(function(){
         gutter: 0,
         belowOrigin: false
     });
+
+    $('.trigger-missions-dropdown-header-mobile-menu').dropdown({
+        inDuration: 300,
+        outDuration: 225,
+        hover: true,
+        gutter: 0,
+        belowOrigin: false
+    });
 });
 
 // Helpers
@@ -73,7 +81,7 @@ Template.missions.events({
         EqApp.client.missions.reset_all_filters();
         Session.set("missionsFiltersOrderByCreationDate", true);
     },
-    "click .mark-all-missions-done": function (event) {
+    "click .mark-all-missions-done, click .eq-man-header-mobile-menu-mark-all-missions-done": function (event) {
         event.preventDefault();
         Session.set("missionsHideCompleted", true);
         $('.eq-man-missions-list-completed').css('display','none');

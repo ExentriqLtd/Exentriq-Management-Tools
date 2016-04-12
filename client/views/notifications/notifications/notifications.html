@@ -1,6 +1,37 @@
 <template name="notifications">
     <div id="notifications">
 
+        {{#if is_cordova}}
+        <div class="eq-man-header-mobile eq-ui-secondary-color">
+
+            <div class="eq-man-header-mobile-title">
+                <h6>{{tr "Notifications"}}</h6>
+            </div>
+
+            <ul class="right eq-ui-nav-menu">
+                <li class="eq-ui-nav-menu-item-icon eq-man-header-mobile-menu">
+                    <a data-target="dropdown-header-mobile-menu" data-hover="false" class="btn btn-default eq-ui-btn-flat eq-ui-btn-fab eq-ui-btn-menu-fab eq-ui-waves trigger-dropdown-header-mobile-menu">
+                        <i class="mdi mdi-menu eq-ui-icon"></i>
+                    </a>
+
+                    <ul id="dropdown-header-mobile-menu" class="eq-ui-dropdown eq-ui-dropdown-right-top">
+                        <li class="eq-man-header-mobile-menu-mark-all-notify {{#if ifCond notifications_num '==' 0}}disabled{{/if}}">
+                            <a class="truncate">
+                                {{tr "Mark all as read"}}
+                            </a>
+                        </li>
+                        <li class="eq-man-header-mobile-menu-remove-all-notify {{#if ifCond notifications.length '==' 0}}disabled{{/if}}">
+                            <a class="truncate">
+                                {{tr "Clear all"}}
+                            </a>
+                        </li>
+                    </ul>
+                </li>
+            </ul>
+
+        </div>
+        {{/if}}
+
         <div class="eq-ui-scrollbar-wrap eq-ui-scrollbar-wrap-y">
             <ul class="eq-ui-list eq-ui-hoverable">
 

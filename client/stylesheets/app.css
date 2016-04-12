@@ -23032,6 +23032,54 @@ html.is_cordova .hidden_cordova {
 /* Global Search
 /* ---------------------------------------------------------------------- */
 /* ---------------------------------------------------------------------- */
+/* Header Mobile
+/* ---------------------------------------------------------------------- */
+.eq-man-header-mobile {
+  position: relative;
+  width: 100%;
+  height: 40px;
+  padding: 0 15px;
+  line-height: 40px;
+  background-color: #0aa9f2;
+}
+
+.eq-man-header-mobile .eq-man-header-mobile-title {
+  position: absolute;
+  left: 0;
+  width: 100%;
+  height: 40px;
+}
+
+.eq-man-header-mobile .eq-man-header-mobile-title h6 {
+  text-align: center;
+  color: #fff;
+  line-height: 40px;
+  font-size: 16px;
+  margin: 0;
+  font-weight: 500;
+}
+
+.eq-man-header-mobile .eq-ui-nav-menu {
+  height: 40px;
+}
+
+.eq-man-header-mobile .eq-ui-nav-menu li.eq-ui-nav-menu-item-icon .eq-ui-dropdown {
+  top: 4px;
+}
+
+.eq-man-header-mobile .eq-ui-nav-menu li.eq-ui-nav-menu-item-icon > a {
+  color: #fff !important;
+  margin: 4px 0;
+}
+
+.eq-man-header-mobile .eq-ui-nav-menu li.eq-ui-nav-menu-item-icon .eq-ui-select-wrapper .eq-ui-dropdown {
+  top: -36px;
+  width: auto;
+  max-width: 240px;
+  max-height: 160px;
+}
+
+/* ---------------------------------------------------------------------- */
 /* Accounts
 /* ---------------------------------------------------------------------- */
 body.tp_login {
@@ -23165,6 +23213,17 @@ body.tp_login #__blaze-root {
 }
 
 /* ---------------------------------------------------------------------- */
+/* Accounts Profile
+/* ---------------------------------------------------------------------- */
+#account .account-profile {
+  padding: 0 24px;
+}
+
+#account .account-profile #log-out-action {
+  width: 100%;
+}
+
+/* ---------------------------------------------------------------------- */
 /* Missions
 /* ---------------------------------------------------------------------- */
 #missions {
@@ -23260,6 +23319,10 @@ html.is_cordova #missions {
   height: 100%;
 }
 
+html.is_cordova #missions > .eq-ui-scrollbar-wrap {
+  height: calc(100% - 40px);
+}
+
 /* ---------------------------------------------------------------------- */
 /* Notifications
 /* ---------------------------------------------------------------------- */
@@ -23336,6 +23399,10 @@ html.is_cordova #missions {
 /* ---------------------------------------------------------------------- */
 html.is_cordova #notifications {
   height: 100%;
+}
+
+html.is_cordova #notifications > .eq-ui-scrollbar-wrap {
+  height: calc(100% - 40px);
 }
 
 /* ---------------------------------------------------------------------- */
@@ -23481,6 +23548,10 @@ body.tp_notifications_main #__blaze-root {
 html.is_cordova #notifications_main .eq-mt-card-tabs {
   border-bottom: 0 solid #e1e1e1;
   border-top: 1px solid #e1e1e1;
+}
+
+html.is_cordova #notifications_main .-autocomplete-container {
+  max-height: 144px;
 }
 
 /* ---------------------------------------------------------------------- */
@@ -23828,5 +23899,9 @@ html.is_cordova #notifications_main .eq-mt-card-tabs {
 /* ---------------------------------------------------------------------- */
 html.is_cordova #tasks {
   height: 100%;
+}
+
+html.is_cordova #tasks > .eq-ui-scrollbar-wrap {
+  height: calc(100% - 40px);
 }
 /*# sourceMappingURL=app.css.map */

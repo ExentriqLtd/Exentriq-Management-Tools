@@ -1,8 +1,58 @@
 <template name="missions">
     <div id="missions">
 
+        {{#if is_cordova}}
+            <div class="eq-man-header-mobile eq-ui-secondary-color">
+
+                <div class="eq-man-header-mobile-title">
+                    <h6>{{tr "Missions"}}</h6>
+                </div>
+
+                <ul class="right eq-ui-nav-menu">
+
+                    <li class="eq-ui-nav-menu-item-icon eq-man-tasks-filters-order-by">
+                        <a data-target="dropdown-missions-filters-order-by" data-hover="false" class="btn btn-default eq-ui-btn-flat eq-ui-btn-fab eq-ui-btn-menu-fab eq-ui-waves grey-text-600 trigger-dropdown-missions-filters-order-by eq-ui-secondary-color-text">
+                            <i class="mdi mdi-filter-variant eq-ui-icon"></i>
+                        </a>
+
+                        <div class="eq-ui-select-wrapper">
+                            <ul id="dropdown-missions-filters-order-by" class="eq-ui-dropdown eq-ui-dropdown-right-top">
+                                <li class="eq-man-missions-filters-order-by-points">
+                                    <a data-target="fake" class="truncate {{#if filters_order_by_points}}active{{/if}}">
+                                        <i class="mdi mdi-check icon eq-ui-select-icon"></i> <span>{{tr "Order by points"}}</span>
+                                    </a>
+                                </li>
+                                <li class="eq-man-missions-filters-order-by-creation-date">
+                                    <a data-target="fake" class="truncate {{#if filters_order_by_creation_date}}active{{/if}}">
+                                        <i class="mdi mdi-check icon eq-ui-select-icon"></i> <span>{{tr "Order by creation date"}}</span>
+                                    </a>
+                                </li>
+                            </ul>
+                        </div>
+                    </li>
+
+                    <li class="eq-ui-nav-menu-item-icon eq-man-header-mobile-menu">
+                        <a data-target="missions-dropdown-header-mobile-menu" data-hover="false" class="btn btn-default eq-ui-btn-flat eq-ui-btn-fab eq-ui-btn-menu-fab eq-ui-waves trigger-missions-dropdown-header-mobile-menu">
+                            <i class="mdi mdi-menu eq-ui-icon"></i>
+                        </a>
+
+                        <ul id="missions-dropdown-header-mobile-menu" class="eq-ui-dropdown eq-ui-dropdown-right-top">
+                            <li class="eq-man-header-mobile-menu-mark-all-missions-done {{#if ifCond missions_num '==' 0}}disabled{{/if}}">
+                                <a class="truncate">
+                                    {{tr "Mark all as done"}}
+                                </a>
+                            </li>
+                        </ul>
+                    </li>
+
+                </ul>
+
+            </div>
+        {{/if}}
+
         <div class="eq-ui-scrollbar-wrap eq-ui-scrollbar-wrap-y">
 
+            {{#if ifCond is_cordova '==' false}}
             <!-- Filters -->
             <div class="eq-man-tasks-filters">
                 <ul class="right eq-ui-nav-menu">
@@ -28,6 +78,7 @@
                     </li>
                 </ul>
             </div>
+            {{/if}}
 
             <!-- Open list -->
             <ul class="eq-man-missions-list">

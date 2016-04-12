@@ -21,7 +21,13 @@ Template.notifications.onCreated(function(){
 
 // Rendered
 Template.notifications.onRendered(function(){
-    // console.log('notifications rendered...');
+    $('#notifications .trigger-dropdown-header-mobile-menu').dropdown({
+        inDuration: 300,
+        outDuration: 225,
+        hover: true,
+        gutter: 0,
+        belowOrigin: false
+    });
 });
 
 // Helpers
@@ -36,13 +42,13 @@ Template.notifications.helpers({
 
 // Events
 Template.notifications.events({
-    "click .mark-all-notify": function (event) {
+    "click .mark-all-notify, click .eq-man-header-mobile-menu-mark-all-notify": function (event) {
         event.preventDefault();
 
         // Read all
         EqApp.client.notification.read_all_notifications();
     },
-    "click .remove-all-notify": function (event) {
+    "click .remove-all-notify, click .eq-man-header-mobile-menu-remove-all-notify": function (event) {
         event.preventDefault();
 
         // Remove all

@@ -34,6 +34,14 @@ Template.tasks.onRendered(function(){
         gutter: 0,
         belowOrigin: false
     });
+
+    $('.trigger-tasks-dropdown-header-mobile-menu').dropdown({
+        inDuration: 300,
+        outDuration: 225,
+        hover: true,
+        gutter: 0,
+        belowOrigin: false
+    });
 });
 
 // Helpers
@@ -73,7 +81,7 @@ Template.tasks.events({
         EqApp.client.tasks.reset_all_filters();
         Session.set("tasksFiltersOrderByCreationDate", true);
     },
-    "click .mark-all-tasks-done": function (event) {
+    "click .mark-all-tasks-done, click .eq-man-header-mobile-menu-mark-all-tasks-done": function (event) {
         event.preventDefault();
         Session.set("tasksHideCompleted", true);
         $('.eq-man-tasks-list-completed').css('display','none');

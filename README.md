@@ -67,3 +67,63 @@ iOS Device:
 ```
 meteor run ios-device --settings settings-staging.json --port 3000
 ```
+
+Android:
+
+```
+meteor run android --settings settings-staging.json --port 3000
+```
+
+Android Device:
+
+```
+meteor run android-device --settings settings-staging.json --port 3000
+```
+
+Building:
+
+```
+meteor build --server http://37.187.137.140:5007
+```
+
+#### Production
+
+Use the ```settings.json``` for run meteor
+
+For simulate cordova in the browser, set ```simulateCordova``` to ```true``` in the ```settings.json```
+
+Browser (simulateCordova):
+
+```
+http://localhost:3000
+```
+
+iOS:
+
+```
+meteor run ios --settings settings.json --port 3000
+```
+
+iOS Device:
+
+```
+meteor run ios-device --settings settings.json --port 3000
+```
+
+Android:
+
+```
+meteor run android --settings settings.json --port 3000
+```
+
+Android Device:
+
+```
+meteor run android-device --settings settings.json --port 3000
+```
+
+Building:
+
+```
+meteor build --server http://149.202.77.27:5007
+```
