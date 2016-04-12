@@ -80,12 +80,6 @@ Android Device:
 meteor run android-device --settings settings-staging.json --port 3000
 ```
 
-Building:
-
-```
-meteor build --server http://37.187.137.140:5007
-```
-
 #### Production
 
 Use the ```settings.json``` for run meteor
@@ -120,10 +114,4 @@ Android Device:
 
 ```
 meteor run android-device --settings settings.json --port 3000
-```
-
-Building:
-
-```
-meteor build --server http://149.202.77.27:5007
 ```
