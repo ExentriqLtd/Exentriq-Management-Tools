@@ -125,9 +125,19 @@ iOS:
 bash build-ios-staging.sh
 ```
 
+Android:
+```
+bash build-android-staging.sh
+```
+
 #### Production
 
 iOS:
 ```
 bash build-ios.sh
+```
+
+Android:
+```
+bash build-android.sh
 ```

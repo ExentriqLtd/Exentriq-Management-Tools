@@ -6,6 +6,9 @@ rm -rf ../app-ios-build
 echo 'Start build...'
 meteor build ../app-ios-build --server http://149.202.77.27:5007 --mobile-settings settings.json
 
+echo 'Dispose'
+rm -rf ../app-ios-build/android
+
 echo 'Open project...'
 open ../app-ios-build/ios/project/ExentriqNotifications.xcodeproj
 
