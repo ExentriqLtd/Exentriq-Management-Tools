@@ -48,6 +48,7 @@ App.info({
 
 // Set PhoneGap/Cordova preferences
 //App.setPreference('xwalkCommandLine','--disable-gesture-requirement-for-media-playback');
+App.setPreference('Orientation', 'portrait');
 App.setPreference('HideKeyboardFormAccessoryBar', true);
 App.setPreference('KeyboardDisplayRequiresUserAction', false);
 App.setPreference('StatusBarOverlaysWebView', false);

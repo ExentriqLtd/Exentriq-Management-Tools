@@ -42,7 +42,7 @@ Remote:
 http://149.202.77.27:5007/notifications/?sessionToken=1459875834346698
 ```
 
-### Cordova
+### Cordova Dev
 
 #### Stage
 
@@ -56,7 +56,7 @@ Browser (simulateCordova):
 http://localhost:3000
 ```
 
-iOS:
+iOS (Simulator):
 
 ```
 meteor run ios --settings settings-staging.json --port 3000
@@ -68,7 +68,7 @@ iOS Device:
 meteor run ios-device --settings settings-staging.json --port 3000
 ```
 
-Android:
+Android (Simulator):
 
 ```
 meteor run android --settings settings-staging.json --port 3000
@@ -92,7 +92,7 @@ Browser (simulateCordova):
 http://localhost:3000
 ```
 
-iOS:
+iOS (Simulator):
 
 ```
 meteor run ios --settings settings.json --port 3000
@@ -104,7 +104,7 @@ iOS Device:
 meteor run ios-device --settings settings.json --port 3000
 ```
 
-Android:
+Android (Simulator):
 
 ```
 meteor run android --settings settings.json --port 3000
@@ -114,4 +114,20 @@ Android Device:
 
 ```
 meteor run android-device --settings settings.json --port 3000
+```
+
+### Cordova Building
+
+#### Stage
+
+iOS:
+```
+bash build-ios-staging.sh
+```
+
+#### Production
+
+iOS:
+```
+bash build-ios.sh
 ```
