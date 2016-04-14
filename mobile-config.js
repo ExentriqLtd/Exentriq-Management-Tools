@@ -1,12 +1,12 @@
 // This section sets up some basic app metadata,
 // the entire section is optional.
 App.info({
-    id: 'com.exentriq.notifications',
-    version: '0.1.0',
-    name: 'ExentriqNotifications',
-    description: 'ExentriqNotifications',
+    id: 'com.exentriq.edo',
+    version: '1.0',
+    name: 'ExentriqEDO',
+    description: 'ExentriqEDO',
     author: 'Exentriq Ltd.',
-    email: 'support@exentriq.col',
+    email: 'support@exentriq.com',
     website: 'http://www.exentriq.com'
 });
 

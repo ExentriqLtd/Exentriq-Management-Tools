@@ -228,7 +228,6 @@ if(!EqApp.client.site.is_cordova()){
 
 MYLoginWithPassword = function (selector, password, callback) {
 	selector = {username: selector};
-	console.log("MYLoginWithPassword");
 	Accounts.callLoginMethod({
 		methodArguments: [{
 			user: selector,

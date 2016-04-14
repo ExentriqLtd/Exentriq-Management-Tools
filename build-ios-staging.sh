@@ -10,7 +10,7 @@ echo 'Dispose'
 rm -rf ../app-ios-build/android
 
 echo 'Open project...'
-open ../app-ios-build/ios/project/ExentriqNotifications.xcodeproj
+open ../app-ios-build/ios/project/ExentriqEDO.xcodeproj
 
 echo 'TODO'
 echo '- Change provisioning profiles'
