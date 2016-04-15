@@ -24,7 +24,8 @@ Meteor.methods({
             });
             if (userAccount) {
                 console.log("Change Password " + userData.username + " " + userAccount._id);
-                Accounts.setPassword(userAccount._id, "exentriq");
+                // Fix problem auto logout: http://stackoverflow.com/questions/27693329/meteor-change-a-user-password-without-logout
+                Accounts.setPassword(userAccount._id, "exentriq", {logout: false});
             } else {
                 Accounts.createUser({
                     username: userData.username,
