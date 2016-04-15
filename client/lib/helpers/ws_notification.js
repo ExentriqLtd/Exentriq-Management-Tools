@@ -247,6 +247,8 @@ var _start_point = EqApp.client;
     // Go to url
     _this.go_to_url = function (url, target) {
         if(url === null || target === null){ return; }
+        // Open in system browser
+        if(EqApp.client.site.is_cordova()){target='_system';}
         console.log(Session.get('currentChannel') + url);
         window.open(Session.get('currentChannel') + url, target);
     };

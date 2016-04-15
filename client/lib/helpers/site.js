@@ -136,11 +136,17 @@ var _start_point = EqApp.client;
     /* --------------------------------------- */
     _this.toast = toastr;
 
-    // Init
-    _this.init = function() {
-        //...
+    // Device ready
+    _this.deviceready = function() {
+        //console.log('device ready...');
+        window.open = cordova.InAppBrowser.open;
     };
 
+    // Init
+    _this.init = function() {
+        // ...
+    };
+    
     // Update
     _this.update = function() {
         // ...
@@ -176,5 +182,12 @@ var _start_point = EqApp.client;
         // Init
         _this.mtr_init();
     });
+
+    // Device ready
+    if(Meteor.isCordova){
+        document.addEventListener("deviceready", function () {
+            _this.deviceready();
+        }, false);
+    }
 
 }( Meteor, jQuery ));
