@@ -140,6 +140,17 @@ var _start_point = EqApp.client;
     _this.deviceready = function() {
         //console.log('device ready...');
         window.open = cordova.InAppBrowser.open;
+
+        if (device.platform.toUpperCase() === 'ANDROID') {
+
+        }
+        else if (device.platform.toUpperCase() === 'IOS') {
+            cordova.plugins.Keyboard.hideKeyboardAccessoryBar(true);
+            //cordova.plugins.Keyboard.disableScroll(true);
+        }
+        else {
+            // ...
+        }
     };
 
     // Init

@@ -45,7 +45,7 @@ Template.missions_modal_add.events({
             });
         }
     },
-    "autocompleteselect input": function(event, template, doc) {
+    "autocompleteselect textarea": function(event, template, doc) {
         EqApp.notifications.autocompleteReplace(event, template, doc, '#statement-eml');
     }
 });
@@ -60,7 +60,10 @@ var on_open_modal = function(){
     //console.log('open modal...');
     // Rollback to body
     EqUI.site.body = $('body');
+
+    // Textarea auto size
+    autosize($('#eq-man-missions-modal-add textarea.eq-ui-textarea'));
     
     // Focus
-    $('#eq-man-missions-modal-add .eq-man-autocomplete input').focus();
+    $('#eq-man-missions-modal-add .eq-man-autocomplete textarea').focus();
 };

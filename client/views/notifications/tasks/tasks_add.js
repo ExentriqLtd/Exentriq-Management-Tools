@@ -44,7 +44,7 @@ Template.tasks_modal_add.events({
         }
         
     },
-    "autocompleteselect input": function(event, template, doc) {
+    "autocompleteselect textarea": function(event, template, doc) {
         EqApp.notifications.autocompleteReplace(event, template, doc, '#statement-eml');
     }
 });
@@ -60,6 +60,9 @@ var on_open_modal = function(){
     // Rollback to body
     EqUI.site.body = $('body');
 
+    // Textarea auto size
+    autosize($('#eq-man-tasks-modal-add textarea.eq-ui-textarea'));
+
     // Focus
-    $('#eq-man-tasks-modal-add .eq-man-autocomplete input').focus();
+    $('#eq-man-tasks-modal-add .eq-man-autocomplete textarea').focus();
 };

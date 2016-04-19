@@ -19760,22 +19760,22 @@ pre[class*="language-"]:before {
 /* Scrollbar Classes
 /* --------------------------------------- */
 /*** Scrollbar ***/
-.eq-ui-scrollbar::-webkit-scrollbar-track, .eq-ui-scrollbar-y::-webkit-scrollbar-track, .eq-ui-scrollbar-wrap.eq-ui-scrollbar-wrap-y::-webkit-scrollbar-track, .autocomplete-suggestions::-webkit-scrollbar-track, .eq-ui-side-nav .eq-ui-side-nav-wrapper .eq-ui-side-nav-content-wrapper nav::-webkit-scrollbar-track, .eq-ui-select-wrapper .eq-ui-dropdown::-webkit-scrollbar-track, .eq-ui-dropdown.eq-ui-dropdown-scroll::-webkit-scrollbar-track, .eq-ui-modal::-webkit-scrollbar-track, .eq-ui-modal.eq-ui-modal-fixed .eq-ui-modal-content::-webkit-scrollbar-track, #notifications_main .-autocomplete-container::-webkit-scrollbar-track, .eq-ui-scrollbar-x::-webkit-scrollbar-track, .eq-ui-scrollbar-wrap.eq-ui-scrollbar-wrap-x::-webkit-scrollbar-track {
+.eq-ui-scrollbar::-webkit-scrollbar-track, .eq-ui-scrollbar-y::-webkit-scrollbar-track, .eq-ui-scrollbar-wrap.eq-ui-scrollbar-wrap-y::-webkit-scrollbar-track, .autocomplete-suggestions::-webkit-scrollbar-track, .eq-ui-side-nav .eq-ui-side-nav-wrapper .eq-ui-side-nav-content-wrapper nav::-webkit-scrollbar-track, .eq-ui-select-wrapper .eq-ui-dropdown::-webkit-scrollbar-track, .eq-ui-dropdown.eq-ui-dropdown-scroll::-webkit-scrollbar-track, .eq-ui-modal::-webkit-scrollbar-track, .eq-ui-modal.eq-ui-modal-fixed .eq-ui-modal-content::-webkit-scrollbar-track, #notifications_main .-autocomplete-container::-webkit-scrollbar-track, #notifications_main .eq-man-autocomplete .eq-ui-textarea::-webkit-scrollbar-track, .eq-ui-scrollbar-x::-webkit-scrollbar-track, .eq-ui-scrollbar-wrap.eq-ui-scrollbar-wrap-x::-webkit-scrollbar-track {
   border-radius: 2px;
 }
 
-.eq-ui-scrollbar::-webkit-scrollbar, .eq-ui-scrollbar-y::-webkit-scrollbar, .eq-ui-scrollbar-wrap.eq-ui-scrollbar-wrap-y::-webkit-scrollbar, .autocomplete-suggestions::-webkit-scrollbar, .eq-ui-side-nav .eq-ui-side-nav-wrapper .eq-ui-side-nav-content-wrapper nav::-webkit-scrollbar, .eq-ui-select-wrapper .eq-ui-dropdown::-webkit-scrollbar, .eq-ui-dropdown.eq-ui-dropdown-scroll::-webkit-scrollbar, .eq-ui-modal::-webkit-scrollbar, .eq-ui-modal.eq-ui-modal-fixed .eq-ui-modal-content::-webkit-scrollbar, #notifications_main .-autocomplete-container::-webkit-scrollbar, .eq-ui-scrollbar-x::-webkit-scrollbar, .eq-ui-scrollbar-wrap.eq-ui-scrollbar-wrap-x::-webkit-scrollbar {
+.eq-ui-scrollbar::-webkit-scrollbar, .eq-ui-scrollbar-y::-webkit-scrollbar, .eq-ui-scrollbar-wrap.eq-ui-scrollbar-wrap-y::-webkit-scrollbar, .autocomplete-suggestions::-webkit-scrollbar, .eq-ui-side-nav .eq-ui-side-nav-wrapper .eq-ui-side-nav-content-wrapper nav::-webkit-scrollbar, .eq-ui-select-wrapper .eq-ui-dropdown::-webkit-scrollbar, .eq-ui-dropdown.eq-ui-dropdown-scroll::-webkit-scrollbar, .eq-ui-modal::-webkit-scrollbar, .eq-ui-modal.eq-ui-modal-fixed .eq-ui-modal-content::-webkit-scrollbar, #notifications_main .-autocomplete-container::-webkit-scrollbar, #notifications_main .eq-man-autocomplete .eq-ui-textarea::-webkit-scrollbar, .eq-ui-scrollbar-x::-webkit-scrollbar, .eq-ui-scrollbar-wrap.eq-ui-scrollbar-wrap-x::-webkit-scrollbar {
   background-color: #F7F7F7;
 }
 
-.eq-ui-scrollbar::-webkit-scrollbar-thumb, .eq-ui-scrollbar-y::-webkit-scrollbar-thumb, .eq-ui-scrollbar-wrap.eq-ui-scrollbar-wrap-y::-webkit-scrollbar-thumb, .autocomplete-suggestions::-webkit-scrollbar-thumb, .eq-ui-side-nav .eq-ui-side-nav-wrapper .eq-ui-side-nav-content-wrapper nav::-webkit-scrollbar-thumb, .eq-ui-select-wrapper .eq-ui-dropdown::-webkit-scrollbar-thumb, .eq-ui-dropdown.eq-ui-dropdown-scroll::-webkit-scrollbar-thumb, .eq-ui-modal::-webkit-scrollbar-thumb, .eq-ui-modal.eq-ui-modal-fixed .eq-ui-modal-content::-webkit-scrollbar-thumb, #notifications_main .-autocomplete-container::-webkit-scrollbar-thumb, .eq-ui-scrollbar-x::-webkit-scrollbar-thumb, .eq-ui-scrollbar-wrap.eq-ui-scrollbar-wrap-x::-webkit-scrollbar-thumb {
+.eq-ui-scrollbar::-webkit-scrollbar-thumb, .eq-ui-scrollbar-y::-webkit-scrollbar-thumb, .eq-ui-scrollbar-wrap.eq-ui-scrollbar-wrap-y::-webkit-scrollbar-thumb, .autocomplete-suggestions::-webkit-scrollbar-thumb, .eq-ui-side-nav .eq-ui-side-nav-wrapper .eq-ui-side-nav-content-wrapper nav::-webkit-scrollbar-thumb, .eq-ui-select-wrapper .eq-ui-dropdown::-webkit-scrollbar-thumb, .eq-ui-dropdown.eq-ui-dropdown-scroll::-webkit-scrollbar-thumb, .eq-ui-modal::-webkit-scrollbar-thumb, .eq-ui-modal.eq-ui-modal-fixed .eq-ui-modal-content::-webkit-scrollbar-thumb, #notifications_main .-autocomplete-container::-webkit-scrollbar-thumb, #notifications_main .eq-man-autocomplete .eq-ui-textarea::-webkit-scrollbar-thumb, .eq-ui-scrollbar-x::-webkit-scrollbar-thumb, .eq-ui-scrollbar-wrap.eq-ui-scrollbar-wrap-x::-webkit-scrollbar-thumb {
   border-radius: 10px;
   -webkit-box-shadow: inset 0 0 6px rgba(0, 0, 0, 0.3);
   background-color: #BFBFBF;
 }
 
 /*** Scrollbar Y ***/
-.eq-ui-scrollbar-y::-webkit-scrollbar, .eq-ui-scrollbar-wrap.eq-ui-scrollbar-wrap-y::-webkit-scrollbar, .autocomplete-suggestions::-webkit-scrollbar, .eq-ui-side-nav .eq-ui-side-nav-wrapper .eq-ui-side-nav-content-wrapper nav::-webkit-scrollbar, .eq-ui-select-wrapper .eq-ui-dropdown::-webkit-scrollbar, .eq-ui-dropdown.eq-ui-dropdown-scroll::-webkit-scrollbar, .eq-ui-modal::-webkit-scrollbar, .eq-ui-modal.eq-ui-modal-fixed .eq-ui-modal-content::-webkit-scrollbar, #notifications_main .-autocomplete-container::-webkit-scrollbar {
+.eq-ui-scrollbar-y::-webkit-scrollbar, .eq-ui-scrollbar-wrap.eq-ui-scrollbar-wrap-y::-webkit-scrollbar, .autocomplete-suggestions::-webkit-scrollbar, .eq-ui-side-nav .eq-ui-side-nav-wrapper .eq-ui-side-nav-content-wrapper nav::-webkit-scrollbar, .eq-ui-select-wrapper .eq-ui-dropdown::-webkit-scrollbar, .eq-ui-dropdown.eq-ui-dropdown-scroll::-webkit-scrollbar, .eq-ui-modal::-webkit-scrollbar, .eq-ui-modal.eq-ui-modal-fixed .eq-ui-modal-content::-webkit-scrollbar, #notifications_main .-autocomplete-container::-webkit-scrollbar, #notifications_main .eq-man-autocomplete .eq-ui-textarea::-webkit-scrollbar {
   width: 5px;
 }
 
@@ -23304,8 +23304,23 @@ body.tp_login #__blaze-root {
   overflow: visible;
 }
 
+#missions #eq-man-missions-modal-add .eq-ui-modal-content {
+  padding: 16px 16px 8px;
+}
+
+#missions #eq-man-missions-modal-add .eq-ui-modal-content .eq-man-autocomplete {
+  margin-top: 0;
+}
+
+#missions #eq-man-missions-modal-add .eq-ui-modal-content .eq-man-autocomplete label {
+  display: none;
+}
+
 #missions #eq-man-missions-modal-add .eq-ui-modal-footer {
   text-align: center;
+  min-height: 48px;
+  line-height: 32px;
+  padding: 6px 16px;
 }
 
 #missions #eq-man-missions-modal-add .eq-ui-modal-footer a {
@@ -23482,10 +23497,11 @@ body.tp_notifications_main #__blaze-root {
 
 #notifications_main .-autocomplete-container {
   position: absolute;
-  left: -24px !important;
-  right: -24px !important;
+  left: -16px !important;
+  right: -16px !important;
   top: auto !important;
-  bottom: 84px !important;
+  bottom: 100% !important;
+  margin-bottom: 16px;
   max-height: 288px;
   overflow-y: auto;
   overflow-x: hidden;
@@ -23501,7 +23517,7 @@ body.tp_notifications_main #__blaze-root {
 #notifications_main .-autocomplete-container li.-autocomplete-item {
   height: 48px;
   line-height: 48px;
-  padding: 0 24px;
+  padding: 0 16px;
   font-size: 16px;
   cursor: pointer;
   color: #9b9b9b;
@@ -23519,8 +23535,16 @@ body.tp_notifications_main #__blaze-root {
   margin-bottom: 5px;
 }
 
-#notifications_main .eq-man-autocomplete .eq-ui-input {
+#notifications_main .eq-man-autocomplete .eq-ui-input, #notifications_main .eq-man-autocomplete .eq-ui-textarea {
   margin-bottom: 0;
+  padding-top: 0;
+}
+
+#notifications_main .eq-man-autocomplete .eq-ui-textarea {
+  padding-bottom: 5px;
+  overflow-y: visible !important;
+  height: 24px;
+  max-height: 48px;
 }
 
 #notifications_main .autocomplete-guide {
@@ -23886,8 +23910,23 @@ html.is_cordova #notifications_main .-autocomplete-container {
   overflow: visible;
 }
 
+#tasks #eq-man-tasks-modal-add .eq-ui-modal-content {
+  padding: 16px 16px 8px;
+}
+
+#tasks #eq-man-tasks-modal-add .eq-ui-modal-content .eq-man-autocomplete {
+  margin-top: 0;
+}
+
+#tasks #eq-man-tasks-modal-add .eq-ui-modal-content .eq-man-autocomplete label {
+  display: none;
+}
+
 #tasks #eq-man-tasks-modal-add .eq-ui-modal-footer {
   text-align: center;
+  min-height: 48px;
+  line-height: 32px;
+  padding: 6px 16px;
 }
 
 #tasks #eq-man-tasks-modal-add .eq-ui-modal-footer a {

@@ -37,16 +37,25 @@ App.launchScreens({
 
 // Set PhoneGap/Cordova preferences
 //App.setPreference('xwalkCommandLine','--disable-gesture-requirement-for-media-playback');
+
+// Common
 App.setPreference('Orientation', 'portrait');
-App.setPreference('target-device', 'handset');
 App.setPreference('HideKeyboardFormAccessoryBar', true);
 App.setPreference('KeyboardDisplayRequiresUserAction', false);
 App.setPreference('StatusBarOverlaysWebView', false);
 App.setPreference('StatusBarStyle', 'lightcontent');
 App.setPreference('StatusBarBackgroundColor', '#1bbc9b');
 App.setPreference('ShowSplashScreenSpinner', false);
+
+// iOS
+App.setPreference('target-device', 'handset');
+App.setPreference('deployment-target', '8.0');
+
+// Android
 App.setPreference('android-targetSdkVersion', '19');
 App.setPreference('android-minSdkVersion', '15');
+
+// Access Rules
 App.accessRule('file:*');
 App.accessRule('blob:*');
 App.accessRule('cdv:*');
