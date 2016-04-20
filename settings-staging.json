@@ -12,6 +12,9 @@
     "private": {
         "integrationBusPath": "http://bus.stage.exentriq.com:1880",
         "loginEndpoint": "http://stage.exentriq.com/JSON-RPC",
-        "talkPath": "https://talk.stage.exentriq.com"
+        "talkPath": "https://talk.stage.exentriq.com",
+        "notificationAppName": "edo",
+        "integrationBusSetIosTokenPath": "http://bus.stage.exentriq.com:1880/setIosToken",
+        "integrationBusSetAndroidTokenPath": "http://bus.stage.exentriq.com:1880/setAndroidToken"
     }
 }
