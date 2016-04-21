@@ -23219,6 +23219,28 @@ body.tp_login #__blaze-root {
   padding: 0 24px;
 }
 
+#account .account-profile .eq-man-account-profile-details {
+  text-align: center;
+  padding-top: 24px;
+}
+
+#account .account-profile .eq-man-account-profile-details .eq-man-account-profile-details-avatar {
+  width: 64px;
+  height: 64px;
+  margin-bottom: 5px;
+}
+
+#account .account-profile .eq-man-account-profile-details .eq-man-account-profile-details-avatar-name {
+  text-align: center;
+  font-weight: 500;
+  font-size: 15px;
+}
+
+#account .account-profile .eq-man-account-profile-details .eq-man-account-profile-details-avatar-email {
+  text-align: center;
+  font-size: 15px;
+}
+
 #account .account-profile #log-out-action {
   width: 100%;
 }

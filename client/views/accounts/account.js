@@ -1,6 +1,6 @@
 // Created
 Template.account.onCreated(function () {
-
+    
 });
 
 // Destroyed
@@ -18,7 +18,9 @@ Template.account.onRendered(function(){
 
 // HELPERS
 Template.account.helpers({
-
+    user_details: function () {
+        return EqApp.client.site.user_details();
+    }
 });
 
 // EVENTS

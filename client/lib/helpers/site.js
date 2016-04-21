@@ -58,6 +58,20 @@ var _start_point = EqApp.client;
 
         return username;
     };
+
+    /* --------------------------------------- */
+    /* User details
+    /* --------------------------------------- */
+    _this.user_details = function (id) {
+        if(!Meteor.user()){return {};}
+
+        var address = '';
+        if(Meteor.user().emails && Meteor.user().emails.length){
+            address = Meteor.user().emails[0].address;
+        }
+
+        return {avatar: EqApp.lib.common.avatar(_this.username()), username: _this.username(), email: address};
+    };
     
     /* --------------------------------------- */
     /* Channel Url

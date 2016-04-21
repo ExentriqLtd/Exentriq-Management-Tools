@@ -57,17 +57,23 @@ var _start_point = EqApp.client;
     /* --------------------------------------- */
     _this.add_notification = function (message) {
 
-        var notifications = EqApp.notifications_data.get();
+        //var notifications = EqApp.notifications_data.get();
         var item = _this.create_notification(message);
         if(item){
+            //console.log(item);
+
+            if(item.subject && $('#eq-ui-tab-notify-1').css('display') === 'none'){
+                EqApp.client.site.toast.success(item.subject);
+            }
+
             // Add
-            notifications.unshift(item);
+            //notifications.unshift(item);
 
             // Play notify sound
-            _this.notify_sound.play();
+            //_this.notify_sound.play();
 
             // Set react var
-            EqApp.notifications_data.set(notifications);
+            //EqApp.notifications_data.set(notifications);
         }
     };
 
@@ -216,7 +222,7 @@ var _start_point = EqApp.client;
     _this.is_valid = function(validate, object) {
         var link = object.link;
         link = link.replace("&#x2F;","/");
-        var from_user = object.from_user;
+        var from_user = object.from_user || '';
         var subject = object.subject;
         var type = object.type;
         var valid = true;
@@ -336,7 +342,7 @@ var _start_point = EqApp.client;
                 }, _ms );
 
                 // Add notification
-                //_this.add_notification(data.value);
+                _this.add_notification(data.value);
             }
         };
 
