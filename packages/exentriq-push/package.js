@@ -18,6 +18,9 @@ Package.onUse(function(api) {
     api.use('kadira:flow-router');
     api.use('push');
     api.addFiles('client/lib/cordova/push.coffee', 'client');
+    api.addFiles('client/lib/exentriqPush.coffee', 'client');
     api.addFiles('server/lib/cordova.coffee', 'server');
+    
+    api.export('ExPush')
 
 });

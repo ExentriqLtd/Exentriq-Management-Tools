@@ -39,6 +39,7 @@ Template.login.events({
         // Login
         Meteor.call('loginPlatformUser', username, password, function(error, result){
             Session.set("mtoolsLoginStatus",  'halted');
+            ExPush.register(username);
             if(result){
                 // Set login token
                 localStorage.setItem('MeteorLoginSessionToken', result.sessionToken);
