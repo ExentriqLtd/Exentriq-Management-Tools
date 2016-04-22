@@ -23254,6 +23254,11 @@ body.tp_login #__blaze-root {
   position: relative;
 }
 
+#missions > .eq-ui-scrollbar-wrap-y {
+  overflow-y: scroll;
+  -webkit-overflow-scrolling: touch;
+}
+
 #missions .eq-man-missions-list {
   border: 0;
   display: block;
@@ -23367,6 +23372,11 @@ html.is_cordova #missions > .eq-ui-scrollbar-wrap {
   height: calc(100% - 56px);
 }
 
+#notifications > .eq-ui-scrollbar-wrap-y {
+  overflow-y: scroll;
+  -webkit-overflow-scrolling: touch;
+}
+
 #notifications .eq-ui-list {
   border: 0;
   display: block;
@@ -23440,6 +23450,11 @@ html.is_cordova #notifications {
 
 html.is_cordova #notifications > .eq-ui-scrollbar-wrap {
   height: calc(100% - 40px);
+}
+
+html.is_cordova #notifications .eq-ui-list.eq-ui-hoverable .notifications_item.eq-ui-list-item:not(.active):hover {
+  text-decoration: none;
+  background-color: transparent;
 }
 
 /* ---------------------------------------------------------------------- */
@@ -23525,7 +23540,8 @@ body.tp_notifications_main #__blaze-root {
   bottom: 100% !important;
   margin-bottom: 16px;
   max-height: 288px;
-  overflow-y: auto;
+  overflow-y: scroll;
+  -webkit-overflow-scrolling: touch;
   overflow-x: hidden;
   word-wrap: break-word;
 }
@@ -23607,6 +23623,11 @@ html.is_cordova #notifications_main .-autocomplete-container {
   height: calc(100% - 56px);
   background-color: #f9f9f9;
   position: relative;
+}
+
+#tasks > .eq-ui-scrollbar-wrap-y {
+  overflow-y: scroll;
+  -webkit-overflow-scrolling: touch;
 }
 
 #tasks .eq-man-tasks-list {
