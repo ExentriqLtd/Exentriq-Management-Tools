@@ -12,6 +12,9 @@ rm -rf ../app-ios-build/android
 echo 'Open project...'
 open ../app-ios-build/ios/project/ExentriqEDO.xcodeproj
 
+cp plugins/PushPlugin.h ../app-ios-build/ios/project/ExentriqEDO/Plugins/phonegap-plugin-push/PushPlugin.h
+cp plugins/PushPlugin.m ../app-ios-build/ios/project/ExentriqEDO/Plugins/phonegap-plugin-push/PushPlugin.m
+
 echo 'TODO'
 echo '- Change provisioning profiles'
 echo '- Convert icons and launch images to use Asset Catalog'
