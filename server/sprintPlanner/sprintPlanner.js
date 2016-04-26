@@ -270,9 +270,12 @@ Meteor.methods({
 		var apiUrl = Meteor.settings.private.integrationBusPath + '/getAllProjects';
 		var response = Rest.get(apiUrl);
 		if(response!=null){
+		    	Boards.update({}, {$set: {"old":true}}, {multi:true});
 			response.forEach(function(board){
-				Boards.update({id:board.id},board, { upsert: true } );
+			    	Boards.remove({id:board.id});
+				Boards.insert(board);
 			});
+			Boards.remove({"old":true});
 		}
 	}
 });
