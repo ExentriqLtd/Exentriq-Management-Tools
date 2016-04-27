@@ -27,7 +27,6 @@ http
 kadira:blaze-layout
 nimble:restivus
 momentjs:moment
-mizzao:autocomplete
 accounts-base
 accounts-password
 cfs:ejson-file
@@ -55,3 +54,4 @@ copleykj:livestamp
 eq-meteor-lib
 push
 exentriq-push
+mizzao:autocomplete-manually-modified

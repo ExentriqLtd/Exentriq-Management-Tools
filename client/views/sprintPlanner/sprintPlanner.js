@@ -367,19 +367,20 @@ var handleTasks = function(err, res) {
 }
 
 var autocompleteReplace = function(event, template, doc, fieldName){
-	var replaceFrom;
-	var replaceTo;
-	if(doc.hasOwnProperty('title')){
-		replaceFrom = '#'+doc.title;
-		replaceTo = "#\""+doc.title+"\""
-	}
-	else{
-		replaceFrom = '@'+doc.username;
-		replaceTo = "@\""+doc.username+"\""
-	}
-	var statementDom = template.find(fieldName);
-    var statement = statementDom.value.replace(replaceFrom, replaceTo);
-    $(statementDom).val(statement);
+//	var replaceFrom;
+//	var replaceTo;
+//	if(doc.hasOwnProperty('title')){
+//		replaceFrom = '#'+doc.title;
+//		replaceTo = "#\""+doc.title+"\""
+//	}
+//	else{
+//		replaceFrom = '@'+doc.username;
+//		replaceTo = "@\""+doc.username+"\""
+//	}
+//	var statementDom = template.find(fieldName);
+//    var statement = statementDom.value.replace(replaceFrom, replaceTo);
+//    $(statementDom).val(statement);
+    console.log("non serve più!");
 }
 
 var sprintPlannerAutocompleteSettings = function() {

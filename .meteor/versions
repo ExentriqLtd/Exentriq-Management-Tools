@@ -70,7 +70,7 @@ meteor-platform@1.2.3
 meteorspark:util@0.2.0
 minifiers@1.1.7
 minimongo@1.0.10
-mizzao:autocomplete@0.5.1
+mizzao:autocomplete-manually-modified@0.5.1
 mizzao:build-fetcher@0.2.0
 mizzao:jquery-ui@1.11.4
 mobile-experience@1.0.1
