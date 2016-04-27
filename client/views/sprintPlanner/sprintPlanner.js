@@ -201,6 +201,7 @@ Template.sprintPlanner.events({
 		}
 		else{
 			$('#edit-statement-closedOn').datepicker();
+			$(tpl.find('#edit-statement-closedOn')).val(null);
 		}
 
 		$('#edit-statement-eta').datepicker();
