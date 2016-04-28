@@ -146,8 +146,7 @@ Template.activityTracker.helpers({
 			position: "bottom",
 			limit: 10,
 			rules: [{
-				token: '',
-				collection: [],
+				collection: UserBoards,
 				field: "title",
 				noMatchTemplate: Template.noMatch,
 				template: Template.activityBoardPill
