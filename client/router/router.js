@@ -14,25 +14,18 @@ function ensureLoggedIn(sessionToken) {
 		console.log(userData);
         if (userData !== null) {
 			if(Meteor.user() != null && Meteor.user().username != userData.username){
-				$("body").html("");
+				var htmlLoader = '<div class="loader-box" style="z-index:-1"><div style="text-align:center"> <i class="mdi mdi-autorenew loader icon"></i> </div> </div>';
+				$("body").html(htmlLoader);
 				console.log("Effettuo il logout");
 				Meteor.logout(function(){
 					console.log("Effettuo la login " + userData.username);
-					Meteor.loginWithPassword(userData.username, 'exentriq', function(error){});
-					location.reload(true);
+					MYLoginWithPassword(userData.username, 'exentriq', function(error){
+						location.reload(true);
+					});
 				});
 			}else{
 				Meteor.loginWithPassword(userData.username, 'exentriq', function(error){})
 			}
-			/*MYLoginWithPassword(userData.username, 'exentriq', function(error) {
-
-            	if (!error){
-            		//FlowRouter.go(FlowRouter.current().path);
-            	}
-            	else {
-            		console.log(error);
-            	}
-            });*/
         } else {
             console.log('Invalid token, please contact administrator');
         }

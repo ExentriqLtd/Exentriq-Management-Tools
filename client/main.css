@@ -410,3 +410,25 @@ ul.drop-down .drop-down-item:hover {
 .-autocomplete-container {
     border: none; /*1px solid #DDD;*/
 }
+
+@keyframes spin {
+	from {transform:rotate(0deg);}
+	to {transform:rotate(360deg);}
+}
+
+.mdi.loader{
+	-webkit-animation: 1.8s infinite 0.5s linear;
+	animation:spin 1.8s infinite 0.5s linear;
+	font-size: 80px;
+}
+
+.loader-box {
+	position: fixed;
+	top: 50%;
+	left: 50%;
+	margin-left: -75px;
+	margin-top: -75px;
+	z-index: 9999;
+	width: 150px;
+	height: 150px;
+}
