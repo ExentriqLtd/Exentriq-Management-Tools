@@ -46,6 +46,7 @@ App.setPreference('StatusBarOverlaysWebView', false);
 App.setPreference('StatusBarStyle', 'lightcontent');
 App.setPreference('StatusBarBackgroundColor', '#1bbc9b');
 App.setPreference('ShowSplashScreenSpinner', false);
+App.setPreference('ENABLE_BITCODE', false);
 
 // iOS
 App.setPreference('target-device', 'handset');

@@ -13,7 +13,18 @@ function ensureLoggedIn(sessionToken) {
 		console.log("Result ensureLoggedIn");
 		console.log(userData);
         if (userData !== null) {
-			MYLoginWithPassword(userData.username, 'exentriq', function(error) {
+			if(Meteor.user() != null && Meteor.user().username != userData.username){
+				$("body").html("");
+				console.log("Effettuo il logout");
+				Meteor.logout(function(){
+					console.log("Effettuo la login " + userData.username);
+					Meteor.loginWithPassword(userData.username, 'exentriq', function(error){});
+					location.reload(true);
+				});
+			}else{
+				Meteor.loginWithPassword(userData.username, 'exentriq', function(error){})
+			}
+			/*MYLoginWithPassword(userData.username, 'exentriq', function(error) {
 
             	if (!error){
             		//FlowRouter.go(FlowRouter.current().path);
@@ -21,7 +32,7 @@ function ensureLoggedIn(sessionToken) {
             	else {
             		console.log(error);
             	}
-            });
+            });*/
         } else {
             console.log('Invalid token, please contact administrator');
         }
@@ -228,6 +239,8 @@ if(!EqApp.client.site.is_cordova()){
 
 MYLoginWithPassword = function (selector, password, callback) {
 	selector = {username: selector};
+	Meteor.logout()
+
 	Accounts.callLoginMethod({
 		methodArguments: [{
 			user: selector,
