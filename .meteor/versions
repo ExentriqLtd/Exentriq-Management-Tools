@@ -15,7 +15,6 @@ brentjanderson:buzz@1.1.10
 caching-compiler@1.0.0
 caching-html-compiler@1.0.2
 callback-hook@1.0.4
-calosan:autocomplete@0.5.1
 cfs:base-package@0.0.30
 cfs:data-man@0.0.6
 cfs:ejson-file@0.1.4
@@ -71,6 +70,7 @@ meteor-platform@1.2.3
 meteorspark:util@0.2.0
 minifiers@1.1.7
 minimongo@1.0.10
+mizzao:autocomplete-manually-modified@0.5.1
 mizzao:build-fetcher@0.2.0
 mizzao:jquery-ui@1.11.4
 mobile-experience@1.0.1
