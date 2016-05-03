@@ -296,11 +296,8 @@ Template.activityTracker.events({
 		var replaceFrom;
 		var replaceTo;
 		if (doc.hasOwnProperty('title')) {
-			replaceFrom = '#' + doc.title;
+			replaceFrom = '#"' + doc.title+'"';
 			replaceTo = "#\"" + doc.title + " (" + doc.spaceTitle + ")" + "\""
-		} else {
-			replaceFrom = '@' + doc.username;
-			replaceTo = "@\"" + doc.username + "\""
 		}
 		var statementDom = template.find('#statement-eml');
 		var statement = statementDom.value.replace(replaceFrom, replaceTo);
