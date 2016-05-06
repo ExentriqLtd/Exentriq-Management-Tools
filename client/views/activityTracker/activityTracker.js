@@ -328,12 +328,13 @@ Template.activityTracker.updateActivity = function(_id, statement, time) {
 
 			if (proj.length) {
 				if (_id) {
+					var act = Activities.findOne(_id);
 					Meteor.call('updateActivity', _id, {
 						statement: statement,
 						cmpId: Session.get('cmp') ? Session.get('cmp').cmpId : '',
 						cmpName: Session.get('cmp') ? Session.get('cmp').cmpName : '',
-						userId: Meteor.userId(),
-						userName: Meteor.user().username,
+						userId: act.userId || Meteor.userId(),
+						userName: act.userName || Meteor.user().username,
 						time: time
 					});
 				} else {
