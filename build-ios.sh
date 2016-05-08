@@ -14,6 +14,7 @@ open ../app-ios-build/ios/project/ExentriqEDO.xcodeproj
 
 cp plugins/PushPlugin.h ../app-ios-build/ios/project/ExentriqEDO/Plugins/phonegap-plugin-push/PushPlugin.h
 cp plugins/PushPlugin.m ../app-ios-build/ios/project/ExentriqEDO/Plugins/phonegap-plugin-push/PushPlugin.m
+cp plugins/AppDelegate+notification.m ../app-ios-build/ios/project/ExentriqEDO/Plugins/phonegap-plugin-push/AppDelegate+notification.m
 
 echo 'TODO'
 echo '- Change provisioning profiles'

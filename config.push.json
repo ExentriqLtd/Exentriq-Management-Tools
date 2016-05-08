@@ -7,5 +7,10 @@
     "vibrate": true,
     "alert": true
   },
+  "apn":{
+    "badge": true,
+    "sound": true,
+    "alert": true
+  },
   "production": true
 }

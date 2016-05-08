@@ -221,13 +221,23 @@ FlowRouter.route('/activitytracker/:companyId/project/:project', {
 });
 */
 
-// Root Web
-if(!EqApp.client.site.is_cordova()){
-    FlowRouter.route('/', {
-        action: function(params, queryParams) {
-
-        }
-    });
+// Root Cordova
+if(EqApp.client.site.is_cordova()){
+	Push.Configure(
+		{
+			android:{
+				badge: true,
+				sound: true,
+				alert: true,
+				vibrate: true
+			},
+			ios:{
+				badge: true,
+				sound: true,
+				alert: true
+			}
+		}
+	)
 }
 
 MYLoginWithPassword = function (selector, password, callback) {
