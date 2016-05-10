@@ -203,10 +203,12 @@ Template.orgManager.bindObserveChanges = function(query) {
 					cmpId: Template.orgManager._cmpId
 				}).fetch(), {
 					selectedNodes: $('.selected').toArray().map(function(i) {
-						return $(i).data('item')._id || '';
+						var item = $(i).data('item');
+						return (item && item._id) || '';
 					}),
 					expandedNodes: $('.mjs-nestedSortable-expanded').toArray().map(function(i) {
-						return $(i).data('item')._id || '';
+						var item = $(i).data('item');
+						return (item && item._id) || '';
 					})
 				}
 			);
