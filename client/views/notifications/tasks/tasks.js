@@ -105,8 +105,10 @@ Template.tasks.events({
     "click .eq-ui-card-title-text a": function (event) {
         event.preventDefault();
         // Go to url
-        var url = $(event.currentTarget).attr('href');
-        EqApp.client.notification.go_to_url(url, '_blank');
+        if(!Meteor.isCordova) {
+            var url = $(event.currentTarget).attr('href');
+            EqApp.client.notification.go_to_url(url, '_blank');
+        }
     }
 });
 

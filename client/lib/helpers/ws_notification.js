@@ -187,8 +187,13 @@ var _start_point = EqApp.client;
             _link = "/emawrap?path="+_link.substring(1,_link.length);
         }
 
+        var oType = object.type;
+        if(object.subject && object.subject.indexOf("invited you to a video call")>=0){
+            oType = "meet";
+        }
+
         // Resource type
-        switch(object.type) {
+        switch(oType) {
             case 'card':
             case 'task':
                 _url += '/manager' + _link + '&menu=projects-manage';
@@ -200,6 +205,10 @@ var _start_point = EqApp.client;
                 break;
             case 'mission':
                 _url += '/manager' + _link;
+                break;
+            case 'meet':
+                _link_label = "video call";
+                _url = "https://meet.exentriq.com/" + _link.replace(/https:\/\/meet.exentriq.com\//g,"");
                 break;
             default:
                 _url += '/manager' + _link + '&menu=projects-manage';
@@ -255,8 +264,11 @@ var _start_point = EqApp.client;
         if(url === null || target === null){ return; }
         // Open in system browser
         if(EqApp.client.site.is_cordova()){target='_system';}
-        console.log(Session.get('currentChannel') + url);
-        window.open(Session.get('currentChannel') + url, target);
+
+        if(url.startsWith("http"))
+            window.open(url, target);
+        else
+            window.open(Session.get('currentChannel') + url, target);
     };
 
     /* --------------------------------------- */

@@ -23596,13 +23596,6 @@ body.tp_notifications_main #__blaze-root {
   text-decoration: none;
 }
 
-#notifications_main.is-debug {
-  max-width: 414px;
-}
-
-#notifications_main.is-debug .eq-ui-modal.eq-ui-modal-bottom-sheet {
-  max-width: 414px;
-}
 
 /* ---------------------------------------------------------------------- */
 /* CORDOVA

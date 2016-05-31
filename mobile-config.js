@@ -2,7 +2,7 @@
 // the entire section is optional.
 App.info({
     id: 'com.exentriq.edo',
-    version: '1.0',
+    version: '1.1.3',
     name: 'ExentriqEDO',
     description: 'ExentriqEDO',
     author: 'Exentriq Ltd.',

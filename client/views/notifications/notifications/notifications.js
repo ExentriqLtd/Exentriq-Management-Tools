@@ -74,8 +74,10 @@ Template.notifications_item.events({
         EqApp.client.notification.read_notification(this.id);
 
         // Go to url
-        var url = $(event.currentTarget).attr('href');
-        EqApp.client.notification.go_to_url(url, '_blank');
+        if(!Meteor.isCordova){
+            var url = $(event.currentTarget).attr('href');
+            EqApp.client.notification.go_to_url(url, '_blank');
+        }
     },
     "click .remove-notify": function (event) {
         // Remove
