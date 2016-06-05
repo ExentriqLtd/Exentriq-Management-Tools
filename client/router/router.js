@@ -221,28 +221,9 @@ FlowRouter.route('/activitytracker/:companyId/project/:project', {
 });
 */
 
-// Root Cordova
-if(EqApp.client.site.is_cordova()){
-	Push.Configure(
-		{
-			android:{
-				badge: true,
-				sound: true,
-				alert: true,
-				vibrate: true
-			},
-			ios:{
-				badge: true,
-				sound: true,
-				alert: true
-			}
-		}
-	)
-}
-
 MYLoginWithPassword = function (selector, password, callback) {
 	selector = {username: selector};
-	Meteor.logout()
+	Meteor.logout();
 
 	Accounts.callLoginMethod({
 		methodArguments: [{
