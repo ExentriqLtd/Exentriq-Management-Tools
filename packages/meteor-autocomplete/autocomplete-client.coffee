@@ -20,10 +20,17 @@ isWholeField = (rule) ->
 getRegExp = (rule) ->
   unless isWholeField(rule)
     # Expressions for the range from the last word break to the current cursor position
-    new RegExp(rule.token+'(((?! [@#]).)*)$')
+    new RegExp('('+rule.token+')(((?! [@#]).)*)$')
   else
     # Whole-field behavior - word characters or spaces
     new RegExp('(^)(.*)$')
+    
+getNegativeRegExp = (rule) ->
+  unless isWholeField(rule)
+    new RegExp('[@#]".*"((?![@#]).)*$')
+  else
+    #always false match
+    new RegExp('(?=a)b')
 
 getFindParams = (rule, filter, limit) ->
   # This is a different 'filter' - the selector from the settings
@@ -71,9 +78,10 @@ class @AutoComplete
     @position = settings.position || "bottom"
 
     @rules = settings.rules
-    validateRule(rule) for rule in @rules
+    # validateRule(rule) for rule in @rules
 
     @expressions = (getRegExp(rule) for rule in @rules)
+    @negativeExpressions = (getNegativeRegExp(rule) for rule in @rules)
 
     @matched = -1
     @loaded = true
@@ -148,34 +156,23 @@ class @AutoComplete
     ###
     i = 0
     breakLoop = false
-    console.log @expressions.length
     while i < @expressions.length
       matches = val.match(@expressions[i])
-      console.log("val: " + val)
+      negativeMatches = val.match(@negativeExpressions[i])
       
-      ###
-      matches2	 = val.match(new RegExp('^.*#$'))
-      
-      if matches2
-        @setText(val+'"');
-      ###
-
       # matching -> not matching
       if not matches and @matched is i
         @setMatchedRule(-1)
-        console.log("rule: " + -1)
         breakLoop = true
 
       # not matching -> matching
-      if matches and @matched is -1
+      if matches and not negativeMatches and @matched is -1
         @setMatchedRule(i)
-        console.log("rule: " + i + " " + @rules[i].token)
         breakLoop = true
 
       # Did filter change?
-      if matches and @filter isnt matches[1]
-        @setFilter(matches[1])
-        console.log("filter change: " + matches[1])
+      if matches and not negativeMatches and @filter isnt matches[2]
+        @setFilter(matches[2])
         breakLoop = true
 
       break if breakLoop

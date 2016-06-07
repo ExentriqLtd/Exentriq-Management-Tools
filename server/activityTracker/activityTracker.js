@@ -5,6 +5,9 @@ Meteor.publish("userBoards", function (username, company) {
 	}
 	return UserBoards.find(filter, {sort: {title: +1}});
 });
+Meteor.publish("boardSpaces", function () {
+    return BoardSpaces.find();
+ });
 
 Meteor.startup(function() {
 

@@ -5,6 +5,7 @@ Tracker.autorun(function() {
 		Meteor.subscribe("activities");
 		Meteor.subscribe("userBoards", username, company);
 		Meteor.subscribe("appUsers");
+		Meteor.subscribe("boardSpaces");
 		Meteor.call('refreshUserProjects', username);
 
 	}
@@ -146,10 +147,10 @@ Template.activityTracker.helpers({
 			position: "bottom",
 			limit: 10,
 			rules: [{
-				collection: UserBoards,
+				collection: BoardSpaces,
 				field: "title",
 				noMatchTemplate: Template.noMatch,
-				template: Template.activityBoardPill
+				template: Template.spacePill
 			}]
 		};
 	},
@@ -361,8 +362,6 @@ Template.activityTracker.rendered = function() {
 		opacity: .5,
 		in_duration: 300,
 		out_duration: 200,
-		ready: function() {},
-		complete: function() {}
 	});
 
 	$('.dropdown-trigger').dropdown({

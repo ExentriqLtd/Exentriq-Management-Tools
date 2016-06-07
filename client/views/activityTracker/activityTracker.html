@@ -82,11 +82,6 @@
 				    	</tbody>
 			    	</table>
 
-			    	<ul id="doc-dropdown-app-bar" class="eq-ui-dropdown eq-ui-dropdown-right-top">
-			            <li><a class="eml-edit">Edit</a></li>
-			            <li><a class="eml-delete">Delete</a></li>
-			        </ul>
-
 			    	<div id="export-table-wrapper">
 			    		<h4>Activity tracker</h4>
 			    		<ul>
@@ -150,10 +145,14 @@
 	    <td title="{{user}}" class="eq-ui-data-table-cell-non-numeric" >{{userName}}</td>
 	    <td title="{{time}}" class="eq-ui-data-table-cell-non-numeric">{{formatDate_MM_DD_YYYY time}}</td>
 	    <td title="{{logged}}" class="eq-ui-data-table-cell-non-numeric">{{formatLoggedTime this}}</td>
-	    <td>
-		    <a data-target="doc-dropdown-app-bar" data-hover="false" class="btn btn-default eq-ui-btn-flat eq-ui-btn-fab eq-ui-btn-menu-fab eq-ui-waves dropdown-trigger waves-effect waves-effect">
+		<td>
+		    <a data-target="doc-dropdown-app-bar-{{_id}}" data-hover="false" class="btn btn-default eq-ui-btn-flat eq-ui-btn-fab eq-ui-btn-menu-fab eq-ui-waves dropdown-trigger waves-effect waves-effect">
 		        <i class="mdi mdi-dots-vertical icon"></i>
 		    </a>
+		    <ul id="doc-dropdown-app-bar-{{_id}}" class="eq-ui-dropdown eq-ui-dropdown-right-top">
+	            <li><a class="eml-edit">Edit</a></li>
+	            <li><a class="eml-delete">Delete</a></li>
+	        </ul>
 	    </td>
 	</tr>	
 </template>
@@ -240,4 +239,7 @@
 
 <template name="activityBoardPill">
     <span>{{title}}</span><span style="font-size: 0.8em;"> ({{spaceTitle}})</span>
+</template>
+<template name="spacePill">
+    <span>{{title}}</span>
 </template>
