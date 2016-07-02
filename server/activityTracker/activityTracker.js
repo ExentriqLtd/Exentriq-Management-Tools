@@ -237,7 +237,7 @@ var parseActivity = function(activity) {
 	eml.userName = activity.userName;
 
 	if(activity.hasOwnProperty('time')){
-		eml.time = moment(activity.time, "MM-DD-YYYY").toDate();
+		eml.time = activity.time;
 	}
 	else {
 		eml.time = new Date();

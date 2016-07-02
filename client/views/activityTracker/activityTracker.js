@@ -330,13 +330,19 @@ Template.activityTracker.updateActivity = function(_id, statement, time) {
 			if (proj.length) {
 				if (_id) {
 					var act = Activities.findOne(_id);
+					var updateTime = moment(time, "MM-DD-YYYY").toDate();
+					var now = new Date();
+					updateTime.setHours(now.getHours());
+					updateTime.setMinutes(now.getMinutes());
+					updateTime.setSeconds(now.getSeconds());
+					
 					Meteor.call('updateActivity', _id, {
 						statement: statement,
 						cmpId: Session.get('cmp') ? Session.get('cmp').cmpId : '',
 						cmpName: Session.get('cmp') ? Session.get('cmp').cmpName : '',
 						userId: act.userId || Meteor.userId(),
 						userName: act.userName || Meteor.user().username,
-						time: time
+						time: updateTime
 					});
 				} else {
 					Meteor.call('addActivityEml', {
