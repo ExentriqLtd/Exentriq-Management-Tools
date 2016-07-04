@@ -112,6 +112,10 @@
     text-overflow: ellipsis;
 }
 
+#activity-tracker-table td.eq-ui-data-table-cell-non-numeric {
+	overflow:hidden;
+}
+
 a.btn.dropdown-trigger.doc-dropdown-export {
     position: absolute;
     top: 14px;
